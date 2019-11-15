@@ -56,7 +56,7 @@
 
                         <ImageView
                             android:layout_gravity="top"
-                            android:src="@color/colorAccent"
+                            android:src="@color/blue"
                             android:layout_width="match_parent"
                             android:layout_height="74dp"/>
 
