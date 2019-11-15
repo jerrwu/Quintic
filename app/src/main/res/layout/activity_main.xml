@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/mainLayout"
+    android:background="@color/colorMain"
+    android:clipChildren="false"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_alignParentTop="true"
+            android:id="@+id/mainPaddingTop"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"/>
+
+        <FrameLayout
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_below="@id/mainPaddingTop"
+            android:layout_above="@id/mainPaddingBottom"
+            android:id="@+id/frag_container"
+            android:clipToPadding="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <View
+            android:visibility="visible"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/mainPaddingBottom"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"/>
+
+    </RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_marginBottom="74dp"
+        android:layout_gravity="end|bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:rippleColor="@color/colorPrimary"
+        android:clickable="true"
+        android:layout_marginEnd="18dp"
+        android:tint="@color/colorMain"
+        app:srcCompat="@drawable/ic_plus" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:minHeight="?attr/actionBarSize"
+        android:elevation="10dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_gravity="top"
+        app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            app:layout_scrollFlags="scroll"
+            android:layout_gravity="top"
+            android:id="@+id/toolbar_top"
+            android:elevation="3dp"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:background="@color/colorMain">
+
+            <ImageButton
+                android:id="@+id/accountButton"
+                android:layout_gravity="end"
+                android:tint="@color/colorSecondary"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:srcCompat="@drawable/ic_account"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/account" />
+
+            <ImageButton
+                android:visibility="gone"
+                android:id="@+id/searchButton"
+                android:layout_gravity="start"
+                android:tint="@color/colorSecondary"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:srcCompat="@drawable/ic_magnify"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/account" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_title"
+                android:textColor="@color/colorSecondary"
+                android:fontFamily="@font/productsansmedium"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:id="@+id/toolbar_title" />
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_gravity="bottom"
+        android:theme="@style/Widget.BottomNavigationView"
+        android:background="@color/bottomNavColor"
+        app:itemIconTint="@drawable/navbar_color_selector"
+        app:itemTextColor="@drawable/navbar_color_selector"
+        app:elevation="26dp"
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/bottom_nav_items" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

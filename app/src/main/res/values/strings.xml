@@ -1,0 +1,61 @@
+<resources>
+    <string name="app_name">Quintic</string>
+    <string name="app_title">Quintic Journal</string>
+    <string name="appbar_scrolling_view_behavior" translatable="false">
+        android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="settings">Settings</string>
+    <string name="account">Account</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_messages">Calendar</string>
+    <string name="dark_toggle_title">Dark mode</string>
+    <string name="dark_toggle_key">dark_toggle</string>
+    <string name="dark_toggle_summary">Toggle dark mode for Quintic</string>
+    <string name="save">Save</string>
+    <string name="documentation">Documentation</string>
+    <string name="help_amp_feedback"><![CDATA[Help & Feedback]]></string>
+    <string name="fragment_2_placeholder">fragment 2</string>
+    <string name="fragment_3_placeholder">fragment 3</string>
+    <string name="title_placeholder">this is a title</string>
+    <string name="content_placeholder">this is content text</string>
+    <string name="section_1">SECTION 1</string>
+    <string name="section_2">SECTION 2</string>
+    <string name="category_1">Category 1</string>
+    <string name="category_2">Category 2</string>
+    <string name="category_3">Category 3</string>
+    <string name="category_4">Category 4</string>
+    <string name="category_5">Category 5</string>
+    <string name="category_6">Category 6</string>
+    <string name="category_7">Category 7</string>
+    <string name="search">" Search"</string>
+    <string name="no_results">No results</string>
+    <string name="create_new">New</string>
+    <string name="content">Content</string>
+    <string name="title">Title</string>
+    <string name="back">Back</string>
+    <string name="category_8">Category 8</string>
+    <string name="info">Info</string>
+    <string name="button_yes">yes</string>
+    <string name="button_no">no</string>
+    <string name="github_link_readme">
+        "https://github.com/jerrwu/Material-Design-Template/blob/master/README.md"</string>
+    <string name="github_link_issues">
+        "https://github.com/jerrwu/Material-Design-Template/issues"
+    </string>
+    <string name="github_link_main">
+        "https://github.com/jerrwu/Material-Design-Template"
+    </string>
+    <string name="selection">Selection</string>
+    <string-array name="dark_mode">
+        <item>"Follow System Theme"</item>
+        <item>"Set by Battery Saver"</item>
+        <item>"On"</item>
+        <item>"Off"</item>
+    </string-array>
+    <string-array name="dark_mode_values">
+        <item>"-1"</item>
+        <item>"0"</item>
+        <item>"1"</item>
+        <item>"2"</item>
+    </string-array>
+</resources>

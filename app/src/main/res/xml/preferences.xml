@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.preference.EditTextPreference
+        android:key="name"
+        android:title="Name"
+        android:defaultValue="User"/>
+
+    <PreferenceCategory
+        android:title="UI &amp; Behaviour">
+
+        <ListPreference
+            android:key="@string/dark_toggle_key"
+            android:entries="@array/dark_mode"
+            android:entryValues="@array/dark_mode_values"
+            android:defaultValue="2"
+            android:summary=""
+            android:title="@string/dark_toggle_title" />
+
+        <SwitchPreference
+            android:key="greetings"
+            android:title="Show greetings"
+            android:defaultValue="true"/>
+
+        <SwitchPreference
+            android:key="bottomNavHide"
+            android:title="Hide navigation bar on scroll"
+            android:defaultValue="false"/>
+
+        <SwitchPreference
+            android:key="appBarHide"
+            android:title="Hide toolbar on scroll"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Other">
+
+        <Preference
+            android:key="editname"
+            android:title="Edit name">
+            <intent android:action="com.jerrwu.quintic.AccountActivity"/>
+            <intent android:targetPackage="com.jerrwu.quintic"
+                android:targetClass="com.jerrwu.quintic.AccountActivity"/>
+        </Preference>
+
+        <Preference
+            android:key="github"
+            android:title="Github"
+            android:summary="Visit the Github repo for this project">
+            <intent android:action="com.jerrwu.quintic.GithubTabActivity"/>
+            <intent android:targetPackage="com.jerrwu.quintic"
+                android:targetClass="com.jerrwu.quintic.GithubTabActivity"/>
+        </Preference>
+
+        <Preference
+            android:key="version"
+            android:title="Quintic version"
+            android:summary="" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

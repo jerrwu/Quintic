@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipToPadding="false"
+    tools:context=".EndFragment">
+
+    <LinearLayout
+        android:id="@+id/selector_box"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="18dp"
+        android:elevation="5dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/round_button_ripple"
+        android:backgroundTint="@color/colorButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/fragmentEndSelectionBtn1"
+            android:layout_marginStart="4dp"
+            android:elevation="5dp"
+            android:layout_gravity="center_vertical"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_chevron_left"
+            android:tint="@color/colorFont"
+            android:layout_width="30dp"
+            android:layout_height="40dp"/>
+
+        <TextView
+            android:id="@+id/fragmentEndSelectionText"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:fontFamily="@font/productsansregular"
+            android:textSize="16sp"
+            android:textColor="@color/colorFont"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:text="@string/selection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageButton
+            android:id="@+id/fragmentEndSelectionBtn2"
+            android:layout_marginEnd="4dp"
+            android:elevation="5dp"
+            android:layout_gravity="center_vertical"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_chevron_right"
+            android:tint="@color/colorFont"
+            android:layout_width="30dp"
+            android:layout_height="40dp"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        app:layout_constraintTop_toBottomOf="@id/selector_box"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:backgroundTint="@color/colorButton"
+        app:strokeColor="@color/colorQuad"
+        app:strokeWidth="1dp"
+        app:cardCornerRadius="6dp"
+        android:layout_height="wrap_content">
+
+        <GridView
+            android:id="@+id/grid_view_main"
+            android:numColumns="auto_fit"
+            android:columnWidth="52dp"
+            android:horizontalSpacing="4dp"
+            android:verticalSpacing="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </GridView>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

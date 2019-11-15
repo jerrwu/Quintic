@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorMain"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_new"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:minHeight="?attr/actionBarSize"
+        android:elevation="1dp"
+        android:background="@color/colorMain">
+
+        <ImageButton
+            android:id="@+id/newBackButton"
+            android:tint="@color/colorAccent"
+            android:foregroundGravity="left"
+            app:srcCompat="@drawable/ic_back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:contentDescription="@string/back" />
+
+        <TextView
+            android:paddingStart="20dp"
+            android:textSize="20sp"
+            android:textColor="@color/colorAccent"
+            android:fontFamily="@font/productsansmedium"
+            android:text="@string/create_new"
+            android:gravity="start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:padding="16dp"
+        android:id="@+id/container_new"
+        android:layout_above="@id/toolbar_new_bottom"
+        android:layout_below="@id/toolbar_new"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:layout_marginBottom="8dp"
+            android:id="@+id/titleEditText"
+            android:padding="8dp"
+            android:hint="@string/title"
+            android:textColor="@color/colorFont"
+            android:textSize="24sp"
+            android:fontFamily="@font/productsansmedium"
+            android:layout_width="match_parent"
+            android:background="@color/colorMain"
+            android:layout_height="42dp"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:background="@color/colorMain"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="@color/colorTertiary"
+            app:cardCornerRadius="8dp"
+            android:layout_below="@id/titleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:textColor="@color/colorFont"
+                android:textSize="18.5sp"
+                android:fontFamily="@font/productsansregular"
+                android:padding="14dp"
+                android:gravity="start|top"
+                android:hint="@string/content"
+                android:background="@color/colorMain"
+                android:id="@+id/contentEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.Toolbar
+        android:theme="@style/ToolbarColored"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/toolbar_new_bottom"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:minHeight="?attr/actionBarSize"
+        android:elevation="12dp"
+        android:backgroundTint="@color/colorMain"
+        android:background="@drawable/rounded_bottom_sheet">
+
+        <ImageButton
+            android:id="@+id/imageAddButton"
+            android:layout_gravity="start|center_vertical"
+            android:tint="@color/colorFont"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_image_plus"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="6dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/account" />
+
+        <TextView
+            android:id="@+id/activity_new_bottom_text"
+            android:layout_gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/colorFont"
+            android:fontFamily="@font/productsansmedium"
+            android:text="@string/create_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </androidx.appcompat.widget.Toolbar>
+
+</RelativeLayout>
