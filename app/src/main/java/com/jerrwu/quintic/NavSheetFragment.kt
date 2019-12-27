@@ -69,7 +69,7 @@ class NavSheetFragment : BottomSheetDialogFragment() {
                 context.let { ContextCompat.getColor(it!!, R.color.colorPrimary) })
             intentBuilder.setShowTitle(true)
             val customTabsIntent = intentBuilder.build()
-            customTabsIntent.launchUrl(activity, uri)
+            activity?.let { it1 -> customTabsIntent.launchUrl(it1, uri) }
             closeNavSheet()
         }
 
@@ -80,7 +80,7 @@ class NavSheetFragment : BottomSheetDialogFragment() {
                 context.let { ContextCompat.getColor(it!!, R.color.colorPrimary) })
             intentBuilder.setShowTitle(true)
             val customTabsIntent = intentBuilder.build()
-            customTabsIntent.launchUrl(activity, uri)
+            activity?.let { it1 -> customTabsIntent.launchUrl(it1, uri) }
             closeNavSheet()
         }
 
