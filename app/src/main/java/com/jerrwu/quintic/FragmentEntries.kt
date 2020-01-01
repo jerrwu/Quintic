@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter
 class FragmentEntries : Fragment() {
     private var mRecyclerView: RecyclerView? = null
     private var mAdapter: RecyclerView.Adapter<*>? = null
-    var cardList: ArrayList<Card> = ArrayList()
+    private var cardList: ArrayList<Card> = ArrayList()
 
     override fun onResume() {
         super.onResume()
@@ -44,26 +44,28 @@ class FragmentEntries : Fragment() {
         setInfoCardGreeting(prefs)
         setInfoCardName(prefs)
 
-        var card1 = Card(0, R.drawable.image_placeholder, "Image card", "hie...")
-        cardList.add(card1)
+        LoadQuery("%")
 
-        var card2 = Card(
-            1,
-            0,
-            "Non-image card",
-            "a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string "
-        )
-        cardList.add(card2)
-
-        for (i in 2..6) {
-            val card = Card(
-                i,
-                R.drawable.dots_horizontal_circle_outline,
-                "Title $i",
-                "this is text this is text this is text this is text this is text this is text this is text this is text this is text this is text this is text this is text "
-            )
-            cardList.add(card)
-        }
+//        var card1 = Card(0, R.drawable.image_placeholder, "Image card", "hie...")
+//        cardList.add(card1)
+//
+//        var card2 = Card(
+//            1,
+//            0,
+//            "Non-image card",
+//            "a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string "
+//        )
+//        cardList.add(card2)
+//
+//        for (i in 2..6) {
+//            val card = Card(
+//                i,
+//                R.drawable.dots_horizontal_circle_outline,
+//                "Title $i",
+//                "this is text this is text this is text this is text this is text this is text this is text this is text this is text this is text this is text this is text "
+//            )
+//            cardList.add(card)
+//        }
 
         mRecyclerView = activity!!.findViewById(R.id.recycler_view)
         var mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -94,6 +96,26 @@ class FragmentEntries : Fragment() {
     private fun setInfoCardName(prefs: SharedPreferences) {
         val nameString: String? = prefs.getString("name", "user")
         infoCardName.text = nameString
+    }
+
+    private fun LoadQuery(title: String) {
+        val dbManager = DbManager(activity!!)
+        val projections = arrayOf("ID", "Image", "Title", "Content")
+        val selectionArgs = arrayOf(title)
+        val cursor = dbManager.Query(projections, "Title like ?", selectionArgs, "Title")
+        cardList.clear()
+        if (cursor.moveToFirst()) {
+
+            do {
+                val ID = cursor.getInt(cursor.getColumnIndex("ID"))
+                val Ic = cursor.getInt(cursor.getColumnIndex("Image"))
+                val Title = cursor.getString(cursor.getColumnIndex("Title"))
+                val Content = cursor.getString(cursor.getColumnIndex("Content"))
+
+                cardList.add(Card(ID, Ic, Title, Content))
+
+            } while (cursor.moveToNext())
+        }
     }
 
 }
