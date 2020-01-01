@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat
 
 class AccountActivity : AppCompatActivity() {
     private val buttonDisabled = ColorStateList.valueOf(Color.parseColor("#363636"))
-    private val buttonEnabled = ColorStateList.valueOf(Color.parseColor("#BB86FC"))
+    private val buttonEnabled = ColorStateList.valueOf(Color.parseColor("#A98274"))
     private val textDisabled = Color.parseColor("#747474")
     private val textEnabled = Color.parseColor("#242424")
 
