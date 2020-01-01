@@ -4,26 +4,26 @@ import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import kotlinx.android.synthetic.main.activity_new.*
+import kotlinx.android.synthetic.main.activity_entry.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class NewActivity : AppCompatActivity() {
+class EntryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new)
+        setContentView(R.layout.activity_entry)
 
-        setSupportActionBar(toolbar_new_bottom)
+        setSupportActionBar(toolbar_entry_bottom)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("HH:mm a")
         val curHour: String =  current.format(formatter)
-        activity_new_bottom_text.text = curHour
+        activity_entry_bottom_text.text = curHour
 
-        newBackButton.setOnClickListener {
+        entryBackButton.setOnClickListener {
             finish()
         }
     }

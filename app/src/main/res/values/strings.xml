@@ -29,7 +29,7 @@
     <string name="category_7">Category 7</string>
     <string name="search">" Search"</string>
     <string name="no_results">No results</string>
-    <string name="create_new">New</string>
+    <string name="create_new">New entry</string>
     <string name="content">Content</string>
     <string name="title">Title</string>
     <string name="back">Back</string>
@@ -38,14 +38,15 @@
     <string name="button_yes">yes</string>
     <string name="button_no">no</string>
     <string name="github_link_readme">
-        "https://github.com/jerrwu/Material-Design-Template/blob/master/README.md"</string>
+        "https://github.com/jerrwu/Quintic/blob/master/README.md"</string>
     <string name="github_link_issues">
-        "https://github.com/jerrwu/Material-Design-Template/issues"
+        "https://github.com/jerrwu/Quintic/issues"
     </string>
     <string name="github_link_main">
-        "https://github.com/jerrwu/Material-Design-Template"
+        "https://github.com/jerrwu/Quintic"
     </string>
     <string name="selection">Selection</string>
+    <string name="save_entry">Save entry</string>
     <string-array name="dark_mode">
         <item>"Follow System Theme"</item>
         <item>"Set by Battery Saver"</item>

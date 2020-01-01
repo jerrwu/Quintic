@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name="com.jerrwu.quintic.GithubTabActivity" />
-        <activity android:name="com.jerrwu.quintic.NewActivity" />
+        <activity android:name="com.jerrwu.quintic.EntryActivity" />
         <activity android:name="com.jerrwu.quintic.SearchActivity" />
         <activity
             android:name="com.jerrwu.quintic.AccountActivity"

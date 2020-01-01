@@ -26,6 +26,8 @@ class FragmentEntries : Fragment() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
         setInfoCardGreeting(prefs)
         setInfoCardName(prefs)
+
+        loadQuery("%")
     }
 
     override fun onCreateView(
@@ -44,7 +46,7 @@ class FragmentEntries : Fragment() {
         setInfoCardGreeting(prefs)
         setInfoCardName(prefs)
 
-        LoadQuery("%")
+        loadQuery("%")
 
 //        var card1 = Card(0, R.drawable.image_placeholder, "Image card", "hie...")
 //        cardList.add(card1)
@@ -98,7 +100,7 @@ class FragmentEntries : Fragment() {
         infoCardName.text = nameString
     }
 
-    private fun LoadQuery(title: String) {
+    private fun loadQuery(title: String) {
         val dbManager = DbManager(activity!!)
         val projections = arrayOf("ID", "Image", "Title", "Content")
         val selectionArgs = arrayOf(title)
@@ -107,12 +109,12 @@ class FragmentEntries : Fragment() {
         if (cursor.moveToFirst()) {
 
             do {
-                val ID = cursor.getInt(cursor.getColumnIndex("ID"))
-                val Ic = cursor.getInt(cursor.getColumnIndex("Image"))
-                val Title = cursor.getString(cursor.getColumnIndex("Title"))
-                val Content = cursor.getString(cursor.getColumnIndex("Content"))
+                val id = cursor.getInt(cursor.getColumnIndex("ID"))
+                val ic = cursor.getInt(cursor.getColumnIndex("Image"))
+                val cdTitle = cursor.getString(cursor.getColumnIndex("Title"))
+                val cdCont = cursor.getString(cursor.getColumnIndex("Content"))
 
-                cardList.add(Card(ID, Ic, Title, Content))
+                cardList.add(Card(id, ic, cdTitle, cdCont))
 
             } while (cursor.moveToNext())
         }

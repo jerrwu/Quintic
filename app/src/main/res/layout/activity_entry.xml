@@ -5,48 +5,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewActivity">
+    tools:context=".EntryActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_new"
-        android:layout_height="wrap_content"
+        android:id="@+id/toolbar_entry"
         android:layout_width="match_parent"
-        android:minHeight="?attr/actionBarSize"
+        android:layout_height="wrap_content"
+        android:background="@color/colorMain"
         android:elevation="1dp"
-        android:background="@color/colorMain">
+        android:minHeight="?attr/actionBarSize">
 
         <ImageButton
-            android:id="@+id/newBackButton"
-            android:tint="@color/colorAccent"
-            android:foregroundGravity="left"
-            app:srcCompat="@drawable/ic_back"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:id="@+id/entryBackButton"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:contentDescription="@string/back" />
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back"
+            android:foregroundGravity="left"
+            android:tint="@color/colorAccent"
+            app:srcCompat="@drawable/ic_back" />
 
         <TextView
-            android:paddingStart="20dp"
-            android:textSize="20sp"
-            android:textColor="@color/colorAccent"
-            android:fontFamily="@font/productsansmedium"
-            android:text="@string/create_new"
-            android:gravity="start"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/productsansmedium"
+            android:gravity="start"
+            android:paddingStart="20dp"
+            android:text="@string/create_new"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:layout_marginEnd="16dp"
+            android:id="@+id/entrySaveButton"
+            android:layout_gravity="end"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/save_entry"
+            android:tint="@color/colorAccent"
+            app:srcCompat="@drawable/ic_check" />
     </androidx.appcompat.widget.Toolbar>
 
     <RelativeLayout
         android:padding="16dp"
-        android:id="@+id/container_new"
-        android:layout_above="@id/toolbar_new_bottom"
-        android:layout_below="@id/toolbar_new"
+        android:id="@+id/container_entry"
+        android:layout_above="@id/toolbar_entry_bottom"
+        android:layout_below="@id/toolbar_entry"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <EditText
             android:layout_marginBottom="8dp"
-            android:id="@+id/titleEditText"
+            android:id="@+id/entryTitleEditText"
             android:padding="8dp"
             android:hint="@string/title"
             android:textColor="@color/colorFont"
@@ -61,7 +72,7 @@
             app:strokeWidth="1.5dp"
             app:strokeColor="@color/colorTertiary"
             app:cardCornerRadius="8dp"
-            android:layout_below="@id/titleEditText"
+            android:layout_below="@id/entryTitleEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -73,9 +84,9 @@
                 android:gravity="start|top"
                 android:hint="@string/content"
                 android:background="@color/colorMain"
-                android:id="@+id/contentEditText"
+                android:id="@+id/entryContentEditText"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -84,7 +95,7 @@
     <androidx.appcompat.widget.Toolbar
         android:theme="@style/ToolbarColored"
         android:layout_alignParentBottom="true"
-        android:id="@+id/toolbar_new_bottom"
+        android:id="@+id/toolbar_entry_bottom"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
@@ -106,7 +117,7 @@
             android:contentDescription="@string/account" />
 
         <TextView
-            android:id="@+id/activity_new_bottom_text"
+            android:id="@+id/activity_entry_bottom_text"
             android:layout_gravity="center"
             android:textSize="14sp"
             android:textColor="@color/colorFont"
