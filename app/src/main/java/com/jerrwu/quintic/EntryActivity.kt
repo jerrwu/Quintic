@@ -33,8 +33,8 @@ class EntryActivity : AppCompatActivity() {
             val bundle:Bundle = intent.extras
             id = bundle.getInt("ID", 0)
             if (id!=0){
-                entryTitleEditText.setText(bundle.getString("title"))
-                entryContentEditText.setText(bundle.getString("content"))
+                entryTitleEditText.setText(bundle.getString("Title"))
+                entryContentEditText.setText(bundle.getString("Content"))
             }
         }catch (ex:Exception){}
 

@@ -1,6 +1,7 @@
 package com.jerrwu.quintic
 
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -28,6 +29,7 @@ class FragmentEntries : Fragment() {
         setInfoCardName(prefs)
 
         loadQuery("%")
+        mAdapter?.notifyDataSetChanged()
     }
 
     override fun onCreateView(
@@ -76,6 +78,11 @@ class FragmentEntries : Fragment() {
         mRecyclerView!!.adapter = mAdapter
         (mAdapter as CardAdapter).onItemClick = { card ->
             Toast.makeText(activity, card.id.toString(), Toast.LENGTH_SHORT).show()
+            val intent = Intent(activity, EntryActivity::class.java)
+            intent.putExtra("ID", card.id)
+            intent.putExtra("Title", card.title)
+            intent.putExtra("Content", card.content)
+            startActivity(intent)
         }
     }
 
