@@ -43,7 +43,7 @@
             android:layout_height="36dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/save_entry"
-            android:tint="@color/colorAccent"
+            android:tint="@color/colorTertiary"
             app:srcCompat="@drawable/ic_check" />
     </androidx.appcompat.widget.Toolbar>
 
@@ -64,6 +64,7 @@
             android:textSize="24sp"
             android:fontFamily="@font/productsansmedium"
             android:layout_width="match_parent"
+            android:singleLine="true"
             android:background="@color/colorMain"
             android:layout_height="42dp"/>
 
