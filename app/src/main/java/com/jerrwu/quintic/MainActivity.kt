@@ -17,9 +17,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
-    private val fragment1: Fragment = StartFragment()
-    private val fragment2: Fragment = CentreFragment()
-    private val fragment3: Fragment = EndFragment()
+    private val fragment1: Fragment = FragmentEntries()
+    private val fragment2: Fragment = FragmentSearch()
+    private val fragment3: Fragment = FragmentCal()
     private val navSheetFragment = NavSheetFragment()
     private val fm = supportFragmentManager
     var active = fragment1

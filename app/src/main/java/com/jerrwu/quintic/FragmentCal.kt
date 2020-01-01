@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.fragment_end.*
 import kotlinx.android.synthetic.main.grid_cell.view.*
 
 
-class EndFragment : Fragment() {
+class FragmentCal : Fragment() {
     var adapter: CellAdapter? = null
     var cellList = ArrayList<Cell>()
 

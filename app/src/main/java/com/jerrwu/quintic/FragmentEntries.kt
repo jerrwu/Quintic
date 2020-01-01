@@ -16,7 +16,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class StartFragment : Fragment() {
+class FragmentEntries : Fragment() {
     private var mRecyclerView: RecyclerView? = null
     private var mAdapter: RecyclerView.Adapter<*>? = null
     var cardList: ArrayList<Card> = ArrayList()
@@ -44,26 +44,24 @@ class StartFragment : Fragment() {
         setInfoCardGreeting(prefs)
         setInfoCardName(prefs)
 
-        var card1 = Card()
-        card1.id = 0
-        card1.title = "Image card"
-        card1.content = "hie..."
-        card1.ic = R.drawable.image_placeholder
+        var card1 = Card(0, R.drawable.image_placeholder, "Image card", "hie...")
         cardList.add(card1)
 
-        var card2 = Card()
-        card2.id = 1
-        card2.title = "Non-image card"
-        card2.content = "a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string "
-        card2.ic = 0
+        var card2 = Card(
+            1,
+            0,
+            "Non-image card",
+            "a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string "
+        )
         cardList.add(card2)
 
         for (i in 2..6) {
-            val card = Card()
-            card.id = i
-            card.ic = R.drawable.dots_horizontal_circle_outline
-            card.title = "Title $i"
-            card.content = "this is text this is text this is text this is text this is text this is text this is text this is text this is text this is text this is text this is text "
+            val card = Card(
+                i,
+                R.drawable.dots_horizontal_circle_outline,
+                "Title $i",
+                "this is text this is text this is text this is text this is text this is text this is text this is text this is text this is text this is text this is text "
+            )
             cardList.add(card)
         }
 
@@ -83,14 +81,14 @@ class StartFragment : Fragment() {
         if (greetingsToggle) {
             val current = LocalDateTime.now()
             val formatter = DateTimeFormatter.ofPattern("HH")
-            val curHour: String =  current.format(formatter)
+            val curHour: String = current.format(formatter)
             greetingString = InfoHelper.getGreeting(curHour)
             infoCardGreeting.visibility = View.VISIBLE
         } else {
             greetingString = ""
             infoCardGreeting.visibility = View.GONE
         }
-        infoCardGreeting.text = greetingString.replace("!",",")
+        infoCardGreeting.text = greetingString.replace("!", ",")
     }
 
     private fun setInfoCardName(prefs: SharedPreferences) {

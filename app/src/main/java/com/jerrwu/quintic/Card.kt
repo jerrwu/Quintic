@@ -1,8 +1,8 @@
 package com.jerrwu.quintic
 
-class Card {
-    var title: String = "Title"
-    var content: String? = null
-    var ic: Int = 0
-    var id: Int =0
+class Card(id: Int, ic: Int, title: String, content: String) {
+    var title: String? = title
+    var content: String? = content
+    var ic: Int? = ic
+    var id: Int? = id
 }

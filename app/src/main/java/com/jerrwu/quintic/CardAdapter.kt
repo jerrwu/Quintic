@@ -28,7 +28,9 @@ class CardAdapter(private val mDataList: ArrayList<Card>) : RecyclerView.Adapter
             params.marginEnd = 0
             holder.cardTextContainer.layoutParams = params
         }
-        else { holder.cardIc.setImageResource(mDataList[position].ic) }
+        else {
+            mDataList[position].ic?.let { holder.cardIc.setImageResource(it) }
+        }
         }
 
     override fun getItemCount(): Int {
