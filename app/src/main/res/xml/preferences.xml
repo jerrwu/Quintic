@@ -13,7 +13,7 @@
             android:key="@string/dark_toggle_key"
             android:entries="@array/dark_mode"
             android:entryValues="@array/dark_mode_values"
-            android:defaultValue="2"
+            android:defaultValue="-1"
             android:summary=""
             android:title="@string/dark_toggle_title" />
 
