@@ -1,6 +1,7 @@
 package com.jerrwu.quintic
 
 import android.content.ContentValues
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -11,8 +12,8 @@ import android.text.TextWatcher
 import android.view.Menu
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_entry.*
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -20,7 +21,7 @@ import java.time.format.DateTimeFormatter
 class EntryActivity : AppCompatActivity() {
 
     private val buttonDisabled = Color.parseColor("#747474")
-    private val buttonEnabled = Color.parseColor("#A98274")
+    private val buttonEnabled = Color.parseColor("#55CF86")
     val dbTable = "Cards"
     var id = 0
 
@@ -44,6 +45,7 @@ class EntryActivity : AppCompatActivity() {
                 val dateString = getString(R.string.created_on) + formatter.format(createdDate)
                 entryDateTimeView.text = dateString
                 entryDateTimeView.visibility = View.VISIBLE
+                entryActivityTopText.text = "Entry"
             }
         }catch (ex:Exception){}
 
@@ -71,7 +73,9 @@ class EntryActivity : AppCompatActivity() {
                         entrySaveButton.setColorFilter(buttonEnabled, PorterDuff.Mode.SRC_ATOP)
                     }
                     else {
-                        entrySaveButton.setColorFilter(R.color.colorAccent, PorterDuff.Mode.SRC_ATOP)
+                        entrySaveButton.setColorFilter(
+                            ContextCompat.getColor(applicationContext, R.color.green),
+                            PorterDuff.Mode.SRC_ATOP)
                     }
                 }
 
@@ -82,7 +86,9 @@ class EntryActivity : AppCompatActivity() {
                         entrySaveButton.setColorFilter(buttonDisabled, PorterDuff.Mode.SRC_ATOP)
                     }
                     else {
-                        entrySaveButton.setColorFilter(R.color.colorTertiary, PorterDuff.Mode.SRC_ATOP)
+                        entrySaveButton.setColorFilter(
+                            ContextCompat.getColor(applicationContext, R.color.colorTertiary),
+                            PorterDuff.Mode.SRC_ATOP)
                     }
                 }
             }
