@@ -11,6 +11,7 @@ import android.text.TextWatcher
 import android.view.Menu
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_entry.*
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -35,13 +36,13 @@ class EntryActivity : AppCompatActivity() {
             if (id!=0){
                 entryTitleEditText.setText(bundle.getString("Title"))
                 entryContentEditText.setText(bundle.getString("Content"))
+                val createdDate: LocalDateTime? = LocalDateTime.parse(bundle.getString("Time"))
+                val formatter = DateTimeFormatter.ofPattern("E, MMM dd yyyy")
+                entryDateTimeView.text = "Created on " + formatter.format(createdDate)
             }
         }catch (ex:Exception){}
 
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("HH:mm a")
-        val curHour: String =  current.format(formatter)
-        activity_entry_bottom_text.text = curHour
+        activity_entry_bottom_text.text = "Bottom Text"
 
         entryBackButton.setOnClickListener {
             finish()
@@ -99,6 +100,7 @@ class EntryActivity : AppCompatActivity() {
 
         if (id == 0) {
             val dbID = dbManager.insert(values)
+            values.put("DateTime", LocalDateTime.now().toString())
             if (dbID > 0) {
                 Toast.makeText(this, "Entry saved!", Toast.LENGTH_SHORT).show()
                 finish()

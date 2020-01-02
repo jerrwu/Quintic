@@ -10,30 +10,28 @@ import android.widget.Toast
 
 class DbManager {
 
-    //database name
     var dbName = "MCards"
-    //table name
     var dbTable = "Cards"
-    //columns
     var colID = "ID"
     var colIc = "Image"
     var colTitle = "Title"
     var colCont = "Content"
-    //database version
+    var colTime = "DateTime"
     var dbVersion = 1
 
     val sqlCreateTable =
         "CREATE TABLE IF NOT EXISTS $dbTable (" +
-                "$colID INTEGER PRIMARY KEY, $colIc INTEGER, $colTitle TEXT, $colCont TEXT);"
+                "$colID INTEGER PRIMARY KEY, $colIc INTEGER, $colTitle TEXT," +
+                " $colCont TEXT, $colTime TEXT);"
 
     private var sqlDB: SQLiteDatabase? = null
 
     constructor(context: Context) {
-        val db = DatabaseHelperNotes(context)
+        val db = DatabaseHelperEntries(context)
         sqlDB = db.writableDatabase
     }
 
-    inner class DatabaseHelperNotes : SQLiteOpenHelper {
+    inner class DatabaseHelperEntries : SQLiteOpenHelper {
         var context: Context? = null
 
         constructor(context: Context) : super(context, dbName, null, dbVersion) {
@@ -56,10 +54,13 @@ class DbManager {
         return sqlDB!!.insert(dbTable, "", values)
     }
 
-    fun Query(projection: Array<String>, selection: String, selectionArgs: Array<String>, sorOrder: String): Cursor {
+    fun query(
+        projection: Array<String>, selection: String,
+        selectionArgs: Array<String>, sorOrder: String): Cursor {
         val qb = SQLiteQueryBuilder()
         qb.tables = dbTable
-        return qb.query(sqlDB, projection, selection, selectionArgs, null, null, sorOrder)
+        return qb.query(
+            sqlDB, projection, selection, selectionArgs, null, null, sorOrder)
     }
 
     fun delete(selection: String, selectionArgs: Array<String>): Int {

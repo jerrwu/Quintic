@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_entries.*
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -61,6 +62,7 @@ class FragmentEntries : Fragment() {
             intent.putExtra("ID", card.id)
             intent.putExtra("Title", card.title)
             intent.putExtra("Content", card.content)
+            intent.putExtra("Time", card.time.toString())
             startActivity(intent)
         }
     }
@@ -88,9 +90,10 @@ class FragmentEntries : Fragment() {
 
     private fun loadQuery(title: String) {
         val dbManager = DbManager(activity!!)
-        val projections = arrayOf("ID", "Image", "Title", "Content")
+        val projections = arrayOf("ID", "Image", "Title", "Content", "DateTime")
         val selectionArgs = arrayOf(title)
-        val cursor = dbManager.Query(projections, "Title like ?", selectionArgs, "Title")
+        val cursor = dbManager.query(
+            projections, "Title like ?", selectionArgs, "Title")
         cardList.clear()
         if (cursor.moveToFirst()) {
 
@@ -99,8 +102,9 @@ class FragmentEntries : Fragment() {
                 val ic = cursor.getInt(cursor.getColumnIndex("Image"))
                 val cdTitle = cursor.getString(cursor.getColumnIndex("Title"))
                 val cdCont = cursor.getString(cursor.getColumnIndex("Content"))
+                val cdTime = cursor.getString(cursor.getColumnIndex("DateTime"))
 
-                cardList.add(Card(id, ic, cdTitle, cdCont))
+                cardList.add(Card(id, ic, cdTitle, cdCont, LocalDateTime.parse(cdTime)))
 
             } while (cursor.moveToNext())
         }

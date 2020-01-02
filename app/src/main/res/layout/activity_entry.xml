@@ -68,12 +68,24 @@
             android:background="@color/colorMain"
             android:layout_height="42dp"/>
 
+        <TextView
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/colorFont"
+            android:fontFamily="@font/robotocondensedregular"
+            android:textSize="16sp"
+            android:id="@+id/entryDateTimeView"
+            android:layout_below="@id/entryTitleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"/>
+
         <com.google.android.material.card.MaterialCardView
+            android:layout_marginTop="8dp"
             android:background="@color/colorMain"
             app:strokeWidth="1.5dp"
             app:strokeColor="@color/colorTertiary"
             app:cardCornerRadius="8dp"
-            android:layout_below="@id/entryTitleEditText"
+            android:layout_below="@id/entryDateTimeView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
