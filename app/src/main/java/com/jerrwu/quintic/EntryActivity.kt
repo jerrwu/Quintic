@@ -102,10 +102,10 @@ class EntryActivity : AppCompatActivity() {
         val values = ContentValues()
         values.put("Title", entryTitleEditText.text.toString())
         values.put("Content", entryContentEditText.text.toString())
+        values.put("DateTime", LocalDateTime.now().toString())
 
         if (id == 0) {
             val dbID = dbManager.insert(values)
-            values.put("DateTime", LocalDateTime.now().toString())
             if (dbID > 0) {
                 Toast.makeText(this, "Entry saved!", Toast.LENGTH_SHORT).show()
                 finish()
