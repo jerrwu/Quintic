@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
+import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_entry.*
 import java.time.LocalDate
@@ -30,15 +31,19 @@ class EntryActivity : AppCompatActivity() {
         setSupportActionBar(toolbar_entry_bottom)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
+        entryDateTimeView.visibility = View.GONE
+
         try {
-            val bundle:Bundle = intent.extras
+            val bundle: Bundle = intent.extras
             id = bundle.getInt("ID", 0)
             if (id!=0){
                 entryTitleEditText.setText(bundle.getString("Title"))
                 entryContentEditText.setText(bundle.getString("Content"))
                 val createdDate: LocalDateTime? = LocalDateTime.parse(bundle.getString("Time"))
                 val formatter = DateTimeFormatter.ofPattern("E, MMM dd yyyy")
-                entryDateTimeView.text = "Created on " + formatter.format(createdDate)
+                val dateString = getString(R.string.created_on) + formatter.format(createdDate)
+                entryDateTimeView.text = dateString
+                entryDateTimeView.visibility = View.VISIBLE
             }
         }catch (ex:Exception){}
 
