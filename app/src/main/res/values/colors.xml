@@ -3,6 +3,7 @@
     <color name="colorPrimary">@color/colorMain</color>
     <color name="colorAccent">#795548</color>
     <color name="colorMain">#FBFBFB</color>
+    <color name="colorBackground">#FBFBFB</color>
     <color name="colorText">#131313</color>
     <color name="colorSecondary">#606060</color>
     <color name="bottomNavColor">#FBFBFB</color>
