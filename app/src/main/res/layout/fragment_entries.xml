@@ -19,7 +19,7 @@
             app:cardElevation="0dp"
             app:contentPaddingTop="12dp"
             android:backgroundTint="@color/colorMain"
-            android:id="@+id/fragmentStartInfoCard"
+            android:id="@+id/fragmentEntriesInfoCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -70,7 +70,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:nestedScrollingEnabled="false"
             android:layout_marginTop="12dp"
-            android:layout_below="@id/fragmentStartInfoCard"
+            android:layout_below="@id/fragmentEntriesInfoCard"
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

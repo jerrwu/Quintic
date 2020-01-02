@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_start.*
+import kotlinx.android.synthetic.main.fragment_entries.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -37,7 +37,7 @@ class FragmentEntries : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_start, container, false)
+        return inflater.inflate(R.layout.fragment_entries, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,27 +49,6 @@ class FragmentEntries : Fragment() {
         setInfoCardName(prefs)
 
         loadQuery("%")
-
-//        var card1 = Card(0, R.drawable.image_placeholder, "Image card", "hie...")
-//        cardList.add(card1)
-//
-//        var card2 = Card(
-//            1,
-//            0,
-//            "Non-image card",
-//            "a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string a really long test string "
-//        )
-//        cardList.add(card2)
-//
-//        for (i in 2..6) {
-//            val card = Card(
-//                i,
-//                R.drawable.dots_horizontal_circle_outline,
-//                "Title $i",
-//                "this is text this is text this is text this is text this is text this is text this is text this is text this is text this is text this is text this is text "
-//            )
-//            cardList.add(card)
-//        }
 
         mRecyclerView = activity!!.findViewById(R.id.recycler_view)
         var mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -94,10 +73,10 @@ class FragmentEntries : Fragment() {
             val formatter = DateTimeFormatter.ofPattern("HH")
             val curHour: String = current.format(formatter)
             greetingString = InfoHelper.getGreeting(curHour)
-            infoCardGreeting.visibility = View.VISIBLE
+            fragmentEntriesInfoCard.visibility = View.VISIBLE
         } else {
             greetingString = ""
-            infoCardGreeting.visibility = View.GONE
+            fragmentEntriesInfoCard.visibility = View.GONE
         }
         infoCardGreeting.text = greetingString.replace("!", ",")
     }

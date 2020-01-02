@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_end.*
+import kotlinx.android.synthetic.main.fragment_cal.*
 import kotlinx.android.synthetic.main.grid_cell.view.*
 
 
@@ -21,7 +21,7 @@ class FragmentCal : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_end, container, false)
+        return inflater.inflate(R.layout.fragment_cal, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
