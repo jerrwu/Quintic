@@ -52,7 +52,7 @@
         android:layout_marginEnd="24dp"
         android:fontFamily="@font/productsansregular"
         android:text="@string/button_no"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/blue"
         android:background="?attr/selectableItemBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
