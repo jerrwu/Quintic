@@ -24,7 +24,7 @@ class CardAdapter(private val mDataList: ArrayList<Card>) : RecyclerView.Adapter
         val ic = mDataList[position].ic
         if (ic == 0) {
             holder.cardIcHolder.visibility = View.GONE
-            var params = holder.cardTextContainer.layoutParams as ConstraintLayout.LayoutParams
+            val params = holder.cardTextContainer.layoutParams as ConstraintLayout.LayoutParams
             params.marginEnd = 0
             holder.cardTextContainer.layoutParams = params
         }

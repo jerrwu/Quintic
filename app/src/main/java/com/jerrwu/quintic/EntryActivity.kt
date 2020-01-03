@@ -22,7 +22,9 @@ class EntryActivity : AppCompatActivity() {
 
     private val buttonDisabled = Color.parseColor("#747474")
     private val buttonEnabled = Color.parseColor("#55CF86")
-    val dbTable = "Cards"
+    private val dbTable = "Cards"
+    private var createdDate: LocalDateTime? = null
+    private val formatter = DateTimeFormatter.ofPattern("E, MMM dd yyyy")
     var id = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,8 +42,7 @@ class EntryActivity : AppCompatActivity() {
             if (id!=0){
                 entryTitleEditText.setText(bundle.getString("Title"))
                 entryContentEditText.setText(bundle.getString("Content"))
-                val createdDate: LocalDateTime? = LocalDateTime.parse(bundle.getString("Time"))
-                val formatter = DateTimeFormatter.ofPattern("E, MMM dd yyyy")
+                createdDate = LocalDateTime.parse(bundle.getString("Time"))
                 val dateString = getString(R.string.created_on) + formatter.format(createdDate)
                 entryDateTimeView.text = dateString
                 entryDateTimeView.visibility = View.VISIBLE
@@ -106,9 +107,18 @@ class EntryActivity : AppCompatActivity() {
         val dbManager = DbManager(this)
 
         val values = ContentValues()
-        values.put("Title", entryTitleEditText.text.toString())
-        values.put("Content", entryContentEditText.text.toString())
-        values.put("DateTime", LocalDateTime.now().toString())
+        var titleText = entryTitleEditText.text.toString()
+        val conText = entryContentEditText.text.toString()
+        if (createdDate == null) {
+            createdDate = LocalDateTime.now()
+        }
+        if (titleText == "") {
+            titleText = formatter.format(createdDate)
+        }
+
+        values.put("Title", titleText)
+        values.put("Content", conText)
+        values.put("DateTime", createdDate.toString())
 
         if (id == 0) {
             val dbID = dbManager.insert(values)

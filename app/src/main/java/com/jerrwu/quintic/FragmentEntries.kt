@@ -93,7 +93,7 @@ class FragmentEntries : Fragment() {
         val projections = arrayOf("ID", "Image", "Title", "Content", "DateTime")
         val selectionArgs = arrayOf(title)
         val cursor = dbManager.query(
-            projections, "Title like ?", selectionArgs, "Title")
+            projections, "Title like ?", selectionArgs, "ID"+" DESC")
         cardList.clear()
         if (cursor.moveToFirst()) {
 
