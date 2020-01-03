@@ -30,10 +30,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val darkPreference = findPreference("dark_toggle") as ListPreference?
         val versionPreference = findPreference("version") as Preference?
         val namePreference = findPreference("name") as EditTextPreference?
+        val setNamePreference = findPreference("setNameRem") as SwitchPreference?
         var versionStr = "Error"
         sharedPreferences.registerOnSharedPreferenceChangeListener(onPreferenceChangeListener)
 
         preferenceScreen.removePreference(namePreference)
+        preferenceScreen.removePreference(setNamePreference)
 
         when (darkToggle) {
             -1 -> darkPreference!!.summary = "Follow System"

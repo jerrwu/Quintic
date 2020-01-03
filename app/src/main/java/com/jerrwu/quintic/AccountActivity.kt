@@ -31,6 +31,7 @@ class AccountActivity : AppCompatActivity() {
         accountSaveButton.setOnClickListener {
             val editor = prefs.edit()
             editor.putString("name", accountEditText.text.toString())
+            editor.putBoolean("setNameRem", false)
             editor.apply()
             finish()
         }

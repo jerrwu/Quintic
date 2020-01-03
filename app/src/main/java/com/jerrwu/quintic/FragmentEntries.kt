@@ -1,6 +1,7 @@
 package com.jerrwu.quintic
 
 
+import android.accounts.Account
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -28,6 +29,7 @@ class FragmentEntries : Fragment() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
         setInfoCardGreeting(prefs)
         setInfoCardName(prefs)
+        infoCardNameRem(prefs)
 
         loadQuery("%")
         mAdapter?.notifyDataSetChanged()
@@ -48,6 +50,19 @@ class FragmentEntries : Fragment() {
 
         setInfoCardGreeting(prefs)
         setInfoCardName(prefs)
+        infoCardNameRem(prefs)
+
+        nameRemButton.setOnClickListener {
+            val intent: Intent = Intent(activity, AccountActivity::class.java)
+            startActivity(intent)
+        }
+
+        nameRemDismissButton.setOnClickListener {
+            val editor = prefs.edit()
+            editor.putBoolean("setNameRem", false)
+            editor.apply()
+            infoCardNameRem(prefs)
+        }
 
         loadQuery("%")
 
@@ -57,7 +72,7 @@ class FragmentEntries : Fragment() {
         mAdapter = CardAdapter(cardList)
         mRecyclerView!!.adapter = mAdapter
         (mAdapter as CardAdapter).onItemClick = { card ->
-            Toast.makeText(activity, card.id.toString(), Toast.LENGTH_SHORT).show()
+            // Toast.makeText(activity, card.id.toString(), Toast.LENGTH_SHORT).show()
             val intent = Intent(activity, EntryActivity::class.java)
             intent.putExtra("ID", card.id)
             intent.putExtra("Title", card.title)
@@ -86,6 +101,22 @@ class FragmentEntries : Fragment() {
     private fun setInfoCardName(prefs: SharedPreferences) {
         val nameString: String? = prefs.getString("name", "user")
         infoCardName.text = nameString
+    }
+
+    private fun infoCardNameRem(prefs: SharedPreferences) {
+        val remBool: Boolean = prefs.getBoolean("setNameRem", false)
+        if (remBool) {
+            infoCardGreetingType.visibility = View.GONE
+            infoCardRemType.visibility = View.VISIBLE
+            infoCardGreetingIcon.visibility = View.GONE
+            infoCardReminderIcon.visibility = View.VISIBLE
+        }
+        else {
+            infoCardGreetingType.visibility = View.VISIBLE
+            infoCardRemType.visibility = View.GONE
+            infoCardGreetingIcon.visibility = View.VISIBLE
+            infoCardReminderIcon.visibility = View.GONE
+        }
     }
 
     private fun loadQuery(title: String) {

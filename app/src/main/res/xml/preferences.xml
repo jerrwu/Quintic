@@ -6,6 +6,11 @@
         android:title="Name"
         android:defaultValue="User"/>
 
+    <SwitchPreference
+        android:key="setNameRem"
+        android:title="Set name reminder"
+        android:defaultValue="true"/>
+
     <PreferenceCategory
         android:title="UI &amp; Behaviour">
 

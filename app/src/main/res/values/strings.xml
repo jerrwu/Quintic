@@ -60,4 +60,5 @@
         <item>"2"</item>
     </string-array>
     <string name="created_on">"Created on "</string>
+    <string name="set_your_name">Hey! Set your name!</string>
 </resources>
