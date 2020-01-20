@@ -8,6 +8,7 @@ import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -75,15 +76,24 @@ class FragmentEntries : Fragment() {
         var mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         mRecyclerView!!.layoutManager = mLayoutManager
         mAdapter = CardAdapter(cardList)
-        mRecyclerView!!.adapter = mAdapter
-        (mAdapter as CardAdapter).onItemClick = { card ->
-            // Toast.makeText(activity, card.id.toString(), Toast.LENGTH_SHORT).show()
-            val intent = Intent(activity, EntryActivity::class.java)
-            intent.putExtra("ID", card.id)
-            intent.putExtra("Title", card.title)
-            intent.putExtra("Content", card.content)
-            intent.putExtra("Time", card.time.toString())
-            startActivity(intent)
+
+        val recyclerView = mRecyclerView
+        if (recyclerView != null) {
+            registerForContextMenu(recyclerView)
+            recyclerView.adapter = mAdapter
+            (mAdapter as CardAdapter).onItemClick = { card ->
+                // Toast.makeText(activity, card.id.toString(), Toast.LENGTH_SHORT).show()
+                val intent = Intent(activity, EntryActivity::class.java)
+                intent.putExtra("ID", card.id)
+                intent.putExtra("Title", card.title)
+                intent.putExtra("Content", card.content)
+                intent.putExtra("Time", card.time.toString())
+                startActivity(intent)
+            }
+            (mAdapter as CardAdapter).onItemLongClick = { card ->
+                Toast.makeText(context, card.title, Toast.LENGTH_SHORT).show()
+                true
+            }
         }
     }
 

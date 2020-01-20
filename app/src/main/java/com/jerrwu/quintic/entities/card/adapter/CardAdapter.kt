@@ -12,15 +12,16 @@ import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entities.card.CardEntity
 
 
-class CardAdapter(private val mDataList: ArrayList<CardEntity>) : RecyclerView.Adapter<CardAdapter.MyViewHolder>() {
+class CardAdapter(private val mDataList: ArrayList<CardEntity>) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
     var onItemClick: ((CardEntity) -> Unit)? = null
+    var onItemLongClick: ((CardEntity) -> Boolean)? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card, parent, false)
-        return MyViewHolder(view)
+        return CardViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         holder.cardTitle.text = mDataList[position].title
         holder.cardContent.text = mDataList[position].content
         val ic = mDataList[position].ic
@@ -39,7 +40,7 @@ class CardAdapter(private val mDataList: ArrayList<CardEntity>) : RecyclerView.A
         return mDataList.size
     }
 
-    inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         internal var cardTitle: TextView = itemView.findViewById<View>(R.id.card_title) as TextView
         internal var cardContent: TextView = itemView.findViewById<View>(R.id.card_content) as TextView
         internal var cardIc: ImageView = itemView.findViewById<View>(R.id.card_ic) as ImageView
@@ -51,6 +52,10 @@ class CardAdapter(private val mDataList: ArrayList<CardEntity>) : RecyclerView.A
         init {
             itemView.setOnClickListener {
                 onItemClick?.invoke(mDataList[adapterPosition])
+            }
+
+            itemView.setOnLongClickListener {
+                onItemLongClick?.invoke(mDataList[adapterPosition])!!
             }
         }
     }

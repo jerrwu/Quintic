@@ -29,7 +29,7 @@ class EntryActivity : AppCompatActivity() {
     }
 
     private var createdDate: LocalDateTime? = null
-    private val formatter = DateTimeFormatter.ofPattern("E, MMM dd yyyy")
+    private val formatter = DateTimeFormatter.ofPattern("E MMM dd, yyyy")
     private var dbHelper: DbHelper? = null
     var id = 0
 
