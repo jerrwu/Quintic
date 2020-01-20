@@ -34,14 +34,16 @@ object InfoHelper {
         return true
     }
 
-    fun showDialog(title: String, textYes: String, textNo: String, activity: Context,
-                   funYes: (funContext: Context) -> Unit, funNo: (funDialog: Dialog) -> Unit) {
+    fun showDialog(titleString: String, bodyString: String, textYes: String, textNo: String,
+                   activity: Context, funYes: (funContext: Context) -> Unit, funNo: (funDialog: Dialog) -> Unit) {
         val dialog = Dialog(activity, R.style.DialogTheme)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.custom_dialogue)
+        val title = dialog.findViewById(R.id.dialogueTitle) as TextView
+        title.text = titleString
         val body = dialog.findViewById(R.id.dialogueBody) as TextView
-        body.text = title
+        body.text = bodyString
         val yesBtn = dialog.findViewById(R.id.yesBtn) as Button
         yesBtn.text = textYes
         val noBtn = dialog.findViewById(R.id.noBtn) as Button

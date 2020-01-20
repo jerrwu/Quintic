@@ -1,6 +1,7 @@
 package com.jerrwu.quintic.entry
 
 import android.content.ContentValues
+import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -10,21 +11,23 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.helpers.DbHelper
 import com.jerrwu.quintic.helpers.InfoHelper
+import com.jerrwu.quintic.helpers.StringHelper
 import kotlinx.android.synthetic.main.activity_entry.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
 class EntryActivity : AppCompatActivity() {
+    companion object {
+        private val buttonDisabled = Color.parseColor("#747474")
+        private val buttonEnabled = Color.parseColor("#55CF86")
+        private const val dbTable = "Cards"
+    }
 
-    private val buttonDisabled = Color.parseColor("#747474")
-    private val buttonEnabled = Color.parseColor("#55CF86")
-    private val dbTable = "Cards"
     private var createdDate: LocalDateTime? = null
     private val formatter = DateTimeFormatter.ofPattern("E, MMM dd yyyy")
     private var dbHelper: DbHelper? = null
@@ -61,7 +64,12 @@ class EntryActivity : AppCompatActivity() {
         }
 
         entryDeleteButton.setOnClickListener {
-            deleteEntry()
+            InfoHelper.showDialog(
+                StringHelper.getString(R.string.confirm_delete_title, this),
+                StringHelper.getString(R.string.confirm_delete, this),
+                StringHelper.getString(R.string.delete_yes, this),
+                StringHelper.getString(R.string.delete_no, this),
+                this, this::deleteEntry, InfoHelper::dismissDialog)
         }
 
         entrySaveButton.setOnClickListener {
@@ -115,7 +123,7 @@ class EntryActivity : AppCompatActivity() {
         return true
     }
 
-    private fun deleteEntry() {
+    private fun deleteEntry(context: Context) {
         val dbHelper = dbHelper
         if (dbHelper != null) {
             val selectionArgs = arrayOf(id.toString())
@@ -144,22 +152,15 @@ class EntryActivity : AppCompatActivity() {
             if (id == 0) {
                 val dbID = dbHelper.insert(values)
                 if (dbID > 0) {
-                    Toast.makeText(this, "Entry saved!", Toast.LENGTH_SHORT).show()
                     finish()
-                } else {
-                    Toast.makeText(this, "Error adding entry...", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 val selectionArgs = arrayOf(id.toString())
                 val dbID = dbHelper.update(values, "ID=?", selectionArgs)
                 if (dbID > 0) {
-                    Toast.makeText(this, "Entry saved!", Toast.LENGTH_SHORT).show()
                     finish()
-                } else {
-                    Toast.makeText(this, "Error adding entry...", Toast.LENGTH_SHORT).show()
                 }
             }
         }
-        }
-
+    }
 }

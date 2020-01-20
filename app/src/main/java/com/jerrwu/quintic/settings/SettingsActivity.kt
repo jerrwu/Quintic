@@ -9,17 +9,21 @@ import android.content.BroadcastReceiver
 import android.content.IntentFilter
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.helpers.InfoHelper
+import com.jerrwu.quintic.helpers.StringHelper
 
 
 class SettingsActivity : AppCompatActivity() {
+    val activity = this
     val key1 = "TOGGLE_DIALOG_KEY"
 
     private val mBroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             InfoHelper.showDialog(
-                "An app restart is recommended after changing this setting. Restart now?",
-                "Restart", "Later",
-                context, InfoHelper::restartApp, InfoHelper::dismissDialog)
+                StringHelper.getString(R.string.confirm_restart_title, context),
+                StringHelper.getString(R.string.confirm_restart, context),
+                StringHelper.getString(R.string.restart_yes, context),
+                StringHelper.getString(R.string.restart_no, context),
+                activity, InfoHelper::restartApp, InfoHelper::dismissDialog)
         }
     }
 
