@@ -84,4 +84,5 @@
     <string name="confirm_delete">This entry cannot be recovered after it has been deleted, continue?</string>
     <string name="delete_yes">Delete</string>
     <string name="delete_no">Cancel</string>
+    <string name="delete">Delete</string>
 </resources>

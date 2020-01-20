@@ -8,6 +8,7 @@ import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -90,8 +91,10 @@ class FragmentEntries : Fragment() {
                 intent.putExtra("Time", card.time.toString())
                 startActivity(intent)
             }
-            (mAdapter as CardAdapter).onItemLongClick = { card ->
-                Toast.makeText(context, card.title, Toast.LENGTH_SHORT).show()
+            (mAdapter as CardAdapter).onItemLongClick = { card, position ->
+                val menu = PopupMenu(context, recyclerView.getChildAt(position))
+                menu.inflate(R.menu.fragment_entries_context_menu)
+                menu.show()
                 true
             }
         }

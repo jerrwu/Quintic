@@ -14,7 +14,7 @@ import com.jerrwu.quintic.entities.card.CardEntity
 
 class CardAdapter(private val mDataList: ArrayList<CardEntity>) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
     var onItemClick: ((CardEntity) -> Unit)? = null
-    var onItemLongClick: ((CardEntity) -> Boolean)? = null
+    var onItemLongClick: (((CardEntity), Int) -> Boolean)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card, parent, false)
@@ -55,7 +55,7 @@ class CardAdapter(private val mDataList: ArrayList<CardEntity>) : RecyclerView.A
             }
 
             itemView.setOnLongClickListener {
-                onItemLongClick?.invoke(mDataList[adapterPosition])!!
+                onItemLongClick?.invoke(mDataList[adapterPosition], adapterPosition)!!
             }
         }
     }
