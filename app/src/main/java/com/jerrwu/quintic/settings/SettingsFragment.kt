@@ -1,4 +1,4 @@
-package com.jerrwu.quintic
+package com.jerrwu.quintic.settings
 
 
 import android.app.Activity
@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.*
 import android.content.Intent
 import android.view.View
+import com.jerrwu.quintic.R
 
 
 class SettingsFragment : PreferenceFragmentCompat() {

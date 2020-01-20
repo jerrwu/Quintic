@@ -1,4 +1,4 @@
-package com.jerrwu.quintic
+package com.jerrwu.quintic.main.fragment
 
 
 import android.content.Context
@@ -8,13 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import androidx.fragment.app.Fragment
+import com.jerrwu.quintic.entities.cell.CellEntity
+import com.jerrwu.quintic.R
 import kotlinx.android.synthetic.main.fragment_cal.*
 import kotlinx.android.synthetic.main.grid_cell.view.*
 
 
 class FragmentCal : Fragment() {
     var adapter: CellAdapter? = null
-    var cellList = ArrayList<Cell>()
+    var cellList = ArrayList<CellEntity>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,35 +29,39 @@ class FragmentCal : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        cellList.add(Cell("0"))
-        cellList.add(Cell("1"))
-        cellList.add(Cell("2"))
-        cellList.add(Cell("3"))
-        cellList.add(Cell("4"))
-        cellList.add(Cell("5"))
-        cellList.add(Cell("6"))
-        cellList.add(Cell("7"))
-        cellList.add(Cell("8"))
-        cellList.add(Cell("9"))
-        cellList.add(Cell("10"))
-        cellList.add(Cell("11"))
-        cellList.add(Cell("h"))
-        cellList.add(Cell("e"))
-        cellList.add(Cell("h"))
-        cellList.add(Cell("e"))
-        cellList.add(Cell("l"))
-        cellList.add(Cell("i"))
-        cellList.add(Cell("x"))
-        adapter = CellAdapter(context!!, cellList)
+        cellList.add(CellEntity("0"))
+        cellList.add(CellEntity("1"))
+        cellList.add(CellEntity("2"))
+        cellList.add(CellEntity("3"))
+        cellList.add(CellEntity("4"))
+        cellList.add(CellEntity("5"))
+        cellList.add(CellEntity("6"))
+        cellList.add(CellEntity("7"))
+        cellList.add(CellEntity("8"))
+        cellList.add(CellEntity("9"))
+        cellList.add(CellEntity("10"))
+        cellList.add(CellEntity("11"))
+        cellList.add(CellEntity("h"))
+        cellList.add(CellEntity("e"))
+        cellList.add(CellEntity("h"))
+        cellList.add(CellEntity("e"))
+        cellList.add(CellEntity("l"))
+        cellList.add(CellEntity("i"))
+        cellList.add(CellEntity("x"))
+        adapter =
+            CellAdapter(
+                context!!,
+                cellList
+            )
 
         grid_view_main.adapter = adapter
     }
 
     class CellAdapter: BaseAdapter {
-        var cellList = ArrayList<Cell>()
+        var cellList = ArrayList<CellEntity>()
         var context: Context? = null
 
-        constructor(context: Context, cellList: ArrayList<Cell>) : super() {
+        constructor(context: Context, cellList: ArrayList<CellEntity>) : super() {
             this.context = context
             this.cellList = cellList
         }

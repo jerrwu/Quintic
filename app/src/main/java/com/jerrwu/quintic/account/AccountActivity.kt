@@ -1,4 +1,4 @@
-package com.jerrwu.quintic
+package com.jerrwu.quintic.account
 
 import android.content.res.ColorStateList
 import android.content.res.Configuration
@@ -10,6 +10,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.preference.PreferenceManager
 import androidx.core.content.ContextCompat
+import com.jerrwu.quintic.R
 
 
 class AccountActivity : AppCompatActivity() {
@@ -54,11 +55,17 @@ class AccountActivity : AppCompatActivity() {
 
                     else {
                         accountSaveButton.backgroundTintList =
-                            ContextCompat.getColorStateList(applicationContext, R.color.colorAccent)
+                            ContextCompat.getColorStateList(applicationContext,
+                                R.color.colorAccent
+                            )
                         account_check_image.setColorFilter(
-                            ContextCompat.getColor(applicationContext, R.color.colorMain))
+                            ContextCompat.getColor(applicationContext,
+                                R.color.colorMain
+                            ))
                         account_save_text.setTextColor(
-                            ContextCompat.getColor(applicationContext, R.color.colorMain))
+                            ContextCompat.getColor(applicationContext,
+                                R.color.colorMain
+                            ))
                     }
                 }
 
@@ -73,11 +80,17 @@ class AccountActivity : AppCompatActivity() {
 
                     else {
                         accountSaveButton.backgroundTintList =
-                            ContextCompat.getColorStateList(applicationContext, R.color.colorQuad)
+                            ContextCompat.getColorStateList(applicationContext,
+                                R.color.colorQuad
+                            )
                         account_check_image.setColorFilter(
-                            ContextCompat.getColor(applicationContext, R.color.colorTertiary))
+                            ContextCompat.getColor(applicationContext,
+                                R.color.colorTertiary
+                            ))
                         account_save_text.setTextColor(
-                            ContextCompat.getColor(applicationContext, R.color.colorTertiary))
+                            ContextCompat.getColor(applicationContext,
+                                R.color.colorTertiary
+                            ))
                     }
                 }
             }

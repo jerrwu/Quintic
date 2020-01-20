@@ -1,7 +1,6 @@
-package com.jerrwu.quintic
+package com.jerrwu.quintic.main.fragment
 
 
-import android.accounts.Account
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -9,12 +8,17 @@ import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jerrwu.quintic.*
+import com.jerrwu.quintic.account.AccountActivity
+import com.jerrwu.quintic.entities.card.CardEntity
+import com.jerrwu.quintic.entities.card.adapter.CardAdapter
+import com.jerrwu.quintic.entry.EntryActivity
+import com.jerrwu.quintic.helpers.DbHelper
+import com.jerrwu.quintic.helpers.InfoHelper
 import kotlinx.android.synthetic.main.fragment_entries.*
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -22,7 +26,7 @@ import java.time.format.DateTimeFormatter
 class FragmentEntries : Fragment() {
     private var mRecyclerView: RecyclerView? = null
     private var mAdapter: RecyclerView.Adapter<*>? = null
-    private var cardList: ArrayList<Card> = ArrayList()
+    private var cardList: ArrayList<CardEntity> = ArrayList()
 
     override fun onResume() {
         super.onResume()
@@ -120,7 +124,7 @@ class FragmentEntries : Fragment() {
     }
 
     private fun loadQuery(title: String) {
-        val dbManager = DbManager(activity!!)
+        val dbManager = DbHelper(activity!!)
         val projections = arrayOf("ID", "Image", "Title", "Content", "DateTime")
         val selectionArgs = arrayOf(title)
         val cursor = dbManager.query(
@@ -135,7 +139,15 @@ class FragmentEntries : Fragment() {
                 val cdCont = cursor.getString(cursor.getColumnIndex("Content"))
                 val cdTime = cursor.getString(cursor.getColumnIndex("DateTime"))
 
-                cardList.add(Card(id, ic, cdTitle, cdCont, LocalDateTime.parse(cdTime)))
+                cardList.add(
+                    CardEntity(
+                        id,
+                        ic,
+                        cdTitle,
+                        cdCont,
+                        LocalDateTime.parse(cdTime)
+                    )
+                )
 
             } while (cursor.moveToNext())
         }

@@ -45,18 +45,18 @@
         <Preference
             android:key="editname"
             android:title="Edit name">
-            <intent android:action="com.jerrwu.quintic.AccountActivity"/>
+            <intent android:action="com.jerrwu.quintic.account.AccountActivity"/>
             <intent android:targetPackage="com.jerrwu.quintic"
-                android:targetClass="com.jerrwu.quintic.AccountActivity"/>
+                android:targetClass="com.jerrwu.quintic.account.AccountActivity"/>
         </Preference>
 
         <Preference
             android:key="github"
             android:title="Github"
             android:summary="Visit the Github repo for this project">
-            <intent android:action="com.jerrwu.quintic.GithubTabActivity"/>
+            <intent android:action="com.jerrwu.quintic.common.GithubTabActivity"/>
             <intent android:targetPackage="com.jerrwu.quintic"
-                android:targetClass="com.jerrwu.quintic.GithubTabActivity"/>
+                android:targetClass="com.jerrwu.quintic.common.GithubTabActivity"/>
         </Preference>
 
         <Preference

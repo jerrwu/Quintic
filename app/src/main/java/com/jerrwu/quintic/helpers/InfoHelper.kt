@@ -1,4 +1,4 @@
-package com.jerrwu.quintic
+package com.jerrwu.quintic.helpers
 
 import android.app.Activity
 import android.app.Dialog
@@ -8,6 +8,8 @@ import android.widget.Button
 import android.widget.TextView
 import android.content.Intent
 import android.content.Context
+import com.jerrwu.quintic.R
+import com.jerrwu.quintic.main.MainActivity
 
 
 object InfoHelper {

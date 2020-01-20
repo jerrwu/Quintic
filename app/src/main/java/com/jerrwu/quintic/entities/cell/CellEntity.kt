@@ -1,6 +1,6 @@
-package com.jerrwu.quintic
+package com.jerrwu.quintic.entities.cell
 
-class Cell {
+class CellEntity {
     var text: String? = null
 
     constructor(text: String) {

@@ -1,4 +1,4 @@
-package com.jerrwu.quintic
+package com.jerrwu.quintic.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +11,10 @@ import android.net.Uri
 import android.preference.PreferenceManager
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import com.jerrwu.quintic.account.AccountActivity
+import com.jerrwu.quintic.helpers.InfoHelper
+import com.jerrwu.quintic.R
+import com.jerrwu.quintic.settings.SettingsActivity
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -66,7 +70,9 @@ class NavSheetFragment : BottomSheetDialogFragment() {
             val uri = Uri.parse(getString(R.string.github_link_readme))
             val intentBuilder = CustomTabsIntent.Builder()
             intentBuilder.setToolbarColor(
-                context.let { ContextCompat.getColor(it!!, R.color.colorPrimary) })
+                context.let { ContextCompat.getColor(it!!,
+                    R.color.colorPrimary
+                ) })
             intentBuilder.setShowTitle(true)
             val customTabsIntent = intentBuilder.build()
             activity?.let { it1 -> customTabsIntent.launchUrl(it1, uri) }
@@ -77,7 +83,9 @@ class NavSheetFragment : BottomSheetDialogFragment() {
             val uri = Uri.parse(getString(R.string.github_link_issues))
             val intentBuilder = CustomTabsIntent.Builder()
             intentBuilder.setToolbarColor(
-                context.let { ContextCompat.getColor(it!!, R.color.colorPrimary) })
+                context.let { ContextCompat.getColor(it!!,
+                    R.color.colorPrimary
+                ) })
             intentBuilder.setShowTitle(true)
             val customTabsIntent = intentBuilder.build()
             activity?.let { it1 -> customTabsIntent.launchUrl(it1, uri) }
