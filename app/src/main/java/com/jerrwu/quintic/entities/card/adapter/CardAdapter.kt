@@ -1,4 +1,4 @@
-package com.jerrwu.quintic
+package com.jerrwu.quintic.entities.card.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +8,12 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.jerrwu.quintic.R
+import com.jerrwu.quintic.entities.card.CardEntity
 
 
-class CardAdapter(private val mDataList: ArrayList<Card>) : RecyclerView.Adapter<CardAdapter.MyViewHolder>() {
-    var onItemClick: ((Card) -> Unit)? = null
+class CardAdapter(private val mDataList: ArrayList<CardEntity>) : RecyclerView.Adapter<CardAdapter.MyViewHolder>() {
+    var onItemClick: ((CardEntity) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card, parent, false)
@@ -42,7 +44,9 @@ class CardAdapter(private val mDataList: ArrayList<Card>) : RecyclerView.Adapter
         internal var cardContent: TextView = itemView.findViewById<View>(R.id.card_content) as TextView
         internal var cardIc: ImageView = itemView.findViewById<View>(R.id.card_ic) as ImageView
         internal var cardIcHolder: CardView = itemView.findViewById<View>(R.id.card_ic_holder) as CardView
-        internal var cardTextContainer: ConstraintLayout = itemView.findViewById<View>(R.id.card_text_container) as ConstraintLayout
+        internal var cardTextContainer: ConstraintLayout = itemView.findViewById<View>(
+            R.id.card_text_container
+        ) as ConstraintLayout
 
         init {
             itemView.setOnClickListener {

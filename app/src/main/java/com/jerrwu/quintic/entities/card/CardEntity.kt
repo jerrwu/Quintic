@@ -1,8 +1,8 @@
-package com.jerrwu.quintic
+package com.jerrwu.quintic.entities.card
 
 import java.time.LocalDateTime
 
-class Card(id: Int, ic: Int, title: String, content: String, time: LocalDateTime) {
+class CardEntity(id: Int, ic: Int, title: String, content: String, time: LocalDateTime) {
     var title: String? = title
     var content: String? = content
     var ic: Int? = ic

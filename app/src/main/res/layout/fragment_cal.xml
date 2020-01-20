@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clipToPadding="false"
-    tools:context=".FragmentCal">
+    tools:context=".main.fragment.FragmentCal">
 
     <LinearLayout
         android:id="@+id/selector_box"

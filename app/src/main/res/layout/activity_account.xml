@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorMain"
     android:fitsSystemWindows="true"
-    tools:context=".AccountActivity">
+    tools:context=".account.AccountActivity">
 
     <androidx.appcompat.widget.Toolbar
         app:layout_constraintTop_toTopOf="parent"

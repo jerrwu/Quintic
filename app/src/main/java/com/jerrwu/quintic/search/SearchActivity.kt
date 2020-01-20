@@ -1,7 +1,8 @@
-package com.jerrwu.quintic
+package com.jerrwu.quintic.search
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.jerrwu.quintic.R
 import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.jerrwu.quintic
+package com.jerrwu.quintic.main
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -13,13 +13,22 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.jerrwu.quintic.*
+import com.jerrwu.quintic.entry.EntryActivity
+import com.jerrwu.quintic.main.fragment.FragmentCal
+import com.jerrwu.quintic.main.fragment.FragmentEntries
+import com.jerrwu.quintic.main.fragment.FragmentSearch
+import com.jerrwu.quintic.search.SearchActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
-    private val fragment1: Fragment = FragmentEntries()
-    private val fragment2: Fragment = FragmentSearch()
-    private val fragment3: Fragment = FragmentCal()
+    private val fragment1: Fragment =
+        FragmentEntries()
+    private val fragment2: Fragment =
+        FragmentSearch()
+    private val fragment3: Fragment =
+        FragmentCal()
     private val navSheetFragment = NavSheetFragment()
     private val fm = supportFragmentManager
     var active = fragment1

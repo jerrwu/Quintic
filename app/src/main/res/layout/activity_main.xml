@@ -7,7 +7,7 @@
     android:background="@color/colorBackground"
     android:clipChildren="false"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".MainActivity">
+    tools:context=".main.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
