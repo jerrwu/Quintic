@@ -18,6 +18,7 @@ import com.jerrwu.quintic.entities.card.adapter.CardAdapter
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.helpers.DbHelper
 import com.jerrwu.quintic.helpers.InfoHelper
+import com.jerrwu.quintic.helpers.StringHelper
 import kotlinx.android.synthetic.main.fragment_entries.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -93,7 +94,7 @@ class FragmentEntries : Fragment() {
             val current = LocalDateTime.now()
             val formatter = DateTimeFormatter.ofPattern("HH")
             val curHour: String = current.format(formatter)
-            greetingString = InfoHelper.getGreeting(curHour)
+            greetingString = StringHelper.getGreeting(curHour, context)
             fragmentEntriesInfoCard.visibility = View.VISIBLE
         } else {
             greetingString = ""

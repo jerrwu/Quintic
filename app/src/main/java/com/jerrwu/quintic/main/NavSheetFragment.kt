@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import com.jerrwu.quintic.account.AccountActivity
 import com.jerrwu.quintic.helpers.InfoHelper
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.helpers.StringHelper
 import com.jerrwu.quintic.settings.SettingsActivity
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -51,7 +52,7 @@ class NavSheetFragment : BottomSheetDialogFragment() {
             val current = LocalDateTime.now()
             val formatter = DateTimeFormatter.ofPattern("HH")
             val curHour: String =  current.format(formatter)
-            greetingString = InfoHelper.getGreeting(curHour)
+            greetingString = StringHelper.getGreeting(curHour, context)
             bottom_sheet_account_text_2.visibility = View.VISIBLE
         } else {
             greetingString = ""
