@@ -8,11 +8,22 @@ import android.widget.Button
 import android.widget.TextView
 import android.content.Intent
 import android.content.Context
+import android.content.res.Configuration
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.main.MainActivity
 
 
 object InfoHelper {
+    fun isUsingNightMode(configuration: Configuration): Boolean {
+        return when (configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> true
+            Configuration.UI_MODE_NIGHT_NO -> false
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> false
+            else -> false
+        }
+    }
+
     fun hasNavBar(activity: Activity?): Boolean {
         val temporaryHidden = activity!!.window.decorView.visibility and View.SYSTEM_UI_FLAG_HIDE_NAVIGATION != 0
         if (temporaryHidden) return false

@@ -15,6 +15,7 @@ import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jerrwu.quintic.*
 import com.jerrwu.quintic.entry.EntryActivity
+import com.jerrwu.quintic.helpers.InfoHelper
 import com.jerrwu.quintic.main.fragment.FragmentCal
 import com.jerrwu.quintic.main.fragment.FragmentEntries
 import com.jerrwu.quintic.main.fragment.FragmentSearch
@@ -96,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         when (darkToggle) {
             -2 -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                if (!isUsingNightModeResources()) {
+                if (!InfoHelper.isUsingNightMode(resources.configuration)) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
                 }
             }
@@ -183,16 +184,6 @@ class MainActivity : AppCompatActivity() {
         val param1: AppBarLayout.LayoutParams = toolbar_top.layoutParams as AppBarLayout.LayoutParams
         param1.scrollFlags = 0
         mainPaddingTop.visibility = View.VISIBLE
-    }
-
-    private fun isUsingNightModeResources(): Boolean {
-        return when (resources.configuration.uiMode and
-                Configuration.UI_MODE_NIGHT_MASK) {
-            Configuration.UI_MODE_NIGHT_YES -> true
-            Configuration.UI_MODE_NIGHT_NO -> false
-            Configuration.UI_MODE_NIGHT_UNDEFINED -> false
-            else -> false
-        }
     }
 }
 

@@ -29,6 +29,7 @@
     </string>
     <string name="selection">Selection</string>
     <string name="save_entry">Save entry</string>
+    <string name="delete_entry">Delete entry</string>
     <string-array name="dark_mode">
         <item>"Follow System Theme"</item>
         <item>"Set by Battery Saver"</item>

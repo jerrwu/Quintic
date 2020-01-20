@@ -11,6 +11,7 @@ import android.text.TextWatcher
 import android.preference.PreferenceManager
 import androidx.core.content.ContextCompat
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.helpers.InfoHelper
 
 
 class AccountActivity : AppCompatActivity() {
@@ -47,7 +48,7 @@ class AccountActivity : AppCompatActivity() {
                 if (s?.length != 0) {
                     accountSaveButton.isClickable = true
 
-                    if (isUsingNightModeResources()) {
+                    if (InfoHelper.isUsingNightMode(resources.configuration)) {
                         accountSaveButton.backgroundTintList = buttonEnabled
                         account_check_image.setColorFilter(textEnabled)
                         account_save_text.setTextColor(textEnabled)
@@ -72,7 +73,7 @@ class AccountActivity : AppCompatActivity() {
                 else {
                     accountSaveButton.isClickable = false
 
-                    if (isUsingNightModeResources()) {
+                    if (InfoHelper.isUsingNightMode(resources.configuration)) {
                         accountSaveButton.backgroundTintList = buttonDisabled
                         account_check_image.setColorFilter(textDisabled)
                         account_save_text.setTextColor(textDisabled)
@@ -96,14 +97,5 @@ class AccountActivity : AppCompatActivity() {
             }
         })
 
-    }
-    private fun isUsingNightModeResources(): Boolean {
-        return when (resources.configuration.uiMode and
-                Configuration.UI_MODE_NIGHT_MASK) {
-            Configuration.UI_MODE_NIGHT_YES -> true
-            Configuration.UI_MODE_NIGHT_NO -> false
-            Configuration.UI_MODE_NIGHT_UNDEFINED -> false
-            else -> false
-        }
     }
 }

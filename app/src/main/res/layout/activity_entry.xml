@@ -46,6 +46,18 @@
             android:contentDescription="@string/save_entry"
             android:tint="@color/colorTertiary"
             app:srcCompat="@drawable/ic_check" />
+
+        <ImageButton
+            android:layout_marginEnd="8dp"
+            android:id="@+id/entryDeleteButton"
+            android:layout_gravity="end"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/delete_entry"
+            android:tint="@color/colorSecondary"
+            app:srcCompat="@drawable/ic_delete_outline"/>
+
     </androidx.appcompat.widget.Toolbar>
 
     <RelativeLayout
