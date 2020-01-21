@@ -1,10 +1,11 @@
-package com.jerrwu.quintic
+package com.jerrwu.quintic.common
 
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import com.jerrwu.quintic.R
 
 class GithubTabActivity : AppCompatActivity() {
 
@@ -13,7 +14,9 @@ class GithubTabActivity : AppCompatActivity() {
 
         val uri = Uri.parse(getString(R.string.github_link_main))
         val intentBuilder = CustomTabsIntent.Builder()
-        intentBuilder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        intentBuilder.setToolbarColor(ContextCompat.getColor(this,
+            R.color.colorPrimary
+        ))
         intentBuilder.setShowTitle(true)
         val customTabsIntent = intentBuilder.build()
         customTabsIntent.launchUrl(this, uri)

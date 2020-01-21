@@ -1,4 +1,4 @@
-package com.jerrwu.quintic
+package com.jerrwu.quintic.helpers
 
 import android.content.ContentValues
 import android.content.Context
@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteQueryBuilder
 import android.widget.Toast
 
-class DbManager {
+class DbHelper {
 
     var dbName = "MCards"
     var dbTable = "Cards"

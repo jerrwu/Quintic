@@ -11,22 +11,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.jerrwu.quintic.GithubTabActivity" />
-        <activity android:name="com.jerrwu.quintic.EntryActivity" />
-        <activity android:name="com.jerrwu.quintic.SearchActivity" />
+        <activity android:name="com.jerrwu.quintic.common.GithubTabActivity" />
+        <activity android:name="com.jerrwu.quintic.entry.EntryActivity" />
+        <activity android:name="com.jerrwu.quintic.search.SearchActivity" />
         <activity
-            android:name="com.jerrwu.quintic.AccountActivity"
+            android:name="com.jerrwu.quintic.account.AccountActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.jerrwu.quintic.SettingsActivity"
+            android:name="com.jerrwu.quintic.settings.SettingsActivity"
             android:label="Settings"
-            android:parentActivityName="com.jerrwu.quintic.MainActivity">
+            android:parentActivityName="com.jerrwu.quintic.main.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.jerrwu.quintic.MainActivity" />
+                android:value="com.jerrwu.quintic.main.MainActivity" />
         </activity>
         <activity
-            android:name="com.jerrwu.quintic.MainActivity"
+            android:name="com.jerrwu.quintic.main.MainActivity"
             android:theme="@style/AppTheme.SplashTheme"
             android:configChanges="orientation|screenSize|screenLayout">
             <intent-filter>

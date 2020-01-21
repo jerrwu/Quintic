@@ -1,7 +1,6 @@
-package com.jerrwu.quintic
+package com.jerrwu.quintic.entry
 
 import android.content.ContentValues
-import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -13,6 +12,8 @@ import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.jerrwu.quintic.R
+import com.jerrwu.quintic.helpers.DbHelper
 import kotlinx.android.synthetic.main.activity_entry.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -75,7 +76,9 @@ class EntryActivity : AppCompatActivity() {
                     }
                     else {
                         entrySaveButton.setColorFilter(
-                            ContextCompat.getColor(applicationContext, R.color.green),
+                            ContextCompat.getColor(applicationContext,
+                                R.color.green
+                            ),
                             PorterDuff.Mode.SRC_ATOP)
                     }
                 }
@@ -88,7 +91,9 @@ class EntryActivity : AppCompatActivity() {
                     }
                     else {
                         entrySaveButton.setColorFilter(
-                            ContextCompat.getColor(applicationContext, R.color.colorTertiary),
+                            ContextCompat.getColor(applicationContext,
+                                R.color.colorTertiary
+                            ),
                             PorterDuff.Mode.SRC_ATOP)
                     }
                 }
@@ -104,7 +109,7 @@ class EntryActivity : AppCompatActivity() {
     }
 
     private fun addFunc() {
-        val dbManager = DbManager(this)
+        val dbManager = DbHelper(this)
 
         val values = ContentValues()
         var titleText = entryTitleEditText.text.toString()
