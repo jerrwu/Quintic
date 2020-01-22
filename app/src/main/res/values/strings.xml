@@ -64,7 +64,8 @@
     <string name="category_7">Category 7</string>
     <string name="search">" Search"</string>
     <string name="no_results">No results</string>
-    <string name="create_new">New entry</string>
+    <string name="create_new_entry">New entry</string>
+    <string name="edit_entry">Edit entry</string>
     <string name="content">Content</string>
     <string name="title">Title</string>
     <string name="back">Back</string>

@@ -32,7 +32,7 @@
             android:fontFamily="@font/productsansmedium"
             android:gravity="start"
             android:paddingStart="20dp"
-            android:text="@string/create_new"
+            android:text="@string/create_new_entry"
             android:textColor="@color/colorAccent"
             android:textSize="20sp" />
 
@@ -143,12 +143,12 @@
             android:contentDescription="@string/account" />
 
         <TextView
-            android:id="@+id/activity_entry_bottom_text"
+            android:id="@+id/activityEntryBottomText"
             android:layout_gravity="center"
             android:textSize="14sp"
             android:textColor="@color/colorFont"
             android:fontFamily="@font/productsansmedium"
-            android:text="@string/create_new"
+            android:text="@string/create_new_entry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </androidx.appcompat.widget.Toolbar>

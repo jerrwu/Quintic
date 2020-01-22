@@ -2,7 +2,6 @@ package com.jerrwu.quintic.entry
 
 import android.content.ContentValues
 import android.content.Context
-import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
@@ -44,8 +43,8 @@ class EntryActivity : AppCompatActivity() {
 
         entryDateTimeView.visibility = View.GONE
 
-        try {
-            val bundle: Bundle = intent.extras
+        val bundle: Bundle? = intent.extras
+        if (bundle != null) {
             id = bundle.getInt("ID", 0)
             if (id!=0){
                 entryTitleEditText.setText(bundle.getString("Title"))
@@ -54,10 +53,11 @@ class EntryActivity : AppCompatActivity() {
                 val dateString = getString(R.string.created_on) + formatter.format(createdDate)
                 entryDateTimeView.text = dateString
                 entryDateTimeView.visibility = View.VISIBLE
+                entryActivityTopText.text = resources.getText(R.string.edit_entry)
             }
-        }catch (ex:Exception){}
+        }
 
-        activity_entry_bottom_text.text = "Bottom Text"
+        activityEntryBottomText.text = "Bottom Text"
 
         entryBackButton.setOnClickListener {
             finish()
