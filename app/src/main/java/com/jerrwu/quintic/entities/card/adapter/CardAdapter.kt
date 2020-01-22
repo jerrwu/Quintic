@@ -16,8 +16,8 @@ import com.jerrwu.quintic.entities.card.CardEntity
 class CardAdapter(
     private val mDataList: List<CardEntity>) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
-    var onItemClick: ((CardEntity) -> Unit)? = null
-    var onItemLongClick: (((CardEntity), Int) -> Boolean)? = null
+    var onItemClick: ((CardEntity, Boolean) -> Unit)? = null
+    var onItemLongClick: ((CardEntity) -> Boolean)? = null
     var useNightMode: Boolean = false
     var isMultiSelect = false
     var itemsSelected: ArrayList<CardEntity> = ArrayList()
@@ -73,7 +73,7 @@ class CardAdapter(
                 if (isMultiSelect) {
                     handleMultiSelectOnClick(adapterPosition)
                 } else {
-                    onItemClick?.invoke(mDataList[adapterPosition])
+                    onItemClick?.invoke(mDataList[adapterPosition], false)
                     // transfer position to update selected  position in the fragment
                 }
             }
@@ -95,7 +95,10 @@ class CardAdapter(
             itemsSelected.add(item)
         }
         item.isSelected = !item.isSelected
-        if (itemsSelected.size == 0) {isMultiSelect = false}
+        if (itemsSelected.size == 0) {
+            isMultiSelect = false
+            onItemClick?.invoke(mDataList[adapterPosition], true)
+        }
         notifyDataSetChanged()
     }
 
@@ -104,7 +107,7 @@ class CardAdapter(
         isMultiSelect = true
         itemsSelected.add(item)
         item.isSelected = true
-        onItemLongClick?.invoke(item, adapterPosition)!!
+        onItemLongClick?.invoke(item)
         notifyDataSetChanged()
     }
 }

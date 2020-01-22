@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
 
                 R.id.menu_home -> {
+                    toolbar_title.text = getText(R.string.app_title)
                     fm.beginTransaction()
                         .hide(active)
                         .show(fragment1)
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menu_search -> {
+                    toolbar_title.text = getText(R.string.menu_search)
                     fm.beginTransaction()
                         .hide(active)
                         .show(fragment2)
@@ -61,6 +63,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menu_info -> {
+                    toolbar_title.text = getText(R.string.menu_calendar)
                     fm.beginTransaction()
                         .hide(active)
                         .show(fragment3)

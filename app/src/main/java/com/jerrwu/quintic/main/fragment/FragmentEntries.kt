@@ -1,6 +1,7 @@
 package com.jerrwu.quintic.main.fragment
 
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -20,6 +21,7 @@ import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.helpers.DbHelper
 import com.jerrwu.quintic.helpers.InfoHelper
 import com.jerrwu.quintic.helpers.StringHelper
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_entries.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -29,7 +31,6 @@ class FragmentEntries : Fragment() {
     private var mRecyclerView: RecyclerView? = null
     private var mAdapter: RecyclerView.Adapter<*>? = null
     private var cardList: ArrayList<CardEntity> = ArrayList()
-    private var mSelectedList: ArrayList<CardEntity> = ArrayList()
 
     override fun onResume() {
         super.onResume()
@@ -85,22 +86,45 @@ class FragmentEntries : Fragment() {
         if (recyclerView != null) {
             registerForContextMenu(recyclerView)
             recyclerView.adapter = mAdapter
-            (mAdapter as CardAdapter).onItemClick = { card ->
-                // Toast.makeText(activity, card.id.toString(), Toast.LENGTH_SHORT).show()
-                val intent = Intent(activity, EntryActivity::class.java)
-                intent.putExtra("ID", card.id)
-                intent.putExtra("Title", card.title)
-                intent.putExtra("Content", card.content)
-                intent.putExtra("Time", card.time.toString())
-                startActivity(intent)
-            }
-            (mAdapter as CardAdapter).onItemLongClick = { card, position ->
-                val menu = PopupMenu(context, recyclerView.getChildAt(position))
-                menu.inflate(R.menu.fragment_entries_context_menu)
-                menu.show()
+            (mAdapter as CardAdapter).onItemLongClick = { card ->
+                showSelectionToolbar()
                 true
             }
+            (mAdapter as CardAdapter).onItemClick = { card, dismissToolbar ->
+                // Toast.makeText(activity, card.id.toString(), Toast.LENGTH_SHORT).show()
+                if (dismissToolbar) {
+                    hideSelectionToolbar()
+                } else {
+                    val intent = Intent(activity, EntryActivity::class.java)
+                    intent.putExtra("ID", card.id)
+                    intent.putExtra("Title", card.title)
+                    intent.putExtra("Content", card.content)
+                    intent.putExtra("Time", card.time.toString())
+                    startActivity(intent)
+                }
+            }
         }
+    }
+
+    private fun showSelectionToolbar() {
+        val dbHelper = DbHelper(context as Context)
+        activity!!.toolbar_multiselect.visibility = View.VISIBLE
+        activity!!.toolbarBackButton.setOnClickListener { hideSelectionToolbar() }
+        activity!!.toolbarDeleteButton.setOnClickListener {
+            if (mAdapter != null) {
+                for (item in (mAdapter as CardAdapter).itemsSelected) {
+                    val selectionArgs = arrayOf(item.id.toString())
+                    dbHelper.delete("ID=?", selectionArgs)
+                }
+                (mAdapter as CardAdapter).notifyDataSetChanged()
+            }
+            hideSelectionToolbar()
+        }
+    }
+
+    private fun hideSelectionToolbar() {
+        activity!!.toolbar_multiselect.visibility = View.GONE
+        resetAdapterSelected()
     }
 
     private fun setInfoCardGreeting(prefs: SharedPreferences) {
