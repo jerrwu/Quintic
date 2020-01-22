@@ -9,11 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.jerrwu.quintic.*
+import com.jerrwu.quintic.R
 import com.jerrwu.quintic.account.AccountActivity
 import com.jerrwu.quintic.entities.card.CardEntity
 import com.jerrwu.quintic.entities.card.adapter.CardAdapter
@@ -77,6 +76,7 @@ class FragmentEntries : Fragment() {
         var mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         mRecyclerView!!.layoutManager = mLayoutManager
         mAdapter = CardAdapter(cardList)
+        (mAdapter as CardAdapter).useNightMode = InfoHelper.isUsingNightMode(resources.configuration)
 
         val recyclerView = mRecyclerView
         if (recyclerView != null) {
