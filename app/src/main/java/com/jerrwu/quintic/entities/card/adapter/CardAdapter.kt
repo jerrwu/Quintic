@@ -14,13 +14,13 @@ import com.jerrwu.quintic.entities.card.CardEntity
 
 
 class CardAdapter(
-    private val mDataList: ArrayList<CardEntity>) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
+    private val mDataList: List<CardEntity>) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
     var onItemClick: ((CardEntity) -> Unit)? = null
     var onItemLongClick: (((CardEntity), Int) -> Boolean)? = null
     var useNightMode: Boolean = false
-    private var isMultiselect = false
-    private var itemsSelected = 0
+    var isMultiSelect = false
+    var itemsSelected: ArrayList<CardEntity> = ArrayList()
     private var selectedBg = 0 // colorQuad
     private var unselectedBg = 0 // colorMain
 
@@ -70,15 +70,8 @@ class CardAdapter(
 
         init {
             itemView.setOnClickListener {
-                if (isMultiselect) {
-                    if (mDataList[adapterPosition].isSelected) {
-                        itemsSelected --
-                    } else {
-                        itemsSelected ++
-                    }
-                    mDataList[adapterPosition].isSelected = !mDataList[adapterPosition].isSelected
-                    if (itemsSelected == 0) {isMultiselect = false}
-                    notifyDataSetChanged()
+                if (isMultiSelect) {
+                    handleMultiSelectOnClick(adapterPosition)
                 } else {
                     onItemClick?.invoke(mDataList[adapterPosition])
                     // transfer position to update selected  position in the fragment
@@ -86,15 +79,32 @@ class CardAdapter(
             }
 
             itemView.setOnLongClickListener {
-                if (!isMultiselect){
-                    isMultiselect = true
-                    itemsSelected ++
-                    mDataList[adapterPosition].isSelected = true
-                    onItemLongClick?.invoke(mDataList[adapterPosition], adapterPosition)!!
-                    notifyDataSetChanged()
+                if (!isMultiSelect){
+                    enterMultiSelect(adapterPosition)
                 }
                 true
             }
         }
+    }
+
+    fun handleMultiSelectOnClick(adapterPosition: Int) {
+        val item = mDataList[adapterPosition]
+        if (item.isSelected) {
+            itemsSelected.remove(item)
+        } else {
+            itemsSelected.add(item)
+        }
+        item.isSelected = !item.isSelected
+        if (itemsSelected.size == 0) {isMultiSelect = false}
+        notifyDataSetChanged()
+    }
+
+    fun enterMultiSelect(adapterPosition: Int) {
+        val item = mDataList[adapterPosition]
+        isMultiSelect = true
+        itemsSelected.add(item)
+        item.isSelected = true
+        onItemLongClick?.invoke(item, adapterPosition)!!
+        notifyDataSetChanged()
     }
 }

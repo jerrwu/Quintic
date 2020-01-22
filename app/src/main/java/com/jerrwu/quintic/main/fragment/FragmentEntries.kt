@@ -29,6 +29,7 @@ class FragmentEntries : Fragment() {
     private var mRecyclerView: RecyclerView? = null
     private var mAdapter: RecyclerView.Adapter<*>? = null
     private var cardList: ArrayList<CardEntity> = ArrayList()
+    private var mSelectedList: ArrayList<CardEntity> = ArrayList()
 
     override fun onResume() {
         super.onResume()
@@ -38,6 +39,8 @@ class FragmentEntries : Fragment() {
         infoCardNameRem(prefs)
 
         loadQuery("%")
+        (mAdapter as CardAdapter).itemsSelected.clear()
+        resetAdapterSelected()
         mAdapter?.notifyDataSetChanged()
     }
 
@@ -164,6 +167,13 @@ class FragmentEntries : Fragment() {
                 )
 
             } while (cursor.moveToNext())
+        }
+    }
+
+    private fun resetAdapterSelected() {
+        if (mAdapter != null && mAdapter is CardAdapter) {
+            (mAdapter as CardAdapter).itemsSelected.clear()
+            (mAdapter as CardAdapter).isMultiSelect = false
         }
     }
 
