@@ -40,7 +40,6 @@ class FragmentEntries : Fragment() {
         infoCardNameRem(prefs)
 
         loadQuery("%")
-        (mAdapter as CardAdapter).itemsSelected.clear()
         resetAdapterSelected()
         mAdapter?.notifyDataSetChanged()
     }
@@ -124,7 +123,9 @@ class FragmentEntries : Fragment() {
 
     private fun hideSelectionToolbar() {
         activity!!.toolbar_multiselect.visibility = View.GONE
+        loadQuery("%")
         resetAdapterSelected()
+        mAdapter?.notifyDataSetChanged()
     }
 
     private fun setInfoCardGreeting(prefs: SharedPreferences) {
