@@ -10,7 +10,7 @@
         android:icon="@drawable/ic_search" />
 
     <item
-        android:id="@+id/menu_info"
-        android:title="@string/info"
-        android:icon="@drawable/ic_message" />
+        android:id="@+id/menu_calendar"
+        android:title="@string/calendar"
+        android:icon="@drawable/ic_calendar" />
 </menu>

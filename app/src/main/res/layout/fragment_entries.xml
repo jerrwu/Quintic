@@ -142,6 +142,36 @@
             android:layout_centerInParent="true"
             android:scrollbars="none" />
 
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/empty_recycler_notice"
+            android:orientation="vertical"
+            android:layout_marginTop="256dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_gravity="center_horizontal"
+                android:tint="@color/colorQuad"
+                android:src="@drawable/ic_empty_doc"
+                android:layout_width="112dp"
+                android:layout_height="112dp" />
+
+            <TextView
+                android:textSize="22sp"
+                android:layout_marginTop="14dp"
+                android:text="@string/no_entries_remind"
+                android:textColor="@color/colorQuad"
+                android:fontFamily="@font/productsansblack"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
     </RelativeLayout>
 
 </androidx.core.widget.NestedScrollView>

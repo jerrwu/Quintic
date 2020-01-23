@@ -2,7 +2,6 @@ package com.jerrwu.quintic.main
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -83,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                     return@OnNavigationItemSelectedListener true
                 }
 
-                R.id.menu_info -> {
+                R.id.menu_calendar -> {
                     toolbar_title.text = getText(R.string.menu_calendar)
                     fm.beginTransaction()
                         .hide(active)

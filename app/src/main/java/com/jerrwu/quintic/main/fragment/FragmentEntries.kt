@@ -44,6 +44,8 @@ class FragmentEntries : Fragment() {
         infoCardNameRem(prefs)
 
         loadQuery("%")
+        toggleEmptyNotice()
+
         resetAdapterSelected()
         hideSelectionToolbar()
         mAdapter?.notifyDataSetChanged()
@@ -79,6 +81,7 @@ class FragmentEntries : Fragment() {
         }
 
         loadQuery("%")
+        toggleEmptyNotice()
 
         val mActivity = activity
         if (mActivity != null) {
@@ -111,6 +114,14 @@ class FragmentEntries : Fragment() {
                     startActivity(intent)
                 }
             }
+        }
+    }
+
+    private fun toggleEmptyNotice() {
+        if (cardList.isEmpty()) {
+            empty_recycler_notice.visibility = View.VISIBLE
+        } else {
+            empty_recycler_notice.visibility = View.GONE
         }
     }
 
@@ -147,6 +158,7 @@ class FragmentEntries : Fragment() {
             }
         }
         hideSelectionToolbar()
+        toggleEmptyNotice()
     }
 
     fun hideSelectionToolbar() {

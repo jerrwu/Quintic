@@ -16,7 +16,8 @@
     <string name="dark_toggle_summary">Toggle dark mode for Quintic</string>
     <string name="save">Save</string>
     <string name="documentation">Documentation</string>
-    <string name="help_amp_feedback"><![CDATA[Help & Feedback]]></string><string name="info">Info</string>
+    <string name="help_amp_feedback"><![CDATA[Help & Feedback]]></string>
+    <string name="calendar">Calendar</string>
     <string name="button_yes">yes</string>
     <string name="button_no">no</string>
     <string name="github_link_readme">
@@ -88,4 +89,5 @@
     <string name="delete">Delete</string>
     <string name="confirm_delete_multiple_title">Delete Entries?</string>
     <string name="confirm_delete_multiple">Selected entries will be deleted and cannot be recovered, continue?</string>
+    <string name="no_entries_remind">You have no entries!</string>
 </resources>
