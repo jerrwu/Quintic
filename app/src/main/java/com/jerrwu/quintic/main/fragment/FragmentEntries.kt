@@ -107,22 +107,30 @@ class FragmentEntries : Fragment() {
 
     private fun showSelectionToolbar() {
         val dbHelper = DbHelper(context as Context)
-        activity!!.toolbar_multiselect.visibility = View.VISIBLE
-        activity!!.toolbarBackButton.setOnClickListener { hideSelectionToolbar() }
-        activity!!.toolbarDeleteButton.setOnClickListener {
-            if (mAdapter != null) {
-                for (item in (mAdapter as CardAdapter).itemsSelected) {
-                    val selectionArgs = arrayOf(item.id.toString())
-                    dbHelper.delete("ID=?", selectionArgs)
+        val activity = activity
+        if (activity != null) {
+            activity.toolbar_top.visibility = View.GONE
+            activity.toolbar_multiselect.visibility = View.VISIBLE
+            activity.toolbarBackButton.setOnClickListener { hideSelectionToolbar() }
+            activity.toolbarDeleteButton.setOnClickListener {
+                if (mAdapter != null) {
+                    for (item in (mAdapter as CardAdapter).itemsSelected) {
+                        val selectionArgs = arrayOf(item.id.toString())
+                        dbHelper.delete("ID=?", selectionArgs)
+                    }
+                    (mAdapter as CardAdapter).notifyDataSetChanged()
                 }
-                (mAdapter as CardAdapter).notifyDataSetChanged()
+                hideSelectionToolbar()
             }
-            hideSelectionToolbar()
         }
     }
 
     private fun hideSelectionToolbar() {
-        activity!!.toolbar_multiselect.visibility = View.GONE
+        val activity = activity
+        if (activity != null) {
+            activity.toolbar_top.visibility = View.VISIBLE
+            activity.toolbar_multiselect.visibility = View.GONE
+        }
         loadQuery("%")
         resetAdapterSelected()
         mAdapter?.notifyDataSetChanged()

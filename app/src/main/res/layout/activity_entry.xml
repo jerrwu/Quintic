@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/productsansmedium"
             android:gravity="start"
-            android:paddingStart="20dp"
+            android:paddingStart="16dp"
             android:text="@string/create_new_entry"
             android:textColor="@color/colorAccent"
             android:textSize="20sp" />
