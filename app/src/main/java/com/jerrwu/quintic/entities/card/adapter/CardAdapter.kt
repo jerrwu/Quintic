@@ -8,9 +8,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entities.card.CardEntity
+import kotlinx.android.synthetic.main.card.view.*
 
 
 class CardAdapter(
@@ -89,12 +91,15 @@ class CardAdapter(
 
     fun handleMultiSelectOnClick(adapterPosition: Int, itemView: View) {
         val item = mDataList[adapterPosition]
+        val view: CardView = itemView as CardView
         if (item.isSelected) {
             itemsSelected.remove(item)
-            (itemView as CardView).setCardBackgroundColor(unselectedBg)
+            view.setCardBackgroundColor(unselectedBg)
+            setCardUnselectedTextColor(view)
         } else {
             itemsSelected.add(item)
-            (itemView as CardView).setCardBackgroundColor(selectedBg)
+            view.setCardBackgroundColor(selectedBg)
+            setCardSelectedTextColor(view)
         }
         item.isSelected = !item.isSelected
         if (itemsSelected.size == 0) {
@@ -105,11 +110,25 @@ class CardAdapter(
 
     fun enterMultiSelect(adapterPosition: Int, itemView: View) {
         val item = mDataList[adapterPosition]
+        val view = (itemView as CardView)
         isMultiSelect = true
         itemsSelected.add(item)
-        (itemView as CardView).setCardBackgroundColor(selectedBg)
+        view.setCardBackgroundColor(selectedBg)
+        setCardSelectedTextColor(view)
         item.isSelected = true
         onItemLongClick?.invoke(item)
         notifyDataSetChanged()
+    }
+
+    private fun setCardSelectedTextColor(view: CardView) {
+        view.card_title.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
+        view.card_content.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
+        view.card_select_check.visibility = View.VISIBLE
+    }
+
+    private fun setCardUnselectedTextColor(view: CardView) {
+        view.card_title.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
+        view.card_content.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
+        view.card_select_check.visibility = View.GONE
     }
 }
