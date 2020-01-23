@@ -14,7 +14,9 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jerrwu.quintic.*
+import com.jerrwu.quintic.entities.card.adapter.CardAdapter
 import com.jerrwu.quintic.entry.EntryActivity
+import com.jerrwu.quintic.helpers.InfoHelper
 import com.jerrwu.quintic.main.fragment.FragmentCal
 import com.jerrwu.quintic.main.fragment.FragmentEntries
 import com.jerrwu.quintic.main.fragment.FragmentSearch
@@ -31,13 +33,34 @@ class MainActivity : AppCompatActivity() {
         FragmentCal()
     private val navSheetFragment = NavSheetFragment()
     private val fm = supportFragmentManager
-    var active = fragment1
+    private var active = fragment1
+
+    override fun onBackPressed() {
+        val currentFragment = active
+        if (currentFragment !is FragmentEntries) {
+            bottom_navigation.selectedItemId = R.id.menu_home
+        } else if (currentFragment.mAdapter != null &&
+            (currentFragment.mAdapter as CardAdapter).isMultiSelect) {
+            currentFragment.hideSelectionToolbar()
+        } else {
+            super.onBackPressed()
+        }
+    }
 
     private val mOnNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
 
+            if (active is FragmentEntries) {
+                val fragmentEntries: FragmentEntries = active as FragmentEntries
+                if (fragmentEntries.mAdapter != null &&
+                    (fragmentEntries.mAdapter as CardAdapter).isMultiSelect) {
+                    fragmentEntries.hideSelectionToolbar()
+                }
+            }
+
+            when (item.itemId) {
                 R.id.menu_home -> {
+                    toolbar_title.text = getText(R.string.app_title)
                     fm.beginTransaction()
                         .hide(active)
                         .show(fragment1)
@@ -49,6 +72,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menu_search -> {
+                    toolbar_title.text = getText(R.string.menu_search)
                     fm.beginTransaction()
                         .hide(active)
                         .show(fragment2)
@@ -60,6 +84,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menu_info -> {
+                    toolbar_title.text = getText(R.string.menu_calendar)
                     fm.beginTransaction()
                         .hide(active)
                         .show(fragment3)
@@ -96,7 +121,7 @@ class MainActivity : AppCompatActivity() {
         when (darkToggle) {
             -2 -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                if (!isUsingNightModeResources()) {
+                if (!InfoHelper.isUsingNightMode(resources.configuration)) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
                 }
             }
@@ -183,16 +208,6 @@ class MainActivity : AppCompatActivity() {
         val param1: AppBarLayout.LayoutParams = toolbar_top.layoutParams as AppBarLayout.LayoutParams
         param1.scrollFlags = 0
         mainPaddingTop.visibility = View.VISIBLE
-    }
-
-    private fun isUsingNightModeResources(): Boolean {
-        return when (resources.configuration.uiMode and
-                Configuration.UI_MODE_NIGHT_MASK) {
-            Configuration.UI_MODE_NIGHT_YES -> true
-            Configuration.UI_MODE_NIGHT_NO -> false
-            Configuration.UI_MODE_NIGHT_UNDEFINED -> false
-            else -> false
-        }
     }
 }
 

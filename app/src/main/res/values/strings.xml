@@ -8,7 +8,7 @@
     <string name="account">Account</string>
     <string name="menu_home">Home</string>
     <string name="menu_search">Search</string>
-    <string name="menu_messages">Calendar</string>
+    <string name="menu_calendar">Calendar</string>
 
     // settings
     <string name="dark_toggle_title">Dark mode</string>
@@ -29,6 +29,7 @@
     </string>
     <string name="selection">Selection</string>
     <string name="save_entry">Save entry</string>
+    <string name="delete_entry">Delete entry</string>
     <string-array name="dark_mode">
         <item>"Follow System Theme"</item>
         <item>"Set by Battery Saver"</item>
@@ -43,6 +44,10 @@
     </string-array>
     <string name="created_on">"Created on "</string>
     <string name="set_your_name">Hey! Set your name!</string>
+    <string name="confirm_restart_title">Restart App?</string>
+    <string name="confirm_restart">An app restart is recommended after changing this setting. Restart now?</string>
+    <string name="restart_no">Later</string>
+    <string name="restart_yes">Restart</string>
 
     <string name="fragment_2_placeholder">fragment 2</string>
     <string name="fragment_3_placeholder">fragment 3</string>
@@ -59,7 +64,8 @@
     <string name="category_7">Category 7</string>
     <string name="search">" Search"</string>
     <string name="no_results">No results</string>
-    <string name="create_new">New entry</string>
+    <string name="create_new_entry">New entry</string>
+    <string name="edit_entry">Edit entry</string>
     <string name="content">Content</string>
     <string name="title">Title</string>
     <string name="back">Back</string>
@@ -73,4 +79,13 @@
     <string name="greeting_evening">Have a wonderful evening!</string>
     <string name="greeting_night">It\'s getting late!</string>
     <string name="greeting_default">hie…</string>
+
+    // delete dialog
+    <string name="confirm_delete_title">Delete Entry?</string>
+    <string name="confirm_delete">This entry cannot be recovered after it has been deleted, continue?</string>
+    <string name="delete_yes">Delete</string>
+    <string name="delete_no">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="confirm_delete_multiple_title">Delete Entries?</string>
+    <string name="confirm_delete_multiple">Selected entries will be deleted and cannot be recovered, continue?</string>
 </resources>

@@ -31,8 +31,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/productsansmedium"
             android:gravity="start"
-            android:paddingStart="20dp"
-            android:text="@string/create_new"
+            android:paddingStart="16dp"
+            android:text="@string/create_new_entry"
             android:textColor="@color/colorAccent"
             android:textSize="20sp" />
 
@@ -46,6 +46,18 @@
             android:contentDescription="@string/save_entry"
             android:tint="@color/colorTertiary"
             app:srcCompat="@drawable/ic_check" />
+
+        <ImageButton
+            android:layout_marginEnd="8dp"
+            android:id="@+id/entryDeleteButton"
+            android:layout_gravity="end"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/delete_entry"
+            android:tint="@color/colorSecondary"
+            app:srcCompat="@drawable/ic_delete_outline"/>
+
     </androidx.appcompat.widget.Toolbar>
 
     <RelativeLayout
@@ -131,12 +143,12 @@
             android:contentDescription="@string/account" />
 
         <TextView
-            android:id="@+id/activity_entry_bottom_text"
+            android:id="@+id/activityEntryBottomText"
             android:layout_gravity="center"
             android:textSize="14sp"
             android:textColor="@color/colorFont"
             android:fontFamily="@font/productsansmedium"
-            android:text="@string/create_new"
+            android:text="@string/create_new_entry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </androidx.appcompat.widget.Toolbar>

@@ -8,15 +8,15 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteQueryBuilder
 import android.widget.Toast
 
-class DbHelper {
+class DbHelper(context: Context) {
 
     var dbName = "MCards"
     var dbTable = "Cards"
-    var colID = "ID"
-    var colIc = "Image"
-    var colTitle = "Title"
-    var colCont = "Content"
-    var colTime = "DateTime"
+    private var colID = "ID"
+    private var colIc = "Image"
+    private var colTitle = "Title"
+    private var colCont = "Content"
+    private var colTime = "DateTime"
     var dbVersion = 1
 
     val sqlCreateTable =
@@ -26,7 +26,7 @@ class DbHelper {
 
     private var sqlDB: SQLiteDatabase? = null
 
-    constructor(context: Context) {
+    init {
         val db = DatabaseHelperEntries(context)
         sqlDB = db.writableDatabase
     }

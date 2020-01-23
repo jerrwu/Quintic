@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/mainLayout"
     android:background="@color/colorBackground"
+    android:animateLayoutChanges="true"
     android:clipChildren="false"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".main.MainActivity">
@@ -50,6 +51,41 @@
         android:layout_marginEnd="18dp"
         android:tint="@color/colorMain"
         app:srcCompat="@drawable/ic_plus" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_gravity="top"
+        android:visibility="gone"
+        android:elevation="3dp"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:background="@color/colorMain"
+        android:id="@+id/toolbar_multiselect">
+
+        <ImageButton
+            android:id="@+id/toolbarDeleteButton"
+            android:layout_gravity="end"
+            android:tint="@color/colorSecondary"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_delete_outline"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/delete" />
+
+        <ImageButton
+            android:id="@+id/toolbarBackButton"
+            android:layout_gravity="start"
+            android:tint="@color/colorSecondary"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_back"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/back" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.appbar.AppBarLayout
         android:minHeight="?attr/actionBarSize"

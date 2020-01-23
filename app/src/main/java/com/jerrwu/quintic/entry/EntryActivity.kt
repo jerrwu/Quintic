@@ -1,7 +1,7 @@
 package com.jerrwu.quintic.entry
 
 import android.content.ContentValues
-import android.content.res.Configuration
+import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
@@ -10,22 +10,27 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.core.content.ContextCompat
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.helpers.DbHelper
+import com.jerrwu.quintic.helpers.InfoHelper
+import com.jerrwu.quintic.helpers.StringHelper
 import kotlinx.android.synthetic.main.activity_entry.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
 class EntryActivity : AppCompatActivity() {
+    companion object {
+        private val buttonDisabled = Color.parseColor("#747474")
+        private val buttonEnabled = Color.parseColor("#55CF86")
+        private const val dbTable = "Cards"
+    }
 
-    private val buttonDisabled = Color.parseColor("#747474")
-    private val buttonEnabled = Color.parseColor("#55CF86")
-    private val dbTable = "Cards"
     private var createdDate: LocalDateTime? = null
-    private val formatter = DateTimeFormatter.ofPattern("E, MMM dd yyyy")
+    private val formatter = DateTimeFormatter.ofPattern("E MMM dd, yyyy")
+    private var dbHelper: DbHelper? = null
     var id = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,12 +38,16 @@ class EntryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_entry)
 
         setSupportActionBar(toolbar_entry_bottom)
-        supportActionBar!!.setDisplayShowTitleEnabled(false)
+        if (supportActionBar != null) {
+            (supportActionBar as ActionBar).setDisplayShowTitleEnabled(false)
+        }
+
+        dbHelper = DbHelper(this)
 
         entryDateTimeView.visibility = View.GONE
 
-        try {
-            val bundle: Bundle = intent.extras
+        val bundle: Bundle? = intent.extras
+        if (bundle != null) {
             id = bundle.getInt("ID", 0)
             if (id!=0){
                 entryTitleEditText.setText(bundle.getString("Title"))
@@ -47,18 +56,27 @@ class EntryActivity : AppCompatActivity() {
                 val dateString = getString(R.string.created_on) + formatter.format(createdDate)
                 entryDateTimeView.text = dateString
                 entryDateTimeView.visibility = View.VISIBLE
-                entryActivityTopText.text = "Entry"
+                entryActivityTopText.text = resources.getText(R.string.edit_entry)
             }
-        }catch (ex:Exception){}
+        }
 
-        activity_entry_bottom_text.text = "Bottom Text"
+        activityEntryBottomText.text = "Bottom Text"
 
         entryBackButton.setOnClickListener {
             finish()
         }
 
+        entryDeleteButton.setOnClickListener {
+            InfoHelper.showDialog(
+                StringHelper.getString(R.string.confirm_delete_title, this),
+                StringHelper.getString(R.string.confirm_delete, this),
+                StringHelper.getString(R.string.delete_yes, this),
+                StringHelper.getString(R.string.delete_no, this),
+                this, this::deleteEntry, InfoHelper::dismissDialog)
+        }
+
         entrySaveButton.setOnClickListener {
-            addFunc()
+            updateEntry()
         }
         entrySaveButton.isEnabled = false
 
@@ -71,7 +89,7 @@ class EntryActivity : AppCompatActivity() {
                 if (s?.length != 0) {
                     entrySaveButton.isEnabled = true
 
-                    if (isUsingNightModeResources()) {
+                    if (InfoHelper.isUsingNightMode(resources.configuration)) {
                         entrySaveButton.setColorFilter(buttonEnabled, PorterDuff.Mode.SRC_ATOP)
                     }
                     else {
@@ -86,7 +104,7 @@ class EntryActivity : AppCompatActivity() {
                 else {
                     entrySaveButton.isEnabled = false
 
-                    if (isUsingNightModeResources()) {
+                    if (InfoHelper.isUsingNightMode(resources.configuration)) {
                         entrySaveButton.setColorFilter(buttonDisabled, PorterDuff.Mode.SRC_ATOP)
                     }
                     else {
@@ -108,50 +126,44 @@ class EntryActivity : AppCompatActivity() {
         return true
     }
 
-    private fun addFunc() {
-        val dbManager = DbHelper(this)
-
-        val values = ContentValues()
-        var titleText = entryTitleEditText.text.toString()
-        val conText = entryContentEditText.text.toString()
-        if (createdDate == null) {
-            createdDate = LocalDateTime.now()
-        }
-        if (titleText == "") {
-            titleText = formatter.format(createdDate)
-        }
-
-        values.put("Title", titleText)
-        values.put("Content", conText)
-        values.put("DateTime", createdDate.toString())
-
-        if (id == 0) {
-            val dbID = dbManager.insert(values)
-            if (dbID > 0) {
-                Toast.makeText(this, "Entry saved!", Toast.LENGTH_SHORT).show()
-                finish()
-            } else {
-                Toast.makeText(this, "Error adding entry...", Toast.LENGTH_SHORT).show()
-            }
-        } else {
+    private fun deleteEntry(context: Context) {
+        val dbHelper = dbHelper
+        if (dbHelper != null) {
             val selectionArgs = arrayOf(id.toString())
-            val dbID = dbManager.update(values, "ID=?", selectionArgs)
-            if (dbID > 0) {
-                Toast.makeText(this, "Entry saved!", Toast.LENGTH_SHORT).show()
-                finish()
-            } else {
-                Toast.makeText(this, "Error adding entry...", Toast.LENGTH_SHORT).show()
-            }
+            dbHelper.delete("ID=?", selectionArgs)
         }
+        finish()
     }
 
-    private fun isUsingNightModeResources(): Boolean {
-        return when (resources.configuration.uiMode and
-                Configuration.UI_MODE_NIGHT_MASK) {
-            Configuration.UI_MODE_NIGHT_YES -> true
-            Configuration.UI_MODE_NIGHT_NO -> false
-            Configuration.UI_MODE_NIGHT_UNDEFINED -> false
-            else -> false
+    private fun updateEntry() {
+        val dbHelper = dbHelper
+        if (dbHelper != null) {
+            val values = ContentValues()
+            var titleText = entryTitleEditText.text.toString()
+            val conText = entryContentEditText.text.toString()
+            if (createdDate == null) {
+                createdDate = LocalDateTime.now()
+            }
+            if (titleText == "") {
+                titleText = formatter.format(createdDate)
+            }
+
+            values.put("Title", titleText)
+            values.put("Content", conText)
+            values.put("DateTime", createdDate.toString())
+
+            if (id == 0) {
+                val dbID = dbHelper.insert(values)
+                if (dbID > 0) {
+                    finish()
+                }
+            } else {
+                val selectionArgs = arrayOf(id.toString())
+                val dbID = dbHelper.update(values, "ID=?", selectionArgs)
+                if (dbID > 0) {
+                    finish()
+                }
+            }
         }
     }
 }
