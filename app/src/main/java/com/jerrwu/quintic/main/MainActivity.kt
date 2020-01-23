@@ -14,6 +14,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jerrwu.quintic.*
+import com.jerrwu.quintic.entities.card.adapter.CardAdapter
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.helpers.InfoHelper
 import com.jerrwu.quintic.main.fragment.FragmentCal
@@ -32,12 +33,32 @@ class MainActivity : AppCompatActivity() {
         FragmentCal()
     private val navSheetFragment = NavSheetFragment()
     private val fm = supportFragmentManager
-    var active = fragment1
+    private var active = fragment1
+
+    override fun onBackPressed() {
+        val currentFragment = active
+        if (currentFragment !is FragmentEntries) {
+            bottom_navigation.selectedItemId = R.id.menu_home
+        } else if (currentFragment.mAdapter != null &&
+            (currentFragment.mAdapter as CardAdapter).isMultiSelect) {
+            currentFragment.hideSelectionToolbar()
+        } else {
+            super.onBackPressed()
+        }
+    }
 
     private val mOnNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
 
+            if (active is FragmentEntries) {
+                val fragmentEntries: FragmentEntries = active as FragmentEntries
+                if (fragmentEntries.mAdapter != null &&
+                    (fragmentEntries.mAdapter as CardAdapter).isMultiSelect) {
+                    fragmentEntries.hideSelectionToolbar()
+                }
+            }
+
+            when (item.itemId) {
                 R.id.menu_home -> {
                     toolbar_title.text = getText(R.string.app_title)
                     fm.beginTransaction()

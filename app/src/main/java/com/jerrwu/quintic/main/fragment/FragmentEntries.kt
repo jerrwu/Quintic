@@ -32,7 +32,7 @@ import java.time.format.DateTimeFormatter
 
 class FragmentEntries : Fragment() {
     private var mRecyclerView: RecyclerView? = null
-    private var mAdapter: RecyclerView.Adapter<*>? = null
+    var mAdapter: RecyclerView.Adapter<*>? = null
     private var cardList: ArrayList<CardEntity> = ArrayList()
     private var mDbHelper: DbHelper? = null
 
@@ -149,7 +149,7 @@ class FragmentEntries : Fragment() {
         hideSelectionToolbar()
     }
 
-    private fun hideSelectionToolbar() {
+    fun hideSelectionToolbar() {
         val activity = activity
         if (activity != null) {
             activity.toolbar_top.visibility = View.VISIBLE
