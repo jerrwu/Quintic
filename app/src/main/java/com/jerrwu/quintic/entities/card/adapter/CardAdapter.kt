@@ -1,5 +1,6 @@
 package com.jerrwu.quintic.entities.card.adapter
 
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -43,6 +44,13 @@ class CardAdapter(
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         setColors()
+        if (mDataList[position].isSelected) {
+            holder.cardRvBackground.setCardBackgroundColor(selectedBg)
+            setCardSelectedTextColor(holder.cardView)
+        } else {
+            holder.cardRvBackground.setCardBackgroundColor(unselectedBg)
+            setCardUnselectedTextColor(holder.cardView)
+        }
         holder.cardRvBackground.setCardBackgroundColor(if (mDataList[position].isSelected) selectedBg else unselectedBg)
         holder.cardTitle.text = mDataList[position].title
         holder.cardContent.text = mDataList[position].content
@@ -68,6 +76,7 @@ class CardAdapter(
         internal var cardContent: TextView = itemView.findViewById<View>(R.id.card_content) as TextView
         internal var cardIc: ImageView = itemView.findViewById<View>(R.id.card_ic) as ImageView
         internal var cardIcHolder: CardView = itemView.findViewById<View>(R.id.card_ic_holder) as CardView
+        internal var cardView: CardView = itemView as CardView
         internal var cardTextContainer: ConstraintLayout = itemView.findViewById<View>(R.id.card_text_container) as ConstraintLayout
 
         init {
