@@ -37,7 +37,8 @@ object InfoHelper {
     }
 
     fun showDialog(
-        titleString: String, bodyString: String, textYes: String, textNo: String, activity: Context
+        titleString: String, bodyString: String, textYes: String, textNo: String, activity: Context,
+        func: ((List<CardEntity>) -> Unit?), list: List<CardEntity>
     ): Dialog {
         val dialog = Dialog(activity, R.style.DialogTheme)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -52,7 +53,9 @@ object InfoHelper {
         val noBtn = dialog.findViewById(R.id.noBtn) as Button
         noBtn.text = textNo
         if (textYes == "") { yesBtn.visibility = View.GONE }
-        yesBtn.setOnClickListener { dismissDialog(dialog) }
+        yesBtn.setOnClickListener {
+            func(list)
+            dismissDialog(dialog) }
         noBtn.setOnClickListener { dismissDialog(dialog) }
         dialog.show()
         return dialog

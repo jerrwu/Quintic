@@ -86,4 +86,6 @@
     <string name="delete_yes">Delete</string>
     <string name="delete_no">Cancel</string>
     <string name="delete">Delete</string>
+    <string name="confirm_delete_multiple_title">Delete Entries?</string>
+    <string name="confirm_delete_multiple">Selected entries will be deleted and cannot be recovered, continue?</string>
 </resources>

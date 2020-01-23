@@ -34,6 +34,7 @@ class FragmentEntries : Fragment() {
     private var mRecyclerView: RecyclerView? = null
     private var mAdapter: RecyclerView.Adapter<*>? = null
     private var cardList: ArrayList<CardEntity> = ArrayList()
+    private var mDbHelper: DbHelper? = null
 
     override fun onResume() {
         super.onResume()
@@ -112,23 +113,36 @@ class FragmentEntries : Fragment() {
     private fun showSelectionToolbar() {
         val mActivity = activity
         if (mActivity != null) {
-            val dbHelper = DbHelper(mActivity as Context)
             mActivity.toolbar_top.visibility = View.GONE
             mActivity.toolbar_multiselect.visibility = View.VISIBLE
             mActivity.toolbarBackButton.setOnClickListener { hideSelectionToolbar() }
             mActivity.toolbarDeleteButton.setOnClickListener {
                 if (mAdapter != null) {
-                    val items = (mAdapter as CardAdapter).itemsSelected
-
-                    for (item in items) {
-                        val selectionArgs = arrayOf(item.id.toString())
-                        dbHelper.delete("ID=?", selectionArgs)
-                    }
-                    (mAdapter as CardAdapter).notifyDataSetChanged()
+                    val items = (mAdapter as CardAdapter).itemsSelected.toMutableList()
+                    InfoHelper.showDialog(
+                        StringHelper.getString(R.string.confirm_delete_multiple_title, mActivity),
+                        StringHelper.getString(R.string.confirm_delete_multiple, mActivity),
+                        StringHelper.getString(R.string.delete_yes, mActivity),
+                        StringHelper.getString(R.string.delete_no, mActivity),
+                        mActivity, this::deleteEntries, items
+                    )
                 }
-                hideSelectionToolbar()
             }
         }
+    }
+
+    private fun deleteEntries(items: List<CardEntity>) {
+        if (mDbHelper == null && activity != null) {
+            mDbHelper = DbHelper(activity as Context)
+        }
+        val dbHelper = mDbHelper
+        if (dbHelper != null) {
+            for (item in items) {
+                val selectionArgs = arrayOf(item.id.toString())
+                dbHelper.delete("ID=?", selectionArgs)
+            }
+        }
+        hideSelectionToolbar()
     }
 
     private fun hideSelectionToolbar() {
@@ -180,33 +194,39 @@ class FragmentEntries : Fragment() {
     }
 
     private fun loadQuery(title: String) {
-        val dbManager = DbHelper(activity!!)
-        val projections = arrayOf("ID", "Image", "Title", "Content", "DateTime")
-        val selectionArgs = arrayOf(title)
-        val cursor = dbManager.query(
-            projections, "Title like ?", selectionArgs, "ID"+" DESC")
-        cardList.clear()
-        if (cursor.moveToFirst()) {
-
-            do {
-                val id = cursor.getInt(cursor.getColumnIndex("ID"))
-                val ic = cursor.getInt(cursor.getColumnIndex("Image"))
-                val cdTitle = cursor.getString(cursor.getColumnIndex("Title"))
-                val cdCont = cursor.getString(cursor.getColumnIndex("Content"))
-                val cdTime = cursor.getString(cursor.getColumnIndex("DateTime"))
-
-                cardList.add(
-                    CardEntity(
-                        id,
-                        ic,
-                        cdTitle,
-                        cdCont,
-                        LocalDateTime.parse(cdTime)
-                    )
-                )
-
-            } while (cursor.moveToNext())
+        if (mDbHelper == null && activity != null) {
+            mDbHelper = DbHelper(activity as Context)
         }
+        val dbHelper = mDbHelper
+        if (dbHelper != null) {
+            val projections = arrayOf("ID", "Image", "Title", "Content", "DateTime")
+            val selectionArgs = arrayOf(title)
+            val cursor = dbHelper.query(
+                projections, "Title like ?", selectionArgs, "ID"+" DESC")
+            cardList.clear()
+            if (cursor.moveToFirst()) {
+
+                do {
+                    val id = cursor.getInt(cursor.getColumnIndex("ID"))
+                    val ic = cursor.getInt(cursor.getColumnIndex("Image"))
+                    val cdTitle = cursor.getString(cursor.getColumnIndex("Title"))
+                    val cdCont = cursor.getString(cursor.getColumnIndex("Content"))
+                    val cdTime = cursor.getString(cursor.getColumnIndex("DateTime"))
+
+                    cardList.add(
+                        CardEntity(
+                            id,
+                            ic,
+                            cdTitle,
+                            cdCont,
+                            LocalDateTime.parse(cdTime)
+                        )
+                    )
+
+                } while (cursor.moveToNext())
+            }
+        }
+
     }
 
     private fun resetAdapterSelected() {
