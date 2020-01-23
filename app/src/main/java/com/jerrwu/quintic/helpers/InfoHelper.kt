@@ -10,6 +10,8 @@ import android.content.Intent
 import android.content.Context
 import android.content.res.Configuration
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.entities.card.CardEntity
+import com.jerrwu.quintic.entities.card.adapter.CardAdapter
 import com.jerrwu.quintic.main.MainActivity
 
 
@@ -34,8 +36,9 @@ object InfoHelper {
         return true
     }
 
-    fun showDialog(titleString: String, bodyString: String, textYes: String, textNo: String,
-                   activity: Context, funYes: (funContext: Context) -> Unit, funNo: (funDialog: Dialog) -> Unit) {
+    fun showDialog(
+        titleString: String, bodyString: String, textYes: String, textNo: String, activity: Context
+    ): Dialog {
         val dialog = Dialog(activity, R.style.DialogTheme)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -49,7 +52,29 @@ object InfoHelper {
         val noBtn = dialog.findViewById(R.id.noBtn) as Button
         noBtn.text = textNo
         if (textYes == "") { yesBtn.visibility = View.GONE }
-        yesBtn.setOnClickListener { funYes(activity) }
+        yesBtn.setOnClickListener { dismissDialog(dialog) }
+        noBtn.setOnClickListener { dismissDialog(dialog) }
+        dialog.show()
+        return dialog
+    }
+
+    fun showDialog(
+        titleString: String, bodyString: String, textYes: String, textNo: String,
+        activity: Context, funYes: ((funContext: Context) -> Unit)?, funNo: (funDialog: Dialog) -> Unit) {
+        val dialog = Dialog(activity, R.style.DialogTheme)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.custom_dialogue)
+        val title = dialog.findViewById(R.id.dialogueTitle) as TextView
+        title.text = titleString
+        val body = dialog.findViewById(R.id.dialogueBody) as TextView
+        body.text = bodyString
+        val yesBtn = dialog.findViewById(R.id.yesBtn) as Button
+        yesBtn.text = textYes
+        val noBtn = dialog.findViewById(R.id.noBtn) as Button
+        noBtn.text = textNo
+        if (textYes == "") { yesBtn.visibility = View.GONE }
+        yesBtn.setOnClickListener { if (funYes != null) funYes(activity) }
         noBtn.setOnClickListener { funNo(dialog) }
         dialog.show()
     }

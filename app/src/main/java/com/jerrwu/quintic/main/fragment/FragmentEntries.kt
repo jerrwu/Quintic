@@ -1,15 +1,17 @@
 package com.jerrwu.quintic.main.fragment
 
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +24,7 @@ import com.jerrwu.quintic.helpers.DbHelper
 import com.jerrwu.quintic.helpers.InfoHelper
 import com.jerrwu.quintic.helpers.StringHelper
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.custom_dialogue.*
 import kotlinx.android.synthetic.main.fragment_entries.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -41,6 +44,7 @@ class FragmentEntries : Fragment() {
 
         loadQuery("%")
         resetAdapterSelected()
+        hideSelectionToolbar()
         mAdapter?.notifyDataSetChanged()
     }
 
@@ -106,15 +110,17 @@ class FragmentEntries : Fragment() {
     }
 
     private fun showSelectionToolbar() {
-        val dbHelper = DbHelper(context as Context)
-        val activity = activity
-        if (activity != null) {
-            activity.toolbar_top.visibility = View.GONE
-            activity.toolbar_multiselect.visibility = View.VISIBLE
-            activity.toolbarBackButton.setOnClickListener { hideSelectionToolbar() }
-            activity.toolbarDeleteButton.setOnClickListener {
+        val mActivity = activity
+        if (mActivity != null) {
+            val dbHelper = DbHelper(mActivity as Context)
+            mActivity.toolbar_top.visibility = View.GONE
+            mActivity.toolbar_multiselect.visibility = View.VISIBLE
+            mActivity.toolbarBackButton.setOnClickListener { hideSelectionToolbar() }
+            mActivity.toolbarDeleteButton.setOnClickListener {
                 if (mAdapter != null) {
-                    for (item in (mAdapter as CardAdapter).itemsSelected) {
+                    val items = (mAdapter as CardAdapter).itemsSelected
+
+                    for (item in items) {
                         val selectionArgs = arrayOf(item.id.toString())
                         dbHelper.delete("ID=?", selectionArgs)
                     }

@@ -71,7 +71,7 @@ class CardAdapter(
         init {
             itemView.setOnClickListener {
                 if (isMultiSelect) {
-                    handleMultiSelectOnClick(adapterPosition)
+                    handleMultiSelectOnClick(adapterPosition, itemView)
                 } else {
                     onItemClick?.invoke(mDataList[adapterPosition], false)
                     // transfer position to update selected  position in the fragment
@@ -80,32 +80,34 @@ class CardAdapter(
 
             itemView.setOnLongClickListener {
                 if (!isMultiSelect){
-                    enterMultiSelect(adapterPosition)
+                    enterMultiSelect(adapterPosition, itemView)
                 }
                 true
             }
         }
     }
 
-    fun handleMultiSelectOnClick(adapterPosition: Int) {
+    fun handleMultiSelectOnClick(adapterPosition: Int, itemView: View) {
         val item = mDataList[adapterPosition]
         if (item.isSelected) {
             itemsSelected.remove(item)
+            (itemView as CardView).setCardBackgroundColor(unselectedBg)
         } else {
             itemsSelected.add(item)
+            (itemView as CardView).setCardBackgroundColor(selectedBg)
         }
         item.isSelected = !item.isSelected
         if (itemsSelected.size == 0) {
             isMultiSelect = false
             onItemClick?.invoke(mDataList[adapterPosition], true)
         }
-        notifyDataSetChanged()
     }
 
-    fun enterMultiSelect(adapterPosition: Int) {
+    fun enterMultiSelect(adapterPosition: Int, itemView: View) {
         val item = mDataList[adapterPosition]
         isMultiSelect = true
         itemsSelected.add(item)
+        (itemView as CardView).setCardBackgroundColor(selectedBg)
         item.isSelected = true
         onItemLongClick?.invoke(item)
         notifyDataSetChanged()
