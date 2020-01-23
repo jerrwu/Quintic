@@ -10,6 +10,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.View
+import androidx.appcompat.app.ActionBar
 import androidx.core.content.ContextCompat
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.helpers.DbHelper
@@ -37,7 +38,9 @@ class EntryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_entry)
 
         setSupportActionBar(toolbar_entry_bottom)
-        supportActionBar!!.setDisplayShowTitleEnabled(false)
+        if (supportActionBar != null) {
+            (supportActionBar as ActionBar).setDisplayShowTitleEnabled(false)
+        }
 
         dbHelper = DbHelper(this)
 

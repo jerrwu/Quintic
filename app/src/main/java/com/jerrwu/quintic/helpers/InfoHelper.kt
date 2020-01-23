@@ -27,11 +27,13 @@ object InfoHelper {
     }
 
     fun hasNavBar(activity: Activity?): Boolean {
-        val temporaryHidden = activity!!.window.decorView.visibility and View.SYSTEM_UI_FLAG_HIDE_NAVIGATION != 0
-        if (temporaryHidden) return false
-        val decorView = activity.window.decorView
-        decorView.rootWindowInsets?.let{
-            return it.stableInsetBottom != 0
+        if (activity != null) {
+            val temporaryHidden = activity.window.decorView.visibility and View.SYSTEM_UI_FLAG_HIDE_NAVIGATION != 0
+            if (temporaryHidden) return false
+            val decorView = activity.window.decorView
+            decorView.rootWindowInsets?.let{
+                return it.stableInsetBottom != 0
+            }
         }
         return true
     }

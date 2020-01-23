@@ -80,11 +80,15 @@ class FragmentEntries : Fragment() {
 
         loadQuery("%")
 
-        mRecyclerView = activity!!.findViewById(R.id.recycler_view)
-        var mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        mRecyclerView!!.layoutManager = mLayoutManager
-        mAdapter = CardAdapter(cardList)
-        (mAdapter as CardAdapter).useNightMode = InfoHelper.isUsingNightMode(resources.configuration)
+        val mActivity = activity
+        if (mActivity != null) {
+            mRecyclerView = mActivity.findViewById(R.id.recycler_view)
+            val mLayoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
+            if (mRecyclerView != null) (mRecyclerView as RecyclerView).layoutManager = mLayoutManager
+            mAdapter = CardAdapter(cardList)
+            (mAdapter as CardAdapter).useNightMode = InfoHelper.isUsingNightMode(resources.configuration)
+        }
+
 
         val recyclerView = mRecyclerView
         if (recyclerView != null) {
