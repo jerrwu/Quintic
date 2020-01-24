@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
     android:id="@+id/fragmentStart"
     android:overScrollMode="always"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".main.fragment.FragmentEntries">
 
     <RelativeLayout
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:animateLayoutChanges="true"
             app:cardElevation="0dp"
             app:contentPaddingTop="12dp"
@@ -130,12 +130,67 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"/>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_below="@id/fragmentEntriesInfoCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/daily_suggestion_card"
+            android:clickable="true"
+            android:longClickable="true"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/colorMain"
+            app:cardCornerRadius="6dp"
+            app:strokeColor="@color/colorFive"
+            app:strokeWidth="1.5dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/suggestion_card_iv"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginBottom="18dp"
+                    android:layout_marginTop="16dp"
+                    android:tint="@color/colorQuad"
+                    android:src="@drawable/ic_plus"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp" />
+
+                <TextView
+                    android:textColor="@color/colorQuad"
+                    android:textSize="18sp"
+                    android:text="@string/daily_entry"
+                    android:fontFamily="@font/productsansmedium"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_alignRight="@id/suggestion_card_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:nestedScrollingEnabled="false"
-            android:layout_marginTop="12dp"
-            android:layout_below="@id/fragmentEntriesInfoCard"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/daily_suggestion_card"
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

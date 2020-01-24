@@ -17,4 +17,5 @@
     <color name="green">#55CF86</color>
     <color name="purple">#BB86FC</color>
     <color name="yellow">#FFF176</color>
+    <color name="colorFive">@color/darkGrey</color>
 </resources>

@@ -90,4 +90,5 @@
     <string name="confirm_delete_multiple_title">Delete Entries?</string>
     <string name="confirm_delete_multiple">Selected entries will be deleted and cannot be recovered, continue?</string>
     <string name="no_entries_remind">You have no entries!</string>
+    <string name="daily_entry">Create new daily entry</string>
 </resources>
