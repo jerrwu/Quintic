@@ -59,8 +59,12 @@ class MainActivity : AppCompatActivity() {
 
             when (item.itemId) {
                 R.id.menu_home -> {
+                    // check if same
+                    if (active is FragmentEntries) return@OnNavigationItemSelectedListener false
+
                     toolbar_title.text = getText(R.string.app_title)
                     fm.beginTransaction()
+                        .setCustomAnimations(R.anim.slide_from_bottom, R.anim.fade_out)
                         .hide(active)
                         .show(fragment1)
                         .commit()
@@ -71,8 +75,11 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menu_search -> {
+                    if (active is FragmentSearch) return@OnNavigationItemSelectedListener false
+
                     toolbar_title.text = getText(R.string.menu_search)
                     fm.beginTransaction()
+                        .setCustomAnimations(R.anim.slide_from_bottom, R.anim.fade_out)
                         .hide(active)
                         .show(fragment2)
                         .commit()
@@ -83,8 +90,11 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menu_calendar -> {
+                    if (active is FragmentCal) return@OnNavigationItemSelectedListener false
+
                     toolbar_title.text = getText(R.string.menu_calendar)
                     fm.beginTransaction()
+                        .setCustomAnimations(R.anim.slide_from_bottom, R.anim.fade_out)
                         .hide(active)
                         .show(fragment3)
                         .commit()
