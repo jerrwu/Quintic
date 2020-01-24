@@ -133,10 +133,10 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:visibility="gone"
             android:layout_below="@id/fragmentEntriesInfoCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/daily_suggestion_card"
             android:clickable="true"
             android:longClickable="true"
             app:cardElevation="0dp"
@@ -144,6 +144,7 @@
             app:cardCornerRadius="6dp"
             app:strokeColor="@color/colorFive"
             app:strokeWidth="1.5dp"
+            android:id="@+id/daily_suggestion_card_container"
             android:layout_marginTop="12dp"
             android:layout_marginStart="18dp"
             android:layout_marginEnd="18dp"
@@ -152,6 +153,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:clickable="true"
                 android:focusable="true"
+                android:id="@+id/dailySuggestionCard"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -190,7 +192,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:nestedScrollingEnabled="false"
             android:layout_marginTop="8dp"
-            android:layout_below="@id/daily_suggestion_card"
+            android:layout_below="@id/daily_suggestion_card_container"
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
