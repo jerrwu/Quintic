@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entities.card.CardEntity
 import kotlinx.android.synthetic.main.card.view.*
+import org.w3c.dom.Text
+import java.time.format.DateTimeFormatter
 
 
 class CardAdapter(
@@ -44,17 +46,19 @@ class CardAdapter(
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         setColors()
-        if (mDataList[position].isSelected) {
+        val card: CardEntity = mDataList[position]
+        if (card.isSelected) {
             holder.cardRvBackground.setCardBackgroundColor(selectedBg)
             setCardSelectedTextColor(holder.cardView)
         } else {
             holder.cardRvBackground.setCardBackgroundColor(unselectedBg)
             setCardUnselectedTextColor(holder.cardView)
         }
-        holder.cardRvBackground.setCardBackgroundColor(if (mDataList[position].isSelected) selectedBg else unselectedBg)
-        holder.cardTitle.text = mDataList[position].title
-        holder.cardContent.text = mDataList[position].content
-        val ic = mDataList[position].ic
+        holder.cardRvBackground.setCardBackgroundColor(if (card.isSelected) selectedBg else unselectedBg)
+        holder.cardTitle.text = card.title
+        holder.cardDate.text = DateTimeFormatter.ofPattern("MMM dd, yyyy").format(card.time)
+        holder.cardContent.text = card.content
+        val ic = card.ic
         if (ic == 0) {
             holder.cardIcHolder.visibility = View.GONE
             val params = holder.cardTextContainer.layoutParams as ConstraintLayout.LayoutParams
@@ -62,7 +66,7 @@ class CardAdapter(
             holder.cardTextContainer.layoutParams = params
         }
         else {
-            mDataList[position].ic?.let { holder.cardIc.setImageResource(it) }
+            card.ic?.let { holder.cardIc.setImageResource(it) }
         }
         }
 
@@ -73,6 +77,7 @@ class CardAdapter(
     inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         internal var cardRvBackground: CardView = itemView.findViewById<View>(R.id.card_rv_background) as CardView
         internal var cardTitle: TextView = itemView.findViewById<View>(R.id.card_title) as TextView
+        internal var cardDate: TextView = itemView.findViewById<View>(R.id.card_date) as TextView
         internal var cardContent: TextView = itemView.findViewById<View>(R.id.card_content) as TextView
         internal var cardIc: ImageView = itemView.findViewById<View>(R.id.card_ic) as ImageView
         internal var cardIcHolder: CardView = itemView.findViewById<View>(R.id.card_ic_holder) as CardView
@@ -132,12 +137,14 @@ class CardAdapter(
     private fun setCardSelectedTextColor(view: CardView) {
         view.card_title.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
         view.card_content.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
+        view.card_date.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
         view.card_select_check.visibility = View.VISIBLE
     }
 
     private fun setCardUnselectedTextColor(view: CardView) {
         view.card_title.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
         view.card_content.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
+        view.card_date.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
         view.card_select_check.visibility = View.GONE
     }
 }

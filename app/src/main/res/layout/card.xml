@@ -61,18 +61,30 @@
                 android:padding="5dp" />
 
             <TextView
+                app:layout_constraintTop_toBottomOf="@id/card_title"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="14sp"
+                android:fontFamily="@font/productsansmedium"
+                android:textColor="@color/colorSecondary"
+                android:id="@+id/card_date"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp" />
+
+            <TextView
                 android:ellipsize="start"
                 android:textSize="16sp"
                 android:fontFamily="@font/productsansregular"
                 android:textColor="@color/colorSecondary"
                 android:text="@string/content_placeholder"
-                android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
                 android:layout_marginStart="6dp"
                 android:paddingEnd="24dp"
                 android:maxLines="3"
                 app:layout_constraintStart_toStartOf="@id/card_title"
-                app:layout_constraintTop_toBottomOf="@id/card_title"
+                app:layout_constraintTop_toBottomOf="@id/card_date"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:id="@+id/card_content"
                 android:layout_width="wrap_content"

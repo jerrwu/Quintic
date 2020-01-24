@@ -29,7 +29,9 @@ class EntryActivity : AppCompatActivity() {
     }
 
     private var createdDate: LocalDateTime? = null
-    private val formatter = DateTimeFormatter.ofPattern("E MMM dd, yyyy")
+    private val formatterDate = DateTimeFormatter.ofPattern("E MMM dd, yyyy")
+    private val formatterWeekday = DateTimeFormatter.ofPattern("EEEE")
+    private val formatterHour = DateTimeFormatter.ofPattern("HH")
     private var dbHelper: DbHelper? = null
     var id = 0
 
@@ -53,7 +55,7 @@ class EntryActivity : AppCompatActivity() {
                 entryTitleEditText.setText(bundle.getString("Title"))
                 entryContentEditText.setText(bundle.getString("Content"))
                 createdDate = LocalDateTime.parse(bundle.getString("Time"))
-                val dateString = getString(R.string.created_on) + formatter.format(createdDate)
+                val dateString = getString(R.string.created_on) + formatterDate.format(createdDate)
                 entryDateTimeView.text = dateString
                 entryDateTimeView.visibility = View.VISIBLE
                 entryActivityTopText.text = resources.getText(R.string.edit_entry)
@@ -145,7 +147,8 @@ class EntryActivity : AppCompatActivity() {
                 createdDate = LocalDateTime.now()
             }
             if (titleText == "") {
-                titleText = formatter.format(createdDate)
+                titleText = formatterWeekday.format(createdDate) + " " +
+                        StringHelper.getDaySection(formatterHour.format(createdDate), this)
             }
 
             values.put("Title", titleText)
