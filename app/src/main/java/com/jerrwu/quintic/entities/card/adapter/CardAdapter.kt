@@ -75,14 +75,14 @@ class CardAdapter(
     }
 
     inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal var cardRvBackground: CardView = itemView.findViewById<View>(R.id.card_rv_background) as CardView
-        internal var cardTitle: TextView = itemView.findViewById<View>(R.id.card_title) as TextView
-        internal var cardDate: TextView = itemView.findViewById<View>(R.id.card_date) as TextView
-        internal var cardContent: TextView = itemView.findViewById<View>(R.id.card_content) as TextView
-        internal var cardIc: ImageView = itemView.findViewById<View>(R.id.card_ic) as ImageView
-        internal var cardIcHolder: CardView = itemView.findViewById<View>(R.id.card_ic_holder) as CardView
+        internal var cardRvBackground: CardView = itemView.findViewById(R.id.card_rv_background)
+        internal var cardTitle: TextView = itemView.findViewById(R.id.card_title)
+        internal var cardDate: TextView = itemView.findViewById(R.id.card_date)
+        internal var cardContent: TextView = itemView.findViewById(R.id.card_content)
+        internal var cardIc: ImageView = itemView.findViewById(R.id.card_ic)
+        internal var cardIcHolder: CardView = itemView.findViewById(R.id.card_ic_holder)
         internal var cardView: CardView = itemView as CardView
-        internal var cardTextContainer: ConstraintLayout = itemView.findViewById<View>(R.id.card_text_container) as ConstraintLayout
+        internal var cardTextContainer: ConstraintLayout = itemView.findViewById(R.id.card_text_container)
 
         init {
             itemView.setOnClickListener {

@@ -98,7 +98,6 @@ class FragmentEntries : Fragment() {
 
         val recyclerView = mRecyclerView
         if (recyclerView != null) {
-            registerForContextMenu(recyclerView)
             recyclerView.adapter = mAdapter
             (mAdapter as CardAdapter).onItemLongClick = { card ->
                 showSelectionToolbar()
@@ -114,6 +113,7 @@ class FragmentEntries : Fragment() {
                     intent.putExtra("Title", card.title)
                     intent.putExtra("Content", card.content)
                     intent.putExtra("Time", card.time.toString())
+                    intent.putExtra("Mood", card.mood?.mood)
                     startActivity(intent)
                 }
             }

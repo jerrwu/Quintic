@@ -13,8 +13,10 @@ import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.app.ActionBar
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entities.mood.MoodEntity
+import com.jerrwu.quintic.entities.mood.adapter.MoodAdapter
 import com.jerrwu.quintic.helpers.DbHelper
 import com.jerrwu.quintic.helpers.InfoHelper
 import com.jerrwu.quintic.helpers.StringHelper
@@ -36,7 +38,17 @@ class EntryActivity : AppCompatActivity() {
     private val formatterHour = DateTimeFormatter.ofPattern("HH")
     private var dbHelper: DbHelper? = null
     private var mMood: MoodEntity? = null
+    private var isSelectorOpen = false
+    private var mRecyclerView: RecyclerView? = null
     var id = 0
+
+    override fun onBackPressed() {
+        if (isSelectorOpen) {
+            toggleMoodSelector()
+        } else {
+            super.onBackPressed()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +65,7 @@ class EntryActivity : AppCompatActivity() {
                 entryTitleEditText.setText(bundle.getString("Title"))
                 entryContentEditText.setText(bundle.getString("Content"))
                 createdDate = LocalDateTime.parse(bundle.getString("Time"))
+                mMood = MoodEntity.parse(bundle.getInt("Mood"))
                 val dateString = getString(R.string.created_on) + formatterDate.format(createdDate)
                 entryDateTimeView.text = dateString
                 entryDateTimeView.visibility = View.VISIBLE
@@ -80,16 +93,21 @@ class EntryActivity : AppCompatActivity() {
         }
         entrySaveButton.isEnabled = false
 
-        moodAddButton.setOnClickListener {
-            moodSelectionContainer.visibility = View.VISIBLE
-            moodAddButton.visibility = View.GONE
-            moodAddCancelButton.visibility = View.VISIBLE
-        }
-        moodAddCancelButton.setOnClickListener {
-            moodSelectionContainer.visibility = View.GONE
-            moodAddButton.visibility = View.VISIBLE
-            moodAddCancelButton.visibility = View.GONE
-        }
+        moodAddButton.setOnClickListener { toggleMoodSelector() }
+        moodAddCancelButton.setOnClickListener { toggleMoodSelector() }
+
+        mRecyclerView = this.findViewById(R.id.moodRecyclerView)
+        val moodList = ArrayList<MoodEntity>()
+
+        // add moods
+        moodList.add(MoodEntity.VERY_BAD)
+        moodList.add(MoodEntity.BAD)
+        moodList.add(MoodEntity.NEUTRAL)
+        moodList.add(MoodEntity.GOOD)
+        moodList.add(MoodEntity.VERY_GOOD)
+
+        val mAdapter = MoodAdapter(moodList, this, mMood)
+        mRecyclerView?.adapter = mAdapter
 
         entryContentEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
@@ -114,6 +132,20 @@ class EntryActivity : AppCompatActivity() {
 
         })
 
+    }
+
+    private fun toggleMoodSelector() {
+        if (isSelectorOpen) {
+            moodSelectionContainer.visibility = View.GONE
+            moodAddButton.visibility = View.VISIBLE
+            moodAddCancelButton.visibility = View.GONE
+            isSelectorOpen = false
+        } else {
+            moodSelectionContainer.visibility = View.VISIBLE
+            moodAddButton.visibility = View.GONE
+            moodAddCancelButton.visibility = View.VISIBLE
+            isSelectorOpen = true
+        }
     }
 
     private fun toggleSaveButton(s: String?) {

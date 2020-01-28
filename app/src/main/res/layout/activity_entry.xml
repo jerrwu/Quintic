@@ -65,7 +65,7 @@
     <RelativeLayout
         android:padding="16dp"
         android:id="@+id/container_entry"
-        android:layout_above="@id/toolbar_entry_bottom"
+        android:layout_above="@id/moodSelectionContainer"
         android:layout_below="@id/toolbar_entry"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -78,7 +78,7 @@
             android:textColor="@color/colorFont"
             android:textSize="24sp"
             android:fontFamily="@font/productsansmedium"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:singleLine="true"
             android:background="@color/colorMain"
             android:layout_height="42dp"/>
@@ -135,57 +135,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/moodRecyclerView"
+            android:orientation="horizontal"
+            android:nestedScrollingEnabled="true"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:tint="@color/colorSupport"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                app:srcCompat="@drawable/ic_cry_outline"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp" />
-
-            <ImageButton
-                android:tint="@color/colorSupport"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                app:srcCompat="@drawable/ic_sad_outline"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp" />
-
-            <ImageButton
-                android:tint="@color/colorSupport"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                app:srcCompat="@drawable/ic_neutral_outline"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp" />
-
-            <ImageButton
-                android:tint="@color/colorSupport"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                app:srcCompat="@drawable/ic_happy_outline"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp" />
-
-            <ImageButton
-                android:tint="@color/colorSupport"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                app:srcCompat="@drawable/ic_excited_outline"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp" />
-
-        </LinearLayout>
+            android:layout_height="wrap_content" />
 
     </androidx.appcompat.widget.Toolbar>
 

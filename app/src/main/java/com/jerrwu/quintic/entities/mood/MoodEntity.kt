@@ -2,13 +2,13 @@ package com.jerrwu.quintic.entities.mood
 
 import com.jerrwu.quintic.R
 
-class MoodEntity(mood: Int?, icOutline: Int?, icFilled: Int?) {
+class MoodEntity(var mood: Int, var icOutline: Int, var icFilled: Int, var color: Int) {
     companion object {
-        val VERY_BAD = MoodEntity(-2, R.drawable.ic_cry_outline, R.drawable.ic_cry)
-        val BAD = MoodEntity(-1, R.drawable.ic_sad_outline, R.drawable.ic_sad)
-        val NEUTRAL = MoodEntity(0, R.drawable.ic_neutral_outline, R.drawable.ic_neutral)
-        val GOOD = MoodEntity(1, R.drawable.ic_happy_outline, R.drawable.ic_happy)
-        val VERY_GOOD = MoodEntity(2, R.drawable.ic_excited_outline, R.drawable.ic_excited)
+        val VERY_BAD = MoodEntity(-2, R.drawable.ic_cry_outline, R.drawable.ic_cry, R.color.red)
+        val BAD = MoodEntity(-1, R.drawable.ic_sad_outline, R.drawable.ic_sad, R.color.orange)
+        val NEUTRAL = MoodEntity(0, R.drawable.ic_neutral_outline, R.drawable.ic_neutral, R.color.yellow)
+        val GOOD = MoodEntity(1, R.drawable.ic_happy_outline, R.drawable.ic_happy, R.color.green)
+        val VERY_GOOD = MoodEntity(2, R.drawable.ic_excited_outline, R.drawable.ic_excited, R.color.blue)
 
         fun parse(mood: Int?): MoodEntity {
             return when (mood) {
@@ -21,10 +21,4 @@ class MoodEntity(mood: Int?, icOutline: Int?, icFilled: Int?) {
             }
         }
     }
-
-    var mood: Int? = mood
-    var icOutline: Int? = icOutline
-    var icFilled: Int? = icFilled
-
-
 }

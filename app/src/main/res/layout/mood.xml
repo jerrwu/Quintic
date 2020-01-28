@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageButton
+        android:id="@+id/moodIcon"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:tint="@color/colorSupport"
+        app:srcCompat="@drawable/ic_neutral_outline" />
+
+    <ImageView
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:id="@+id/moodSelectedIndicator"
+        android:layout_below="@id/moodIcon"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/circle"
+        android:layout_width="4dp"
+        android:layout_height="4dp" />
+
+</RelativeLayout>
