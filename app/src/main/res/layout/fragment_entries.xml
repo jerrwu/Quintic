@@ -163,7 +163,7 @@
                     android:layout_marginStart="18dp"
                     android:layout_marginBottom="18dp"
                     android:layout_marginTop="16dp"
-                    android:tint="@color/colorQuad"
+                    android:tint="@color/colorTertiary"
                     android:src="@drawable/ic_plus"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -172,7 +172,7 @@
                     android:layout_height="36dp" />
 
                 <TextView
-                    android:textColor="@color/colorQuad"
+                    android:textColor="@color/colorTertiary"
                     android:textSize="18sp"
                     android:text="@string/daily_entry"
                     android:fontFamily="@font/productsansmedium"
