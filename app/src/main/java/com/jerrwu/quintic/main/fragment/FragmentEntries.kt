@@ -1,17 +1,14 @@
 package com.jerrwu.quintic.main.fragment
 
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,8 +21,8 @@ import com.jerrwu.quintic.helpers.DbHelper
 import com.jerrwu.quintic.helpers.InfoHelper
 import com.jerrwu.quintic.helpers.StringHelper
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.custom_dialogue.*
 import kotlinx.android.synthetic.main.fragment_entries.*
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -44,7 +41,7 @@ class FragmentEntries : Fragment() {
         infoCardNameRem(prefs)
 
         loadQuery("%")
-        toggleEmptyNotice()
+        toggleEmptyNotices()
 
         resetAdapterSelected()
         hideSelectionToolbar()
@@ -69,7 +66,7 @@ class FragmentEntries : Fragment() {
         infoCardNameRem(prefs)
 
         nameRemButton.setOnClickListener {
-            val intent: Intent = Intent(activity, AccountActivity::class.java)
+            val intent = Intent(activity, AccountActivity::class.java)
             startActivity(intent)
         }
 
@@ -80,8 +77,13 @@ class FragmentEntries : Fragment() {
             infoCardNameRem(prefs)
         }
 
+        dailySuggestionCard.setOnClickListener {
+            val intent = Intent(context, EntryActivity::class.java)
+            startActivity(intent)
+        }
+
         loadQuery("%")
-        toggleEmptyNotice()
+        toggleEmptyNotices()
 
         val mActivity = activity
         if (mActivity != null) {
@@ -117,11 +119,19 @@ class FragmentEntries : Fragment() {
         }
     }
 
-    private fun toggleEmptyNotice() {
+    private fun toggleEmptyNotices() {
         if (cardList.isEmpty()) {
             empty_recycler_notice.visibility = View.VISIBLE
         } else {
             empty_recycler_notice.visibility = View.GONE
+            val current = LocalDate.now()
+            val filteredCardList: List<CardEntity> = cardList.filter {
+                    card -> card.time!!.toLocalDate() == current }
+            if (filteredCardList.isEmpty()) {
+                daily_suggestion_card_container.visibility = View.VISIBLE
+            } else {
+                daily_suggestion_card_container.visibility = View.GONE
+            }
         }
     }
 
@@ -158,7 +168,7 @@ class FragmentEntries : Fragment() {
             }
         }
         hideSelectionToolbar()
-        toggleEmptyNotice()
+        toggleEmptyNotices()
     }
 
     fun hideSelectionToolbar() {

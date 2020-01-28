@@ -3,6 +3,7 @@
     <color name="colorPrimary">@color/colorMain</color>
     <color name="colorAccent">#795548</color>
     <color name="colorMain">#FBFBFB</color>
+    <color name="colorSupport">#606060</color>
     <color name="colorBackground">#FBFBFB</color>
     <color name="colorText">#131313</color>
     <color name="colorSecondary">#606060</color>
@@ -18,6 +19,8 @@
     <color name="purple">#5E35B1</color>
     <color name="yellow">#F4B400</color>
     <color name="black">@android:color/black</color>
+    <color name="darkGrey">#2E2E2E</color>
     <color name="white">#F0F0F0</color>
     <color name="colorSplash">#343434</color>
+    <color name="colorFive">@color/white</color>
 </resources>

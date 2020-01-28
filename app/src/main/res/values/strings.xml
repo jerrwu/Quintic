@@ -73,7 +73,8 @@
     <string name="category_8">Category 8</string>
 
     // greetings
-    <string name="greeting_early_morning_late_night">Happy early morning / late night!</string>
+    <string name="greeting_early_morning">Happy early morning!</string>
+    <string name="greeting_late_night">Happy late night!</string>
     <string name="greeting_morning">Have a good morning!</string>
     <string name="greeting_lunch">It\'s lunch time!</string>
     <string name="greeting_afternoon">Enjoy a beautiful afternoon!</string>
@@ -90,4 +91,12 @@
     <string name="confirm_delete_multiple_title">Delete Entries?</string>
     <string name="confirm_delete_multiple">Selected entries will be deleted and cannot be recovered, continue?</string>
     <string name="no_entries_remind">You have no entries!</string>
+    <string name="daily_entry">Create new daily entry</string>
+    <string name="late_night">Late Night</string>
+    <string name="early_morning">Early Morning</string>
+    <string name="morning">Morning</string>
+    <string name="midday">Midday</string>
+    <string name="afternoon">Afternoon</string>
+    <string name="evening">Evening</string>
+    <string name="night">Night</string>
 </resources>
