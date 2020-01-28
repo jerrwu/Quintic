@@ -136,6 +136,7 @@
         android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:scrollbars="none"
             android:id="@+id/moodRecyclerView"
             android:orientation="horizontal"
             android:nestedScrollingEnabled="true"

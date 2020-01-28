@@ -39,7 +39,6 @@ class EntryActivity : AppCompatActivity() {
     private var dbHelper: DbHelper? = null
     private var mMood: MoodEntity? = null
     private var isSelectorOpen = false
-    private var mRecyclerView: RecyclerView? = null
     var id = 0
 
     override fun onBackPressed() {
@@ -96,7 +95,6 @@ class EntryActivity : AppCompatActivity() {
         moodAddButton.setOnClickListener { toggleMoodSelector() }
         moodAddCancelButton.setOnClickListener { toggleMoodSelector() }
 
-        mRecyclerView = this.findViewById(R.id.moodRecyclerView)
         val moodList = ArrayList<MoodEntity>()
 
         // add moods
@@ -107,7 +105,7 @@ class EntryActivity : AppCompatActivity() {
         moodList.add(MoodEntity.VERY_GOOD)
 
         val mAdapter = MoodAdapter(moodList, this, mMood)
-        mRecyclerView?.adapter = mAdapter
+        moodRecyclerView.adapter = mAdapter
 
         entryContentEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}

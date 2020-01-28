@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entities.card.CardEntity
 import kotlinx.android.synthetic.main.card.view.*
-import org.w3c.dom.Text
 import java.time.format.DateTimeFormatter
 
 
@@ -68,7 +67,7 @@ class CardAdapter(
         else {
             card.ic?.let { holder.cardIc.setImageResource(it) }
         }
-        }
+    }
 
     override fun getItemCount(): Int {
         return mDataList.size
