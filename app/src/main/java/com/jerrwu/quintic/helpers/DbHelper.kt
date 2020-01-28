@@ -17,12 +17,13 @@ class DbHelper(context: Context) {
     private var colTitle = "Title"
     private var colCont = "Content"
     private var colTime = "DateTime"
+    private var colMood = "Mood"
     var dbVersion = 1
 
     val sqlCreateTable =
         "CREATE TABLE IF NOT EXISTS $dbTable (" +
                 "$colID INTEGER PRIMARY KEY, $colIc INTEGER, $colTitle TEXT," +
-                " $colCont TEXT, $colTime TEXT);"
+                " $colCont TEXT, $colTime TEXT, $colMood INTEGER);"
 
     private var sqlDB: SQLiteDatabase? = null
 

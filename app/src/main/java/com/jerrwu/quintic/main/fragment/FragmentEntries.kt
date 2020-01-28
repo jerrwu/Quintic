@@ -225,7 +225,7 @@ class FragmentEntries : Fragment() {
         }
         val dbHelper = mDbHelper
         if (dbHelper != null) {
-            val projections = arrayOf("ID", "Image", "Title", "Content", "DateTime")
+            val projections = arrayOf("ID", "Image", "Title", "Content", "DateTime", "Mood")
             val selectionArgs = arrayOf(title)
             val cursor = dbHelper.query(
                 projections, "Title like ?", selectionArgs, "ID"+" DESC")
@@ -233,19 +233,21 @@ class FragmentEntries : Fragment() {
             if (cursor.moveToFirst()) {
 
                 do {
-                    val id = cursor.getInt(cursor.getColumnIndex("ID"))
-                    val ic = cursor.getInt(cursor.getColumnIndex("Image"))
+                    val cdId = cursor.getInt(cursor.getColumnIndex("ID"))
+                    val cdIc = cursor.getInt(cursor.getColumnIndex("Image"))
                     val cdTitle = cursor.getString(cursor.getColumnIndex("Title"))
                     val cdCont = cursor.getString(cursor.getColumnIndex("Content"))
                     val cdTime = cursor.getString(cursor.getColumnIndex("DateTime"))
+                    val cdMood = cursor.getInt(cursor.getColumnIndex("Mood"))
 
                     cardList.add(
                         CardEntity(
-                            id,
-                            ic,
+                            cdId,
+                            cdIc,
                             cdTitle,
                             cdCont,
-                            LocalDateTime.parse(cdTime)
+                            LocalDateTime.parse(cdTime),
+                            cdMood
                         )
                     )
 
