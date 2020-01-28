@@ -10,9 +10,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.View
+import android.widget.RelativeLayout
 import androidx.appcompat.app.ActionBar
 import androidx.core.content.ContextCompat
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.helpers.DbHelper
 import com.jerrwu.quintic.helpers.InfoHelper
 import com.jerrwu.quintic.helpers.StringHelper
@@ -33,7 +35,7 @@ class EntryActivity : AppCompatActivity() {
     private val formatterWeekday = DateTimeFormatter.ofPattern("EEEE")
     private val formatterHour = DateTimeFormatter.ofPattern("HH")
     private var dbHelper: DbHelper? = null
-    private var mMood: Int? = 0
+    private var mMood: MoodEntity? = null
     var id = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,44 +80,72 @@ class EntryActivity : AppCompatActivity() {
         }
         entrySaveButton.isEnabled = false
 
+        moodAddButton.setOnClickListener {
+            moodSelectionContainer.visibility = View.VISIBLE
+            moodAddButton.visibility = View.GONE
+            moodAddCancelButton.visibility = View.VISIBLE
+        }
+        moodAddCancelButton.setOnClickListener {
+            moodSelectionContainer.visibility = View.GONE
+            moodAddButton.visibility = View.VISIBLE
+            moodAddCancelButton.visibility = View.GONE
+        }
+
         entryContentEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s?.length != 0) {
-                    entrySaveButton.isEnabled = true
-
-                    if (InfoHelper.isUsingNightMode(resources.configuration)) {
-                        entrySaveButton.setColorFilter(buttonEnabled, PorterDuff.Mode.SRC_ATOP)
-                    }
-                    else {
-                        entrySaveButton.setColorFilter(
-                            ContextCompat.getColor(applicationContext,
-                                R.color.green
-                            ),
-                            PorterDuff.Mode.SRC_ATOP)
-                    }
-                }
-
-                else {
-                    entrySaveButton.isEnabled = false
-
-                    if (InfoHelper.isUsingNightMode(resources.configuration)) {
-                        entrySaveButton.setColorFilter(buttonDisabled, PorterDuff.Mode.SRC_ATOP)
-                    }
-                    else {
-                        entrySaveButton.setColorFilter(
-                            ContextCompat.getColor(applicationContext,
-                                R.color.colorTertiary
-                            ),
-                            PorterDuff.Mode.SRC_ATOP)
-                    }
-                }
+                toggleSaveButton(s.toString())
             }
         })
 
+        entryTitleEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                toggleSaveButton(s.toString())
+            }
+
+        })
+
+    }
+
+    private fun toggleSaveButton(s: String?) {
+        if (s?.length != 0) {
+            entrySaveButton.isEnabled = true
+
+            if (InfoHelper.isUsingNightMode(resources.configuration)) {
+                entrySaveButton.setColorFilter(buttonEnabled, PorterDuff.Mode.SRC_ATOP)
+            }
+            else {
+                entrySaveButton.setColorFilter(
+                    ContextCompat.getColor(applicationContext,
+                        R.color.green
+                    ),
+                    PorterDuff.Mode.SRC_ATOP)
+            }
+        }
+
+        else {
+            entrySaveButton.isEnabled = false
+
+            if (InfoHelper.isUsingNightMode(resources.configuration)) {
+                entrySaveButton.setColorFilter(buttonDisabled, PorterDuff.Mode.SRC_ATOP)
+            }
+            else {
+                entrySaveButton.setColorFilter(
+                    ContextCompat.getColor(applicationContext,
+                        R.color.colorTertiary
+                    ),
+                    PorterDuff.Mode.SRC_ATOP)
+            }
+        }
     }
 
     private fun deleteEntry(context: Context) {

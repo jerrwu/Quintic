@@ -1,15 +1,9 @@
 package com.jerrwu.quintic.entities.card
 
+import com.jerrwu.quintic.entities.mood.MoodEntity
 import java.time.LocalDateTime
 
-class CardEntity(id: Int, ic: Int, title: String, content: String, time: LocalDateTime, mood: Int) {
-    companion object {
-        const val MOOD_VERY_BAD = -2
-        const val MOOD_BAD = -1
-        const val MOOD_NEUTRAL = 0
-        const val MOOD_GOOD = 1
-        const val MOOD_VERY_GOOD = 2
-    }
+class CardEntity(id: Int, ic: Int, title: String, content: String, time: LocalDateTime, mood: MoodEntity?) {
 
     var isSelected: Boolean = false
     var title: String? = title
@@ -17,5 +11,5 @@ class CardEntity(id: Int, ic: Int, title: String, content: String, time: LocalDa
     var ic: Int? = ic
     var id: Int? = id
     var time: LocalDateTime? = time
-    var mood: Int? = mood
+    var mood: MoodEntity? = mood
 }

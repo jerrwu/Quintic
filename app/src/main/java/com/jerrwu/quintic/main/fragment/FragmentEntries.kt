@@ -16,6 +16,7 @@ import com.jerrwu.quintic.R
 import com.jerrwu.quintic.account.AccountActivity
 import com.jerrwu.quintic.entities.card.CardEntity
 import com.jerrwu.quintic.entities.card.adapter.CardAdapter
+import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.helpers.DbHelper
 import com.jerrwu.quintic.helpers.InfoHelper
@@ -247,7 +248,7 @@ class FragmentEntries : Fragment() {
                             cdTitle,
                             cdCont,
                             LocalDateTime.parse(cdTime),
-                            cdMood
+                            MoodEntity.parse(cdMood)
                         )
                     )
 
