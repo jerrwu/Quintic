@@ -33,16 +33,12 @@ class EntryActivity : AppCompatActivity() {
     private val formatterWeekday = DateTimeFormatter.ofPattern("EEEE")
     private val formatterHour = DateTimeFormatter.ofPattern("HH")
     private var dbHelper: DbHelper? = null
+    private var mMood: Int? = 0
     var id = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entry)
-
-        setSupportActionBar(toolbar_entry_bottom)
-        if (supportActionBar != null) {
-            (supportActionBar as ActionBar).setDisplayShowTitleEnabled(false)
-        }
 
         dbHelper = DbHelper(this)
 
@@ -120,12 +116,6 @@ class EntryActivity : AppCompatActivity() {
             }
         })
 
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.activity_new_menu, menu)
-        return true
     }
 
     private fun deleteEntry(context: Context) {

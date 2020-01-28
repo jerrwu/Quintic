@@ -132,7 +132,7 @@
         <ImageButton
             android:id="@+id/imageAddButton"
             android:layout_gravity="start|center_vertical"
-            android:tint="@color/colorFont"
+            android:tint="@color/colorSupport"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:srcCompat="@drawable/ic_image_plus"
             android:layout_width="30dp"
@@ -140,13 +140,26 @@
             android:padding="6dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:contentDescription="@string/account" />
+            android:contentDescription="@string/add_image" />
+
+        <ImageButton
+            android:id="@+id/moodAddButton"
+            android:layout_gravity="end|center_vertical"
+            android:tint="@color/colorSupport"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_head_plus_outline"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="6dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/add_mood" />
 
         <TextView
             android:id="@+id/activityEntryBottomText"
             android:layout_gravity="center"
             android:textSize="14sp"
-            android:textColor="@color/colorFont"
+            android:textColor="@color/colorSupport"
             android:fontFamily="@font/productsansmedium"
             android:text="@string/create_new_entry"
             android:layout_width="wrap_content"
