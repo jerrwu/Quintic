@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.app.ActionBar
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entities.mood.MoodEntity
@@ -39,6 +40,7 @@ class EntryActivity : AppCompatActivity() {
     private var dbHelper: DbHelper? = null
     private var mMood: MoodEntity = MoodEntity.NONE
     private var isSelectorOpen = false
+    private var mAdapter: MoodAdapter? = null
     var id = 0
 
     override fun onBackPressed() {
@@ -104,8 +106,13 @@ class EntryActivity : AppCompatActivity() {
         moodList.add(MoodEntity.GOOD)
         moodList.add(MoodEntity.VERY_GOOD)
 
-        val mAdapter = MoodAdapter(moodList, this, mMood)
+        mAdapter = MoodAdapter(moodList, this, mMood)
+        moodRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         moodRecyclerView.adapter = mAdapter
+
+        mAdapter?.onItemClick = { mood ->
+            onMoodUpdated(mood)
+        }
 
         entryContentEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
@@ -130,6 +137,17 @@ class EntryActivity : AppCompatActivity() {
 
         })
 
+    }
+
+    private fun onMoodUpdated(mood: MoodEntity) {
+        mMood = if (mMood != MoodEntity.NONE && mood == mMood) {
+            MoodEntity.NONE
+        } else {
+            mood
+        }
+        mAdapter?.selected = mMood
+        mAdapter?.notifyDataSetChanged()
+        onBackPressed()
     }
 
     private fun toggleMoodSelector() {

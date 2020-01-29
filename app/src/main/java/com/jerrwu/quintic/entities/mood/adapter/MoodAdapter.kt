@@ -16,7 +16,9 @@ import kotlinx.android.synthetic.main.mood.view.*
 class MoodAdapter(
     private val mDataList: List<MoodEntity>,
     private val context: Context,
-    private val selected: MoodEntity?) : RecyclerView.Adapter<MoodAdapter.MoodViewHolder>() {
+    var selected: MoodEntity?) : RecyclerView.Adapter<MoodAdapter.MoodViewHolder>() {
+
+    var onItemClick: ((MoodEntity) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoodViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.mood, parent, false)
@@ -30,7 +32,7 @@ class MoodAdapter(
         if (mood == selected) {
             holder.moodIndicator.setColorFilter(ContextCompat.getColor(context, mood.color), PorterDuff.Mode.SRC_ATOP)
             holder.moodIndicator.moodSelectedIndicator.visibility = View.VISIBLE
-        }
+        } else { holder.moodIndicator.moodSelectedIndicator.visibility = View.GONE }
     }
 
     override fun getItemCount(): Int {
@@ -38,11 +40,12 @@ class MoodAdapter(
     }
 
     inner class MoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal var moodIcon: ImageButton = itemView.findViewById(R.id.moodIcon)
+        internal var moodIcon: ImageView = itemView.findViewById(R.id.moodIcon)
         internal var moodIndicator: ImageView = itemView.findViewById(R.id.moodSelectedIndicator)
 
         init {
             itemView.setOnClickListener {
+                onItemClick?.invoke(mDataList[adapterPosition])
             }
         }
     }
