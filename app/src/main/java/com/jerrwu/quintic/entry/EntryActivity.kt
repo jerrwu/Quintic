@@ -37,7 +37,7 @@ class EntryActivity : AppCompatActivity() {
     private val formatterWeekday = DateTimeFormatter.ofPattern("EEEE")
     private val formatterHour = DateTimeFormatter.ofPattern("HH")
     private var dbHelper: DbHelper? = null
-    private var mMood: MoodEntity? = null
+    private var mMood: MoodEntity = MoodEntity.NONE
     private var isSelectorOpen = false
     var id = 0
 
@@ -204,6 +204,7 @@ class EntryActivity : AppCompatActivity() {
             values.put("Title", titleText)
             values.put("Content", conText)
             values.put("DateTime", createdDate.toString())
+            values.put("Mood", mMood.mood)
 
             if (id == 0) {
                 val dbID = dbHelper.insert(values)

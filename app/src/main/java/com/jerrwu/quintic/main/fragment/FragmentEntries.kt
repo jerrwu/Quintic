@@ -123,16 +123,13 @@ class FragmentEntries : Fragment() {
     private fun toggleEmptyNotices() {
         if (cardList.isEmpty()) {
             empty_recycler_notice.visibility = View.VISIBLE
+            daily_suggestion_card_container.visibility = View.GONE
         } else {
             empty_recycler_notice.visibility = View.GONE
             val current = LocalDate.now()
             val filteredCardList: List<CardEntity> = cardList.filter {
                     card -> card.time!!.toLocalDate() == current }
-            if (filteredCardList.isEmpty()) {
-                daily_suggestion_card_container.visibility = View.VISIBLE
-            } else {
-                daily_suggestion_card_container.visibility = View.GONE
-            }
+            if (filteredCardList.isEmpty()) daily_suggestion_card_container.visibility = View.VISIBLE
         }
     }
 
