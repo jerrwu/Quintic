@@ -1,7 +1,6 @@
 package com.jerrwu.quintic.entities.card.adapter
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entities.card.CardEntity
 import kotlinx.android.synthetic.main.card.view.*
-import org.w3c.dom.Text
 import java.time.format.DateTimeFormatter
 
 
