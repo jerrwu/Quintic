@@ -36,6 +36,8 @@
             android:paddingBottom="8dp"
             android:paddingEnd="0dp"
             android:paddingStart="8dp"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
             android:layout_marginStart="8dp"
             android:textColor="@color/colorFont"
             android:fontFamily="@font/productsansmedium"
@@ -48,7 +50,22 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <FrameLayout
+        app:layout_constraintTop_toBottomOf="@id/toolbar_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginBottom="?attr/actionBarSize"
+            android:id="@+id/searchActivityRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
     <TextView
+        android:visibility="gone"
+        android:id="@+id/searchNoResultsText"
         android:textSize="14sp"
         android:text="@string/no_results"
         android:textColor="@color/colorTertiary"

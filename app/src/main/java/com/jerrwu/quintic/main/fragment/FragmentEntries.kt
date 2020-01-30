@@ -251,6 +251,7 @@ class FragmentEntries : Fragment() {
 
                 } while (cursor.moveToNext())
             }
+            cursor.close()
         }
 
     }
