@@ -12,8 +12,8 @@
         android:id="@+id/moodIcon"
         android:layout_width="35dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:tint="@color/colorSupport"
         app:srcCompat="@drawable/ic_neutral_outline" />
 
