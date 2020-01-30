@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entities.card.CardEntity
+import com.jerrwu.quintic.entities.mood.MoodEntity
 import kotlinx.android.synthetic.main.card.view.*
 import java.time.format.DateTimeFormatter
 
@@ -46,6 +47,7 @@ class CardAdapter(
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         setColors()
         val card: CardEntity = mDataList[position]
+        val mood: MoodEntity? = card.mood
         if (card.isSelected) {
             holder.cardRvBackground.setCardBackgroundColor(selectedBg)
             setCardSelectedTextColor(holder.cardView)

@@ -143,6 +143,7 @@ class EntryActivity : AppCompatActivity() {
         }
         mAdapter?.selected = mMood
         mAdapter?.notifyDataSetChanged()
+        toggleSaveButton()
         onBackPressed()
     }
 
@@ -158,6 +159,10 @@ class EntryActivity : AppCompatActivity() {
             moodAddCancelButton.visibility = View.VISIBLE
             isSelectorOpen = true
         }
+    }
+
+    private fun toggleSaveButton() {
+        toggleSaveButton("%")
     }
 
     private fun toggleSaveButton(s: String?) {
