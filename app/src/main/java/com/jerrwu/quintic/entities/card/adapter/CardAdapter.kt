@@ -53,10 +53,18 @@ class CardAdapter(
                 if (card.isSelected) ContextCompat.getColor(context, selectedBg)
                 else ContextCompat.getColor(context, unselectedBg)
             )
+
+            if (mood != null && mood != MoodEntity.NONE) {
+                holder.cardDate.backgroundTintList = ContextCompat.getColorStateList(context, mood.color)
+            } else {
+                holder.cardDate.backgroundTintList = ContextCompat.getColorStateList(context, android.R.color.transparent)
+            }
         }
 
         holder.cardTitle.text = card.title
         holder.cardDate.text = DateTimeFormatter.ofPattern("MMM dd, yyyy").format(card.time)
+        holder.cardDate.background.alpha = 50
+        // http://online.sfsu.edu/chrism/hexval.html for percent values
         holder.cardContent.text = card.content
 
         val ic = card.ic
