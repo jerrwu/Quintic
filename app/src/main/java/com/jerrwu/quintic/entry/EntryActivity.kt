@@ -91,31 +91,39 @@ class EntryActivity : AppCompatActivity() {
                 if (s?.length != 0) {
                     entrySaveButton.isEnabled = true
 
-                    if (InfoHelper.isUsingNightMode(resources.configuration)) {
-                        entrySaveButton.setColorFilter(buttonEnabled, PorterDuff.Mode.SRC_ATOP)
-                    }
-                    else {
-                        entrySaveButton.setColorFilter(
-                            ContextCompat.getColor(applicationContext,
-                                R.color.green
-                            ),
-                            PorterDuff.Mode.SRC_ATOP)
-                    }
+                    entrySaveButton.setColorFilter(
+                        ContextCompat.getColor(this@EntryActivity, R.color.green),
+                        PorterDuff.Mode.SRC_ATOP)
+
+//                    if (InfoHelper.isUsingNightMode(resources.configuration)) {
+//                        entrySaveButton.setColorFilter(buttonEnabled, PorterDuff.Mode.SRC_ATOP)
+//                    }
+//                    else {
+//                        entrySaveButton.setColorFilter(
+//                            ContextCompat.getColor(applicationContext,
+//                                R.color.green
+//                            ),
+//                            PorterDuff.Mode.SRC_ATOP)
+//                    }
                 }
 
                 else {
                     entrySaveButton.isEnabled = false
 
-                    if (InfoHelper.isUsingNightMode(resources.configuration)) {
-                        entrySaveButton.setColorFilter(buttonDisabled, PorterDuff.Mode.SRC_ATOP)
-                    }
-                    else {
-                        entrySaveButton.setColorFilter(
-                            ContextCompat.getColor(applicationContext,
-                                R.color.colorTertiary
-                            ),
-                            PorterDuff.Mode.SRC_ATOP)
-                    }
+                    entrySaveButton.setColorFilter(
+                        ContextCompat.getColor(this@EntryActivity, R.color.colorTertiary),
+                        PorterDuff.Mode.SRC_ATOP)
+
+//                    if (InfoHelper.isUsingNightMode(resources.configuration)) {
+//                        entrySaveButton.setColorFilter(buttonDisabled, PorterDuff.Mode.SRC_ATOP)
+//                    }
+//                    else {
+//                        entrySaveButton.setColorFilter(
+//                            ContextCompat.getColor(applicationContext,
+//                                R.color.colorTertiary
+//                            ),
+//                            PorterDuff.Mode.SRC_ATOP)
+//                    }
                 }
             }
         })
