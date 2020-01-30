@@ -1,6 +1,7 @@
 package com.jerrwu.quintic.entities.card.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,12 @@ class CardAdapter(
         val mood: MoodEntity? = card.mood
         val context = mContext
         if (context != null) {
+            if (mood != null && mood != MoodEntity.NONE) {
+                holder.cardDate.backgroundTintList = ContextCompat.getColorStateList(context, mood.color)
+            } else {
+                holder.cardDate.backgroundTintList = ContextCompat.getColorStateList(context, android.R.color.transparent)
+            }
+
             if (card.isSelected) {
                 holder.cardRvBackground.setCardBackgroundColor(
                     ContextCompat.getColor(context, selectedBg)
@@ -53,18 +60,10 @@ class CardAdapter(
                 if (card.isSelected) ContextCompat.getColor(context, selectedBg)
                 else ContextCompat.getColor(context, unselectedBg)
             )
-
-            if (mood != null && mood != MoodEntity.NONE) {
-                holder.cardDate.backgroundTintList = ContextCompat.getColorStateList(context, mood.color)
-            } else {
-                holder.cardDate.backgroundTintList = ContextCompat.getColorStateList(context, android.R.color.transparent)
-            }
         }
 
         holder.cardTitle.text = card.title
         holder.cardDate.text = DateTimeFormatter.ofPattern("MMM dd, yyyy").format(card.time)
-        holder.cardDate.background.alpha = 50
-        // http://online.sfsu.edu/chrism/hexval.html for percent values
         holder.cardContent.text = card.content
 
         val ic = card.ic
@@ -157,6 +156,8 @@ class CardAdapter(
         view.card_title.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
         view.card_content.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
         view.card_date.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
+        view.card_date.background.alpha = 25
+        // http://online.sfsu.edu/chrism/hexval.html for percent values
         view.card_select_check.visibility = View.VISIBLE
     }
 
@@ -164,6 +165,8 @@ class CardAdapter(
         view.card_title.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
         view.card_content.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
         view.card_date.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
+        view.card_date.background.alpha = 50
+        // http://online.sfsu.edu/chrism/hexval.html for percent values
         view.card_select_check.visibility = View.GONE
     }
 }
