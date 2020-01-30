@@ -3,12 +3,12 @@ package com.jerrwu.quintic.settings
 
 import android.app.Activity
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.*
 import android.content.Intent
 import android.view.View
+import com.jerrwu.quintic.BuildConfig
 import com.jerrwu.quintic.R
 
 
@@ -30,30 +30,30 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val darkToggle = sharedPreferences.getString("dark_toggle", "2")?.toInt()
         val darkPreference = findPreference("dark_toggle") as ListPreference?
         val versionPreference = findPreference("version") as Preference?
+        val buildPreference = findPreference("build") as Preference?
         val namePreference = findPreference("name") as EditTextPreference?
         val setNamePreference = findPreference("setNameRem") as SwitchPreference?
-        var versionStr = "Error"
         sharedPreferences.registerOnSharedPreferenceChangeListener(onPreferenceChangeListener)
 
         preferenceScreen.removePreference(namePreference)
         preferenceScreen.removePreference(setNamePreference)
 
-        when (darkToggle) {
-            -1 -> darkPreference!!.summary = "Follow System"
-            0 -> darkPreference!!.summary = "Set by Battery Saver"
-            1 -> darkPreference!!.summary = "On"
-            2 -> darkPreference!!.summary = "Off"
+        if (darkPreference != null) {
+            when (darkToggle) {
+                -1 -> darkPreference.summary = "Follow System"
+                0 -> darkPreference.summary = "Set by Battery Saver"
+                1 -> darkPreference.summary = "On"
+                2 -> darkPreference.summary = "Off"
+            }
         }
 
-        try {
-            val pInfo = context?.packageManager?.getPackageInfo(activity?.packageName, 0)
-            versionStr = pInfo?.versionName.toString()
-        } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
+        if (versionPreference != null) {
+            versionPreference.summary = BuildConfig.VERSION_NAME
         }
-        versionPreference!!.summary = versionStr
 
-
+        if (buildPreference != null) {
+            buildPreference.summary = BuildConfig.BUILD_NUMBER
+        }
     }
 
     private var onPreferenceChangeListener: SharedPreferences.OnSharedPreferenceChangeListener =
