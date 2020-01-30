@@ -61,17 +61,6 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp" />
 
-            <ImageView
-                android:id="@+id/cardMoodIcon"
-                android:layout_marginStart="4dp"
-                app:layout_constraintBottom_toBottomOf="@id/card_title"
-                app:layout_constraintTop_toTopOf="@id/card_title"
-                app:layout_constraintStart_toEndOf="@id/card_title"
-                android:src="@drawable/ic_neutral"
-                android:tint="@color/colorTertiary"
-                android:layout_width="22dp"
-                android:layout_height="22dp" />
-
             <TextView
                 app:layout_constraintTop_toBottomOf="@id/card_title"
                 app:layout_constraintStart_toStartOf="parent"

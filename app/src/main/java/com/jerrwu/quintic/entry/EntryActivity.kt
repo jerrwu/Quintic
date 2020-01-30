@@ -110,6 +110,8 @@ class EntryActivity : AppCompatActivity() {
             onMoodUpdated(mood)
         }
 
+        setMoodIcon()
+
         entryContentEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
 
@@ -135,6 +137,13 @@ class EntryActivity : AppCompatActivity() {
 
     }
 
+    private fun setMoodIcon() {
+        if (mMood != MoodEntity.NONE) {
+            entryActivityMoodIcon.setImageResource(mMood.icFilled)
+            entryActivityMoodIcon.setColorFilter(ContextCompat.getColor(applicationContext, mMood.color), PorterDuff.Mode.SRC_ATOP)
+        }
+    }
+
     private fun onMoodUpdated(mood: MoodEntity) {
         mMood = if (mMood != MoodEntity.NONE && mood == mMood) {
             MoodEntity.NONE
@@ -144,6 +153,7 @@ class EntryActivity : AppCompatActivity() {
         mAdapter?.selected = mMood
         mAdapter?.notifyDataSetChanged()
         toggleSaveButton()
+        setMoodIcon()
         onBackPressed()
     }
 

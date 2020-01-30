@@ -76,12 +76,22 @@
             android:padding="8dp"
             android:hint="@string/title"
             android:textColor="@color/colorFont"
+            android:layout_alignParentStart="true"
             android:textSize="24sp"
             android:fontFamily="@font/productsansmedium"
             android:layout_width="wrap_content"
-            android:singleLine="true"
             android:background="@color/colorMain"
-            android:layout_height="42dp"/>
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="4dp"
+            android:id="@+id/entryActivityMoodIcon"
+            android:layout_alignBottom="@id/entryTitleEditText"
+            android:layout_alignTop="@id/entryTitleEditText"
+            android:layout_toEndOf="@id/entryTitleEditText"
+            android:layout_width="24dp"
+            android:layout_height="24dp" />
 
         <TextView
             android:layout_marginEnd="8dp"
