@@ -17,12 +17,13 @@ class DbHelper(context: Context) {
     private var colTitle = "Title"
     private var colCont = "Content"
     private var colTime = "DateTime"
-    var dbVersion = 1
+    private var colMood = "Mood"
+    var dbVersion = 2
 
     val sqlCreateTable =
         "CREATE TABLE IF NOT EXISTS $dbTable (" +
                 "$colID INTEGER PRIMARY KEY, $colIc INTEGER, $colTitle TEXT," +
-                " $colCont TEXT, $colTime TEXT);"
+                " $colCont TEXT, $colTime TEXT, $colMood INTEGER );"
 
     private var sqlDB: SQLiteDatabase? = null
 
@@ -40,11 +41,13 @@ class DbHelper(context: Context) {
 
         override fun onCreate(db: SQLiteDatabase?) {
             db!!.execSQL(sqlCreateTable)
-            Toast.makeText(this.context, "database created...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "Database created!", Toast.LENGTH_SHORT).show()
         }
 
         override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-            db!!.execSQL("Drop table if Exists $dbTable")
+            if (oldVersion < 2)
+                db!!.execSQL("ALTER TABLE $dbTable ADD $colMood INTEGER")
+            Toast.makeText(this.context, "Database upgraded!", Toast.LENGTH_SHORT).show()
         }
 
 

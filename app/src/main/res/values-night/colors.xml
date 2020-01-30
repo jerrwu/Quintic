@@ -16,6 +16,7 @@
     <color name="blue">#80B4FF</color>
     <color name="red">#FF7762</color>
     <color name="green">#55CF86</color>
+    <color name="orange">#FFBB93</color>
     <color name="purple">#BB86FC</color>
     <color name="yellow">#FFF176</color>
     <color name="colorFive">@color/darkGrey</color>

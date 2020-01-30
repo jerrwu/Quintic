@@ -8,11 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.Menu
 import android.view.View
-import androidx.appcompat.app.ActionBar
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.entities.mood.MoodEntity
+import com.jerrwu.quintic.entities.mood.adapter.MoodAdapter
 import com.jerrwu.quintic.helpers.DbHelper
 import com.jerrwu.quintic.helpers.InfoHelper
 import com.jerrwu.quintic.helpers.StringHelper
@@ -28,16 +29,22 @@ class EntryActivity : AppCompatActivity() {
     private val formatterWeekday = DateTimeFormatter.ofPattern("EEEE")
     private val formatterHour = DateTimeFormatter.ofPattern("HH")
     private var dbHelper: DbHelper? = null
+    private var mMood: MoodEntity = MoodEntity.NONE
+    private var isSelectorOpen = false
+    private var mAdapter: MoodAdapter? = null
     var id = 0
+
+    override fun onBackPressed() {
+        if (isSelectorOpen) {
+            toggleMoodSelector()
+        } else {
+            super.onBackPressed()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entry)
-
-        setSupportActionBar(toolbar_entry_bottom)
-        if (supportActionBar != null) {
-            (supportActionBar as ActionBar).setDisplayShowTitleEnabled(false)
-        }
 
         dbHelper = DbHelper(this)
 
@@ -50,6 +57,7 @@ class EntryActivity : AppCompatActivity() {
                 entryTitleEditText.setText(bundle.getString("Title"))
                 entryContentEditText.setText(bundle.getString("Content"))
                 createdDate = LocalDateTime.parse(bundle.getString("Time"))
+                mMood = MoodEntity.parse(bundle.getInt("Mood"))
                 val dateString = getString(R.string.created_on) + formatterDate.format(createdDate)
                 entryDateTimeView.text = dateString
                 entryDateTimeView.visibility = View.VISIBLE
@@ -77,13 +85,93 @@ class EntryActivity : AppCompatActivity() {
         }
         entrySaveButton.isEnabled = false
 
+        moodAddButton.setOnClickListener { toggleMoodSelector() }
+        moodAddCancelButton.setOnClickListener { toggleMoodSelector() }
+
+        val moodList = ArrayList<MoodEntity>()
+
+        // add moods
+        moodList.add(MoodEntity.VERY_BAD)
+        moodList.add(MoodEntity.BAD)
+        moodList.add(MoodEntity.NEUTRAL)
+        moodList.add(MoodEntity.GOOD)
+        moodList.add(MoodEntity.VERY_GOOD)
+
+        mAdapter = MoodAdapter(moodList, this, mMood)
+        moodRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        moodRecyclerView.adapter = mAdapter
+
+        mAdapter?.onItemClick = { mood ->
+            onMoodUpdated(mood)
+        }
+
+        setMoodIcon()
+
         entryContentEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s?.length != 0) {
+                toggleSaveButton(s.toString())
+            }
+        })
+
+        entryTitleEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                toggleSaveButton(s.toString())
+            }
+
+        })
+
+    }
+
+    private fun setMoodIcon() {
+        if (mMood != MoodEntity.NONE) {
+            entryActivityMoodIcon.setImageResource(mMood.icFilled)
+            entryActivityMoodIcon.setColorFilter(ContextCompat.getColor(applicationContext, mMood.color), PorterDuff.Mode.SRC_ATOP)
+        }
+    }
+
+    private fun onMoodUpdated(mood: MoodEntity) {
+        mMood = if (mMood != MoodEntity.NONE && mood == mMood) {
+            MoodEntity.NONE
+        } else {
+            mood
+        }
+        mAdapter?.selected = mMood
+        mAdapter?.notifyDataSetChanged()
+        toggleSaveButton()
+        setMoodIcon()
+        onBackPressed()
+    }
+
+    private fun toggleMoodSelector() {
+        if (isSelectorOpen) {
+            moodSelectionContainer.visibility = View.GONE
+            moodAddButton.visibility = View.VISIBLE
+            moodAddCancelButton.visibility = View.GONE
+            isSelectorOpen = false
+        } else {
+            moodSelectionContainer.visibility = View.VISIBLE
+            moodAddButton.visibility = View.GONE
+            moodAddCancelButton.visibility = View.VISIBLE
+            isSelectorOpen = true
+        }
+    }
+
+    private fun toggleSaveButton() {
+        toggleSaveButton("%")
+    }
+
+    private fun toggleSaveButton(s: String?) {
+        if (s?.length != 0) {
                     entrySaveButton.isEnabled = true
 
                     entrySaveButton.setColorFilter(
@@ -98,15 +186,6 @@ class EntryActivity : AppCompatActivity() {
                         ContextCompat.getColor(this@EntryActivity, R.color.colorTertiary),
                         PorterDuff.Mode.SRC_ATOP)
                 }
-            }
-        })
-
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.activity_new_menu, menu)
-        return true
     }
 
     private fun deleteEntry(context: Context) {
@@ -135,6 +214,7 @@ class EntryActivity : AppCompatActivity() {
             values.put("Title", titleText)
             values.put("Content", conText)
             values.put("DateTime", createdDate.toString())
+            values.put("Mood", mMood.id)
 
             if (id == 0) {
                 val dbID = dbHelper.insert(values)

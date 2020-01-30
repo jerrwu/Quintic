@@ -16,6 +16,7 @@ import com.jerrwu.quintic.R
 import com.jerrwu.quintic.account.AccountActivity
 import com.jerrwu.quintic.entities.card.CardEntity
 import com.jerrwu.quintic.entities.card.adapter.CardAdapter
+import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.helpers.DbHelper
 import com.jerrwu.quintic.helpers.InfoHelper
@@ -97,7 +98,6 @@ class FragmentEntries : Fragment() {
 
         val recyclerView = mRecyclerView
         if (recyclerView != null) {
-            registerForContextMenu(recyclerView)
             recyclerView.adapter = mAdapter
             (mAdapter as CardAdapter).onItemLongClick = { _ ->
                 showSelectionToolbar()
@@ -113,6 +113,7 @@ class FragmentEntries : Fragment() {
                     intent.putExtra("Title", card.title)
                     intent.putExtra("Content", card.content)
                     intent.putExtra("Time", card.time.toString())
+                    intent.putExtra("Mood", card.mood?.id)
                     startActivity(intent)
                 }
             }
@@ -122,16 +123,13 @@ class FragmentEntries : Fragment() {
     private fun toggleEmptyNotices() {
         if (cardList.isEmpty()) {
             empty_recycler_notice.visibility = View.VISIBLE
+            daily_suggestion_card_container.visibility = View.GONE
         } else {
             empty_recycler_notice.visibility = View.GONE
             val current = LocalDate.now()
             val filteredCardList: List<CardEntity> = cardList.filter {
                     card -> card.time!!.toLocalDate() == current }
-            if (filteredCardList.isEmpty()) {
-                daily_suggestion_card_container.visibility = View.VISIBLE
-            } else {
-                daily_suggestion_card_container.visibility = View.GONE
-            }
+            if (filteredCardList.isEmpty()) daily_suggestion_card_container.visibility = View.VISIBLE
         }
     }
 
@@ -225,7 +223,7 @@ class FragmentEntries : Fragment() {
         }
         val dbHelper = mDbHelper
         if (dbHelper != null) {
-            val projections = arrayOf("ID", "Image", "Title", "Content", "DateTime")
+            val projections = arrayOf("ID", "Image", "Title", "Content", "DateTime", "Mood")
             val selectionArgs = arrayOf(title)
             val cursor = dbHelper.query(
                 projections, "Title like ?", selectionArgs, "ID"+" DESC")
@@ -233,19 +231,21 @@ class FragmentEntries : Fragment() {
             if (cursor.moveToFirst()) {
 
                 do {
-                    val id = cursor.getInt(cursor.getColumnIndex("ID"))
-                    val ic = cursor.getInt(cursor.getColumnIndex("Image"))
+                    val cdId = cursor.getInt(cursor.getColumnIndex("ID"))
+                    val cdIc = cursor.getInt(cursor.getColumnIndex("Image"))
                     val cdTitle = cursor.getString(cursor.getColumnIndex("Title"))
                     val cdCont = cursor.getString(cursor.getColumnIndex("Content"))
                     val cdTime = cursor.getString(cursor.getColumnIndex("DateTime"))
+                    val cdMood = cursor.getInt(cursor.getColumnIndex("Mood"))
 
                     cardList.add(
                         CardEntity(
-                            id,
-                            ic,
+                            cdId,
+                            cdIc,
                             cdTitle,
                             cdCont,
-                            LocalDateTime.parse(cdTime)
+                            LocalDateTime.parse(cdTime),
+                            MoodEntity.parse(cdMood)
                         )
                     )
 

@@ -16,6 +16,7 @@
     <color name="blue">#4285F4</color>
     <color name="red">#DB4437</color>
     <color name="green">#0F9D58</color>
+    <color name="orange">#FF8A65</color>
     <color name="purple">#5E35B1</color>
     <color name="yellow">#F4B400</color>
     <color name="black">@android:color/black</color>
