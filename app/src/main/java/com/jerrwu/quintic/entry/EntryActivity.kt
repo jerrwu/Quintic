@@ -8,13 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.Menu
 import android.view.View
-import android.widget.RelativeLayout
-import androidx.appcompat.app.ActionBar
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entities.mood.adapter.MoodAdapter
@@ -222,7 +218,7 @@ class EntryActivity : AppCompatActivity() {
             values.put("Title", titleText)
             values.put("Content", conText)
             values.put("DateTime", createdDate.toString())
-            values.put("Mood", mMood.mood)
+            values.put("Mood", mMood.id)
 
             if (id == 0) {
                 val dbID = dbHelper.insert(values)

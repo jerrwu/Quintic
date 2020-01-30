@@ -113,7 +113,7 @@ class FragmentEntries : Fragment() {
                     intent.putExtra("Title", card.title)
                     intent.putExtra("Content", card.content)
                     intent.putExtra("Time", card.time.toString())
-                    intent.putExtra("Mood", card.mood?.mood)
+                    intent.putExtra("Mood", card.mood?.id)
                     startActivity(intent)
                 }
             }
