@@ -62,8 +62,6 @@
                 android:padding="5dp" />
 
             <TextView
-                android:backgroundTint="@android:color/transparent"
-                android:background="@drawable/round_date_box"
                 app:layout_constraintTop_toBottomOf="@id/card_title"
                 app:layout_constraintStart_toStartOf="parent"
                 android:textSize="14sp"
@@ -75,6 +73,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/card_mood"
+                android:visibility="gone"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/colorSecondary"
+                android:textAllCaps="true"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/card_date"
+                app:layout_constraintBaseline_toBaselineOf="@id/card_date"
+                android:fontFamily="@font/robotocondensedregular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:ellipsize="start"

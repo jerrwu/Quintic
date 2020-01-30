@@ -40,9 +40,10 @@ class CardAdapter(
         val context = mContext
         if (context != null) {
             if (mood != null && mood != MoodEntity.NONE) {
-                holder.cardDate.backgroundTintList = ContextCompat.getColorStateList(context, mood.color)
+                holder.cardMood.visibility = View.VISIBLE
+                holder.cardMood.text = mood.name
             } else {
-                holder.cardDate.backgroundTintList = ContextCompat.getColorStateList(context, android.R.color.transparent)
+                holder.cardMood.visibility = View.GONE
             }
 
             if (card.isSelected) {
@@ -88,6 +89,7 @@ class CardAdapter(
         internal var cardTitle: TextView = itemView.findViewById(R.id.card_title)
         internal var cardDate: TextView = itemView.findViewById(R.id.card_date)
         internal var cardContent: TextView = itemView.findViewById(R.id.card_content)
+        internal var cardMood: TextView = itemView.findViewById(R.id.card_mood)
         internal var cardIc: ImageView = itemView.findViewById(R.id.card_ic)
         internal var cardIcHolder: CardView = itemView.findViewById(R.id.card_ic_holder)
         internal var cardView: CardView = itemView as CardView
@@ -156,8 +158,9 @@ class CardAdapter(
         view.card_title.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
         view.card_content.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
         view.card_date.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
-        view.card_date.background.alpha = 25
-        // http://online.sfsu.edu/chrism/hexval.html for percent values
+        view.card_mood.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
+//        view.card_date.background.alpha = 25
+//        // http://online.sfsu.edu/chrism/hexval.html for percent values
         view.card_select_check.visibility = View.VISIBLE
     }
 
@@ -165,8 +168,9 @@ class CardAdapter(
         view.card_title.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
         view.card_content.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
         view.card_date.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
-        view.card_date.background.alpha = 50
-        // http://online.sfsu.edu/chrism/hexval.html for percent values
+        view.card_mood.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
+//        view.card_date.background.alpha = 50
+//        // http://online.sfsu.edu/chrism/hexval.html for percent values
         view.card_select_check.visibility = View.GONE
     }
 }
