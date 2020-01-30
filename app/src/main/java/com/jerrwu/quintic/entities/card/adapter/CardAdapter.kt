@@ -23,21 +23,11 @@ class CardAdapter(
 
     var onItemClick: ((CardEntity, Boolean) -> Unit)? = null
     var onItemLongClick: ((CardEntity) -> Boolean)? = null
-    var useNightMode: Boolean = false
+    var mContext: Context? = null
     var isMultiSelect = false
     var itemsSelected: ArrayList<CardEntity> = ArrayList()
-    private var selectedBg = 0 // colorQuad
-    private var unselectedBg = 0 // colorMain
-
-    private fun setColors() {
-        if (useNightMode) {
-            selectedBg = Color.parseColor("#363636")
-            unselectedBg = Color.parseColor("#242424")
-        } else {
-            selectedBg = Color.parseColor("#E7E7E7")
-            unselectedBg = Color.parseColor("#FBFBFB")
-        }
-    }
+    private var selectedBg = R.color.colorQuad  // colorQuad
+    private var unselectedBg = R.color.colorMain // colorMain
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card, parent, false)
@@ -45,30 +35,43 @@ class CardAdapter(
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        setColors()
         val card: CardEntity = mDataList[position]
-        if (card.isSelected) {
-            holder.cardRvBackground.setCardBackgroundColor(selectedBg)
-            setCardSelectedTextColor(holder.cardView)
-        } else {
-            holder.cardRvBackground.setCardBackgroundColor(unselectedBg)
-            setCardUnselectedTextColor(holder.cardView)
+
+        val context = mContext
+        if (context != null) {
+            if (card.isSelected) {
+                holder.cardRvBackground.setCardBackgroundColor(
+                    ContextCompat.getColor(context, selectedBg)
+                )
+                setCardSelectedTextColor(holder.cardView)
+            } else {
+                holder.cardRvBackground.setCardBackgroundColor(
+                    ContextCompat.getColor(context, unselectedBg)
+                )
+                setCardUnselectedTextColor(holder.cardView)
+            }
+            holder.cardRvBackground.setCardBackgroundColor(
+                if (card.isSelected) ContextCompat.getColor(context, selectedBg)
+                else ContextCompat.getColor(context, unselectedBg)
+            )
         }
-        holder.cardRvBackground.setCardBackgroundColor(if (card.isSelected) selectedBg else unselectedBg)
+
         holder.cardTitle.text = card.title
         holder.cardDate.text = DateTimeFormatter.ofPattern("MMM dd, yyyy").format(card.time)
         holder.cardContent.text = card.content
+
         val ic = card.ic
-        if (ic == 0) {
-            holder.cardIcHolder.visibility = View.GONE
-            val params = holder.cardTextContainer.layoutParams as ConstraintLayout.LayoutParams
-            params.marginEnd = 0
-            holder.cardTextContainer.layoutParams = params
+        if (ic != null) {
+            if (ic == 0) {
+                holder.cardIcHolder.visibility = View.GONE
+                val params = holder.cardTextContainer.layoutParams as ConstraintLayout.LayoutParams
+                params.marginEnd = 0
+                holder.cardTextContainer.layoutParams = params
+            } else {
+                holder.cardIc.setImageResource(ic)
+            }
         }
-        else {
-            card.ic?.let { holder.cardIc.setImageResource(it) }
-        }
-        }
+    }
 
     override fun getItemCount(): Int {
         return mDataList.size
@@ -106,14 +109,18 @@ class CardAdapter(
     fun handleMultiSelectOnClick(adapterPosition: Int, itemView: View) {
         val item = mDataList[adapterPosition]
         val view: CardView = itemView as CardView
-        if (item.isSelected) {
-            itemsSelected.remove(item)
-            view.setCardBackgroundColor(unselectedBg)
-            setCardUnselectedTextColor(view)
-        } else {
-            itemsSelected.add(item)
-            view.setCardBackgroundColor(selectedBg)
-            setCardSelectedTextColor(view)
+        val context = itemView.context
+
+        if (context != null) {
+            if (item.isSelected) {
+                itemsSelected.remove(item)
+                view.setCardBackgroundColor(ContextCompat.getColor(context, unselectedBg))
+                setCardUnselectedTextColor(view)
+            } else {
+                itemsSelected.add(item)
+                view.setCardBackgroundColor(ContextCompat.getColor(context, selectedBg))
+                setCardSelectedTextColor(view)
+            }
         }
         item.isSelected = !item.isSelected
         if (itemsSelected.size == 0) {
@@ -125,9 +132,14 @@ class CardAdapter(
     fun enterMultiSelect(adapterPosition: Int, itemView: View) {
         val item = mDataList[adapterPosition]
         val view = (itemView as CardView)
+        val context = itemView.context
+
         isMultiSelect = true
         itemsSelected.add(item)
-        view.setCardBackgroundColor(selectedBg)
+        if (context != null) {
+            view.setCardBackgroundColor(ContextCompat.getColor(context, selectedBg))
+        }
+
         setCardSelectedTextColor(view)
         item.isSelected = true
         onItemLongClick?.invoke(item)

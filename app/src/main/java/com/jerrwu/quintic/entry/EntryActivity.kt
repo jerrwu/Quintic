@@ -22,11 +22,6 @@ import java.time.format.DateTimeFormatter
 
 
 class EntryActivity : AppCompatActivity() {
-    companion object {
-        private val buttonDisabled = Color.parseColor("#747474")
-        private val buttonEnabled = Color.parseColor("#55CF86")
-        private const val dbTable = "Cards"
-    }
 
     private var createdDate: LocalDateTime? = null
     private val formatterDate = DateTimeFormatter.ofPattern("E MMM dd, yyyy")
@@ -94,17 +89,6 @@ class EntryActivity : AppCompatActivity() {
                     entrySaveButton.setColorFilter(
                         ContextCompat.getColor(this@EntryActivity, R.color.green),
                         PorterDuff.Mode.SRC_ATOP)
-
-//                    if (InfoHelper.isUsingNightMode(resources.configuration)) {
-//                        entrySaveButton.setColorFilter(buttonEnabled, PorterDuff.Mode.SRC_ATOP)
-//                    }
-//                    else {
-//                        entrySaveButton.setColorFilter(
-//                            ContextCompat.getColor(applicationContext,
-//                                R.color.green
-//                            ),
-//                            PorterDuff.Mode.SRC_ATOP)
-//                    }
                 }
 
                 else {
@@ -113,17 +97,6 @@ class EntryActivity : AppCompatActivity() {
                     entrySaveButton.setColorFilter(
                         ContextCompat.getColor(this@EntryActivity, R.color.colorTertiary),
                         PorterDuff.Mode.SRC_ATOP)
-
-//                    if (InfoHelper.isUsingNightMode(resources.configuration)) {
-//                        entrySaveButton.setColorFilter(buttonDisabled, PorterDuff.Mode.SRC_ATOP)
-//                    }
-//                    else {
-//                        entrySaveButton.setColorFilter(
-//                            ContextCompat.getColor(applicationContext,
-//                                R.color.colorTertiary
-//                            ),
-//                            PorterDuff.Mode.SRC_ATOP)
-//                    }
                 }
             }
         })
