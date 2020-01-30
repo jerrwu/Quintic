@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_account.*
 import android.text.Editable
 import android.text.TextWatcher
-import android.preference.PreferenceManager
 import androidx.core.content.ContextCompat
+import androidx.preference.PreferenceManager
 import com.jerrwu.quintic.R
 
 
