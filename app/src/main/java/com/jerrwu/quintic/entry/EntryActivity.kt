@@ -92,6 +92,7 @@ class EntryActivity : AppCompatActivity() {
 
         // add moods
         moodList.add(MoodEntity.VERY_BAD)
+        moodList.add(MoodEntity.ANGRY)
         moodList.add(MoodEntity.BAD)
         moodList.add(MoodEntity.NEUTRAL)
         moodList.add(MoodEntity.GOOD)
