@@ -92,14 +92,14 @@ class FragmentEntries : Fragment() {
             val mLayoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
             if (mRecyclerView != null) (mRecyclerView as RecyclerView).layoutManager = mLayoutManager
             mAdapter = CardAdapter(cardList)
-            (mAdapter as CardAdapter).useNightMode = InfoHelper.isUsingNightMode(resources.configuration)
+            (mAdapter as CardAdapter).mContext = mActivity
         }
 
 
         val recyclerView = mRecyclerView
         if (recyclerView != null) {
             recyclerView.adapter = mAdapter
-            (mAdapter as CardAdapter).onItemLongClick = { card ->
+            (mAdapter as CardAdapter).onItemLongClick = { _ ->
                 showSelectionToolbar()
                 true
             }
