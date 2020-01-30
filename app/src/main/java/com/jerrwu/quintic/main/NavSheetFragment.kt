@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.nav_sheet.*
 import android.net.Uri
-import android.preference.PreferenceManager
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import androidx.preference.PreferenceManager
 import com.jerrwu.quintic.account.AccountActivity
 import com.jerrwu.quintic.helpers.InfoHelper
 import com.jerrwu.quintic.R

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteQueryBuilder
 import android.widget.Toast
+import com.jerrwu.quintic.BuildConfig
 
 class DbHelper(context: Context) {
 
@@ -18,7 +19,7 @@ class DbHelper(context: Context) {
     private var colCont = "Content"
     private var colTime = "DateTime"
     private var colMood = "Mood"
-    var dbVersion = 2
+    var dbVersion: Int = BuildConfig.DATABASE_VERSION
 
     val sqlCreateTable =
         "CREATE TABLE IF NOT EXISTS $dbTable (" +
