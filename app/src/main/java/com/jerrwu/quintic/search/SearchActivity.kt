@@ -1,5 +1,6 @@
 package com.jerrwu.quintic.search
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -58,6 +59,7 @@ class SearchActivity : AppCompatActivity() {
         mAdapter = CardAdapter(results)
         searchActivityRecyclerView.layoutManager = LinearLayoutManager(this)
         searchActivityRecyclerView.adapter = mAdapter
+        (mAdapter as CardAdapter).mContext = this
         return true
     }
 }
