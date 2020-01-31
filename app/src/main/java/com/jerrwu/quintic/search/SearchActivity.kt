@@ -1,11 +1,11 @@
 package com.jerrwu.quintic.search
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.TextView.OnEditorActionListener
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.R
@@ -27,6 +27,17 @@ class SearchActivity : AppCompatActivity() {
 
         searchField.requestFocus()
         mDbHelper = DbHelper(this)
+
+        val spinnerArray: MutableList<String> = ArrayList()
+        spinnerArray.add("item1")
+        spinnerArray.add("item2")
+
+        val adapter = ArrayAdapter(
+            this, android.R.layout.simple_spinner_item, spinnerArray
+        )
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        searchOptionSpinner.adapter = adapter
 
         searchBackButton.setOnClickListener {
             finish()
