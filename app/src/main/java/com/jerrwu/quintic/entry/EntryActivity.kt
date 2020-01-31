@@ -52,12 +52,12 @@ class EntryActivity : AppCompatActivity() {
 
         val bundle: Bundle? = intent.extras
         if (bundle != null) {
-            id = bundle.getInt("ID", 0)
+            id = bundle.getInt(DbHelper.DB_COL_ID, 0)
             if (id!=0){
-                entryTitleEditText.setText(bundle.getString("Title"))
-                entryContentEditText.setText(bundle.getString("Content"))
-                createdDate = LocalDateTime.parse(bundle.getString("Time"))
-                mMood = MoodEntity.parse(bundle.getInt("Mood"))
+                entryTitleEditText.setText(bundle.getString(DbHelper.DB_COL_TITLE))
+                entryContentEditText.setText(bundle.getString(DbHelper.DB_COL_CONTENT))
+                createdDate = LocalDateTime.parse(bundle.getString(DbHelper.DB_COL_TIME))
+                mMood = MoodEntity.parse(bundle.getInt(DbHelper.DB_COL_MOOD))
                 val dateString = getString(R.string.created_on) + formatterDate.format(createdDate)
                 entryDateTimeView.text = dateString
                 entryDateTimeView.visibility = View.VISIBLE
@@ -212,10 +212,10 @@ class EntryActivity : AppCompatActivity() {
                         StringHelper.getDaySection(formatterHour.format(createdDate), this)
             }
 
-            values.put("Title", titleText)
-            values.put("Content", conText)
-            values.put("DateTime", createdDate.toString())
-            values.put("Mood", mMood.id)
+            values.put(DbHelper.DB_COL_TITLE, titleText)
+            values.put(DbHelper.DB_COL_CONTENT, conText)
+            values.put(DbHelper.DB_COL_TIME, createdDate.toString())
+            values.put(DbHelper.DB_COL_MOOD, mMood.id)
 
             if (id == 0) {
                 val dbID = dbHelper.insert(values)

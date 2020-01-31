@@ -109,11 +109,11 @@ class FragmentEntries : Fragment() {
                     hideSelectionToolbar()
                 } else {
                     val intent = Intent(activity, EntryActivity::class.java)
-                    intent.putExtra("ID", card.id)
-                    intent.putExtra("Title", card.title)
-                    intent.putExtra("Content", card.content)
-                    intent.putExtra("Time", card.time.toString())
-                    intent.putExtra("Mood", card.mood?.id)
+                    intent.putExtra(DbHelper.DB_COL_ID, card.id)
+                    intent.putExtra(DbHelper.DB_COL_TITLE, card.title)
+                    intent.putExtra(DbHelper.DB_COL_CONTENT, card.content)
+                    intent.putExtra(DbHelper.DB_COL_TIME, card.time.toString())
+                    intent.putExtra(DbHelper.DB_COL_MOOD, card.mood?.id)
                     startActivity(intent)
                 }
             }
@@ -223,20 +223,26 @@ class FragmentEntries : Fragment() {
         }
         val dbHelper = mDbHelper
         if (dbHelper != null) {
-            val projections = arrayOf("ID", "Image", "Title", "Content", "DateTime", "Mood")
+            val projections = arrayOf(
+                DbHelper.DB_COL_ID,
+                DbHelper.DB_COL_ICON,
+                DbHelper.DB_COL_TITLE,
+                DbHelper.DB_COL_CONTENT,
+                DbHelper.DB_COL_TIME,
+                DbHelper.DB_COL_MOOD)
             val selectionArgs = arrayOf(title)
             val cursor = dbHelper.query(
-                projections, "Title like ?", selectionArgs, "ID"+" DESC")
+                projections, "Title like ?", selectionArgs, DbHelper.DB_COL_ID+" DESC")
             cardList.clear()
             if (cursor.moveToFirst()) {
 
                 do {
-                    val cdId = cursor.getInt(cursor.getColumnIndex("ID"))
-                    val cdIc = cursor.getInt(cursor.getColumnIndex("Image"))
-                    val cdTitle = cursor.getString(cursor.getColumnIndex("Title"))
-                    val cdCont = cursor.getString(cursor.getColumnIndex("Content"))
-                    val cdTime = cursor.getString(cursor.getColumnIndex("DateTime"))
-                    val cdMood = cursor.getInt(cursor.getColumnIndex("Mood"))
+                    val cdId = cursor.getInt(cursor.getColumnIndex(DbHelper.DB_COL_ID))
+                    val cdIc = cursor.getInt(cursor.getColumnIndex(DbHelper.DB_COL_ICON))
+                    val cdTitle = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_TITLE))
+                    val cdCont = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_CONTENT))
+                    val cdTime = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_TIME))
+                    val cdMood = cursor.getInt(cursor.getColumnIndex(DbHelper.DB_COL_MOOD))
 
                     cardList.add(
                         CardEntity(

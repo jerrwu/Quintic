@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entities.card.CardEntity
 import com.jerrwu.quintic.entities.mood.MoodEntity
+import com.jerrwu.quintic.main.MainActivity
 import kotlinx.android.synthetic.main.card.view.*
 import java.time.format.DateTimeFormatter
 
@@ -106,6 +107,9 @@ class CardAdapter(
             }
 
             itemView.setOnLongClickListener {
+                if (mContext !is MainActivity) {
+                    return@setOnLongClickListener false
+                }
                 if (!isMultiSelect){
                     enterMultiSelect(adapterPosition, itemView)
                 }

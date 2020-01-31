@@ -47,6 +47,8 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun onSearchPerformed(results: List<CardEntity>): Boolean {
+        searchActivityRecyclerView.adapter = null
+
         if (results.isEmpty()) {
             searchNoResultsText.visibility = View.VISIBLE
             return false
