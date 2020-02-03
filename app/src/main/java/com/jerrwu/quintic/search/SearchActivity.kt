@@ -1,5 +1,6 @@
 package com.jerrwu.quintic.search
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -9,10 +10,12 @@ import android.widget.ArrayAdapter
 import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jerrwu.quintic.BuildConfig
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.card.CardEntity
 import com.jerrwu.quintic.entities.card.adapter.CardAdapter
+import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.helpers.DbHelper
 import com.jerrwu.quintic.helpers.SearchHelper
 import kotlinx.android.synthetic.main.activity_search.*
@@ -24,6 +27,12 @@ class SearchActivity : AppCompatActivity() {
     private var mColumn: String? = null
     private var mDbHelper: DbHelper? = null
 
+    override fun onResume() {
+        super.onResume()
+
+        onSearchStarted()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -31,13 +40,14 @@ class SearchActivity : AppCompatActivity() {
         searchField.requestFocus()
         mDbHelper = DbHelper(this)
 
-        val spinnerList = ConstantLists.searchSpinnerOptions
+        val spinnerList = if (BuildConfig.DEBUG) ConstantLists.searchSpinnerOptionsDebug
+        else ConstantLists.searchSpinnerOptions
 
-        val adapter = ArrayAdapter(
+        val spinnerAdapter = ArrayAdapter(
             this, R.layout.spinner_item, spinnerList
         )
 
-        searchOptionSpinner.adapter = adapter
+        searchOptionSpinner.adapter = spinnerAdapter
         searchOptionSpinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(
                 parentView: AdapterView<*>?,
@@ -47,7 +57,7 @@ class SearchActivity : AppCompatActivity() {
             ) {
                 val selection = spinnerList[position]
                 mColumn = selection
-                onSearchStarted(searchField.text.toString())
+                onSearchStarted()
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {
@@ -61,17 +71,17 @@ class SearchActivity : AppCompatActivity() {
 
         searchField.setOnEditorActionListener(OnEditorActionListener { view, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                onSearchStarted(searchField.text.toString())
+                onSearchStarted()
                 return@OnEditorActionListener true
             }
             false
         })
     }
 
-    private fun onSearchStarted(text: String) {
+    private fun onSearchStarted() {
         val dbHelper = mDbHelper
         if (dbHelper != null)
-            mSearchResults = SearchHelper.performSearch(text, dbHelper, mColumn)
+            mSearchResults = SearchHelper.performSearch(searchField.text.toString(), dbHelper, mColumn)
         val results = mSearchResults
         if (results != null) {
             onSearchPerformed(results)
@@ -90,7 +100,17 @@ class SearchActivity : AppCompatActivity() {
         mAdapter = CardAdapter(results)
         searchActivityRecyclerView.layoutManager = LinearLayoutManager(this)
         searchActivityRecyclerView.adapter = mAdapter
-        (mAdapter as CardAdapter).mContext = this
+        mAdapter?.mContext = this
+
+        mAdapter?.onItemClick = { card, _ ->
+            val intent = Intent(this, EntryActivity::class.java)
+            intent.putExtra(DbHelper.DB_COL_ID, card.id)
+            intent.putExtra(DbHelper.DB_COL_TITLE, card.title)
+            intent.putExtra(DbHelper.DB_COL_CONTENT, card.content)
+            intent.putExtra(DbHelper.DB_COL_TIME, card.time.toString())
+            intent.putExtra(DbHelper.DB_COL_MOOD, card.mood?.id)
+            startActivity(intent)
+        }
         return true
     }
 }
