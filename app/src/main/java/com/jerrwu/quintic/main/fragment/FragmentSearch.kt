@@ -29,7 +29,7 @@ class FragmentSearch : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val moodList = ConstantLists.moodSelectorOptions
+        val moodList = ConstantLists.searchMoodOptions
 
         mAdapter = SearchMoodAdapter(moodList)
         moodSearchCarousel.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)

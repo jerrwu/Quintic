@@ -19,7 +19,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:padding="6dp"
+            android:padding="12dp"
             android:id="@+id/moodCategoryCardImageView"
             android:layout_gravity="top"
             android:src="@drawable/ic_neutral_outline"
@@ -30,9 +30,9 @@
 
         <TextView
             android:id="@+id/moodCategoryCardTextView"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="78dp"
-            android:text="Tile 1"
+            android:layout_marginTop="86dp"
+            android:text="@string/mood"
+            android:layout_gravity="center_horizontal"
             android:fontFamily="@font/productsansregular"
             android:textColor="@color/colorFont"
             android:textSize="16sp"

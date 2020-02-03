@@ -34,7 +34,7 @@
             android:paddingBottom="14dp"
             android:id="@+id/moodSearchCarousel"
             android:layout_width="match_parent"
-            android:layout_height="152dp" />
+            android:layout_height="156dp" />
 
         <TextView
             android:layout_marginStart="16dp"

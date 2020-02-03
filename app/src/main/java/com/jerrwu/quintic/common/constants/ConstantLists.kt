@@ -9,4 +9,6 @@ object ConstantLists {
         "Title", "Content", "Mood", "Time")
     val searchSpinnerOptions = listOf(
         "Title", "Content", "Mood")
+    val searchMoodOptions = listOf(
+        MoodEntity.GOOD, MoodEntity.BAD, MoodEntity.NEUTRAL, MoodEntity.ANGRY, MoodEntity.VERY_GOOD, MoodEntity.VERY_BAD)
 }
