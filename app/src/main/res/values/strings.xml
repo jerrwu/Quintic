@@ -103,4 +103,5 @@
     <string name="add_mood">Add mood</string>
     <string name="jerry_epic">jerry is an epic name!</string>
     <string name="search_entries_by">Search entries by</string>
+    <string name="mood">MOOD</string>
 </resources>
