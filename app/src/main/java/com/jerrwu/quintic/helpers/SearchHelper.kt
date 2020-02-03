@@ -1,7 +1,5 @@
 package com.jerrwu.quintic.helpers
 
-import android.R.id
-import android.database.Cursor
 import com.jerrwu.quintic.entities.card.CardEntity
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import java.time.LocalDateTime
@@ -11,15 +9,13 @@ object SearchHelper {
     const val ORDER_ASCENDING = "ASC"
     const val ORDER_DESCENDING = "DESC"
 
-    fun performSearch(text: String, dbHelper: DbHelper): List<CardEntity> {
-        return performSearch(text, dbHelper, DbHelper.DB_COL_CONTENT)
-    }
+    // TODO: proper date and mood search
 
-    fun performSearch(text: String, dbHelper: DbHelper, column: String): List<CardEntity> {
+    fun performSearch(text: String, dbHelper: DbHelper, column: String?): List<CardEntity> {
         return performSearch(text, dbHelper, ORDER_DESCENDING, column)
     }
 
-    fun performSearch(text: String, dbHelper: DbHelper, order: String, column: String): List<CardEntity> {
+    fun performSearch(text: String, dbHelper: DbHelper, order: String, column: String?): List<CardEntity> {
         val results = ArrayList<CardEntity>()
 
         if (text == "") return results

@@ -3,12 +3,14 @@ package com.jerrwu.quintic.search
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.card.CardEntity
 import com.jerrwu.quintic.entities.card.adapter.CardAdapter
 import com.jerrwu.quintic.helpers.DbHelper
@@ -19,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_search.*
 class SearchActivity : AppCompatActivity() {
     private var mSearchResults: List<CardEntity>? = null
     private var mAdapter: CardAdapter? = null
+    private var mColumn: String? = null
     private var mDbHelper: DbHelper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,16 +31,35 @@ class SearchActivity : AppCompatActivity() {
         searchField.requestFocus()
         mDbHelper = DbHelper(this)
 
-        val spinnerArray: MutableList<String> = ArrayList()
-        spinnerArray.add("item1")
-        spinnerArray.add("item2")
+        val spinnerList = ConstantLists.searchSpinnerOptions
 
         val adapter = ArrayAdapter(
-            this, android.R.layout.simple_spinner_item, spinnerArray
+            this, R.layout.spinner_item, spinnerList
         )
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         searchOptionSpinner.adapter = adapter
+        searchOptionSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View,
+                position: Int,
+                id: Long
+            ) {
+                val selection = spinnerList[position]
+                mColumn = when (selection) {
+                    "Title" -> "Title"
+                    "Content" -> "Content"
+                    "Mood" -> "Mood"
+                    "Time" -> "DateTime"
+                    else -> "Title"
+                }
+                onSearchStarted(searchField.text.toString())
+            }
+
+            override fun onNothingSelected(parentView: AdapterView<*>?) {
+                // no-op
+            }
+        }
 
         searchBackButton.setOnClickListener {
             finish()
@@ -45,17 +67,21 @@ class SearchActivity : AppCompatActivity() {
 
         searchField.setOnEditorActionListener(OnEditorActionListener { view, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                val dbHelper = mDbHelper
-                if (dbHelper != null)
-                mSearchResults = SearchHelper.performSearch(searchField.text.toString(), dbHelper)
-                val results = mSearchResults
-                if (results != null) {
-                    onSearchPerformed(results)
-                }
+                onSearchStarted(searchField.text.toString())
                 return@OnEditorActionListener true
             }
             false
         })
+    }
+
+    private fun onSearchStarted(text: String) {
+        val dbHelper = mDbHelper
+        if (dbHelper != null)
+            mSearchResults = SearchHelper.performSearch(text, dbHelper, mColumn)
+        val results = mSearchResults
+        if (results != null) {
+            onSearchPerformed(results)
+        }
     }
 
     private fun onSearchPerformed(results: List<CardEntity>): Boolean {

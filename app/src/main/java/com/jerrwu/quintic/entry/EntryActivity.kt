@@ -12,6 +12,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entities.mood.adapter.MoodAdapter
 import com.jerrwu.quintic.helpers.DbHelper
@@ -88,15 +89,7 @@ class EntryActivity : AppCompatActivity() {
         moodAddButton.setOnClickListener { toggleMoodSelector() }
         moodAddCancelButton.setOnClickListener { toggleMoodSelector() }
 
-        val moodList = ArrayList<MoodEntity>()
-
-        // add moods
-        moodList.add(MoodEntity.VERY_BAD)
-        moodList.add(MoodEntity.ANGRY)
-        moodList.add(MoodEntity.BAD)
-        moodList.add(MoodEntity.NEUTRAL)
-        moodList.add(MoodEntity.GOOD)
-        moodList.add(MoodEntity.VERY_GOOD)
+        val moodList = ConstantLists.moodSelectorOptions
 
         mAdapter = MoodAdapter(moodList, this, mMood)
         moodRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
