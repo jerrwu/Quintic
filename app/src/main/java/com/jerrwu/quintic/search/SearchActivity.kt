@@ -16,7 +16,6 @@ import com.jerrwu.quintic.entities.card.adapter.CardAdapter
 import com.jerrwu.quintic.helpers.DbHelper
 import com.jerrwu.quintic.helpers.SearchHelper
 import kotlinx.android.synthetic.main.activity_search.*
-import java.time.LocalDateTime
 
 
 class SearchActivity : AppCompatActivity() {

@@ -27,7 +27,7 @@ class DbHelper(context: Context) {
     val sqlCreateTable =
         "CREATE TABLE IF NOT EXISTS $DB_TABLE (" +
                 "$DB_COL_ID INTEGER PRIMARY KEY, $DB_COL_ICON INTEGER, $DB_COL_TITLE TEXT," +
-                " $DB_COL_CONTENT TEXT, $DB_COL_TIME TEXT, $DB_COL_MOOD INTEGER );"
+                " $DB_COL_CONTENT TEXT, $DB_COL_TIME TEXT, $DB_COL_MOOD TEXT );"
 
     private var sqlDb: SQLiteDatabase? = null
 

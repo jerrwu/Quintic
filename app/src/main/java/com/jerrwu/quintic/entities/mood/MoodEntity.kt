@@ -12,6 +12,18 @@ class MoodEntity(var id: Int, var icOutline: Int, var icFilled: Int, var color: 
         val VERY_GOOD = MoodEntity(5, R.drawable.ic_excited_outline, R.drawable.ic_excited, R.color.green, "Very Happy")
         val ANGRY = MoodEntity(6, R.drawable.ic_angry_outline, R.drawable.ic_angry, R.color.red, "Angry")
 
+        fun parse(mood: String?): MoodEntity {
+            return when (mood) {
+                VERY_BAD.name -> VERY_BAD
+                BAD.name -> BAD
+                NEUTRAL.name -> NEUTRAL
+                GOOD.name -> GOOD
+                VERY_GOOD.name -> VERY_GOOD
+                ANGRY.name -> ANGRY
+                else -> NONE
+            }
+        }
+
         fun parse(mood: Int?): MoodEntity {
             return when (mood) {
                 VERY_BAD.id -> VERY_BAD

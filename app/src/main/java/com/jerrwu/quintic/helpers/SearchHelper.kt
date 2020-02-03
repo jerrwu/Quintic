@@ -39,7 +39,7 @@ object SearchHelper {
                     val cdTitle = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_TITLE))
                     val cdCont = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_CONTENT))
                     val cdTime = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_TIME))
-                    val cdMood = cursor.getInt(cursor.getColumnIndex(DbHelper.DB_COL_MOOD))
+                    val cdMood = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_MOOD))
 
                     results.add(
                         CardEntity(

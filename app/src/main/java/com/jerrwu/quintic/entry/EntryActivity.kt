@@ -209,7 +209,7 @@ class EntryActivity : AppCompatActivity() {
             values.put(DbHelper.DB_COL_TITLE, titleText)
             values.put(DbHelper.DB_COL_CONTENT, conText)
             values.put(DbHelper.DB_COL_TIME, createdDate.toString())
-            values.put(DbHelper.DB_COL_MOOD, mMood.id)
+            values.put(DbHelper.DB_COL_MOOD, mMood.name)
             values.put(DbHelper.DB_COL_DATE_EXTERNAL, formatterDb.format(createdDate))
 
             if (id == 0) {
