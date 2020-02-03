@@ -19,7 +19,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "BUILD_NUMBER", "\"B${versionCode}-${formattedDate}\""
-        buildConfigField "Integer", "DATABASE_VERSION", "2"
+        buildConfigField "Integer", "DATABASE_VERSION", "3"
     }
     buildTypes {
         debug {

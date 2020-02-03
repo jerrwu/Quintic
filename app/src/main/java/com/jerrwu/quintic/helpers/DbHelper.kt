@@ -19,6 +19,7 @@ class DbHelper(context: Context) {
         const val DB_COL_CONTENT = "Content"
         const val DB_COL_TIME = "DateTime"
         const val DB_COL_MOOD = "Mood"
+        const val DB_COL_DATE_EXTERNAL = "Time"
     }
 
     val dbVersion: Int = BuildConfig.DATABASE_VERSION
@@ -48,8 +49,12 @@ class DbHelper(context: Context) {
         }
 
         override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-            if (oldVersion < 2)
+            if (oldVersion < 2) {
                 db!!.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_MOOD INTEGER")
+            }
+            if (oldVersion < 3) {
+                db!!.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_DATE_EXTERNAL TEXT")
+            }
             Toast.makeText(this.context, "Database upgraded!", Toast.LENGTH_SHORT).show()
         }
 

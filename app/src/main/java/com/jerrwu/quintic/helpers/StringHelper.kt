@@ -27,6 +27,50 @@ object StringHelper {
         }
     }
 
+    fun parseMonth(month: String): String {
+        return when {
+            "january".contains(month, ignoreCase = true) -> {
+                "01"
+            }
+            "february".contains(month, ignoreCase = true) -> {
+                "02"
+            }
+            "march".contains(month, ignoreCase = true) -> {
+                "03"
+            }
+            "april".contains(month, ignoreCase = true) -> {
+                "04"
+            }
+            "may".contains(month, ignoreCase = true) -> {
+                "05"
+            }
+            "june".contains(month, ignoreCase = true) -> {
+                "06"
+            }
+            "july".contains(month, ignoreCase = true) -> {
+                "07"
+            }
+            "august".contains(month, ignoreCase = true) -> {
+                "08"
+            }
+            "september".contains(month, ignoreCase = true) -> {
+                "09"
+            }
+            "october".contains(month, ignoreCase = true) -> {
+                "10"
+            }
+            "november".contains(month, ignoreCase = true) -> {
+                "11"
+            }
+            "december".contains(month, ignoreCase = true) -> {
+                "12"
+            }
+            else -> {
+                "00"
+            }
+        }
+    }
+
     fun getGreeting(time: String, context: Context?): String {
         return if (Math.random() < 0.95) {
             when (time.toInt()) {

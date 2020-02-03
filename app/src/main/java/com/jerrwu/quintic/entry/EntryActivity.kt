@@ -29,6 +29,7 @@ class EntryActivity : AppCompatActivity() {
     private val formatterDate = DateTimeFormatter.ofPattern("E MMM dd, yyyy")
     private val formatterWeekday = DateTimeFormatter.ofPattern("EEEE")
     private val formatterHour = DateTimeFormatter.ofPattern("HH")
+    private val formatterDb = DateTimeFormatter.ofPattern("EEEE MMMM dd yyyy")
     private var dbHelper: DbHelper? = null
     private var mMood: MoodEntity = MoodEntity.NONE
     private var isSelectorOpen = false
@@ -209,6 +210,7 @@ class EntryActivity : AppCompatActivity() {
             values.put(DbHelper.DB_COL_CONTENT, conText)
             values.put(DbHelper.DB_COL_TIME, createdDate.toString())
             values.put(DbHelper.DB_COL_MOOD, mMood.id)
+            values.put(DbHelper.DB_COL_DATE_EXTERNAL, formatterDb.format(createdDate))
 
             if (id == 0) {
                 val dbID = dbHelper.insert(values)

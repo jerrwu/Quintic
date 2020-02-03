@@ -16,6 +16,7 @@ import com.jerrwu.quintic.entities.card.adapter.CardAdapter
 import com.jerrwu.quintic.helpers.DbHelper
 import com.jerrwu.quintic.helpers.SearchHelper
 import kotlinx.android.synthetic.main.activity_search.*
+import java.time.LocalDateTime
 
 
 class SearchActivity : AppCompatActivity() {
@@ -46,13 +47,7 @@ class SearchActivity : AppCompatActivity() {
                 id: Long
             ) {
                 val selection = spinnerList[position]
-                mColumn = when (selection) {
-                    "Title" -> "Title"
-                    "Content" -> "Content"
-                    "Mood" -> "Mood"
-                    "Time" -> "DateTime"
-                    else -> "Title"
-                }
+                mColumn = selection
                 onSearchStarted(searchField.text.toString())
             }
 
