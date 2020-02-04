@@ -12,7 +12,7 @@ object SearchHelper {
     fun performExactSearch(text: String, dbHelper: DbHelper, order: String, column: String?): List<EntryEntity> {
         val results = ArrayList<EntryEntity>()
 
-        if (text == "") return results
+        if (text.isBlank()) return results
 
         val projections = arrayOf(
             DbHelper.DB_COL_ID,
@@ -58,12 +58,11 @@ object SearchHelper {
     }
 
     fun performSearch(text: String, dbHelper: DbHelper, order: String, column: String?): List<EntryEntity> {
+        val results = ArrayList<EntryEntity>()
+
+        if (text.isBlank()) return results
+
         return performExactSearch("%$text%", dbHelper, order, column)
     }
 
-    private fun <T> Array<T>.mapInPlace(transform: (T) -> T) {
-        for (i in this.indices) {
-            this[i] = transform(this[i])
-        }
-    }
 }

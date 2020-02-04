@@ -19,6 +19,9 @@ data class Month(
         val DEC = Month(12, null)
     }
 
+    constructor(number: Int):
+            this(if (number % 12 == 0) 12 else number % 12, null)
+
     override fun toString(): String {
         return when (number) {
             1 -> "January"

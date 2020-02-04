@@ -7,9 +7,9 @@ object ConstantLists {
     val moodSelectorOptions = listOf(
         MoodEntity.VERY_BAD, MoodEntity.ANGRY, MoodEntity.BAD, MoodEntity.NEUTRAL, MoodEntity.GOOD, MoodEntity.VERY_GOOD)
     val searchSpinnerOptionsDebug = listOf(
-        "Title", "Content", "Mood", "Time")
+        "Title", "Content", "Mood", "Time", "Hours")
     val searchSpinnerOptions = listOf(
-        "Title", "Content", "Mood")
+        "Title", "Content", "Mood", "Hours")
     val searchMoodOptions = listOf(
         MoodEntity.GOOD, MoodEntity.BAD, MoodEntity.NEUTRAL, MoodEntity.ANGRY, MoodEntity.VERY_GOOD, MoodEntity.VERY_BAD)
     val searchMonthOptions = listOf(

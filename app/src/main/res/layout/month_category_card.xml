@@ -6,9 +6,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <FrameLayout
         android:layout_margin="16dp"
         android:layout_width="38dp"
@@ -51,8 +49,7 @@
             android:textColor="@color/colorFont"
             android:fontFamily="@font/productsansmedium"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/month" />
+            android:layout_height="wrap_content" />
 
         <ImageView
             android:layout_gravity="bottom|start"

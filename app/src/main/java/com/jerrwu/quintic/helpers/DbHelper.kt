@@ -20,6 +20,7 @@ class DbHelper(context: Context) {
         const val DB_COL_TIME = "DateTime"
         const val DB_COL_MOOD = "Mood"
         const val DB_COL_DATE_EXTERNAL = "Time"
+        const val DB_COL_HOURS = "Hours"
     }
 
     val dbVersion: Int = BuildConfig.DATABASE_VERSION
@@ -28,7 +29,7 @@ class DbHelper(context: Context) {
         "CREATE TABLE IF NOT EXISTS $DB_TABLE (" +
                 "$DB_COL_ID INTEGER PRIMARY KEY, $DB_COL_ICON INTEGER, $DB_COL_TITLE TEXT," +
                 " $DB_COL_CONTENT TEXT, $DB_COL_TIME TEXT, $DB_COL_MOOD TEXT," +
-                " $DB_COL_DATE_EXTERNAL TEXT);"
+                " $DB_COL_DATE_EXTERNAL TEXT, $DB_COL_HOURS TEXT);"
 
     private var sqlDb: SQLiteDatabase? = null
 
@@ -55,6 +56,9 @@ class DbHelper(context: Context) {
             }
             if (oldVersion < 3) {
                 db!!.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_DATE_EXTERNAL TEXT")
+            }
+            if (oldVersion < 4)  {
+                db!!.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_HOURS TEXT")
             }
             Toast.makeText(this.context, "Database upgraded!", Toast.LENGTH_SHORT).show()
         }

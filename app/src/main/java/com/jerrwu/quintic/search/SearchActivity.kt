@@ -38,6 +38,7 @@ class SearchActivity : AppCompatActivity() {
     private var mDbHelper: DbHelper? = null
     private var mSearchType: String? = null
     private var mSearchString: String? = null
+    private var mUseExact: Boolean = false
 
     override fun onResume() {
         super.onResume()
@@ -75,7 +76,7 @@ class SearchActivity : AppCompatActivity() {
             ) {
                 val selection = spinnerList[position]
                 mColumn = selection
-                onSearchStarted()
+                if (mUseExact) onExactSearchStarted() else onSearchStarted()
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {
@@ -88,9 +89,10 @@ class SearchActivity : AppCompatActivity() {
         }
 
         if (mSearchType != null) try {
+            mUseExact = true
             val i = spinnerList.indexOf(mSearchType as String)
             searchOptionSpinner.setSelection(i)
-            if (i == 0) onSearchStarted()
+            if (i == 0) onExactSearchStarted()
         } catch (e: IndexOutOfBoundsException) {
             throw e
         }
@@ -107,6 +109,17 @@ class SearchActivity : AppCompatActivity() {
             }
             false
         })
+    }
+
+    private fun onExactSearchStarted() {
+        val dbHelper = mDbHelper
+        val column = mColumn
+        if (dbHelper != null && column != null)
+            mSearchResults = SearchHelper.performExactSearch(searchField.text.toString(), dbHelper, SearchHelper.ORDER_DESCENDING, column)
+        val results = mSearchResults
+        if (results != null) {
+            onSearchPerformed(results)
+        }
     }
 
     private fun onSearchStarted() {
