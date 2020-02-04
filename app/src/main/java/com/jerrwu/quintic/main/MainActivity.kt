@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
                     toolbar_title.text = getText(R.string.menu_search)
                     fm.beginTransaction()
-                        .setCustomAnimations(R.anim.slide_from_bottom, R.anim.fade_out)
+                        .setCustomAnimations(R.anim.slide_from_bottom, 0)
                         .hide(active)
                         .show(fragment2)
                         .commit()

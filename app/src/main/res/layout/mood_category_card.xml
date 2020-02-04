@@ -19,7 +19,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:padding="8dp"
+            android:padding="12dp"
             android:id="@+id/moodCategoryCardImageView"
             android:layout_gravity="top"
             android:src="@drawable/ic_neutral_outline"

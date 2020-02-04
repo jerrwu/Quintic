@@ -1,11 +1,15 @@
 package com.jerrwu.quintic.main.fragment
 
 
+import android.animation.Animator
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.Animation.AnimationListener
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.R
@@ -28,12 +32,18 @@ class FragmentSearch : Fragment() {
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart() {
+        super.onStart()
 
+        loadMoodRecycler()
+        loadMonthRecycler()
+    }
+
+    private fun loadMoodRecycler() {
         val moodList = ConstantLists.searchMoodOptions
 
         mMoodAdapter = SearchMoodAdapter(moodList)
+        mMoodAdapter?.setHasStableIds(true)
         moodSearchCarousel.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         moodSearchCarousel.adapter = mMoodAdapter
         moodSearchCarousel.setHasFixedSize(true)
@@ -44,7 +54,9 @@ class FragmentSearch : Fragment() {
             intent.putExtra(SearchActivity.SEARCH_STRING, mood.name)
             startActivity(intent)
         }
+    }
 
+    private fun loadMonthRecycler() {
         val monthList = ConstantLists.searchMonthOptions
 
         mMonthAdapter = SearchMonthAdapter(monthList)
@@ -54,6 +66,11 @@ class FragmentSearch : Fragment() {
         monthSearchRecycler.isNestedScrollingEnabled = false
         monthSearchRecycler.setHasFixedSize(true)
 
+        mMonthAdapter?.onItemClick = { month ->
+            val intent = Intent(activity, SearchActivity::class.java)
+            intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_TIME)
+            intent.putExtra(SearchActivity.SEARCH_STRING, month.toString())
+            startActivity(intent)
+        }
     }
-
 }
