@@ -1,6 +1,6 @@
 package com.jerrwu.quintic.helpers
 
-import com.jerrwu.quintic.entities.card.CardEntity
+import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import java.time.LocalDateTime
 
@@ -9,8 +9,8 @@ object SearchHelper {
     const val ORDER_ASCENDING = "ASC"
     const val ORDER_DESCENDING = "DESC"
 
-    fun performExactSearch(text: String, dbHelper: DbHelper, order: String, column: String?): List<CardEntity> {
-        val results = ArrayList<CardEntity>()
+    fun performExactSearch(text: String, dbHelper: DbHelper, order: String, column: String?): List<EntryEntity> {
+        val results = ArrayList<EntryEntity>()
 
         if (text == "") return results
 
@@ -36,7 +36,7 @@ object SearchHelper {
                 val cdMood = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_MOOD))
 
                 results.add(
-                    CardEntity(
+                    EntryEntity(
                         cdId,
                         cdIc,
                         cdTitle,
@@ -53,11 +53,11 @@ object SearchHelper {
         return results
     }
 
-    fun performSearch(text: String, dbHelper: DbHelper, column: String?): List<CardEntity> {
+    fun performSearch(text: String, dbHelper: DbHelper, column: String?): List<EntryEntity> {
         return performSearch(text, dbHelper, ORDER_DESCENDING, column)
     }
 
-    fun performSearch(text: String, dbHelper: DbHelper, order: String, column: String?): List<CardEntity> {
+    fun performSearch(text: String, dbHelper: DbHelper, order: String, column: String?): List<EntryEntity> {
         return performExactSearch("%$text%", dbHelper, order, column)
     }
 

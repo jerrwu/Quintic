@@ -10,15 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.constants.ConstantLists
-import com.jerrwu.quintic.entities.mood.adapter.MoodAdapter
 import com.jerrwu.quintic.search.SearchActivity
+import com.jerrwu.quintic.search.adapter.SearchMonthAdapter
 import com.jerrwu.quintic.search.adapter.SearchMoodAdapter
-import kotlinx.android.synthetic.main.activity_entry.*
 import kotlinx.android.synthetic.main.fragment_search.*
 
 
 class FragmentSearch : Fragment() {
-    private var mAdapter: SearchMoodAdapter? = null
+    private var mMoodAdapter: SearchMoodAdapter? = null
+    private var mMonthAdapter: SearchMonthAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,16 +33,27 @@ class FragmentSearch : Fragment() {
 
         val moodList = ConstantLists.searchMoodOptions
 
-        mAdapter = SearchMoodAdapter(moodList)
+        mMoodAdapter = SearchMoodAdapter(moodList)
         moodSearchCarousel.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        moodSearchCarousel.adapter = mAdapter
+        moodSearchCarousel.adapter = mMoodAdapter
+        moodSearchCarousel.setHasFixedSize(true)
 
-        mAdapter?.onItemClick = { mood ->
+        mMoodAdapter?.onItemClick = { mood ->
             val intent = Intent(activity, SearchActivity::class.java)
             intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_MOOD)
             intent.putExtra(SearchActivity.SEARCH_STRING, mood.name)
             startActivity(intent)
         }
+
+        val monthList = ConstantLists.searchMonthOptions
+
+        mMonthAdapter = SearchMonthAdapter(monthList)
+        mMonthAdapter?.setHasStableIds(true)
+        monthSearchRecycler.layoutManager = LinearLayoutManager(activity)
+        monthSearchRecycler.adapter = mMonthAdapter
+        monthSearchRecycler.isNestedScrollingEnabled = false
+        monthSearchRecycler.setHasFixedSize(true)
+
     }
 
 }

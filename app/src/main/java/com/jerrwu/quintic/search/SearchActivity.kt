@@ -13,16 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.BuildConfig
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.constants.ConstantLists
-import com.jerrwu.quintic.entities.card.CardEntity
-import com.jerrwu.quintic.entities.card.adapter.CardAdapter
-import com.jerrwu.quintic.entities.mood.MoodEntity
+import com.jerrwu.quintic.entities.entry.EntryEntity
+import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.helpers.DbHelper
 import com.jerrwu.quintic.helpers.SearchHelper
-import kotlinx.android.synthetic.main.activity_entry.*
 import kotlinx.android.synthetic.main.activity_search.*
 import java.lang.IndexOutOfBoundsException
-import java.time.LocalDateTime
 
 
 class SearchActivity : AppCompatActivity() {
@@ -35,8 +32,8 @@ class SearchActivity : AppCompatActivity() {
         const val SEARCH_TYPE_TIME = "Time"
     }
 
-    private var mSearchResults: List<CardEntity>? = null
-    private var mAdapter: CardAdapter? = null
+    private var mSearchResults: List<EntryEntity>? = null
+    private var mAdapter: EntryAdapter? = null
     private var mColumn: String? = null
     private var mDbHelper: DbHelper? = null
     private var mSearchType: String? = null
@@ -122,7 +119,7 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun onSearchPerformed(results: List<CardEntity>): Boolean {
+    private fun onSearchPerformed(results: List<EntryEntity>): Boolean {
         searchActivityRecyclerView.adapter = null
 
         if (results.isEmpty()) {
@@ -131,18 +128,18 @@ class SearchActivity : AppCompatActivity() {
         }
 
         searchNoResultsText.visibility = View.GONE
-        mAdapter = CardAdapter(results)
+        mAdapter = EntryAdapter(results)
         searchActivityRecyclerView.layoutManager = LinearLayoutManager(this)
         searchActivityRecyclerView.adapter = mAdapter
         mAdapter?.mContext = this
 
-        mAdapter?.onItemClick = { card, _ ->
+        mAdapter?.onItemClick = { entry, _ ->
             val intent = Intent(this, EntryActivity::class.java)
-            intent.putExtra(DbHelper.DB_COL_ID, card.id)
-            intent.putExtra(DbHelper.DB_COL_TITLE, card.title)
-            intent.putExtra(DbHelper.DB_COL_CONTENT, card.content)
-            intent.putExtra(DbHelper.DB_COL_TIME, card.time.toString())
-            intent.putExtra(DbHelper.DB_COL_MOOD, card.mood?.id)
+            intent.putExtra(DbHelper.DB_COL_ID, entry.id)
+            intent.putExtra(DbHelper.DB_COL_TITLE, entry.title)
+            intent.putExtra(DbHelper.DB_COL_CONTENT, entry.content)
+            intent.putExtra(DbHelper.DB_COL_TIME, entry.time.toString())
+            intent.putExtra(DbHelper.DB_COL_MOOD, entry.mood?.id)
             startActivity(intent)
         }
         return true

@@ -20,13 +20,13 @@
             android:fontFamily="@font/productsansmedium"
             android:textColor="@color/colorSecondary"
             android:text="@string/mood"
-            android:id="@+id/searchMoodText"
+            android:id="@+id/searchSectionMoodText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <androidx.recyclerview.widget.RecyclerView
             tools:listitem="@layout/mood_category_card"
-            android:layout_below="@id/searchMoodText"
+            android:layout_below="@id/searchSectionMoodText"
             android:scrollbars="none"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
@@ -44,273 +44,17 @@
             android:layout_below="@id/moodSearchCarousel"
             android:fontFamily="@font/productsansmedium"
             android:textColor="@color/colorSecondary"
-            android:text="@string/section_2"
-            android:id="@+id/section2Text"
+            android:text="@string/month"
+            android:id="@+id/searchSectionMonthText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_below="@id/section2Text"
+        <androidx.recyclerview.widget.RecyclerView
+            tools:listitem="@layout/month_category_card"
+            android:id="@+id/monthSearchRecycler"
+            android:layout_below="@id/searchSectionMonthText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_margin="16dp"
-                    app:strokeWidth="1.5dp"
-                    app:strokeColor="@color/colorQuad"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@color/colorMain"
-                    app:cardCornerRadius="28dp"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp">
-
-                    <ImageView
-                        android:tint="@color/colorSecondary"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_folder_pound"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"/>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_gravity="center_vertical"
-                        android:textSize="16sp"
-                        android:textColor="@color/colorFont"
-                        android:fontFamily="@font/productsansmedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/category_1" />
-
-                    <ImageView
-                        android:layout_gravity="bottom|start"
-                        android:tint="@color/colorQuad"
-                        android:src="@drawable/line_seperator"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
-
-                </FrameLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_margin="16dp"
-                    app:strokeWidth="1.5dp"
-                    app:strokeColor="@color/colorQuad"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@color/colorMain"
-                    app:cardCornerRadius="28dp"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp">
-
-                    <ImageView
-                        android:tint="@color/colorSecondary"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_folder_pound"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"/>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_gravity="center_vertical"
-                        android:textSize="16sp"
-                        android:textColor="@color/colorFont"
-                        android:fontFamily="@font/productsansmedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/category_2" />
-
-                    <ImageView
-                        android:layout_gravity="bottom|start"
-                        android:tint="@color/colorQuad"
-                        android:src="@drawable/line_seperator"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
-
-                </FrameLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_margin="16dp"
-                    app:strokeWidth="1.5dp"
-                    app:strokeColor="@color/colorQuad"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@color/colorMain"
-                    app:cardCornerRadius="28dp"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp">
-
-                    <ImageView
-                        android:tint="@color/colorSecondary"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_folder_pound"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"/>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_gravity="center_vertical"
-                        android:textSize="16sp"
-                        android:textColor="@color/colorFont"
-                        android:fontFamily="@font/productsansmedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/category_3" />
-
-                    <ImageView
-                        android:layout_gravity="bottom|start"
-                        android:tint="@color/colorQuad"
-                        android:src="@drawable/line_seperator"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
-
-                </FrameLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_margin="16dp"
-                    app:strokeWidth="1.5dp"
-                    app:strokeColor="@color/colorQuad"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@color/colorMain"
-                    app:cardCornerRadius="28dp"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp">
-
-                    <ImageView
-                        android:tint="@color/colorSecondary"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_folder_pound"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"/>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_gravity="center_vertical"
-                        android:textSize="16sp"
-                        android:textColor="@color/colorFont"
-                        android:fontFamily="@font/productsansmedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/category_4" />
-
-                    <ImageView
-                        android:layout_gravity="bottom|start"
-                        android:tint="@color/colorQuad"
-                        android:src="@drawable/line_seperator"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
-
-                </FrameLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_margin="16dp"
-                    app:strokeWidth="1.5dp"
-                    app:strokeColor="@color/colorQuad"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@color/colorMain"
-                    app:cardCornerRadius="28dp"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp">
-
-                    <ImageView
-                        android:tint="@color/colorSecondary"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_folder_pound"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"/>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_gravity="center_vertical"
-                        android:textSize="16sp"
-                        android:textColor="@color/colorFont"
-                        android:fontFamily="@font/productsansmedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/category_5" />
-
-                    <ImageView
-                        android:layout_gravity="bottom|start"
-                        android:tint="@color/colorQuad"
-                        android:src="@drawable/line_seperator"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
-
-                </FrameLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
+            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 

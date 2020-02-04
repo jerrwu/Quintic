@@ -10,8 +10,7 @@ import android.content.Intent
 import android.content.Context
 import android.content.res.Configuration
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.entities.card.CardEntity
-import com.jerrwu.quintic.entities.card.adapter.CardAdapter
+import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.main.MainActivity
 
 
@@ -40,7 +39,7 @@ object InfoHelper {
 
     fun showDialog(
         titleString: String, bodyString: String, textYes: String, textNo: String, activity: Context,
-        func: ((List<CardEntity>) -> Unit?), list: List<CardEntity>
+        func: ((List<EntryEntity>) -> Unit?), list: List<EntryEntity>
     ): Dialog {
         val dialog = Dialog(activity, R.style.DialogTheme)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

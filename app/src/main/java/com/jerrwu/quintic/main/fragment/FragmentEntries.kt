@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.account.AccountActivity
-import com.jerrwu.quintic.entities.card.CardEntity
-import com.jerrwu.quintic.entities.card.adapter.CardAdapter
+import com.jerrwu.quintic.entities.entry.EntryEntity
+import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.helpers.DbHelper
@@ -30,8 +30,8 @@ import java.time.format.DateTimeFormatter
 
 class FragmentEntries : Fragment() {
     private var mRecyclerView: RecyclerView? = null
-    var mAdapter: CardAdapter? = null
-    private var cardList: ArrayList<CardEntity> = ArrayList()
+    var mAdapter: EntryAdapter? = null
+    private var entryList: ArrayList<EntryEntity> = ArrayList()
     private var mDbHelper: DbHelper? = null
 
     override fun onResume() {
@@ -91,7 +91,7 @@ class FragmentEntries : Fragment() {
             mRecyclerView = mActivity.findViewById(R.id.recycler_view)
             val mLayoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
             if (mRecyclerView != null) mRecyclerView?.layoutManager = mLayoutManager
-            mAdapter = CardAdapter(cardList)
+            mAdapter = EntryAdapter(entryList)
             mAdapter?.mContext = mActivity
         }
 
@@ -121,15 +121,15 @@ class FragmentEntries : Fragment() {
     }
 
     private fun toggleEmptyNotices() {
-        if (cardList.isEmpty()) {
+        if (entryList.isEmpty()) {
             empty_recycler_notice.visibility = View.VISIBLE
             daily_suggestion_card_container.visibility = View.GONE
         } else {
             empty_recycler_notice.visibility = View.GONE
             val current = LocalDate.now()
-            val filteredCardList: List<CardEntity> = cardList.filter {
+            val filteredEntryList: List<EntryEntity> = entryList.filter {
                     card -> card.time!!.toLocalDate() == current }
-            if (filteredCardList.isEmpty()) daily_suggestion_card_container.visibility = View.VISIBLE
+            if (filteredEntryList.isEmpty()) daily_suggestion_card_container.visibility = View.VISIBLE
         }
     }
 
@@ -155,7 +155,7 @@ class FragmentEntries : Fragment() {
         }
     }
 
-    private fun deleteEntries(items: List<CardEntity>) {
+    private fun deleteEntries(items: List<EntryEntity>) {
         if (mDbHelper == null && activity != null) {
             mDbHelper = DbHelper(activity as Context)
         }
@@ -234,7 +234,7 @@ class FragmentEntries : Fragment() {
             val selectionArgs = arrayOf(title)
             val cursor = dbHelper.query(
                 projections, "Title like ?", selectionArgs, DbHelper.DB_COL_ID+" DESC")
-            cardList.clear()
+            entryList.clear()
             if (cursor.moveToFirst()) {
 
                 do {
@@ -245,8 +245,8 @@ class FragmentEntries : Fragment() {
                     val cdTime = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_TIME))
                     val cdMood = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_MOOD))
 
-                    cardList.add(
-                        CardEntity(
+                    entryList.add(
+                        EntryEntity(
                             cdId,
                             cdIc,
                             cdTitle,
@@ -264,7 +264,7 @@ class FragmentEntries : Fragment() {
     }
 
     private fun resetAdapterSelected() {
-        if (mAdapter != null && mAdapter is CardAdapter) {
+        if (mAdapter != null && mAdapter is EntryAdapter) {
             mAdapter?.itemsSelected?.clear()
             mAdapter?.isMultiSelect = false
         }
