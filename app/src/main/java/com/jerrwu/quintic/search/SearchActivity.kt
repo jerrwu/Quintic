@@ -30,6 +30,7 @@ class SearchActivity : AppCompatActivity() {
         const val SEARCH_TYPE_CONTENT = "Content"
         const val SEARCH_TYPE_MOOD = "Mood"
         const val SEARCH_TYPE_TIME = "Time"
+        const val SEARCH_TYPE_HOURS = "Hours"
     }
 
     private var mSearchResults: List<EntryEntity>? = null
