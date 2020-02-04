@@ -200,11 +200,9 @@ class EntryActivity : AppCompatActivity() {
             var titleText = entryTitleEditText.text.toString()
             val conText = entryContentEditText.text.toString()
             if (createdDate == null) {
-                Log.d("jerrydebug", "datetime is not null")
                 createdDate = LocalDateTime.now()
             }
             if (titleText == "") {
-                Log.d("jerrydebug", "title text is not null")
                 titleText = formatterWeekday.format(createdDate) + " " +
                         StringHelper.getDaySection(formatterHour.format(createdDate), this)
             }
@@ -216,18 +214,14 @@ class EntryActivity : AppCompatActivity() {
             values.put(DbHelper.DB_COL_DATE_EXTERNAL, formatterDb.format(createdDate))
 
             if (id == 0) {
-                Log.d("jerrydebug", "id is 0")
                 val dbID = dbHelper.insert(values)
                 if (dbID > 0) {
-                    Log.d("jerrydebug", "dbid is greater than 0")
                     finish()
                 }
             } else {
-                Log.d("jerrydebug", "id is not 0")
                 val selectionArgs = arrayOf(id.toString())
                 val dbID = dbHelper.update(values, "ID=?", selectionArgs)
                 if (dbID > 0) {
-                    Log.d("jerrydebug", "dbid is greater than 0")
                     finish()
                 }
             }
