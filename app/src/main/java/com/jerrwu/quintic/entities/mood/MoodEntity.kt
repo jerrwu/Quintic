@@ -1,8 +1,15 @@
 package com.jerrwu.quintic.entities.mood
 
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import com.jerrwu.quintic.R
 
-class MoodEntity(var id: Int, var icOutline: Int, var icFilled: Int, var color: Int, var name: String) {
+class MoodEntity(
+    var id: Int,
+    @DrawableRes var icOutline: Int,
+    @DrawableRes var icFilled: Int,
+    @ColorRes var color: Int,
+    var name: String) {
     companion object {
         val NONE = MoodEntity(0, 0, 0, 0, "")
         val VERY_BAD = MoodEntity(1, R.drawable.ic_cry_outline, R.drawable.ic_cry, R.color.purple, "Very Sad")

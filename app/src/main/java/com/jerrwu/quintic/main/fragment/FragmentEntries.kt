@@ -30,7 +30,7 @@ import java.time.format.DateTimeFormatter
 
 class FragmentEntries : Fragment() {
     private var mRecyclerView: RecyclerView? = null
-    var mAdapter: RecyclerView.Adapter<*>? = null
+    var mAdapter: CardAdapter? = null
     private var cardList: ArrayList<CardEntity> = ArrayList()
     private var mDbHelper: DbHelper? = null
 
@@ -90,20 +90,20 @@ class FragmentEntries : Fragment() {
         if (mActivity != null) {
             mRecyclerView = mActivity.findViewById(R.id.recycler_view)
             val mLayoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
-            if (mRecyclerView != null) (mRecyclerView as RecyclerView).layoutManager = mLayoutManager
+            if (mRecyclerView != null) mRecyclerView?.layoutManager = mLayoutManager
             mAdapter = CardAdapter(cardList)
-            (mAdapter as CardAdapter).mContext = mActivity
+            mAdapter?.mContext = mActivity
         }
 
 
         val recyclerView = mRecyclerView
         if (recyclerView != null) {
             recyclerView.adapter = mAdapter
-            (mAdapter as CardAdapter).onItemLongClick = { _ ->
+            mAdapter?.onItemLongClick = { _ ->
                 showSelectionToolbar()
                 true
             }
-            (mAdapter as CardAdapter).onItemClick = { card, dismissToolbar ->
+            mAdapter?.onItemClick = { card, dismissToolbar ->
                 // Toast.makeText(activity, card.id.toString(), Toast.LENGTH_SHORT).show()
                 if (dismissToolbar) {
                     hideSelectionToolbar()
@@ -141,7 +141,8 @@ class FragmentEntries : Fragment() {
             mActivity.toolbarBackButton.setOnClickListener { hideSelectionToolbar() }
             mActivity.toolbarDeleteButton.setOnClickListener {
                 if (mAdapter != null) {
-                    val items = (mAdapter as CardAdapter).itemsSelected.toMutableList()
+                    val items = mAdapter?.itemsSelected?.toMutableList()
+                    if (items != null)
                     InfoHelper.showDialog(
                         StringHelper.getString(R.string.confirm_delete_multiple_title, mActivity),
                         StringHelper.getString(R.string.confirm_delete_multiple, mActivity),
@@ -264,8 +265,8 @@ class FragmentEntries : Fragment() {
 
     private fun resetAdapterSelected() {
         if (mAdapter != null && mAdapter is CardAdapter) {
-            (mAdapter as CardAdapter).itemsSelected.clear()
-            (mAdapter as CardAdapter).isMultiSelect = false
+            mAdapter?.itemsSelected?.clear()
+            mAdapter?.isMultiSelect = false
         }
     }
 

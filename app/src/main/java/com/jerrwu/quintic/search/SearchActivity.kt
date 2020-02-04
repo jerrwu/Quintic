@@ -15,17 +15,32 @@ import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.card.CardEntity
 import com.jerrwu.quintic.entities.card.adapter.CardAdapter
+import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.helpers.DbHelper
 import com.jerrwu.quintic.helpers.SearchHelper
+import kotlinx.android.synthetic.main.activity_entry.*
 import kotlinx.android.synthetic.main.activity_search.*
+import java.lang.IndexOutOfBoundsException
+import java.time.LocalDateTime
 
 
 class SearchActivity : AppCompatActivity() {
+    companion object {
+        const val SEARCH_TYPE = "SearchType"
+        const val SEARCH_STRING = "SearchString"
+        const val SEARCH_TYPE_TITLE = "Title"
+        const val SEARCH_TYPE_CONTENT = "Content"
+        const val SEARCH_TYPE_MOOD = "Mood"
+        const val SEARCH_TYPE_TIME = "Time"
+    }
+
     private var mSearchResults: List<CardEntity>? = null
     private var mAdapter: CardAdapter? = null
     private var mColumn: String? = null
     private var mDbHelper: DbHelper? = null
+    private var mSearchType: String? = null
+    private var mSearchString: String? = null
 
     override fun onResume() {
         super.onResume()
@@ -36,6 +51,12 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+
+        val bundle: Bundle? = intent.extras
+        if (bundle != null) {
+            mSearchType = bundle.getString(SEARCH_TYPE)
+            mSearchString = bundle.getString(SEARCH_STRING)
+        }
 
         searchField.requestFocus()
         mDbHelper = DbHelper(this)
@@ -64,6 +85,19 @@ class SearchActivity : AppCompatActivity() {
                 // no-op
             }
         }
+
+        if (mSearchString != null) {
+            searchField.setText(mSearchString)
+        }
+
+        if (mSearchType != null) try {
+            val i = spinnerList.indexOf(mSearchType as String)
+            searchOptionSpinner.setSelection(i)
+            if (i == 0) onSearchStarted()
+        } catch (e: IndexOutOfBoundsException) {
+            throw e
+        }
+
 
         searchBackButton.setOnClickListener {
             finish()
