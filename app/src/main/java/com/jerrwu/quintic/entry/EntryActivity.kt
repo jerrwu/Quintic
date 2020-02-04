@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,7 +31,7 @@ class EntryActivity : AppCompatActivity() {
     private val formatterWeekday = DateTimeFormatter.ofPattern("EEEE")
     private val formatterHour = DateTimeFormatter.ofPattern("HH")
     private val formatterDb = DateTimeFormatter.ofPattern("EEEE MMMM dd yyyy")
-    private var dbHelper: DbHelper? = null
+    private var mDbHelper: DbHelper? = null
     private var mMood: MoodEntity = MoodEntity.NONE
     private var isSelectorOpen = false
     private var mAdapter: MoodAdapter? = null
@@ -48,7 +49,7 @@ class EntryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entry)
 
-        dbHelper = DbHelper(this)
+        mDbHelper = DbHelper(this)
 
         entryDateTimeView.visibility = View.GONE
 
@@ -184,7 +185,7 @@ class EntryActivity : AppCompatActivity() {
     }
 
     private fun deleteEntry(context: Context) {
-        val dbHelper = dbHelper
+        val dbHelper = mDbHelper
         if (dbHelper != null) {
             val selectionArgs = arrayOf(id.toString())
             dbHelper.delete("ID=?", selectionArgs)
@@ -193,15 +194,17 @@ class EntryActivity : AppCompatActivity() {
     }
 
     private fun updateEntry() {
-        val dbHelper = dbHelper
+        val dbHelper = mDbHelper
         if (dbHelper != null) {
             val values = ContentValues()
             var titleText = entryTitleEditText.text.toString()
             val conText = entryContentEditText.text.toString()
             if (createdDate == null) {
+                Log.d("jerrydebug", "datetime is not null")
                 createdDate = LocalDateTime.now()
             }
             if (titleText == "") {
+                Log.d("jerrydebug", "title text is not null")
                 titleText = formatterWeekday.format(createdDate) + " " +
                         StringHelper.getDaySection(formatterHour.format(createdDate), this)
             }
@@ -213,14 +216,18 @@ class EntryActivity : AppCompatActivity() {
             values.put(DbHelper.DB_COL_DATE_EXTERNAL, formatterDb.format(createdDate))
 
             if (id == 0) {
+                Log.d("jerrydebug", "id is 0")
                 val dbID = dbHelper.insert(values)
                 if (dbID > 0) {
+                    Log.d("jerrydebug", "dbid is greater than 0")
                     finish()
                 }
             } else {
+                Log.d("jerrydebug", "id is not 0")
                 val selectionArgs = arrayOf(id.toString())
                 val dbID = dbHelper.update(values, "ID=?", selectionArgs)
                 if (dbID > 0) {
+                    Log.d("jerrydebug", "dbid is greater than 0")
                     finish()
                 }
             }
