@@ -3,11 +3,9 @@ package com.jerrwu.quintic.search.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entities.time.Month
 
 class SearchMonthAdapter(

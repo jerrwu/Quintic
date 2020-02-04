@@ -1,15 +1,11 @@
 package com.jerrwu.quintic.main.fragment
 
 
-import android.animation.Animator
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.Animation.AnimationListener
-import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.R
@@ -43,7 +39,6 @@ class FragmentSearch : Fragment() {
         val moodList = ConstantLists.searchMoodOptions
 
         mMoodAdapter = SearchMoodAdapter(moodList)
-        mMoodAdapter?.setHasStableIds(true)
         moodSearchCarousel.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         moodSearchCarousel.adapter = mMoodAdapter
         moodSearchCarousel.setHasFixedSize(true)
