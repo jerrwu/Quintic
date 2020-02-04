@@ -4,7 +4,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import com.jerrwu.quintic.R
 
-class MoodEntity(
+data class MoodEntity(
     var id: Int,
     @DrawableRes var icOutline: Int,
     @DrawableRes var icFilled: Int,

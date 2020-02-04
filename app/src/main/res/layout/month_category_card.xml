@@ -9,15 +9,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.card.MaterialCardView
+    <FrameLayout
         android:layout_margin="16dp"
-        app:strokeWidth="1.5dp"
-        app:strokeColor="@color/colorQuad"
-        app:cardElevation="0dp"
-        app:cardBackgroundColor="@color/colorMain"
-        app:cardCornerRadius="28dp"
         android:layout_width="38dp"
         android:layout_height="38dp">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:src="@drawable/circle_outline"
+            android:layout_width="38dp"
+            android:layout_height="38dp" />
 
         <TextView
             android:id="@+id/monthCardMiniTextView"
@@ -28,7 +29,6 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="12"
             android:textSize="6sp" />
 
         <ImageView
@@ -38,7 +38,7 @@
             android:layout_width="22dp"
             android:layout_height="22dp"/>
 
-    </com.google.android.material.card.MaterialCardView>
+    </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
