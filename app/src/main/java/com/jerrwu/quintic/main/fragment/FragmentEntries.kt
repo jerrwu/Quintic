@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.account.AccountActivity
-import com.jerrwu.quintic.entities.card.CardEntity
-import com.jerrwu.quintic.entities.card.adapter.CardAdapter
+import com.jerrwu.quintic.entities.entry.EntryEntity
+import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.helpers.DbHelper
@@ -30,8 +30,8 @@ import java.time.format.DateTimeFormatter
 
 class FragmentEntries : Fragment() {
     private var mRecyclerView: RecyclerView? = null
-    var mAdapter: RecyclerView.Adapter<*>? = null
-    private var cardList: ArrayList<CardEntity> = ArrayList()
+    var mAdapter: EntryAdapter? = null
+    private var entryList: ArrayList<EntryEntity> = ArrayList()
     private var mDbHelper: DbHelper? = null
 
     override fun onResume() {
@@ -90,30 +90,30 @@ class FragmentEntries : Fragment() {
         if (mActivity != null) {
             mRecyclerView = mActivity.findViewById(R.id.recycler_view)
             val mLayoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
-            if (mRecyclerView != null) (mRecyclerView as RecyclerView).layoutManager = mLayoutManager
-            mAdapter = CardAdapter(cardList)
-            (mAdapter as CardAdapter).mContext = mActivity
+            if (mRecyclerView != null) mRecyclerView?.layoutManager = mLayoutManager
+            mAdapter = EntryAdapter(entryList)
+            mAdapter?.mContext = mActivity
         }
 
 
         val recyclerView = mRecyclerView
         if (recyclerView != null) {
             recyclerView.adapter = mAdapter
-            (mAdapter as CardAdapter).onItemLongClick = { _ ->
+            mAdapter?.onItemLongClick = { _ ->
                 showSelectionToolbar()
                 true
             }
-            (mAdapter as CardAdapter).onItemClick = { card, dismissToolbar ->
+            mAdapter?.onItemClick = { card, dismissToolbar ->
                 // Toast.makeText(activity, card.id.toString(), Toast.LENGTH_SHORT).show()
                 if (dismissToolbar) {
                     hideSelectionToolbar()
                 } else {
                     val intent = Intent(activity, EntryActivity::class.java)
-                    intent.putExtra("ID", card.id)
-                    intent.putExtra("Title", card.title)
-                    intent.putExtra("Content", card.content)
-                    intent.putExtra("Time", card.time.toString())
-                    intent.putExtra("Mood", card.mood?.id)
+                    intent.putExtra(DbHelper.DB_COL_ID, card.id)
+                    intent.putExtra(DbHelper.DB_COL_TITLE, card.title)
+                    intent.putExtra(DbHelper.DB_COL_CONTENT, card.content)
+                    intent.putExtra(DbHelper.DB_COL_TIME, card.time.toString())
+                    intent.putExtra(DbHelper.DB_COL_MOOD, card.mood?.id)
                     startActivity(intent)
                 }
             }
@@ -121,15 +121,15 @@ class FragmentEntries : Fragment() {
     }
 
     private fun toggleEmptyNotices() {
-        if (cardList.isEmpty()) {
+        if (entryList.isEmpty()) {
             empty_recycler_notice.visibility = View.VISIBLE
             daily_suggestion_card_container.visibility = View.GONE
         } else {
             empty_recycler_notice.visibility = View.GONE
             val current = LocalDate.now()
-            val filteredCardList: List<CardEntity> = cardList.filter {
+            val filteredEntryList: List<EntryEntity> = entryList.filter {
                     card -> card.time!!.toLocalDate() == current }
-            if (filteredCardList.isEmpty()) daily_suggestion_card_container.visibility = View.VISIBLE
+            if (filteredEntryList.isEmpty()) daily_suggestion_card_container.visibility = View.VISIBLE
         }
     }
 
@@ -141,7 +141,8 @@ class FragmentEntries : Fragment() {
             mActivity.toolbarBackButton.setOnClickListener { hideSelectionToolbar() }
             mActivity.toolbarDeleteButton.setOnClickListener {
                 if (mAdapter != null) {
-                    val items = (mAdapter as CardAdapter).itemsSelected.toMutableList()
+                    val items = mAdapter?.itemsSelected?.toMutableList()
+                    if (items != null)
                     InfoHelper.showDialog(
                         StringHelper.getString(R.string.confirm_delete_multiple_title, mActivity),
                         StringHelper.getString(R.string.confirm_delete_multiple, mActivity),
@@ -154,7 +155,7 @@ class FragmentEntries : Fragment() {
         }
     }
 
-    private fun deleteEntries(items: List<CardEntity>) {
+    private fun deleteEntries(items: List<EntryEntity>) {
         if (mDbHelper == null && activity != null) {
             mDbHelper = DbHelper(activity as Context)
         }
@@ -223,23 +224,29 @@ class FragmentEntries : Fragment() {
         }
         val dbHelper = mDbHelper
         if (dbHelper != null) {
-            val projections = arrayOf("ID", "Image", "Title", "Content", "DateTime", "Mood")
+            val projections = arrayOf(
+                DbHelper.DB_COL_ID,
+                DbHelper.DB_COL_ICON,
+                DbHelper.DB_COL_TITLE,
+                DbHelper.DB_COL_CONTENT,
+                DbHelper.DB_COL_TIME,
+                DbHelper.DB_COL_MOOD)
             val selectionArgs = arrayOf(title)
             val cursor = dbHelper.query(
-                projections, "Title like ?", selectionArgs, "ID"+" DESC")
-            cardList.clear()
+                projections, "Title like ?", selectionArgs, DbHelper.DB_COL_ID+" DESC")
+            entryList.clear()
             if (cursor.moveToFirst()) {
 
                 do {
-                    val cdId = cursor.getInt(cursor.getColumnIndex("ID"))
-                    val cdIc = cursor.getInt(cursor.getColumnIndex("Image"))
-                    val cdTitle = cursor.getString(cursor.getColumnIndex("Title"))
-                    val cdCont = cursor.getString(cursor.getColumnIndex("Content"))
-                    val cdTime = cursor.getString(cursor.getColumnIndex("DateTime"))
-                    val cdMood = cursor.getInt(cursor.getColumnIndex("Mood"))
+                    val cdId = cursor.getInt(cursor.getColumnIndex(DbHelper.DB_COL_ID))
+                    val cdIc = cursor.getInt(cursor.getColumnIndex(DbHelper.DB_COL_ICON))
+                    val cdTitle = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_TITLE))
+                    val cdCont = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_CONTENT))
+                    val cdTime = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_TIME))
+                    val cdMood = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_MOOD))
 
-                    cardList.add(
-                        CardEntity(
+                    entryList.add(
+                        EntryEntity(
                             cdId,
                             cdIc,
                             cdTitle,
@@ -251,14 +258,15 @@ class FragmentEntries : Fragment() {
 
                 } while (cursor.moveToNext())
             }
+            cursor.close()
         }
 
     }
 
     private fun resetAdapterSelected() {
-        if (mAdapter != null && mAdapter is CardAdapter) {
-            (mAdapter as CardAdapter).itemsSelected.clear()
-            (mAdapter as CardAdapter).isMultiSelect = false
+        if (mAdapter != null && mAdapter is EntryAdapter) {
+            mAdapter?.itemsSelected?.clear()
+            mAdapter?.isMultiSelect = false
         }
     }
 

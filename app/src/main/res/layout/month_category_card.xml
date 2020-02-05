@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout
+        android:layout_margin="16dp"
+        android:layout_width="38dp"
+        android:layout_height="38dp">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:src="@drawable/circle_outline"
+            android:layout_width="38dp"
+            android:layout_height="38dp" />
+
+        <TextView
+            android:id="@+id/monthCardMiniTextView"
+            android:textColor="@color/colorSecondary"
+            android:textStyle="italic|bold"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="4dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="6sp" />
+
+        <ImageView
+            android:tint="@color/colorSecondary"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_folder_pound"
+            android:layout_width="22dp"
+            android:layout_height="22dp"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/monthCardTextView"
+            android:layout_gravity="center_vertical"
+            android:textSize="16sp"
+            android:textColor="@color/colorFont"
+            android:fontFamily="@font/productsansmedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_gravity="bottom|start"
+            android:tint="@color/colorQuad"
+            android:src="@drawable/line_seperator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+    </FrameLayout>
+
+</LinearLayout>

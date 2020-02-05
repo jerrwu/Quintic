@@ -36,6 +36,8 @@
             android:paddingBottom="8dp"
             android:paddingEnd="0dp"
             android:paddingStart="8dp"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
             android:layout_marginStart="8dp"
             android:textColor="@color/colorFont"
             android:fontFamily="@font/productsansmedium"
@@ -49,6 +51,44 @@
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
+        android:layout_marginBottom="6dp"
+        app:layout_constraintBaseline_toBaselineOf="@id/searchOptionSpinner"
+        android:id="@+id/searchEntriesByText"
+        android:layout_marginStart="20dp"
+        android:textSize="17sp"
+        android:textColor="@color/colorFont"
+        android:fontFamily="@font/productsansmedium"
+        android:text="@string/search_entries_by"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Spinner
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@id/searchEntriesByText"
+        android:id="@+id/searchOptionSpinner"
+        android:backgroundTint="@color/colorSupport"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        app:layout_constraintTop_toBottomOf="@id/searchOptionSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginBottom="124dp"
+            android:id="@+id/searchActivityRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/searchNoResultsText"
         android:textSize="14sp"
         android:text="@string/no_results"
         android:textColor="@color/colorTertiary"

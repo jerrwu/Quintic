@@ -1,9 +1,9 @@
-package com.jerrwu.quintic.entities.card
+package com.jerrwu.quintic.entities.entry
 
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import java.time.LocalDateTime
 
-class CardEntity(id: Int, ic: Int, title: String, content: String, time: LocalDateTime, mood: MoodEntity) {
+class EntryEntity(id: Int, ic: Int, title: String, content: String, time: LocalDateTime, mood: MoodEntity) {
 
     var isSelected: Boolean = false
     var title: String? = title

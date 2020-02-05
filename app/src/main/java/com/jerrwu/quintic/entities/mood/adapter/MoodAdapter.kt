@@ -5,7 +5,6 @@ import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +14,7 @@ import kotlinx.android.synthetic.main.mood.view.*
 
 class MoodAdapter(
     private val mDataList: List<MoodEntity>,
-    private val context: Context,
+    private val mContext: Context,
     var selected: MoodEntity?) : RecyclerView.Adapter<MoodAdapter.MoodViewHolder>() {
 
     var onItemClick: ((MoodEntity) -> Unit)? = null
@@ -30,7 +29,7 @@ class MoodAdapter(
 
         holder.moodIcon.setImageResource(mood.icOutline)
         if (mood == selected) {
-            holder.moodIndicator.setColorFilter(ContextCompat.getColor(context, mood.color), PorterDuff.Mode.SRC_ATOP)
+            holder.moodIndicator.setColorFilter(ContextCompat.getColor(mContext, mood.color), PorterDuff.Mode.SRC_ATOP)
             holder.moodIndicator.moodSelectedIndicator.visibility = View.VISIBLE
         } else { holder.moodIndicator.moodSelectedIndicator.visibility = View.GONE }
     }

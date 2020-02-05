@@ -13,9 +13,8 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jerrwu.quintic.*
-import com.jerrwu.quintic.entities.card.adapter.CardAdapter
+import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entry.EntryActivity
-import com.jerrwu.quintic.helpers.InfoHelper
 import com.jerrwu.quintic.main.fragment.FragmentCal
 import com.jerrwu.quintic.main.fragment.FragmentEntries
 import com.jerrwu.quintic.main.fragment.FragmentSearch
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         if (currentFragment !is FragmentEntries) {
             bottom_navigation.selectedItemId = R.id.menu_home
         } else if (currentFragment.mAdapter != null &&
-            (currentFragment.mAdapter as CardAdapter).isMultiSelect) {
+            (currentFragment.mAdapter as EntryAdapter).isMultiSelect) {
             currentFragment.hideSelectionToolbar()
         } else {
             super.onBackPressed()
@@ -52,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             if (active is FragmentEntries) {
                 val fragmentEntries: FragmentEntries = active as FragmentEntries
                 if (fragmentEntries.mAdapter != null &&
-                    (fragmentEntries.mAdapter as CardAdapter).isMultiSelect) {
+                    (fragmentEntries.mAdapter as EntryAdapter).isMultiSelect) {
                     fragmentEntries.hideSelectionToolbar()
                 }
             }
@@ -79,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
                     toolbar_title.text = getText(R.string.menu_search)
                     fm.beginTransaction()
-                        .setCustomAnimations(R.anim.slide_from_bottom, R.anim.fade_out)
+                        .setCustomAnimations(R.anim.slide_from_bottom, 0)
                         .hide(active)
                         .show(fragment2)
                         .commit()

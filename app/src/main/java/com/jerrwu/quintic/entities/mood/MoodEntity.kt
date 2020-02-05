@@ -1,8 +1,15 @@
 package com.jerrwu.quintic.entities.mood
 
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import com.jerrwu.quintic.R
 
-class MoodEntity(var id: Int, var icOutline: Int, var icFilled: Int, var color: Int, var name: String) {
+data class MoodEntity(
+    var id: Int,
+    @DrawableRes var icOutline: Int,
+    @DrawableRes var icFilled: Int,
+    @ColorRes var color: Int,
+    var name: String) {
     companion object {
         val NONE = MoodEntity(0, 0, 0, 0, "")
         val VERY_BAD = MoodEntity(1, R.drawable.ic_cry_outline, R.drawable.ic_cry, R.color.purple, "Very Sad")
@@ -11,6 +18,18 @@ class MoodEntity(var id: Int, var icOutline: Int, var icFilled: Int, var color: 
         val GOOD = MoodEntity(4, R.drawable.ic_happy_outline, R.drawable.ic_happy, R.color.blue, "Happy")
         val VERY_GOOD = MoodEntity(5, R.drawable.ic_excited_outline, R.drawable.ic_excited, R.color.green, "Very Happy")
         val ANGRY = MoodEntity(6, R.drawable.ic_angry_outline, R.drawable.ic_angry, R.color.red, "Angry")
+
+        fun parse(mood: String?): MoodEntity {
+            return when (mood) {
+                VERY_BAD.name -> VERY_BAD
+                BAD.name -> BAD
+                NEUTRAL.name -> NEUTRAL
+                GOOD.name -> GOOD
+                VERY_GOOD.name -> VERY_GOOD
+                ANGRY.name -> ANGRY
+                else -> NONE
+            }
+        }
 
         fun parse(mood: Int?): MoodEntity {
             return when (mood) {

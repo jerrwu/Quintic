@@ -1,7 +1,6 @@
-package com.jerrwu.quintic.entities.card.adapter
+package com.jerrwu.quintic.entities.entry.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,20 +11,21 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.entities.card.CardEntity
+import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.mood.MoodEntity
+import com.jerrwu.quintic.main.MainActivity
 import kotlinx.android.synthetic.main.card.view.*
 import java.time.format.DateTimeFormatter
 
 
-class CardAdapter(
-    private val mDataList: List<CardEntity>) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
+class EntryAdapter(
+    private val mDataList: List<EntryEntity>) : RecyclerView.Adapter<EntryAdapter.CardViewHolder>() {
 
-    var onItemClick: ((CardEntity, Boolean) -> Unit)? = null
-    var onItemLongClick: ((CardEntity) -> Boolean)? = null
+    var onItemClick: ((EntryEntity, Boolean) -> Unit)? = null
+    var onItemLongClick: ((EntryEntity) -> Boolean)? = null
     var mContext: Context? = null
     var isMultiSelect = false
-    var itemsSelected: ArrayList<CardEntity> = ArrayList()
+    var itemsSelected: ArrayList<EntryEntity> = ArrayList()
     private var selectedBg = R.color.colorQuad  // colorQuad
     private var unselectedBg = R.color.colorMain // colorMain
 
@@ -35,8 +35,8 @@ class CardAdapter(
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        val card: CardEntity = mDataList[position]
-        val mood: MoodEntity? = card.mood
+        val entry: EntryEntity = mDataList[position]
+        val mood: MoodEntity? = entry.mood
         val context = mContext
         if (context != null) {
             if (mood != null && mood != MoodEntity.NONE) {
@@ -46,7 +46,7 @@ class CardAdapter(
                 holder.cardMood.visibility = View.GONE
             }
 
-            if (card.isSelected) {
+            if (entry.isSelected) {
                 holder.cardRvBackground.setCardBackgroundColor(
                     ContextCompat.getColor(context, selectedBg)
                 )
@@ -58,16 +58,16 @@ class CardAdapter(
                 setCardUnselectedTextColor(holder.cardView)
             }
             holder.cardRvBackground.setCardBackgroundColor(
-                if (card.isSelected) ContextCompat.getColor(context, selectedBg)
+                if (entry.isSelected) ContextCompat.getColor(context, selectedBg)
                 else ContextCompat.getColor(context, unselectedBg)
             )
         }
 
-        holder.cardTitle.text = card.title
-        holder.cardDate.text = DateTimeFormatter.ofPattern("MMM dd, yyyy").format(card.time)
-        holder.cardContent.text = card.content
+        holder.cardTitle.text = entry.title
+        holder.cardDate.text = DateTimeFormatter.ofPattern("MMM dd, yyyy").format(entry.time)
+        holder.cardContent.text = entry.content
 
-        val ic = card.ic
+        val ic = entry.ic
         if (ic != null) {
             if (ic == 0) {
                 holder.cardIcHolder.visibility = View.GONE
@@ -106,6 +106,9 @@ class CardAdapter(
             }
 
             itemView.setOnLongClickListener {
+                if (mContext !is MainActivity) {
+                    return@setOnLongClickListener false
+                }
                 if (!isMultiSelect){
                     enterMultiSelect(adapterPosition, itemView)
                 }
