@@ -1,0 +1,38 @@
+ext {
+    // App
+    androidXBaseVersion = "1.1.0"
+    androidXLegacyVersion = "1.0.0"
+    androidXBrowserVersion = "1.2.0"
+    androidXCardViewVersion = "1.0.0"
+    androidXConstraintLayoutVersion = "1.1.3"
+
+    materialDesignVersion = "1.0.0"
+
+    // Test
+    junitVersion = "4.13-rc-2"
+
+    androidXTestVersion = "1.2.0"
+    espressoVersion = "3.2.0"
+
+    appDependencies = [
+            // AndroidX
+            androidXPreferences     : "androidx.preference:preference:$androidXBaseVersion",
+            androidXConstraintLayout: "androidx.constraintlayout:constraintlayout:$androidXConstraintLayoutVersion",
+            androidXAppCompat       : "androidx.appcompat:appcompat:$androidXBaseVersion",
+            androidXRecyclerView    : "androidx.recyclerview:recyclerview:$androidXBaseVersion",
+            androidXLegacyV4        : "androidx.legacy:legacy-support-v4:$androidXLegacyVersion",
+            androidXBrowser         : "androidx.browser:browser:$androidXBrowserVersion",
+            androidXCardView        : "androidx.cardview:cardview:$androidXCardViewVersion",
+
+            materialDesign          : "com.google.android.material:material:$materialDesignVersion"
+    ]
+
+    appTestDependencies = [
+            // Test
+            junit       : "junit:junit:$junitVersion",
+
+            // AndroidTest
+            androidXTest: "androidx.test:runner:$androidXTestVersion",
+            espresso    : "androidx.test.espresso:espresso-core:$espressoVersion"
+    ]
+}
