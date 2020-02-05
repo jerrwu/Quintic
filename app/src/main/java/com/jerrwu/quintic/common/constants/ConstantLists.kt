@@ -15,4 +15,6 @@ object ConstantLists {
     val searchMonthOptions = listOf(
         Month.JAN, Month.FEB, Month.MAR, Month.APR, Month.MAY, Month.JUN,
         Month.JUL, Month.AUG, Month.SEP, Month.OCT, Month.NOV, Month.DEC)
+    val searchHoursOptions = listOf(
+        Constants.MORNING, Constants.NOON, Constants.AFTERNOON, Constants.EVENING)
 }

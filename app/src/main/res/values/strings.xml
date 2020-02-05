@@ -103,6 +103,7 @@
     <string name="add_mood">Add mood</string>
     <string name="jerry_epic">jerry is an epic name!</string>
     <string name="search_entries_by">Search entries by</string>
-    <string name="mood">MOOD</string>
-    <string name="recent_months">RECENT &amp; UPCOMING MONTHS</string>
+    <string name="mood">Mood</string>
+    <string name="recent_months">Recent &amp; Upcoming Months</string>
+    <string name="time_of_day">Time of Day</string>
 </resources>
