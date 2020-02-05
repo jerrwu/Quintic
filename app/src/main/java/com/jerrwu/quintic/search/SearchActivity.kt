@@ -26,6 +26,7 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         const val SEARCH_TYPE = "SearchType"
         const val SEARCH_STRING = "SearchString"
+        const val EXACT_SEARCH = "ExactSearch"
         const val SEARCH_TYPE_TITLE = "Title"
         const val SEARCH_TYPE_CONTENT = "Content"
         const val SEARCH_TYPE_MOOD = "Mood"
@@ -44,7 +45,7 @@ class SearchActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (mUseExact) onExactSearchStarted() else onSearchStarted()
+        onSearchStarted()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +56,7 @@ class SearchActivity : AppCompatActivity() {
         if (bundle != null) {
             mSearchType = bundle.getString(SEARCH_TYPE)
             mSearchString = bundle.getString(SEARCH_STRING)
+            mUseExact = bundle.getBoolean(EXACT_SEARCH)
         }
 
         searchField.requestFocus()
@@ -77,7 +79,7 @@ class SearchActivity : AppCompatActivity() {
             ) {
                 val selection = spinnerList[position]
                 mColumn = selection
-                if (mUseExact) onExactSearchStarted() else onSearchStarted()
+                onSearchStarted()
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {
@@ -90,10 +92,9 @@ class SearchActivity : AppCompatActivity() {
         }
 
         if (mSearchType != null) try {
-            mUseExact = true
             val i = spinnerList.indexOf(mSearchType as String)
             searchOptionSpinner.setSelection(i)
-            if (i == 0) onExactSearchStarted()
+            if (i == 0) onSearchStarted()
         } catch (e: IndexOutOfBoundsException) {
             throw e
         }
@@ -112,21 +113,17 @@ class SearchActivity : AppCompatActivity() {
         })
     }
 
-    private fun onExactSearchStarted() {
-        val dbHelper = mDbHelper
-        val column = mColumn
-        if (dbHelper != null && column != null)
-            mSearchResults = SearchHelper.performExactSearch(searchField.text.toString(), dbHelper, SearchHelper.ORDER_DESCENDING, column)
-        val results = mSearchResults
-        if (results != null) {
-            onSearchPerformed(results)
-        }
-    }
-
     private fun onSearchStarted() {
         val dbHelper = mDbHelper
-        if (dbHelper != null)
-            mSearchResults = SearchHelper.performSearch(searchField.text.toString(), dbHelper, mColumn)
+        val column = mColumn
+        if (dbHelper != null && column != null){
+            mSearchResults = if (mUseExact) {
+                SearchHelper.performExactSearch(
+                    searchField.text.toString(), dbHelper, SearchHelper.ORDER_DESCENDING, column)
+            } else {
+                SearchHelper.performSearch(searchField.text.toString(), dbHelper, column)
+            }
+        }
         val results = mSearchResults
         if (results != null) {
             onSearchPerformed(results)

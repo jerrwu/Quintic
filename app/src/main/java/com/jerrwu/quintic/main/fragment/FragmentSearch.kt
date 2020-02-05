@@ -51,6 +51,7 @@ class FragmentSearch : Fragment() {
             val intent = Intent(activity, SearchActivity::class.java)
             intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_MOOD)
             intent.putExtra(SearchActivity.SEARCH_STRING, mood.name)
+            intent.putExtra(SearchActivity.EXACT_SEARCH, true)
             startActivity(intent)
         }
     }
@@ -67,6 +68,7 @@ class FragmentSearch : Fragment() {
             val intent = Intent(activity, SearchActivity::class.java)
             intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_HOURS)
             intent.putExtra(SearchActivity.SEARCH_STRING, name)
+            intent.putExtra(SearchActivity.EXACT_SEARCH, true)
             startActivity(intent)
         }
     }
@@ -91,6 +93,7 @@ class FragmentSearch : Fragment() {
             val intent = Intent(activity, SearchActivity::class.java)
             intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_TIME)
             intent.putExtra(SearchActivity.SEARCH_STRING, month.toString())
+            intent.putExtra(SearchActivity.EXACT_SEARCH, true)
             startActivity(intent)
         }
     }
