@@ -44,7 +44,7 @@ class SearchActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        onSearchStarted()
+        if (mUseExact) onExactSearchStarted() else onSearchStarted()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
