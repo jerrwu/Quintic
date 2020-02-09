@@ -10,6 +10,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.R
@@ -72,6 +73,10 @@ class EntryActivity : AppCompatActivity() {
 
         entryBackButton.setOnClickListener {
             finish()
+        }
+
+        imageAddButton.setOnClickListener {
+            Toast.makeText(this, "Not implemented!", Toast.LENGTH_SHORT).show()
         }
 
         entryDeleteButton.setOnClickListener {

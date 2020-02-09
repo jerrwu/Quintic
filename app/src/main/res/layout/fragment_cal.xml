@@ -59,6 +59,7 @@
     </LinearLayout>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/grid_container"
         app:layout_constraintTop_toBottomOf="@id/selector_box"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -82,5 +83,34 @@
         </GridView>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <RelativeLayout
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/grid_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/bulldozer_ic"
+            android:tint="@color/colorTertiary"
+            android:src="@drawable/ic_bulldozer"
+            android:layout_width="86dp"
+            android:layout_height="86dp" />
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/bulldozer_ic"
+            android:textSize="16sp"
+            android:textColor="@color/colorTertiary"
+            android:fontFamily="@font/productsansblack"
+            android:text="Under Construction"
+            android:layout_marginTop="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -84,7 +84,7 @@ object StringHelper {
     }
 
     fun getGreeting(time: String, context: Context?): String {
-        return if (Math.random() < 0.95) {
+        return if (Math.random() < 0.99) {
             when (time.toInt()) {
                 in 2 downTo 0 -> getString(R.string.greeting_late_night, context)
                 in 5 downTo 3 -> getString(R.string.greeting_early_morning, context)
