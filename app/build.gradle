@@ -14,13 +14,24 @@ android {
         applicationId "com.jerrwu.quintic"
         minSdkVersion 27
         targetSdkVersion 29
-        versionCode 5
-        versionName "0.6.6"
+        versionCode 6
+        versionName "0.6.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "BUILD_NUMBER", "\"B${versionCode}-${formattedDate}\""
         buildConfigField "Integer", "DATABASE_VERSION", "4"
     }
+
+    signingConfigs {
+
+        release {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
+    }
+
     buildTypes {
         debug {
             debuggable true
@@ -30,6 +41,7 @@ android {
         release {
             debuggable false
             minifyEnabled true
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
