@@ -93,7 +93,7 @@ class FragmentSearch : Fragment() {
             val intent = Intent(activity, SearchActivity::class.java)
             intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_TIME)
             intent.putExtra(SearchActivity.SEARCH_STRING, month.toString())
-            intent.putExtra(SearchActivity.EXACT_SEARCH, true)
+            intent.putExtra(SearchActivity.EXACT_SEARCH, false)
             startActivity(intent)
         }
     }

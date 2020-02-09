@@ -19,8 +19,9 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:scaleType="fitXY"
-            android:src="@drawable/image_placeholder"
+            android:padding="12dp"
+            android:tint="@color/colorMain"
+            android:src="@drawable/ic_magnify"
             android:id="@+id/hoursCategoryCardImageView"
             android:layout_gravity="top"
             android:background="@color/colorTertiary"
