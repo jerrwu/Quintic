@@ -28,15 +28,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
 
         val darkToggle = sharedPreferences.getString("dark_toggle", "2")?.toInt()
-        val darkPreference = findPreference("dark_toggle") as ListPreference?
-        val versionPreference = findPreference("version") as Preference?
-        val buildPreference = findPreference("build") as Preference?
-        val namePreference = findPreference("name") as EditTextPreference?
-        val setNamePreference = findPreference("setNameRem") as SwitchPreference?
+        val darkPreference: ListPreference? = findPreference("dark_toggle")
+        val versionPreference: Preference? = findPreference("version")
+        val buildPreference: Preference? = findPreference("build")
+        val debugPrefs: PreferenceCategory? = findPreference("debugPrefs")
         sharedPreferences.registerOnSharedPreferenceChangeListener(onPreferenceChangeListener)
 
-        preferenceScreen.removePreference(namePreference)
-        preferenceScreen.removePreference(setNamePreference)
+        if (!BuildConfig.DEBUG) {
+            preferenceScreen.removePreference(debugPrefs)
+        }
 
         if (darkPreference != null) {
             when (darkToggle) {

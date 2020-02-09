@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.preference.EditTextPreference
-        android:key="name"
-        android:title="Name"
-        android:defaultValue="User"/>
+    <PreferenceCategory
+        android:key="debugPrefs"
+        android:title="Debug">
 
-    <SwitchPreference
-        android:key="setNameRem"
-        android:title="Set name reminder"
-        android:defaultValue="true"/>
+        <androidx.preference.EditTextPreference
+            android:key="name"
+            android:title="Name"
+            android:defaultValue="User"/>
+
+        <SwitchPreference
+            android:key="setNameRem"
+            android:title="Set name reminder"
+            android:defaultValue="true"/>
+
+        <SwitchPreference
+            android:key="bottomNavHide"
+            android:title="Hide navigation bar on scroll"
+            android:defaultValue="false"/>
+
+        <SwitchPreference
+            android:key="appBarHide"
+            android:title="Hide toolbar on scroll"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:title="UI &amp; Behaviour">
@@ -26,16 +42,6 @@
             android:key="greetings"
             android:title="Show greetings"
             android:defaultValue="true"/>
-
-        <SwitchPreference
-            android:key="bottomNavHide"
-            android:title="Hide navigation bar on scroll"
-            android:defaultValue="false"/>
-
-        <SwitchPreference
-            android:key="appBarHide"
-            android:title="Hide toolbar on scroll"
-            android:defaultValue="false"/>
 
     </PreferenceCategory>
 
