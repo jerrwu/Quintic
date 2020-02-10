@@ -27,6 +27,7 @@ import java.time.LocalDate
 class FragmentCal : Fragment() {
     var adapter: CellAdapter? = null
     var cellList = ArrayList<CellEntity>()
+    var addSpacing = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +43,6 @@ class FragmentCal : Fragment() {
         val now = LocalDate.now()
         var currentYear = YearEntity(now.year, null)
         var currentMonth = MonthEntity(now.monthValue, null)
-        var addSpacing = true
 
         val years = Gson().fromJson<List<YearEntity>>(FileHelper.fromAssetsJson(activity as Context, "cal_test.json"),
             GsonHelper.YearListType)
@@ -54,20 +54,25 @@ class FragmentCal : Fragment() {
             )
         }
 
+        // Set current year and month
         for (year: YearEntity in years) {
             if (currentYear.number == year.number) currentYear = year
-            for (month: MonthEntity in year.months!!) {
-                if (currentMonth.number == month.number) currentMonth = month
-                for (day: DayEntity in month.days!!) {
-                    if (addSpacing) {
-                        addSpacing = false
-                        for (i in 1 until day.dayOfWeek) {
-                            cellList.add(CellEntity(""))
-                        }
-                    }
-                    cellList.add(CellEntity(day.dayOfMonth.toString()))
+            break
+        }
+        for (month: MonthEntity in currentYear.months.orEmpty()) {
+            if (currentMonth.number == month.number) currentMonth = month
+            break
+        }
+
+        // Load cellList
+        for (day: DayEntity in currentMonth.days.orEmpty()) {
+            if (addSpacing) {
+                addSpacing = false
+                for (i in 1 until day.dayOfWeek) {
+                    cellList.add(CellEntity(""))
                 }
             }
+            cellList.add(CellEntity(day.dayOfMonth.toString()))
         }
 
         fragmentCalMonthSelectText.text = currentMonth.toString()
@@ -107,7 +112,7 @@ class FragmentCal : Fragment() {
                 convertView
             }
 
-            if (cell.text == "") {
+            if (cell.text == "" || cell.text == "0") {
                 cellView.isClickable = false
             } else {
                 cellView.gridCellText.text = cell.text

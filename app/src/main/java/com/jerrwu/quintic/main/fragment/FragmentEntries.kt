@@ -18,7 +18,7 @@ import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entry.EntryActivity
-import com.jerrwu.quintic.helpers.DbHelper
+import com.jerrwu.quintic.helpers.MainDbHelper
 import com.jerrwu.quintic.helpers.InfoHelper
 import com.jerrwu.quintic.helpers.StringHelper
 import kotlinx.android.synthetic.main.activity_main.*
@@ -32,7 +32,7 @@ class FragmentEntries : Fragment() {
     private var mRecyclerView: RecyclerView? = null
     var mAdapter: EntryAdapter? = null
     private var entryList: ArrayList<EntryEntity> = ArrayList()
-    private var mDbHelper: DbHelper? = null
+    private var mMainDbHelper: MainDbHelper? = null
 
     override fun onResume() {
         super.onResume()
@@ -109,11 +109,11 @@ class FragmentEntries : Fragment() {
                     hideSelectionToolbar()
                 } else {
                     val intent = Intent(activity, EntryActivity::class.java)
-                    intent.putExtra(DbHelper.DB_COL_ID, card.id)
-                    intent.putExtra(DbHelper.DB_COL_TITLE, card.title)
-                    intent.putExtra(DbHelper.DB_COL_CONTENT, card.content)
-                    intent.putExtra(DbHelper.DB_COL_TIME, card.time.toString())
-                    intent.putExtra(DbHelper.DB_COL_MOOD, card.mood?.id)
+                    intent.putExtra(MainDbHelper.DB_COL_ID, card.id)
+                    intent.putExtra(MainDbHelper.DB_COL_TITLE, card.title)
+                    intent.putExtra(MainDbHelper.DB_COL_CONTENT, card.content)
+                    intent.putExtra(MainDbHelper.DB_COL_TIME, card.time.toString())
+                    intent.putExtra(MainDbHelper.DB_COL_MOOD, card.mood?.id)
                     startActivity(intent)
                 }
             }
@@ -156,10 +156,10 @@ class FragmentEntries : Fragment() {
     }
 
     private fun deleteEntries(items: List<EntryEntity>) {
-        if (mDbHelper == null && activity != null) {
-            mDbHelper = DbHelper(activity as Context)
+        if (mMainDbHelper == null && activity != null) {
+            mMainDbHelper = MainDbHelper(activity as Context)
         }
-        val dbHelper = mDbHelper
+        val dbHelper = mMainDbHelper
         if (dbHelper != null) {
             for (item in items) {
                 val selectionArgs = arrayOf(item.id.toString())
@@ -219,31 +219,31 @@ class FragmentEntries : Fragment() {
     }
 
     private fun loadQuery(title: String) {
-        if (mDbHelper == null && activity != null) {
-            mDbHelper = DbHelper(activity as Context)
+        if (mMainDbHelper == null && activity != null) {
+            mMainDbHelper = MainDbHelper(activity as Context)
         }
-        val dbHelper = mDbHelper
+        val dbHelper = mMainDbHelper
         if (dbHelper != null) {
             val projections = arrayOf(
-                DbHelper.DB_COL_ID,
-                DbHelper.DB_COL_ICON,
-                DbHelper.DB_COL_TITLE,
-                DbHelper.DB_COL_CONTENT,
-                DbHelper.DB_COL_TIME,
-                DbHelper.DB_COL_MOOD)
+                MainDbHelper.DB_COL_ID,
+                MainDbHelper.DB_COL_ICON,
+                MainDbHelper.DB_COL_TITLE,
+                MainDbHelper.DB_COL_CONTENT,
+                MainDbHelper.DB_COL_TIME,
+                MainDbHelper.DB_COL_MOOD)
             val selectionArgs = arrayOf(title)
             val cursor = dbHelper.query(
-                projections, "Title like ?", selectionArgs, DbHelper.DB_COL_ID+" DESC")
+                projections, "Title like ?", selectionArgs, MainDbHelper.DB_COL_ID+" DESC")
             entryList.clear()
             if (cursor.moveToFirst()) {
 
                 do {
-                    val cdId = cursor.getInt(cursor.getColumnIndex(DbHelper.DB_COL_ID))
-                    val cdIc = cursor.getInt(cursor.getColumnIndex(DbHelper.DB_COL_ICON))
-                    val cdTitle = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_TITLE))
-                    val cdCont = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_CONTENT))
-                    val cdTime = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_TIME))
-                    val cdMood = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_MOOD))
+                    val cdId = cursor.getInt(cursor.getColumnIndex(MainDbHelper.DB_COL_ID))
+                    val cdIc = cursor.getInt(cursor.getColumnIndex(MainDbHelper.DB_COL_ICON))
+                    val cdTitle = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_TITLE))
+                    val cdCont = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_CONTENT))
+                    val cdTime = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_TIME))
+                    val cdMood = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_MOOD))
 
                     entryList.add(
                         EntryEntity(

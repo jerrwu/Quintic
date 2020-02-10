@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteQueryBuilder
 import android.widget.Toast
 import com.jerrwu.quintic.BuildConfig
 
-class DbHelper(context: Context) {
+class MainDbHelper(context: Context) {
     companion object {
         const val DB_NAME = "MCards"
         const val DB_TABLE = "Cards"

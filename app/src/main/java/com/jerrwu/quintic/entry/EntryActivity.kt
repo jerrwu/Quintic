@@ -2,13 +2,11 @@ package com.jerrwu.quintic.entry
 
 import android.content.ContentValues
 import android.content.Context
-import android.graphics.Color
 import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -17,7 +15,7 @@ import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entities.mood.adapter.MoodAdapter
-import com.jerrwu.quintic.helpers.DbHelper
+import com.jerrwu.quintic.helpers.MainDbHelper
 import com.jerrwu.quintic.helpers.InfoHelper
 import com.jerrwu.quintic.helpers.StringHelper
 import kotlinx.android.synthetic.main.activity_entry.*
@@ -32,7 +30,7 @@ class EntryActivity : AppCompatActivity() {
     private val formatterWeekday = DateTimeFormatter.ofPattern("EEEE")
     private val formatterHour = DateTimeFormatter.ofPattern("HH")
     private val formatterDb = DateTimeFormatter.ofPattern("EEEE MMMM dd yyyy hh:mm")
-    private var mDbHelper: DbHelper? = null
+    private var mMainDbHelper: MainDbHelper? = null
     private var mMood: MoodEntity = MoodEntity.NONE
     private var isSelectorOpen = false
     private var mAdapter: MoodAdapter? = null
@@ -50,18 +48,18 @@ class EntryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entry)
 
-        mDbHelper = DbHelper(this)
+        mMainDbHelper = MainDbHelper(this)
 
         entryDateTimeView.visibility = View.GONE
 
         val bundle: Bundle? = intent.extras
         if (bundle != null) {
-            id = bundle.getInt(DbHelper.DB_COL_ID, 0)
+            id = bundle.getInt(MainDbHelper.DB_COL_ID, 0)
             if (id!=0){
-                entryTitleEditText.setText(bundle.getString(DbHelper.DB_COL_TITLE))
-                entryContentEditText.setText(bundle.getString(DbHelper.DB_COL_CONTENT))
-                createdDate = LocalDateTime.parse(bundle.getString(DbHelper.DB_COL_TIME))
-                mMood = MoodEntity.parse(bundle.getInt(DbHelper.DB_COL_MOOD))
+                entryTitleEditText.setText(bundle.getString(MainDbHelper.DB_COL_TITLE))
+                entryContentEditText.setText(bundle.getString(MainDbHelper.DB_COL_CONTENT))
+                createdDate = LocalDateTime.parse(bundle.getString(MainDbHelper.DB_COL_TIME))
+                mMood = MoodEntity.parse(bundle.getInt(MainDbHelper.DB_COL_MOOD))
                 val dateString = getString(R.string.created_on) + formatterDate.format(createdDate)
                 entryDateTimeView.text = dateString
                 entryDateTimeView.visibility = View.VISIBLE
@@ -190,7 +188,7 @@ class EntryActivity : AppCompatActivity() {
     }
 
     private fun deleteEntry(context: Context) {
-        val dbHelper = mDbHelper
+        val dbHelper = mMainDbHelper
         if (dbHelper != null) {
             val selectionArgs = arrayOf(id.toString())
             dbHelper.delete("ID=?", selectionArgs)
@@ -199,7 +197,7 @@ class EntryActivity : AppCompatActivity() {
     }
 
     private fun updateEntry() {
-        val dbHelper = mDbHelper
+        val dbHelper = mMainDbHelper
         if (dbHelper != null) {
             val values = ContentValues()
             var titleText = entryTitleEditText.text.toString()
@@ -212,12 +210,12 @@ class EntryActivity : AppCompatActivity() {
                         StringHelper.getDaySection(formatterHour.format(createdDate), this)
             }
 
-            values.put(DbHelper.DB_COL_TITLE, titleText)
-            values.put(DbHelper.DB_COL_CONTENT, conText)
-            values.put(DbHelper.DB_COL_TIME, createdDate.toString())
-            values.put(DbHelper.DB_COL_MOOD, mMood.name)
-            values.put(DbHelper.DB_COL_DATE_EXTERNAL, formatterDb.format(createdDate))
-            values.put(DbHelper.DB_COL_HOURS, StringHelper.getHours(createdDate?.hour))
+            values.put(MainDbHelper.DB_COL_TITLE, titleText)
+            values.put(MainDbHelper.DB_COL_CONTENT, conText)
+            values.put(MainDbHelper.DB_COL_TIME, createdDate.toString())
+            values.put(MainDbHelper.DB_COL_MOOD, mMood.name)
+            values.put(MainDbHelper.DB_COL_DATE_EXTERNAL, formatterDb.format(createdDate))
+            values.put(MainDbHelper.DB_COL_HOURS, StringHelper.getHours(createdDate?.hour))
 
             if (id == 0) {
                 val dbID = dbHelper.insert(values)
