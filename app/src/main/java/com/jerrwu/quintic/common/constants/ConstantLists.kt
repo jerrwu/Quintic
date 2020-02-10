@@ -1,7 +1,7 @@
 package com.jerrwu.quintic.common.constants
 
 import com.jerrwu.quintic.entities.mood.MoodEntity
-import com.jerrwu.quintic.entities.time.Month
+import com.jerrwu.quintic.entities.time.MonthEntity
 
 object ConstantLists {
     val moodSelectorOptions = listOf(
@@ -13,8 +13,8 @@ object ConstantLists {
     val searchMoodOptions = listOf(
         MoodEntity.GOOD, MoodEntity.BAD, MoodEntity.NEUTRAL, MoodEntity.ANGRY, MoodEntity.VERY_GOOD, MoodEntity.VERY_BAD)
     val searchMonthOptions = listOf(
-        Month.JAN, Month.FEB, Month.MAR, Month.APR, Month.MAY, Month.JUN,
-        Month.JUL, Month.AUG, Month.SEP, Month.OCT, Month.NOV, Month.DEC)
+        MonthEntity.JAN, MonthEntity.FEB, MonthEntity.MAR, MonthEntity.APR, MonthEntity.MAY, MonthEntity.JUN,
+        MonthEntity.JUL, MonthEntity.AUG, MonthEntity.SEP, MonthEntity.OCT, MonthEntity.NOV, MonthEntity.DEC)
     val searchHoursOptions = listOf(
         Constants.MORNING, Constants.NOON, Constants.AFTERNOON, Constants.EVENING)
 }

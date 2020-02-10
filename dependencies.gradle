@@ -8,8 +8,10 @@ ext {
 
     materialDesignVersion = "1.0.0"
 
+    gsonVersion = "2.8.6"
+
     // Test
-    junitVersion = "4.13-rc-2"
+    junitVersion = "4.13"
 
     androidXTestVersion = "1.2.0"
     espressoVersion = "3.2.0"
@@ -24,7 +26,9 @@ ext {
             androidXBrowser         : "androidx.browser:browser:$androidXBrowserVersion",
             androidXCardView        : "androidx.cardview:cardview:$androidXCardViewVersion",
 
-            materialDesign          : "com.google.android.material:material:$materialDesignVersion"
+            materialDesign          : "com.google.android.material:material:$materialDesignVersion",
+
+            gson                    : "com.google.code.gson:gson:$gsonVersion"
     ]
 
     appTestDependencies = [

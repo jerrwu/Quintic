@@ -1,0 +1,24 @@
+[
+    {
+      "year": 2020,
+      "months": [
+        {
+          "month": 2,
+          "days": [
+            {
+              "monthday": 1,
+              "weekday": 6
+            },
+            {
+              "monthday": 2,
+              "weekday": 7
+            },
+            {
+              "monthday": 3,
+              "weekday": 8
+            }
+          ]
+        }
+      ]
+    }
+  ]

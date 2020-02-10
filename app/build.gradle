@@ -67,6 +67,8 @@ dependencies {
     implementation appDependencies.androidXBrowser
     implementation appDependencies.androidXCardView
 
+    implementation appDependencies.gson
+
     testImplementation appTestDependencies.junit
 
     androidTestImplementation appTestDependencies.androidXTest

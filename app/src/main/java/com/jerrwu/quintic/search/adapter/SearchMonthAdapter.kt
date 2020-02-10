@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.entities.time.Month
+import com.jerrwu.quintic.entities.time.MonthEntity
 
 class SearchMonthAdapter(
-    private val mDataList: List<Month>) : RecyclerView.Adapter<SearchMonthAdapter.MonthViewHolder>() {
+    private val mDataList: List<MonthEntity>) : RecyclerView.Adapter<SearchMonthAdapter.MonthViewHolder>() {
 
-    var onItemClick: ((Month) -> Unit)? = null
+    var onItemClick: ((MonthEntity) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MonthViewHolder {
         val view =
@@ -20,7 +20,7 @@ class SearchMonthAdapter(
     }
 
     override fun onBindViewHolder(holder: MonthViewHolder, position: Int) {
-        val month: Month = mDataList[position]
+        val month: MonthEntity = mDataList[position]
 
         holder.monthTextView.text = month.toString()
         holder.monthMiniTextView.text = month.number.toString()

@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.constants.ConstantLists
-import com.jerrwu.quintic.entities.time.Month
+import com.jerrwu.quintic.entities.time.MonthEntity
 import com.jerrwu.quintic.search.SearchActivity
 import com.jerrwu.quintic.search.adapter.SearchHoursAdapter
 import com.jerrwu.quintic.search.adapter.SearchMonthAdapter
@@ -76,11 +76,11 @@ class FragmentSearch : Fragment() {
     private fun loadMonthRecycler() {
         val curMonth = LocalDate.now().monthValue
         val monthList = listOf(
-            Month(curMonth - 2),
-            Month(curMonth - 1),
-            Month(curMonth),
-            Month(curMonth + 1),
-            Month(curMonth + 2))
+            MonthEntity(curMonth - 2),
+            MonthEntity(curMonth - 1),
+            MonthEntity(curMonth),
+            MonthEntity(curMonth + 1),
+            MonthEntity(curMonth + 2))
 
         mMonthAdapter = SearchMonthAdapter(monthList)
         mMonthAdapter?.setHasStableIds(true)

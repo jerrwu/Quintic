@@ -128,7 +128,7 @@ class FragmentEntries : Fragment() {
             empty_recycler_notice.visibility = View.GONE
             val current = LocalDate.now()
             val filteredEntryList: List<EntryEntity> = entryList.filter {
-                    card -> card.time!!.toLocalDate() == current }
+                    card -> card.time?.toLocalDate() == current }
             if (filteredEntryList.isEmpty()) daily_suggestion_card_container.visibility = View.VISIBLE
         }
     }

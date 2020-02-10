@@ -3,13 +3,20 @@ package com.jerrwu.quintic.main.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import androidx.fragment.app.Fragment
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.jerrwu.quintic.entities.cell.CellEntity
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.entities.time.DayEntity
+import com.jerrwu.quintic.entities.time.MonthEntity
+import com.jerrwu.quintic.entities.time.YearEntity
+import com.jerrwu.quintic.helpers.FileHelper
 import kotlinx.android.synthetic.main.fragment_cal.*
 import kotlinx.android.synthetic.main.grid_cell.view.*
 
@@ -29,42 +36,29 @@ class FragmentCal : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        cellList.add(CellEntity("0"))
-        cellList.add(CellEntity("1"))
-        cellList.add(CellEntity("2"))
-        cellList.add(CellEntity("3"))
-        cellList.add(CellEntity("4"))
-        cellList.add(CellEntity("5"))
-        cellList.add(CellEntity("6"))
-        cellList.add(CellEntity("7"))
-        cellList.add(CellEntity("8"))
-        cellList.add(CellEntity("9"))
-        cellList.add(CellEntity("10"))
-        cellList.add(CellEntity("11"))
-        cellList.add(CellEntity("h"))
-        cellList.add(CellEntity("e"))
-        cellList.add(CellEntity("h"))
-        cellList.add(CellEntity("e"))
-        cellList.add(CellEntity("l"))
-        cellList.add(CellEntity("i"))
-        cellList.add(CellEntity("x"))
+        val sType = object : TypeToken<List<YearEntity>>() { }.type
+
+        val years = Gson().fromJson<List<YearEntity>>(FileHelper.fromAssetsJson(activity as Context, "cal_test.json"),
+            sType)
+
+        for (year: YearEntity in years) {
+            for (month: MonthEntity in year.months!!) {
+                for (day: DayEntity in month.days!!) {
+                    cellList.add(CellEntity(day.dayOfMonth.toString()))
+                }
+            }
+        }
+
         adapter =
             CellAdapter(
-                context!!,
+                context,
                 cellList
             )
 
         grid_view_main.adapter = adapter
     }
 
-    class CellAdapter: BaseAdapter {
-        var cellList = ArrayList<CellEntity>()
-        var context: Context? = null
-
-        constructor(context: Context, cellList: ArrayList<CellEntity>) : super() {
-            this.context = context
-            this.cellList = cellList
-        }
+    class CellAdapter(var context: Context?, var cellList: ArrayList<CellEntity>) : BaseAdapter() {
 
         override fun getCount(): Int {
             return cellList.size
@@ -80,13 +74,19 @@ class FragmentCal : Fragment() {
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val cell = this.cellList[position]
+            val cellView: View
 
-            var inflater = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            var cellView = inflater.inflate(R.layout.grid_cell, parent, false)
+            cellView = if (convertView == null) {
+                val inflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                inflater.inflate(R.layout.grid_cell, parent, false)
+            } else {
+                convertView
+            }
+
             if (cell.text == "0") {
                 cellView.gridCellText.text = ""
             } else {
-                cellView.gridCellText.text = cell.text!!
+                cellView.gridCellText.text = cell.text
             }
 
             return cellView
