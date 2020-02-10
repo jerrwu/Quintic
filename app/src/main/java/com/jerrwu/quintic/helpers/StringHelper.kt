@@ -1,8 +1,17 @@
 package com.jerrwu.quintic.helpers
 
+import android.app.Activity
 import android.content.Context
+import android.graphics.Typeface
+import android.widget.FrameLayout
+import android.widget.TextView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.res.ResourcesCompat
+import com.google.android.material.snackbar.Snackbar
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.constants.Constants
+import com.jerrwu.quintic.main.MainActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.random.Random
 
 object StringHelper {
@@ -98,6 +107,22 @@ object StringHelper {
             }
         } else {
             getString(R.string.jerry_epic, context)
+        }
+    }
+
+    fun makeSnackbar(text: String, activity: Activity?) {
+        if (activity != null) {
+
+            val snackbar = Snackbar.make(activity.findViewById(android.R.id.content), text, Snackbar.LENGTH_SHORT)
+            snackbar.apply { view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
+                setMargins(
+                    leftMargin, topMargin, rightMargin, (activity as MainActivity).bottom_navigation.height)} }
+            snackbar.view.elevation = 0F
+
+            val textView= snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+            textView.typeface = ResourcesCompat.getFont(activity, R.font.productsansregular)
+            textView.textSize = 14F
+            snackbar.show()
         }
     }
 }

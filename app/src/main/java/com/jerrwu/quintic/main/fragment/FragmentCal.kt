@@ -2,13 +2,15 @@ package com.jerrwu.quintic.main.fragment
 
 
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.jerrwu.quintic.entities.cell.CellEntity
 import com.jerrwu.quintic.R
@@ -18,6 +20,9 @@ import com.jerrwu.quintic.entities.time.WeekdayEntity
 import com.jerrwu.quintic.entities.time.YearEntity
 import com.jerrwu.quintic.helpers.FileHelper
 import com.jerrwu.quintic.helpers.GsonHelper
+import com.jerrwu.quintic.helpers.StringHelper
+import com.jerrwu.quintic.main.MainActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_cal.*
 import kotlinx.android.synthetic.main.cal_cell.view.*
 import java.time.LocalDate
@@ -30,11 +35,21 @@ class FragmentCal : Fragment() {
     var mYears: List<YearEntity>? = null
     var mCurrentYear: YearEntity? = null
     var mCurrentMonth: MonthEntity? = null
+    var mWeekdayLabels = ArrayList<CellEntity>()
+    var mCurrentMonthValue: Int = 0
+    var mCurrentYearValue: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Set weekday headers
+        for (i in 1 until 8) {
+            mWeekdayLabels.add(
+                CellEntity(WeekdayEntity(i).toShortString())
+            )
+        }
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_cal, container, false)
     }
@@ -47,33 +62,73 @@ class FragmentCal : Fragment() {
         mYears = Gson().fromJson<List<YearEntity>>(FileHelper.fromAssetsJson(activity as Context, "cal_test.json"),
             GsonHelper.YearListType)
 
-        // Set weekday headers
-        for (i in 1 until 8) {
-            mCellList.add(
-                CellEntity(WeekdayEntity(i).toShortString())
-            )
+        onCalSelected(now.year, now.monthValue)
+
+        fragmentCalBtnBackward.setOnClickListener {
+            val newYear: Int
+            val newMonth: Int
+
+            if (mCurrentMonthValue == 1) {
+                newMonth = 12
+                newYear = mCurrentYearValue - 1
+            } else {
+                newMonth = mCurrentMonthValue - 1
+                newYear = mCurrentYearValue
+            }
+
+            onCalSelected(newYear, newMonth)
         }
 
-        onCalSelected(now.year, now.monthValue)
+        fragmentCalBtnForward.setOnClickListener {
+            val newYear: Int
+            val newMonth: Int
+
+            if (mCurrentMonthValue == 12) {
+                newMonth = 1
+                newYear = mCurrentYearValue + 1
+            } else {
+                newMonth = mCurrentMonthValue + 1
+                newYear = mCurrentYearValue
+            }
+
+            onCalSelected(newYear, newMonth)
+        }
     }
 
     private fun onCalSelected(yearValue: Int, monthValue: Int) {
         // Set current year and month
+        var selectedYearExists = false
+        var selectedMonthExists = false
+
+        // Reset cellList
+        mAddSpacing = true
+        mCellList.clear()
+        mCellList.addAll(mWeekdayLabels)
+
         for (year: YearEntity in mYears.orEmpty()) {
             if (yearValue == year.number) {
                 mCurrentYear = year
+                mCurrentYearValue = year.number
+                selectedYearExists = true
                 break
             }
         }
         for (month: MonthEntity in mCurrentYear?.months.orEmpty()) {
             if (monthValue == month.number) {
                 mCurrentMonth = month
+                mCurrentMonthValue = month.number
+                selectedMonthExists = true
                 break
             }
         }
 
+        if (!selectedYearExists || !selectedMonthExists) {
+            StringHelper.makeSnackbar(StringHelper.getString(R.string.month_year_not_exist, context),
+                activity)
+            return
+        }
+
         // Load cellList
-        Log.d("fragmentcal", mCurrentMonth?.days.toString())
         for (day: DayEntity in mCurrentMonth?.days.orEmpty()) {
             if (mAddSpacing) {
                 mAddSpacing = false
@@ -93,6 +148,7 @@ class FragmentCal : Fragment() {
                 mCellList
             )
         calGrid.adapter = mAdapter
+        return
     }
 
     class CellAdapter(var context: Context?, var cellList: ArrayList<CellEntity>) : BaseAdapter() {
