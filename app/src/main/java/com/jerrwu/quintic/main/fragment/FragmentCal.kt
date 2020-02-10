@@ -19,6 +19,7 @@ import com.jerrwu.quintic.entities.time.YearEntity
 import com.jerrwu.quintic.helpers.FileHelper
 import kotlinx.android.synthetic.main.fragment_cal.*
 import kotlinx.android.synthetic.main.grid_cell.view.*
+import java.time.LocalDate
 
 
 class FragmentCal : Fragment() {
@@ -36,18 +37,27 @@ class FragmentCal : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val now = LocalDate.now()
+        var currentYear = YearEntity(now.year, null)
+        var currentMonth = MonthEntity(now.monthValue, null)
+
         val sType = object : TypeToken<List<YearEntity>>() { }.type
 
         val years = Gson().fromJson<List<YearEntity>>(FileHelper.fromAssetsJson(activity as Context, "cal_test.json"),
             sType)
 
         for (year: YearEntity in years) {
+            if (currentYear.number == year.number) currentYear = year
             for (month: MonthEntity in year.months!!) {
+                if (currentMonth.number == month.number) currentMonth = month
                 for (day: DayEntity in month.days!!) {
                     cellList.add(CellEntity(day.dayOfMonth.toString()))
                 }
             }
         }
+
+        fragmentCalMonthSelectText.text = currentMonth.toString()
+        fragmentCalYearText.text = currentYear.number.toString()
 
         adapter =
             CellAdapter(
