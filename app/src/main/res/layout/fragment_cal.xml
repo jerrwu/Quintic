@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content">
 
                 <Spinner
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     android:popupBackground="@android:color/transparent"
                     android:background="@android:color/transparent"
                     android:text="@string/selection"

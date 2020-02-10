@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.jerrwu.quintic.entities.cell.CellEntity
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.view.CalSpinnerAdapter
 import com.jerrwu.quintic.entities.time.DayEntity
 import com.jerrwu.quintic.entities.time.MonthEntity
 import com.jerrwu.quintic.entities.time.WeekdayEntity
@@ -62,12 +63,11 @@ class FragmentCal : Fragment() {
         onCalSelected(now.year, now.monthValue)
 
         if (mContext != null) {
-            val spinnerAdapter = ArrayAdapter(
-                mContext, R.layout.round_spinner_item, listOf("January", "February"))
+            val spinnerAdapter = CalSpinnerAdapter(
+                mContext, listOf("January", "February"))
 
             fragmentCalSelectionSpinner.adapter = spinnerAdapter
         }
-
 
         selectorBox.setOnClickListener {
             fragmentCalSelectionSpinner.performClick()
