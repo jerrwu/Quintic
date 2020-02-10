@@ -15,8 +15,10 @@ import com.jerrwu.quintic.entities.cell.CellEntity
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entities.time.DayEntity
 import com.jerrwu.quintic.entities.time.MonthEntity
+import com.jerrwu.quintic.entities.time.WeekdayEntity
 import com.jerrwu.quintic.entities.time.YearEntity
 import com.jerrwu.quintic.helpers.FileHelper
+import com.jerrwu.quintic.helpers.GsonHelper
 import kotlinx.android.synthetic.main.fragment_cal.*
 import kotlinx.android.synthetic.main.grid_cell.view.*
 import java.time.LocalDate
@@ -40,17 +42,29 @@ class FragmentCal : Fragment() {
         val now = LocalDate.now()
         var currentYear = YearEntity(now.year, null)
         var currentMonth = MonthEntity(now.monthValue, null)
-
-        val sType = object : TypeToken<List<YearEntity>>() { }.type
+        var addSpacing = true
 
         val years = Gson().fromJson<List<YearEntity>>(FileHelper.fromAssetsJson(activity as Context, "cal_test.json"),
-            sType)
+            GsonHelper.YearListType)
+
+        // Set weekday headers
+        for (i in 1 until 8) {
+            cellList.add(
+                CellEntity(WeekdayEntity(i).toShortString())
+            )
+        }
 
         for (year: YearEntity in years) {
             if (currentYear.number == year.number) currentYear = year
             for (month: MonthEntity in year.months!!) {
                 if (currentMonth.number == month.number) currentMonth = month
                 for (day: DayEntity in month.days!!) {
+                    if (addSpacing) {
+                        addSpacing = false
+                        for (i in 1 until day.dayOfWeek) {
+                            cellList.add(CellEntity(""))
+                        }
+                    }
                     cellList.add(CellEntity(day.dayOfMonth.toString()))
                 }
             }
@@ -93,8 +107,8 @@ class FragmentCal : Fragment() {
                 convertView
             }
 
-            if (cell.text == "0") {
-                cellView.gridCellText.text = ""
+            if (cell.text == "") {
+                cellView.isClickable = false
             } else {
                 cellView.gridCellText.text = cell.text
             }
