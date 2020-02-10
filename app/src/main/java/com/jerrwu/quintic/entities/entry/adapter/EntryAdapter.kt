@@ -14,7 +14,7 @@ import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.main.MainActivity
-import kotlinx.android.synthetic.main.card.view.*
+import kotlinx.android.synthetic.main.entry_card.view.*
 import java.time.format.DateTimeFormatter
 
 
@@ -30,7 +30,7 @@ class EntryAdapter(
     private var unselectedBg = R.color.colorMain // colorMain
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.card, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.entry_card, parent, false)
         return CardViewHolder(view)
     }
 

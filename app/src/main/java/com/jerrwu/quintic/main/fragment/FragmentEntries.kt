@@ -104,7 +104,7 @@ class FragmentEntries : Fragment() {
                 true
             }
             mAdapter?.onItemClick = { card, dismissToolbar ->
-                // Toast.makeText(activity, card.id.toString(), Toast.LENGTH_SHORT).show()
+                // Toast.makeText(activity, entry_card.id.toString(), Toast.LENGTH_SHORT).show()
                 if (dismissToolbar) {
                     hideSelectionToolbar()
                 } else {

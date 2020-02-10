@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.jerrwu.quintic.entities.cell.CellEntity
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entities.time.DayEntity
@@ -20,14 +19,17 @@ import com.jerrwu.quintic.entities.time.YearEntity
 import com.jerrwu.quintic.helpers.FileHelper
 import com.jerrwu.quintic.helpers.GsonHelper
 import kotlinx.android.synthetic.main.fragment_cal.*
-import kotlinx.android.synthetic.main.grid_cell.view.*
+import kotlinx.android.synthetic.main.cal_cell.view.*
 import java.time.LocalDate
 
 
 class FragmentCal : Fragment() {
-    var adapter: CellAdapter? = null
-    var cellList = ArrayList<CellEntity>()
-    var addSpacing = true
+    var mAdapter: CellAdapter? = null
+    var mCellList = ArrayList<CellEntity>()
+    var mAddSpacing = true
+    var mYears: List<YearEntity>? = null
+    var mCurrentYear: YearEntity? = null
+    var mCurrentMonth: MonthEntity? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,50 +43,56 @@ class FragmentCal : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val now = LocalDate.now()
-        var currentYear = YearEntity(now.year, null)
-        var currentMonth = MonthEntity(now.monthValue, null)
 
-        val years = Gson().fromJson<List<YearEntity>>(FileHelper.fromAssetsJson(activity as Context, "cal_test.json"),
+        mYears = Gson().fromJson<List<YearEntity>>(FileHelper.fromAssetsJson(activity as Context, "cal_test.json"),
             GsonHelper.YearListType)
 
         // Set weekday headers
         for (i in 1 until 8) {
-            cellList.add(
+            mCellList.add(
                 CellEntity(WeekdayEntity(i).toShortString())
             )
         }
 
+        onCalSelected(now.year, now.monthValue)
+    }
+
+    private fun onCalSelected(yearValue: Int, monthValue: Int) {
         // Set current year and month
-        for (year: YearEntity in years) {
-            if (currentYear.number == year.number) currentYear = year
-            break
+        for (year: YearEntity in mYears.orEmpty()) {
+            if (yearValue == year.number) {
+                mCurrentYear = year
+                break
+            }
         }
-        for (month: MonthEntity in currentYear.months.orEmpty()) {
-            if (currentMonth.number == month.number) currentMonth = month
-            break
+        for (month: MonthEntity in mCurrentYear?.months.orEmpty()) {
+            if (monthValue == month.number) {
+                mCurrentMonth = month
+                break
+            }
         }
 
         // Load cellList
-        for (day: DayEntity in currentMonth.days.orEmpty()) {
-            if (addSpacing) {
-                addSpacing = false
+        Log.d("fragmentcal", mCurrentMonth?.days.toString())
+        for (day: DayEntity in mCurrentMonth?.days.orEmpty()) {
+            if (mAddSpacing) {
+                mAddSpacing = false
                 for (i in 1 until day.dayOfWeek) {
-                    cellList.add(CellEntity(""))
+                    mCellList.add(CellEntity(""))
                 }
             }
-            cellList.add(CellEntity(day.dayOfMonth.toString()))
+            mCellList.add(CellEntity(day.dayOfMonth.toString()))
         }
 
-        fragmentCalMonthSelectText.text = currentMonth.toString()
-        fragmentCalYearText.text = currentYear.number.toString()
+        fragmentCalMonthSelectText.text = mCurrentMonth.toString()
+        fragmentCalYearText.text = mCurrentYear?.number.toString()
 
-        adapter =
+        mAdapter =
             CellAdapter(
                 context,
-                cellList
+                mCellList
             )
-
-        grid_view_main.adapter = adapter
+        calGrid.adapter = mAdapter
     }
 
     class CellAdapter(var context: Context?, var cellList: ArrayList<CellEntity>) : BaseAdapter() {
@@ -107,7 +115,7 @@ class FragmentCal : Fragment() {
 
             cellView = if (convertView == null) {
                 val inflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-                inflater.inflate(R.layout.grid_cell, parent, false)
+                inflater.inflate(R.layout.cal_cell, parent, false)
             } else {
                 convertView
             }
