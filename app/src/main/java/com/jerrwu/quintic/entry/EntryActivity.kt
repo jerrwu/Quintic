@@ -218,14 +218,14 @@ class EntryActivity : AppCompatActivity() {
             values.put(MainDbHelper.DB_COL_HOURS, StringHelper.getHours(createdDate?.hour))
 
             if (id == 0) {
-                val dbID = dbHelper.insert(values)
-                if (dbID > 0) {
+                val dbId = dbHelper.insert(values)
+                if (dbId != null && dbId > 0) {
                     finish()
                 }
             } else {
                 val selectionArgs = arrayOf(id.toString())
-                val dbID = dbHelper.update(values, "ID=?", selectionArgs)
-                if (dbID > 0) {
+                val dbId = dbHelper.update(values, "ID=?", selectionArgs)
+                if (dbId != null && dbId > 0) {
                     finish()
                 }
             }

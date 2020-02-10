@@ -46,28 +46,28 @@ class MainDbHelper(context: Context) {
         }
 
         override fun onCreate(db: SQLiteDatabase?) {
-            db!!.execSQL(sqlCreateTable)
-            Toast.makeText(this.context, "Database created!", Toast.LENGTH_SHORT).show()
+            db?.execSQL(sqlCreateTable)
+            Toast.makeText(this.context, "Main database created!", Toast.LENGTH_SHORT).show()
         }
 
         override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
             if (oldVersion < 2) {
-                db!!.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_MOOD INTEGER")
+                db?.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_MOOD INTEGER")
             }
             if (oldVersion < 3) {
-                db!!.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_DATE_EXTERNAL TEXT")
+                db?.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_DATE_EXTERNAL TEXT")
             }
             if (oldVersion < 4)  {
-                db!!.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_HOURS TEXT")
+                db?.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_HOURS TEXT")
             }
-            Toast.makeText(this.context, "Database upgraded!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "Main database upgraded!", Toast.LENGTH_SHORT).show()
         }
 
 
     }
 
-    fun insert(values: ContentValues): Long {
-        return sqlDb!!.insert(DB_TABLE, "", values)
+    fun insert(values: ContentValues): Long? {
+        return sqlDb?.insert(DB_TABLE, "", values)
     }
 
     fun query(
@@ -79,11 +79,11 @@ class MainDbHelper(context: Context) {
             sqlDb, projection, selection, selectionArgs, null, null, sorOrder)
     }
 
-    fun delete(selection: String, selectionArgs: Array<String>): Int {
-        return sqlDb!!.delete(DB_TABLE, selection, selectionArgs)
+    fun delete(selection: String, selectionArgs: Array<String>): Int? {
+        return sqlDb?.delete(DB_TABLE, selection, selectionArgs)
     }
 
-    fun update(values: ContentValues, selection: String, selectionArgs: Array<String>): Int {
-        return sqlDb!!.update(DB_TABLE, values, selection, selectionArgs)
+    fun update(values: ContentValues, selection: String, selectionArgs: Array<String>): Int? {
+        return sqlDb?.update(DB_TABLE, values, selection, selectionArgs)
     }
 }
