@@ -15,7 +15,7 @@
         tools:context=".main.fragment.FragmentCal">
 
         <LinearLayout
-            android:id="@+id/selector_box"
+            android:id="@+id/selectorBox"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="12dp"
@@ -32,25 +32,43 @@
                 android:id="@+id/fragmentCalBtnBackward"
                 android:layout_marginStart="4dp"
                 android:elevation="5dp"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="center_vertical|center_horizontal"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_chevron_left"
                 android:tint="@color/colorFont"
                 android:layout_width="30dp"
                 android:layout_height="40dp"/>
 
-            <TextView
-                android:id="@+id/fragmentCalMonthSelectText"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:fontFamily="@font/productsansregular"
-                android:textSize="16sp"
-                android:textColor="@color/colorFont"
+            <FrameLayout
                 android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:text="@string/selection"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content">
+
+                <Spinner
+                    android:visibility="invisible"
+                    android:popupBackground="@android:color/transparent"
+                    android:background="@android:color/transparent"
+                    android:text="@string/selection"
+                    android:id="@+id/fragmentCalSelectionSpinner"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/fragmentCalMonthSelectText"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:fontFamily="@font/productsansregular"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorFont"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:text="@string/selection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </FrameLayout>
 
             <ImageButton
                 android:id="@+id/fragmentCalBtnForward"
@@ -67,19 +85,19 @@
 
         <TextView
             android:id="@+id/fragmentCalYearText"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:textColor="@color/colorSecondary"
-            android:fontFamily="@font/productsansregular"
-            android:layout_marginStart="12dp"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toBottomOf="@id/selector_box"
-            app:layout_constraintStart_toEndOf="@id/selector_box"
+            android:fontFamily="@font/productsansmedium"
+            android:layout_marginStart="18dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/selectorBox"
+            app:layout_constraintStart_toEndOf="@id/selectorBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/grid_container"
-            app:layout_constraintTop_toBottomOf="@id/selector_box"
+            app:layout_constraintTop_toBottomOf="@id/selectorBox"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="12dp"

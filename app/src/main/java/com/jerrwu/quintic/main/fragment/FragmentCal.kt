@@ -2,15 +2,13 @@ package com.jerrwu.quintic.main.fragment
 
 
 import android.content.Context
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.jerrwu.quintic.entities.cell.CellEntity
 import com.jerrwu.quintic.R
@@ -21,8 +19,6 @@ import com.jerrwu.quintic.entities.time.YearEntity
 import com.jerrwu.quintic.helpers.FileHelper
 import com.jerrwu.quintic.helpers.GsonHelper
 import com.jerrwu.quintic.helpers.StringHelper
-import com.jerrwu.quintic.main.MainActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_cal.*
 import kotlinx.android.synthetic.main.cal_cell.view.*
 import java.time.LocalDate
@@ -58,11 +54,24 @@ class FragmentCal : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val now = LocalDate.now()
+        val mContext = context
 
         mYears = Gson().fromJson<List<YearEntity>>(FileHelper.fromAssetsJson(activity as Context, "cal_test.json"),
             GsonHelper.YearListType)
 
         onCalSelected(now.year, now.monthValue)
+
+        if (mContext != null) {
+            val spinnerAdapter = ArrayAdapter(
+                mContext, R.layout.round_spinner_item, listOf("January", "February"))
+
+            fragmentCalSelectionSpinner.adapter = spinnerAdapter
+        }
+
+
+        selectorBox.setOnClickListener {
+            fragmentCalSelectionSpinner.performClick()
+        }
 
         fragmentCalBtnBackward.setOnClickListener {
             val newYear: Int
