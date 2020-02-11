@@ -44,13 +44,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <Spinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:visibility="gone"
                     android:popupBackground="@android:color/transparent"
                     android:background="@android:color/transparent"
                     android:text="@string/selection"
                     android:id="@+id/fragmentCalSelectionSpinner"
-                    android:gravity="center_vertical|center_horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

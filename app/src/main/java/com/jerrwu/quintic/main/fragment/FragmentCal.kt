@@ -3,9 +3,11 @@ package com.jerrwu.quintic.main.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
 import androidx.fragment.app.Fragment
@@ -23,6 +25,7 @@ import com.jerrwu.quintic.helpers.StringHelper
 import kotlinx.android.synthetic.main.fragment_cal.*
 import kotlinx.android.synthetic.main.cal_cell.view.*
 import java.time.LocalDate
+import java.util.stream.Collectors
 
 
 class FragmentCal : Fragment() {
@@ -35,6 +38,10 @@ class FragmentCal : Fragment() {
     var mWeekdayLabels = ArrayList<CellEntity>()
     var mCurrentMonthValue: Int = 0
     var mCurrentYearValue: Int = 0
+    private var mContext: Context? = null
+
+    private val mMonthSpinnerList: ArrayList<String> = ArrayList()
+    private val mYearSpinnerList: ArrayList<String> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +53,7 @@ class FragmentCal : Fragment() {
                 CellEntity(WeekdayEntity(i).toShortString())
             )
         }
+        mContext = context
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_cal, container, false)
@@ -55,18 +63,27 @@ class FragmentCal : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val now = LocalDate.now()
-        val mContext = context
 
         mYears = Gson().fromJson<List<YearEntity>>(FileHelper.fromAssetsJson(activity as Context, "cal_test.json"),
             GsonHelper.YearListType)
 
         onCalSelected(now.year, now.monthValue)
 
-        if (mContext != null) {
-            val spinnerAdapter = CalSpinnerAdapter(
-                mContext, listOf("January", "February"))
+        fragmentCalSelectionSpinner.onItemSelectedListener = object:
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View,
+                position: Int,
+                id: Long
+            ) {
+                val selection = mMonthSpinnerList[position]
+                onCalSelected(mCurrentYearValue, StringHelper.intOfMonth(selection))
+            }
 
-            fragmentCalSelectionSpinner.adapter = spinnerAdapter
+            override fun onNothingSelected(parentView: AdapterView<*>?) {
+                // no-op
+            }
         }
 
         selectorBox.setOnClickListener {
@@ -101,6 +118,24 @@ class FragmentCal : Fragment() {
             }
 
             onCalSelected(newYear, newMonth)
+        }
+    }
+
+    private fun setupMonthSpinner() {
+        val context = mContext
+        if (context != null) {
+            fragmentCalSelectionSpinner.adapter = null
+            mMonthSpinnerList.clear()
+
+            for (month in mCurrentYear?.months.orEmpty()) {
+                mMonthSpinnerList.add(month.toString())
+            }
+
+            val spinnerAdapter = CalSpinnerAdapter(
+                context, mMonthSpinnerList)
+
+            fragmentCalSelectionSpinner.adapter = spinnerAdapter
+            spinnerAdapter.setDropDownViewResource(R.layout.round_spinner_item)
         }
     }
 
@@ -157,6 +192,7 @@ class FragmentCal : Fragment() {
                 mCellList
             )
         calGrid.adapter = mAdapter
+        setupMonthSpinner()
         return
     }
 

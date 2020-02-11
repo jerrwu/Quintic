@@ -48,6 +48,50 @@ object StringHelper {
         }
     }
 
+    fun intOfMonth(month: String): Int {
+        return when {
+            "january".contains(month, ignoreCase = true) -> {
+                1
+            }
+            "february".contains(month, ignoreCase = true) -> {
+                2
+            }
+            "march".contains(month, ignoreCase = true) -> {
+                3
+            }
+            "april".contains(month, ignoreCase = true) -> {
+                4
+            }
+            "may".contains(month, ignoreCase = true) -> {
+                5
+            }
+            "june".contains(month, ignoreCase = true) -> {
+                6
+            }
+            "july".contains(month, ignoreCase = true) -> {
+                7
+            }
+            "august".contains(month, ignoreCase = true) -> {
+                8
+            }
+            "september".contains(month, ignoreCase = true) -> {
+                9
+            }
+            "october".contains(month, ignoreCase = true) -> {
+                10
+            }
+            "november".contains(month, ignoreCase = true) -> {
+                11
+            }
+            "december".contains(month, ignoreCase = true) -> {
+                12
+            }
+            else -> {
+                0
+            }
+        }
+    }
+
     fun parseMonth(month: String): String {
         return when {
             "january".contains(month, ignoreCase = true) -> {
