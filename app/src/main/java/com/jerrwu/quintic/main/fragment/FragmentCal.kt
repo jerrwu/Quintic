@@ -1,6 +1,7 @@
 package com.jerrwu.quintic.main.fragment
 
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -25,7 +26,6 @@ import com.jerrwu.quintic.helpers.StringHelper
 import kotlinx.android.synthetic.main.fragment_cal.*
 import kotlinx.android.synthetic.main.cal_cell.view.*
 import java.time.LocalDate
-import java.util.stream.Collectors
 
 
 class FragmentCal : Fragment() {
@@ -38,7 +38,6 @@ class FragmentCal : Fragment() {
     var mWeekdayLabels = ArrayList<CellEntity>()
     var mCurrentMonthValue: Int = 0
     var mCurrentYearValue: Int = 0
-    private var mContext: Context? = null
 
     private val mMonthSpinnerList: ArrayList<String> = ArrayList()
     private val mYearSpinnerList: ArrayList<String> = ArrayList()
@@ -53,7 +52,6 @@ class FragmentCal : Fragment() {
                 CellEntity(WeekdayEntity(i).toShortString())
             )
         }
-        mContext = context
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_cal, container, false)
@@ -77,8 +75,8 @@ class FragmentCal : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                val selection = mMonthSpinnerList[position]
-                onCalSelected(mCurrentYearValue, StringHelper.intOfMonth(selection))
+                onCalSelected(mCurrentYearValue,
+                    StringHelper.intOfMonth(mMonthSpinnerList[position]))
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {
@@ -122,7 +120,7 @@ class FragmentCal : Fragment() {
     }
 
     private fun setupMonthSpinner() {
-        val context = mContext
+        val context = activity
         if (context != null) {
             fragmentCalSelectionSpinner.adapter = null
             mMonthSpinnerList.clear()
@@ -135,7 +133,6 @@ class FragmentCal : Fragment() {
                 context, mMonthSpinnerList)
 
             fragmentCalSelectionSpinner.adapter = spinnerAdapter
-            spinnerAdapter.setDropDownViewResource(R.layout.round_spinner_item)
         }
     }
 
