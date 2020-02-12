@@ -2,9 +2,7 @@ package com.jerrwu.quintic.main.fragment
 
 
 import android.content.Context
-import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -124,23 +122,18 @@ class FragmentCal : Fragment() {
         if (context != null) {
             fragmentCalSelectionSpinner.adapter = null
 
-            AsyncTask.execute {
-                mMonthSpinnerList.clear()
+            mMonthSpinnerList.clear()
 
-                for (month in mCurrentYear?.months.orEmpty()) {
-                    mMonthSpinnerList.add(month.toString())
-                }
-
-                val spinnerAdapter =
-                    CalSpinnerAdapter(
-                        context, mMonthSpinnerList
-                    )
-
-                fragmentCalSelectionSpinner.adapter = spinnerAdapter
-                fragmentCalSelectionSpinner.setSelection(
-                    mMonthSpinnerList.indexOf(mCurrentMonth.toString())
-                )
+            for (month in mCurrentYear?.months.orEmpty()) {
+                mMonthSpinnerList.add(month.toString())
             }
+
+            val spinnerAdapter = CalSpinnerAdapter(context, mMonthSpinnerList)
+
+            fragmentCalSelectionSpinner.adapter = spinnerAdapter
+            fragmentCalSelectionSpinner.setSelection(
+                mMonthSpinnerList.indexOf(mCurrentMonth.toString())
+            )
         }
     }
 
