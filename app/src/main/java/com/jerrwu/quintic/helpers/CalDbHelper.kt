@@ -41,12 +41,14 @@ class CalDbHelper(context: Context) : BaseDbHelper(context) {
 
         override fun onCreate(db: SQLiteDatabase?) {
             db?.execSQL(sqlCreateTable)
+            if (BuildConfig.DEBUG)
             (context as Activity).runOnUiThread {
                 Toast.makeText(this.context, "Calendar database created!", Toast.LENGTH_SHORT).show()
             }
         }
 
         override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+            if (BuildConfig.DEBUG)
             (context as Activity).runOnUiThread {
                 Toast.makeText(this.context, "Calendar database upgraded!", Toast.LENGTH_SHORT).show()
             }

@@ -48,6 +48,7 @@ class MainDbHelper(context: Context) : BaseDbHelper(context) {
 
         override fun onCreate(db: SQLiteDatabase?) {
             db?.execSQL(sqlCreateTable)
+            if (BuildConfig.DEBUG)
             (context as Activity).runOnUiThread {
                 Toast.makeText(this.context, "Main database created!", Toast.LENGTH_SHORT).show()
             }
@@ -63,6 +64,7 @@ class MainDbHelper(context: Context) : BaseDbHelper(context) {
             if (oldVersion < 4)  {
                 db?.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_HOURS TEXT")
             }
+            if (BuildConfig.DEBUG)
             (context as Activity).runOnUiThread {
                 Toast.makeText(this.context, "Main database upgraded!", Toast.LENGTH_SHORT).show()
             }

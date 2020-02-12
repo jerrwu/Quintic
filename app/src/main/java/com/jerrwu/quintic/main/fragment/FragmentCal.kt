@@ -39,7 +39,9 @@ class FragmentCal : Fragment() {
     private val mMonthSpinnerList: ArrayList<String> = ArrayList()
     private val mYearSpinnerList: ArrayList<String> = ArrayList()
 
-    // TODO: improve fragment performance
+    /*
+    TODO: improve overall fragment performance, fix bug with indicator not updating
+     */
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,8 +70,11 @@ class FragmentCal : Fragment() {
                 id: Long
             ) {
                 val monthValue = StringHelper.intOfMonth(mMonthSpinnerList[position])
-                if (monthValue != mCurrentMonthValue)
-                onCalSelected(mCurrentYearValue, monthValue)
+                if (monthValue != mCurrentMonthValue){
+                    AsyncTask.execute {
+                        onCalSelected(mCurrentYearValue, monthValue)
+                    }
+                }
             }
             override fun onNothingSelected(parentView: AdapterView<*>?) {
                 // no-op
@@ -92,7 +97,7 @@ class FragmentCal : Fragment() {
                 newYear = mCurrentYearValue
             }
 
-            onCalSelected(newYear, newMonth)
+            AsyncTask.execute { onCalSelected(newYear, newMonth) }
         }
 
         fragmentCalBtnForward.setOnClickListener {
@@ -107,7 +112,7 @@ class FragmentCal : Fragment() {
                 newYear = mCurrentYearValue
             }
 
-            onCalSelected(newYear, newMonth)
+            AsyncTask.execute { onCalSelected(newYear, newMonth) }
         }
     }
 
@@ -123,23 +128,18 @@ class FragmentCal : Fragment() {
     }
 
     private fun setupMonthSpinner() {
-        AsyncTask.execute {
-            val context = activity
-            if (context != null) {
-                fragmentCalSelectionSpinner.adapter = null
+        val context = activity
+        if (context != null) {
+            mMonthSpinnerList.clear()
 
-                mMonthSpinnerList.clear()
+            for (month in mCurrentYear?.months.orEmpty()) {
+                mMonthSpinnerList.add(month.toString())
+            }
 
-                for (month in mCurrentYear?.months.orEmpty()) {
-                    mMonthSpinnerList.add(month.toString())
-                }
+            val spinnerAdapter = CalSpinnerAdapter(context, mMonthSpinnerList)
 
-                val spinnerAdapter = CalSpinnerAdapter(context, mMonthSpinnerList)
-
+            activity?.runOnUiThread {
                 fragmentCalSelectionSpinner.adapter = spinnerAdapter
-                fragmentCalSelectionSpinner.setSelection(
-                    mMonthSpinnerList.indexOf(mCurrentMonth.toString())
-                )
             }
         }
     }
@@ -212,6 +212,10 @@ class FragmentCal : Fragment() {
 
         if (yearChanged)
         setupMonthSpinner()
+        val index = mMonthSpinnerList.indexOf(mCurrentMonth.toString())
+        activity?.runOnUiThread {
+            fragmentCalSelectionSpinner.setSelection(index)
+        }
         return
     }
 
