@@ -120,10 +120,14 @@ class FragmentCal : Fragment() {
         super.onResume()
         AsyncTask.execute {
             val now = LocalDate.now()
-
             mYears = Gson().fromJson<List<YearEntity>>(FileHelper.fromAssetsJson(activity as Context, "cal_test.json"),
                 GsonHelper.YearListType)
-            onCalSelected(now.year, now.monthValue)
+
+            if (mCurrentYearValue == 0 || mCurrentMonthValue == 0) {
+                onCalSelected(now.year, now.monthValue)
+            } else {
+                onCalSelected(mCurrentYearValue, mCurrentMonthValue)
+            }
         }
     }
 
