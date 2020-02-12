@@ -1,13 +1,13 @@
 package com.jerrwu.quintic.account
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_account.*
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.jerrwu.quintic.R
+import kotlinx.android.synthetic.main.activity_account.*
 
 
 class AccountActivity : AppCompatActivity() {

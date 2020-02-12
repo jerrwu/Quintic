@@ -19,7 +19,6 @@ import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.helpers.MainDbHelper
 import com.jerrwu.quintic.helpers.SearchHelper
 import kotlinx.android.synthetic.main.activity_search.*
-import java.lang.IndexOutOfBoundsException
 
 
 class SearchActivity : AppCompatActivity() {
@@ -98,7 +97,6 @@ class SearchActivity : AppCompatActivity() {
         } catch (e: IndexOutOfBoundsException) {
             throw e
         }
-
 
         searchBackButton.setOnClickListener {
             finish()

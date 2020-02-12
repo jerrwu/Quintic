@@ -1,7 +1,6 @@
 package com.jerrwu.quintic.entities.time
 
 import com.google.gson.annotations.SerializedName
-import com.jerrwu.quintic.entities.entry.EntryEntity
 
 data class DayEntity(
     @SerializedName("monthday")

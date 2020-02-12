@@ -45,13 +45,12 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatSpinner
-                    android:visibility="gone"
+                    android:visibility="invisible"
                     android:popupBackground="@android:color/transparent"
                     android:background="@android:color/transparent"
-                    android:text="@string/selection"
                     android:id="@+id/fragmentCalSelectionSpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="1dp"
+                    android:layout_height="1dp" />
 
                 <TextView
                     android:id="@+id/fragmentCalMonthSelectText"
@@ -60,7 +59,7 @@
                     android:fontFamily="@font/productsansregular"
                     android:textSize="16sp"
                     android:textColor="@color/colorFont"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center_vertical|center_horizontal"
                     android:gravity="center_vertical"
                     android:text="@string/selection"
                     android:layout_width="wrap_content"

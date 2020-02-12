@@ -1,21 +1,20 @@
 package com.jerrwu.quintic.main.fragment
 
 
-import android.app.Activity
 import android.content.Context
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
-import com.jerrwu.quintic.entities.cell.CellEntity
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.common.view.CalSpinnerAdapter
+import com.jerrwu.quintic.common.view.widget.CalSpinnerAdapter
+import com.jerrwu.quintic.entities.cell.CellEntity
 import com.jerrwu.quintic.entities.time.DayEntity
 import com.jerrwu.quintic.entities.time.MonthEntity
 import com.jerrwu.quintic.entities.time.WeekdayEntity
@@ -23,8 +22,8 @@ import com.jerrwu.quintic.entities.time.YearEntity
 import com.jerrwu.quintic.helpers.FileHelper
 import com.jerrwu.quintic.helpers.GsonHelper
 import com.jerrwu.quintic.helpers.StringHelper
-import kotlinx.android.synthetic.main.fragment_cal.*
 import kotlinx.android.synthetic.main.cal_cell.view.*
+import kotlinx.android.synthetic.main.fragment_cal.*
 import java.time.LocalDate
 
 
@@ -41,6 +40,8 @@ class FragmentCal : Fragment() {
 
     private val mMonthSpinnerList: ArrayList<String> = ArrayList()
     private val mYearSpinnerList: ArrayList<String> = ArrayList()
+
+    // TODO: improve spinner performance
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,7 +60,6 @@ class FragmentCal : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val now = LocalDate.now()
 
         mYears = Gson().fromJson<List<YearEntity>>(FileHelper.fromAssetsJson(activity as Context, "cal_test.json"),
@@ -75,10 +75,10 @@ class FragmentCal : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                onCalSelected(mCurrentYearValue,
-                    StringHelper.intOfMonth(mMonthSpinnerList[position]))
+                val monthValue = StringHelper.intOfMonth(mMonthSpinnerList[position])
+                if (monthValue != mCurrentMonthValue)
+                onCalSelected(mCurrentYearValue, monthValue)
             }
-
             override fun onNothingSelected(parentView: AdapterView<*>?) {
                 // no-op
             }
@@ -123,16 +123,24 @@ class FragmentCal : Fragment() {
         val context = activity
         if (context != null) {
             fragmentCalSelectionSpinner.adapter = null
-            mMonthSpinnerList.clear()
 
-            for (month in mCurrentYear?.months.orEmpty()) {
-                mMonthSpinnerList.add(month.toString())
+            AsyncTask.execute {
+                mMonthSpinnerList.clear()
+
+                for (month in mCurrentYear?.months.orEmpty()) {
+                    mMonthSpinnerList.add(month.toString())
+                }
+
+                val spinnerAdapter =
+                    CalSpinnerAdapter(
+                        context, mMonthSpinnerList
+                    )
+
+                fragmentCalSelectionSpinner.adapter = spinnerAdapter
+                fragmentCalSelectionSpinner.setSelection(
+                    mMonthSpinnerList.indexOf(mCurrentMonth.toString())
+                )
             }
-
-            val spinnerAdapter = CalSpinnerAdapter(
-                context, mMonthSpinnerList)
-
-            fragmentCalSelectionSpinner.adapter = spinnerAdapter
         }
     }
 
@@ -140,6 +148,11 @@ class FragmentCal : Fragment() {
         // Set current year and month
         var selectedYearExists = false
         var selectedMonthExists = false
+
+        var yearChanged = false
+        if (mCurrentYearValue != yearValue) {
+            yearChanged = true
+        }
 
         // Reset cellList
         mAddSpacing = true
@@ -189,6 +202,8 @@ class FragmentCal : Fragment() {
                 mCellList
             )
         calGrid.adapter = mAdapter
+
+        if (yearChanged)
         setupMonthSpinner()
         return
     }

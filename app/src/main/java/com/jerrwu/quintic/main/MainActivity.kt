@@ -9,10 +9,11 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
+import androidx.viewpager.widget.ViewPager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.jerrwu.quintic.*
+import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.main.fragment.FragmentCal
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val currentFragment = active
         if (currentFragment !is FragmentEntries) {
-            bottom_navigation.selectedItemId = R.id.menu_home
+            bottomNavigation.selectedItemId = R.id.menu_home
         } else if (currentFragment.mAdapter != null &&
             (currentFragment.mAdapter as EntryAdapter).isMultiSelect) {
             currentFragment.hideSelectionToolbar()
@@ -150,8 +151,8 @@ class MainActivity : AppCompatActivity() {
         fm.beginTransaction().add(R.id.frag_container, fragment2, "2").hide(fragment2).commit()
         fm.beginTransaction().add(R.id.frag_container, fragment1, "1").commit()
 
-        bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        bottom_navigation.selectedItemId = R.id.menu_home
+        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        bottomNavigation.selectedItemId = R.id.menu_home
 
         accountButton.setOnClickListener {
             showBottomSheetDialogFragment()
@@ -181,7 +182,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun enableLayoutNavScrollBehaviour() {
-        val param1: CoordinatorLayout.LayoutParams = bottom_navigation.layoutParams as CoordinatorLayout.LayoutParams
+        val param1: CoordinatorLayout.LayoutParams = bottomNavigation.layoutParams as CoordinatorLayout.LayoutParams
         param1.behavior = HideBottomViewOnScrollBehavior<CoordinatorLayout>()
         val param2: CoordinatorLayout.LayoutParams = fab.layoutParams as CoordinatorLayout.LayoutParams
         param2.behavior = HideBottomViewOnScrollBehavior<CoordinatorLayout>()
@@ -189,7 +190,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun disableLayoutNavScrollBehaviour() {
-        val param1: CoordinatorLayout.LayoutParams = bottom_navigation.layoutParams as CoordinatorLayout.LayoutParams
+        val param1: CoordinatorLayout.LayoutParams = bottomNavigation.layoutParams as CoordinatorLayout.LayoutParams
         param1.behavior = null
         val param2: CoordinatorLayout.LayoutParams = fab.layoutParams as CoordinatorLayout.LayoutParams
         param2.behavior = null

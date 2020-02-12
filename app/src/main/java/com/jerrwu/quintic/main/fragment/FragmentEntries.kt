@@ -18,8 +18,8 @@ import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entry.EntryActivity
-import com.jerrwu.quintic.helpers.MainDbHelper
 import com.jerrwu.quintic.helpers.InfoHelper
+import com.jerrwu.quintic.helpers.MainDbHelper
 import com.jerrwu.quintic.helpers.StringHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_entries.*

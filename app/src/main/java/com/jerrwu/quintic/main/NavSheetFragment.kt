@@ -1,21 +1,21 @@
 package com.jerrwu.quintic.main
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.nav_sheet.*
-import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.jerrwu.quintic.R
 import com.jerrwu.quintic.account.AccountActivity
 import com.jerrwu.quintic.helpers.InfoHelper
-import com.jerrwu.quintic.R
 import com.jerrwu.quintic.helpers.StringHelper
 import com.jerrwu.quintic.settings.SettingsActivity
+import kotlinx.android.synthetic.main.nav_sheet.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
