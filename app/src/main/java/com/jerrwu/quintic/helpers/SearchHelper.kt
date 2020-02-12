@@ -1,5 +1,6 @@
 package com.jerrwu.quintic.helpers
 
+import android.database.Cursor
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import java.time.LocalDateTime
@@ -9,7 +10,31 @@ object SearchHelper {
     const val ORDER_ASCENDING = "ASC"
     const val ORDER_DESCENDING = "DESC"
 
-    fun performExactSearch(text: String, mainDbHelper: MainDbHelper, order: String, column: String?): List<EntryEntity> {
+    fun performCalEntryCountSearch(dateString: String, baseDbHelper: BaseDbHelper): List<Int> {
+        var result = listOf(0, 0)
+
+        if (dateString.isBlank()) return result
+
+        val projections = arrayOf(CalDbHelper.DB_COL_ID, CalDbHelper.DB_COL_ENTRIES)
+        val selectionArgs = arrayOf(dateString)
+        val cursor = baseDbHelper.query(
+            projections, "${CalDbHelper.DB_COL_DATE} LIKE ?", selectionArgs, ""
+        ) as Cursor
+        if (cursor.moveToFirst()) {
+
+            do {
+                val calId = cursor.getInt(cursor.getColumnIndex(CalDbHelper.DB_COL_ID))
+                val entryCount = cursor.getInt(cursor.getColumnIndex(CalDbHelper.DB_COL_ENTRIES))
+                result = listOf(calId, entryCount)
+
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+
+        return result
+    }
+
+    fun performExactSearch(text: String, baseDbHelper: BaseDbHelper, order: String, column: String?): List<EntryEntity> {
         val results = ArrayList<EntryEntity>()
 
         if (text.isBlank()) return results
@@ -22,9 +47,9 @@ object SearchHelper {
             MainDbHelper.DB_COL_TIME,
             MainDbHelper.DB_COL_MOOD)
         val selectionArgs = arrayOf(text)
-        val cursor = mainDbHelper.query(
+        val cursor = baseDbHelper.query(
             projections, "$column LIKE ?", selectionArgs, "ID $order"
-        )
+        ) as Cursor
         if (cursor.moveToFirst()) {
 
             do {
@@ -53,16 +78,16 @@ object SearchHelper {
         return results
     }
 
-    fun performSearch(text: String, mainDbHelper: MainDbHelper, column: String?): List<EntryEntity> {
-        return performSearch(text, mainDbHelper, ORDER_DESCENDING, column)
+    fun performSearch(text: String, baseDbHelper: BaseDbHelper, column: String?): List<EntryEntity> {
+        return performSearch(text, baseDbHelper, ORDER_DESCENDING, column)
     }
 
-    fun performSearch(text: String, mainDbHelper: MainDbHelper, order: String, column: String?): List<EntryEntity> {
+    fun performSearch(text: String, baseDbHelper: BaseDbHelper, order: String, column: String?): List<EntryEntity> {
         val results = ArrayList<EntryEntity>()
 
         if (text.isBlank()) return results
 
-        return performExactSearch("%$text%", mainDbHelper, order, column)
+        return performExactSearch("%$text%", baseDbHelper, order, column)
     }
 
 }

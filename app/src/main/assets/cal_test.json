@@ -70,7 +70,43 @@
           },
           {
             "monthday": 3,
-            "weekday": 8
+            "weekday": 1
+          },
+          {
+            "monthday": 4,
+            "weekday": 2
+          },
+          {
+            "monthday": 5,
+            "weekday": 3
+          },
+          {
+            "monthday": 6,
+            "weekday": 4
+          },
+          {
+            "monthday": 7,
+            "weekday": 5
+          },
+          {
+            "monthday": 8,
+            "weekday": 6
+          },
+          {
+            "monthday": 9,
+            "weekday": 7
+          },
+          {
+            "monthday": 10,
+            "weekday": 1
+          },
+          {
+            "monthday": 11,
+            "weekday": 2
+          },
+          {
+            "monthday": 12,
+            "weekday": 3
           }
         ]
       }

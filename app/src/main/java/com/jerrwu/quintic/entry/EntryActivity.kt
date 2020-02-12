@@ -15,9 +15,7 @@ import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entities.mood.adapter.MoodAdapter
-import com.jerrwu.quintic.helpers.InfoHelper
-import com.jerrwu.quintic.helpers.MainDbHelper
-import com.jerrwu.quintic.helpers.StringHelper
+import com.jerrwu.quintic.helpers.*
 import kotlinx.android.synthetic.main.activity_entry.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -31,6 +29,7 @@ class EntryActivity : AppCompatActivity() {
     private val formatterHour = DateTimeFormatter.ofPattern("HH")
     private val formatterDb = DateTimeFormatter.ofPattern("EEEE MMMM dd yyyy hh:mm")
     private var mMainDbHelper: MainDbHelper? = null
+    private var mCalDbHelper: CalDbHelper? = null
     private var mMood: MoodEntity = MoodEntity.NONE
     private var isSelectorOpen = false
     private var mAdapter: MoodAdapter? = null
@@ -49,6 +48,7 @@ class EntryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_entry)
 
         mMainDbHelper = MainDbHelper(this)
+        mCalDbHelper = CalDbHelper(this)
 
         entryDateTimeView.visibility = View.GONE
 
@@ -197,14 +197,21 @@ class EntryActivity : AppCompatActivity() {
     }
 
     private fun updateEntry() {
+        if (createdDate == null) {
+            createdDate = LocalDateTime.now()
+        }
+        val calDbDate = createdDate?.year.toString() +
+                createdDate?.monthValue.toString() +
+                createdDate?.dayOfMonth.toString()
+
+        val calDbHelper = mCalDbHelper
         val mainDbHelper = mMainDbHelper
+
         if (mainDbHelper != null) {
             val values = ContentValues()
             var titleText = entryTitleEditText.text.toString()
             val conText = entryContentEditText.text.toString()
-            if (createdDate == null) {
-                createdDate = LocalDateTime.now()
-            }
+
             if (titleText == "") {
                 titleText = formatterWeekday.format(createdDate) + " " +
                         StringHelper.getDaySection(formatterHour.format(createdDate), this)
@@ -213,13 +220,31 @@ class EntryActivity : AppCompatActivity() {
             values.put(MainDbHelper.DB_COL_TITLE, titleText)
             values.put(MainDbHelper.DB_COL_CONTENT, conText)
             values.put(MainDbHelper.DB_COL_TIME, createdDate.toString())
-            Toast.makeText(this, createdDate.toString(), Toast.LENGTH_LONG).show()
             values.put(MainDbHelper.DB_COL_MOOD, mMood.name)
             values.put(MainDbHelper.DB_COL_DATE_EXTERNAL, formatterDb.format(createdDate))
             values.put(MainDbHelper.DB_COL_HOURS, StringHelper.getHours(createdDate?.hour))
 
+            // new entry
             if (id == 0) {
                 val dbId = mainDbHelper.insert(values)
+
+                if (calDbHelper != null) {
+                    val result = SearchHelper.performCalEntryCountSearch(calDbDate, calDbHelper)
+                    val entryCount = result[1]
+                    val values = ContentValues()
+
+                    val calId = result[0]
+                    values.put(CalDbHelper.DB_COL_DATE, calDbDate.toInt())
+                    values.put(CalDbHelper.DB_COL_ENTRIES, entryCount + 1)
+
+                    if (calId == 0) {
+                        calDbHelper.insert(values)
+                    } else {
+                        val selectionArgs = arrayOf(calId.toString())
+                        calDbHelper.update(values, "ID=?", selectionArgs)
+                    }
+                }
+
                 if (dbId != null && dbId > 0) {
                     finish()
                 }

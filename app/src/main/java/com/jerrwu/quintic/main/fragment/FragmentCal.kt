@@ -18,9 +18,7 @@ import com.jerrwu.quintic.entities.time.DayEntity
 import com.jerrwu.quintic.entities.time.MonthEntity
 import com.jerrwu.quintic.entities.time.WeekdayEntity
 import com.jerrwu.quintic.entities.time.YearEntity
-import com.jerrwu.quintic.helpers.FileHelper
-import com.jerrwu.quintic.helpers.GsonHelper
-import com.jerrwu.quintic.helpers.StringHelper
+import com.jerrwu.quintic.helpers.*
 import kotlinx.android.synthetic.main.cal_cell.view.*
 import kotlinx.android.synthetic.main.fragment_cal.*
 import java.time.LocalDate
@@ -40,7 +38,7 @@ class FragmentCal : Fragment() {
     private val mMonthSpinnerList: ArrayList<String> = ArrayList()
     private val mYearSpinnerList: ArrayList<String> = ArrayList()
 
-    // TODO: improve spinner performance
+    // TODO: improve fragment performance
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -187,11 +185,13 @@ class FragmentCal : Fragment() {
                     mCellList.add(CellEntity(""))
                 }
             }
-            mCellList.add(CellEntity(day.dayOfMonth.toString()))
+            val searchDate = mCurrentYearValue.toString() + mCurrentMonthValue.toString() + day.dayOfMonth
+            val calDbHelper = activity?.let { CalDbHelper(it) }
+            val result = calDbHelper?.let {
+                SearchHelper.performCalEntryCountSearch(searchDate, it)
+            }
+            mCellList.add(CellEntity(day.dayOfMonth.toString(), result?.get(1)))
         }
-
-        fragmentCalMonthSelectText.text = mCurrentMonth.toString()
-        fragmentCalYearText.text = mCurrentYear?.number.toString()
 
         mAdapter =
             CellAdapter(
@@ -199,6 +199,9 @@ class FragmentCal : Fragment() {
                 mCellList
             )
         calGrid.adapter = mAdapter
+
+        fragmentCalMonthSelectText.text = mCurrentMonth.toString()
+        fragmentCalYearText.text = mCurrentYear?.number.toString()
 
         if (yearChanged)
         setupMonthSpinner()
@@ -235,6 +238,7 @@ class FragmentCal : Fragment() {
             } else {
                 cellView.gridCellText.text = cell.text
             }
+            if (cell.number != 0) cellView.testindictext.text = cell.number.toString()
 
             return cellView
         }

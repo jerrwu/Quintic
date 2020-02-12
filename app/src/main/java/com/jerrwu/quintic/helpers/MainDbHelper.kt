@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteQueryBuilder
 import android.widget.Toast
 import com.jerrwu.quintic.BuildConfig
 
-class MainDbHelper(context: Context) {
+class MainDbHelper(context: Context) : BaseDbHelper(context) {
     companion object {
         const val DB_NAME = "MCards"
         const val DB_TABLE = "Cards"
@@ -66,11 +66,11 @@ class MainDbHelper(context: Context) {
 
     }
 
-    fun insert(values: ContentValues): Long? {
+    override fun insert(values: ContentValues): Long? {
         return sqlDb?.insert(DB_TABLE, "", values)
     }
 
-    fun query(
+    override fun query(
         projection: Array<String>, selection: String,
         selectionArgs: Array<String>, sorOrder: String): Cursor {
         val qb = SQLiteQueryBuilder()
@@ -79,11 +79,11 @@ class MainDbHelper(context: Context) {
             sqlDb, projection, selection, selectionArgs, null, null, sorOrder)
     }
 
-    fun delete(selection: String, selectionArgs: Array<String>): Int? {
+    override fun delete(selection: String, selectionArgs: Array<String>): Int? {
         return sqlDb?.delete(DB_TABLE, selection, selectionArgs)
     }
 
-    fun update(values: ContentValues, selection: String, selectionArgs: Array<String>): Int? {
+    override fun update(values: ContentValues, selection: String, selectionArgs: Array<String>): Int? {
         return sqlDb?.update(DB_TABLE, values, selection, selectionArgs)
     }
 }

@@ -9,11 +9,12 @@ import android.database.sqlite.SQLiteQueryBuilder
 import android.widget.Toast
 import com.jerrwu.quintic.BuildConfig
 
-class CalDbHelper(context: Context) {
+class CalDbHelper(context: Context) : BaseDbHelper(context) {
     companion object {
-        const val DB_NAME = "MCards"
+        const val DB_NAME = "MCal"
         const val DB_TABLE = "Cal"
         const val DB_COL_ID = "ID"
+        const val DB_COL_DATE = "Date"
         const val DB_COL_ENTRIES = "Entries"
     }
 
@@ -21,7 +22,7 @@ class CalDbHelper(context: Context) {
 
     val sqlCreateTable =
         "CREATE TABLE IF NOT EXISTS $DB_TABLE (" +
-                "$DB_COL_ID INTEGER PRIMARY KEY, $DB_COL_ENTRIES);"
+                "$DB_COL_ID INTEGER PRIMARY KEY, $DB_COL_DATE TEXT, $DB_COL_ENTRIES INTEGER);"
 
     private var sqlDb: SQLiteDatabase? = null
 
@@ -49,24 +50,24 @@ class CalDbHelper(context: Context) {
 
     }
 
-    fun insert(values: ContentValues): Long? {
+    override fun insert(values: ContentValues): Long? {
         return sqlDb?.insert(DB_TABLE, "", values)
     }
 
-    fun query(
+    override fun query(
         projection: Array<String>, selection: String,
         selectionArgs: Array<String>, sorOrder: String): Cursor {
         val qb = SQLiteQueryBuilder()
         qb.tables = DB_TABLE
         return qb.query(
-            sqlDb, projection, selection, selectionArgs, null, null, sorOrder)
+            sqlDb, projection, selection, selectionArgs, null, null, null)
     }
 
-    fun delete(selection: String, selectionArgs: Array<String>): Int? {
+    override fun delete(selection: String, selectionArgs: Array<String>): Int? {
         return sqlDb?.delete(DB_TABLE, selection, selectionArgs)
     }
 
-    fun update(values: ContentValues, selection: String, selectionArgs: Array<String>): Int? {
+    override fun update(values: ContentValues, selection: String, selectionArgs: Array<String>): Int? {
         return sqlDb?.update(DB_TABLE, values, selection, selectionArgs)
     }
 }
