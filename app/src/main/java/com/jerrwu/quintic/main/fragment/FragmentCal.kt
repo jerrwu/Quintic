@@ -1,6 +1,7 @@
 package com.jerrwu.quintic.main.fragment
 
 
+import android.app.Activity
 import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
@@ -57,13 +58,6 @@ class FragmentCal : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val now = LocalDate.now()
-
-        AsyncTask.execute {
-            mYears = Gson().fromJson<List<YearEntity>>(FileHelper.fromAssetsJson(activity as Context, "cal_test.json"),
-                GsonHelper.YearListType)
-            onCalSelected(now.year, now.monthValue)
-        }
 
         fragmentCalSelectionSpinner.onItemSelectedListener = object:
             AdapterView.OnItemSelectedListener {
@@ -114,6 +108,17 @@ class FragmentCal : Fragment() {
             }
 
             onCalSelected(newYear, newMonth)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        AsyncTask.execute {
+            val now = LocalDate.now()
+
+            mYears = Gson().fromJson<List<YearEntity>>(FileHelper.fromAssetsJson(activity as Context, "cal_test.json"),
+                GsonHelper.YearListType)
+            onCalSelected(now.year, now.monthValue)
         }
     }
 
@@ -198,10 +203,12 @@ class FragmentCal : Fragment() {
                 context,
                 mCellList
             )
-        calGrid.adapter = mAdapter
 
-        fragmentCalMonthSelectText.text = mCurrentMonth.toString()
-        fragmentCalYearText.text = mCurrentYear?.number.toString()
+        activity?.runOnUiThread {
+            calGrid.adapter = mAdapter
+            fragmentCalMonthSelectText.text = mCurrentMonth.toString()
+            fragmentCalYearText.text = mCurrentYear?.number.toString()
+        }
 
         if (yearChanged)
         setupMonthSpinner()
@@ -233,12 +240,15 @@ class FragmentCal : Fragment() {
                 convertView
             }
 
-            if (cell.text == "" || cell.text == "0") {
-                cellView.isClickable = false
-            } else {
-                cellView.gridCellText.text = cell.text
+            (context as Activity).runOnUiThread {
+                if (cell.text == "" || cell.text == "0") {
+                    cellView.isClickable = false
+                } else {
+                    cellView.gridCellText.text = cell.text
+                }
+                if (cell.number != 0) { cellView.testindictext.text = cell.number.toString() }
+                else { cellView.testindictext.visibility = View.GONE }
             }
-            if (cell.number != 0) cellView.testindictext.text = cell.number.toString()
 
             return cellView
         }
