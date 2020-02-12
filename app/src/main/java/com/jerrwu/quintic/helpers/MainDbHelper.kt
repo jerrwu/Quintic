@@ -1,5 +1,6 @@
 package com.jerrwu.quintic.helpers
 
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -47,7 +48,9 @@ class MainDbHelper(context: Context) : BaseDbHelper(context) {
 
         override fun onCreate(db: SQLiteDatabase?) {
             db?.execSQL(sqlCreateTable)
-            Toast.makeText(this.context, "Main database created!", Toast.LENGTH_SHORT).show()
+            (context as Activity).runOnUiThread {
+                Toast.makeText(this.context, "Main database created!", Toast.LENGTH_SHORT).show()
+            }
         }
 
         override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -60,7 +63,9 @@ class MainDbHelper(context: Context) : BaseDbHelper(context) {
             if (oldVersion < 4)  {
                 db?.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_HOURS TEXT")
             }
-            Toast.makeText(this.context, "Main database upgraded!", Toast.LENGTH_SHORT).show()
+            (context as Activity).runOnUiThread {
+                Toast.makeText(this.context, "Main database upgraded!", Toast.LENGTH_SHORT).show()
+            }
         }
 
 

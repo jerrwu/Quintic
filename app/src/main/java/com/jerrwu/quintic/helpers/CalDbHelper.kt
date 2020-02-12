@@ -1,5 +1,6 @@
 package com.jerrwu.quintic.helpers
 
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -40,11 +41,15 @@ class CalDbHelper(context: Context) : BaseDbHelper(context) {
 
         override fun onCreate(db: SQLiteDatabase?) {
             db?.execSQL(sqlCreateTable)
-            Toast.makeText(this.context, "Calendar database created!", Toast.LENGTH_SHORT).show()
+            (context as Activity).runOnUiThread {
+                Toast.makeText(this.context, "Calendar database created!", Toast.LENGTH_SHORT).show()
+            }
         }
 
         override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-            Toast.makeText(this.context, "Calendar database upgraded!", Toast.LENGTH_SHORT).show()
+            (context as Activity).runOnUiThread {
+                Toast.makeText(this.context, "Calendar database upgraded!", Toast.LENGTH_SHORT).show()
+            }
         }
 
 

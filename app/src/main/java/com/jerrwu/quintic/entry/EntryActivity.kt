@@ -188,10 +188,28 @@ class EntryActivity : AppCompatActivity() {
     }
 
     private fun deleteEntry(context: Context) {
-        val dbHelper = mMainDbHelper
-        if (dbHelper != null) {
+        val mainDbHelper = mMainDbHelper
+        val calDbHelper = mCalDbHelper
+        if (mainDbHelper != null) {
             val selectionArgs = arrayOf(id.toString())
-            dbHelper.delete("ID=?", selectionArgs)
+            mainDbHelper.delete("ID=?", selectionArgs)
+        }
+        if (calDbHelper != null) {
+            if (id != 0) {
+                val calDbDate = createdDate?.year.toString() +
+                        createdDate?.monthValue.toString() +
+                        createdDate?.dayOfMonth.toString()
+
+                val result = SearchHelper.performCalEntryCountSearch(calDbDate, calDbHelper)
+                val entryCount = result[1]
+                val values = ContentValues()
+
+                val calId = result[0]
+                values.put(CalDbHelper.DB_COL_DATE, calDbDate.toInt())
+                values.put(CalDbHelper.DB_COL_ENTRIES, entryCount - 1)
+                val selectionArgs = arrayOf(calId.toString())
+                calDbHelper.update(values, "ID=?", selectionArgs)
+            }
         }
         finish()
     }
