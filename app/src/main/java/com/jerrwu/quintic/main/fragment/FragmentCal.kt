@@ -2,6 +2,7 @@ package com.jerrwu.quintic.main.fragment
 
 
 import android.content.Context
+import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -60,10 +61,11 @@ class FragmentCal : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val now = LocalDate.now()
 
-        mYears = Gson().fromJson<List<YearEntity>>(FileHelper.fromAssetsJson(activity as Context, "cal_test.json"),
-            GsonHelper.YearListType)
-
-        onCalSelected(now.year, now.monthValue)
+        AsyncTask.execute {
+            mYears = Gson().fromJson<List<YearEntity>>(FileHelper.fromAssetsJson(activity as Context, "cal_test.json"),
+                GsonHelper.YearListType)
+            onCalSelected(now.year, now.monthValue)
+        }
 
         fragmentCalSelectionSpinner.onItemSelectedListener = object:
             AdapterView.OnItemSelectedListener {
@@ -118,22 +120,24 @@ class FragmentCal : Fragment() {
     }
 
     private fun setupMonthSpinner() {
-        val context = activity
-        if (context != null) {
-            fragmentCalSelectionSpinner.adapter = null
+        AsyncTask.execute {
+            val context = activity
+            if (context != null) {
+                fragmentCalSelectionSpinner.adapter = null
 
-            mMonthSpinnerList.clear()
+                mMonthSpinnerList.clear()
 
-            for (month in mCurrentYear?.months.orEmpty()) {
-                mMonthSpinnerList.add(month.toString())
+                for (month in mCurrentYear?.months.orEmpty()) {
+                    mMonthSpinnerList.add(month.toString())
+                }
+
+                val spinnerAdapter = CalSpinnerAdapter(context, mMonthSpinnerList)
+
+                fragmentCalSelectionSpinner.adapter = spinnerAdapter
+                fragmentCalSelectionSpinner.setSelection(
+                    mMonthSpinnerList.indexOf(mCurrentMonth.toString())
+                )
             }
-
-            val spinnerAdapter = CalSpinnerAdapter(context, mMonthSpinnerList)
-
-            fragmentCalSelectionSpinner.adapter = spinnerAdapter
-            fragmentCalSelectionSpinner.setSelection(
-                mMonthSpinnerList.indexOf(mCurrentMonth.toString())
-            )
         }
     }
 
