@@ -9,27 +9,19 @@ import android.database.sqlite.SQLiteQueryBuilder
 import android.widget.Toast
 import com.jerrwu.quintic.BuildConfig
 
-class MainDbHelper(context: Context) {
+class CalDbHelper(context: Context) {
     companion object {
         const val DB_NAME = "MCards"
-        const val DB_TABLE = "Cards"
+        const val DB_TABLE = "Cal"
         const val DB_COL_ID = "ID"
-        const val DB_COL_ICON = "Image"
-        const val DB_COL_TITLE = "Title"
-        const val DB_COL_CONTENT = "Content"
-        const val DB_COL_TIME = "DateTime"
-        const val DB_COL_MOOD = "Mood"
-        const val DB_COL_DATE_EXTERNAL = "Time"
-        const val DB_COL_HOURS = "Hours"
+        const val DB_COL_ENTRIES = "Entries"
     }
 
-    val dbVersion: Int = BuildConfig.MAIN_DATABASE_VERSION
+    val dbVersion: Int = BuildConfig.CAL_DATABASE_VERSION
 
     val sqlCreateTable =
         "CREATE TABLE IF NOT EXISTS $DB_TABLE (" +
-                "$DB_COL_ID INTEGER PRIMARY KEY, $DB_COL_ICON INTEGER, $DB_COL_TITLE TEXT," +
-                " $DB_COL_CONTENT TEXT, $DB_COL_TIME TEXT, $DB_COL_MOOD TEXT," +
-                " $DB_COL_DATE_EXTERNAL TEXT, $DB_COL_HOURS TEXT);"
+                "$DB_COL_ID INTEGER PRIMARY KEY, $DB_COL_ENTRIES);"
 
     private var sqlDb: SQLiteDatabase? = null
 
@@ -47,20 +39,11 @@ class MainDbHelper(context: Context) {
 
         override fun onCreate(db: SQLiteDatabase?) {
             db?.execSQL(sqlCreateTable)
-            Toast.makeText(this.context, "Main database created!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "Calendar database created!", Toast.LENGTH_SHORT).show()
         }
 
         override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-            if (oldVersion < 2) {
-                db?.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_MOOD INTEGER")
-            }
-            if (oldVersion < 3) {
-                db?.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_DATE_EXTERNAL TEXT")
-            }
-            if (oldVersion < 4)  {
-                db?.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_HOURS TEXT")
-            }
-            Toast.makeText(this.context, "Main database upgraded!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "Calendar database upgraded!", Toast.LENGTH_SHORT).show()
         }
 
 

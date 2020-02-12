@@ -84,7 +84,6 @@ class FragmentEntries : Fragment() {
         }
 
         loadQuery("%")
-        toggleEmptyNotices()
 
         val mActivity = activity
         if (mActivity != null) {
@@ -121,9 +120,9 @@ class FragmentEntries : Fragment() {
     }
 
     private fun toggleEmptyNotices() {
+        daily_suggestion_card_container.visibility = View.GONE
         if (entryList.isEmpty()) {
             empty_recycler_notice.visibility = View.VISIBLE
-            daily_suggestion_card_container.visibility = View.GONE
         } else {
             empty_recycler_notice.visibility = View.GONE
             val current = LocalDate.now()

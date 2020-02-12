@@ -2,6 +2,7 @@ package com.jerrwu.quintic.main.fragment
 
 
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -34,6 +35,7 @@ class FragmentSearch : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         loadMoodRecycler()
         loadHoursRecycler()
         loadMonthRecycler()

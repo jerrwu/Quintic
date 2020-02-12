@@ -197,8 +197,8 @@ class EntryActivity : AppCompatActivity() {
     }
 
     private fun updateEntry() {
-        val dbHelper = mMainDbHelper
-        if (dbHelper != null) {
+        val mainDbHelper = mMainDbHelper
+        if (mainDbHelper != null) {
             val values = ContentValues()
             var titleText = entryTitleEditText.text.toString()
             val conText = entryContentEditText.text.toString()
@@ -213,18 +213,19 @@ class EntryActivity : AppCompatActivity() {
             values.put(MainDbHelper.DB_COL_TITLE, titleText)
             values.put(MainDbHelper.DB_COL_CONTENT, conText)
             values.put(MainDbHelper.DB_COL_TIME, createdDate.toString())
+            Toast.makeText(this, createdDate.toString(), Toast.LENGTH_LONG).show()
             values.put(MainDbHelper.DB_COL_MOOD, mMood.name)
             values.put(MainDbHelper.DB_COL_DATE_EXTERNAL, formatterDb.format(createdDate))
             values.put(MainDbHelper.DB_COL_HOURS, StringHelper.getHours(createdDate?.hour))
 
             if (id == 0) {
-                val dbId = dbHelper.insert(values)
+                val dbId = mainDbHelper.insert(values)
                 if (dbId != null && dbId > 0) {
                     finish()
                 }
             } else {
                 val selectionArgs = arrayOf(id.toString())
-                val dbId = dbHelper.update(values, "ID=?", selectionArgs)
+                val dbId = mainDbHelper.update(values, "ID=?", selectionArgs)
                 if (dbId != null && dbId > 0) {
                     finish()
                 }
