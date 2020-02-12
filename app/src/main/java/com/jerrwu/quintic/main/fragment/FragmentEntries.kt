@@ -1,6 +1,7 @@
 package com.jerrwu.quintic.main.fragment
 
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -18,9 +19,7 @@ import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entry.EntryActivity
-import com.jerrwu.quintic.helpers.InfoHelper
-import com.jerrwu.quintic.helpers.MainDbHelper
-import com.jerrwu.quintic.helpers.StringHelper
+import com.jerrwu.quintic.helpers.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_entries.*
 import java.time.LocalDate
@@ -33,6 +32,7 @@ class FragmentEntries : Fragment() {
     var mAdapter: EntryAdapter? = null
     private var entryList: ArrayList<EntryEntity> = ArrayList()
     private var mMainDbHelper: MainDbHelper? = null
+    private var mCalDbHelper: CalDbHelper? = null
 
     override fun onResume() {
         super.onResume()
@@ -158,11 +158,30 @@ class FragmentEntries : Fragment() {
         if (mMainDbHelper == null && activity != null) {
             mMainDbHelper = MainDbHelper(activity as Context)
         }
-        val dbHelper = mMainDbHelper
-        if (dbHelper != null) {
+        if (mCalDbHelper == null && activity != null) {
+            mCalDbHelper = CalDbHelper(activity as Context)
+        }
+        val mainDbHelper = mMainDbHelper
+        val calDbHelper = mCalDbHelper
+        if (mainDbHelper != null && calDbHelper != null) {
             for (item in items) {
-                val selectionArgs = arrayOf(item.id.toString())
-                dbHelper.delete("ID=?", selectionArgs)
+                val createdDate = item.time
+                val calDbDate = createdDate?.year.toString() +
+                        createdDate?.monthValue.toString() +
+                        createdDate?.dayOfMonth.toString()
+
+                val result = SearchHelper.performCalEntryCountSearch(calDbDate, calDbHelper)
+                val entryCount = result[1]
+                val values = ContentValues()
+
+                val calId = result[0]
+                values.put(CalDbHelper.DB_COL_DATE, calDbDate.toInt())
+                values.put(CalDbHelper.DB_COL_ENTRIES, entryCount - 1)
+                var selectionArgs = arrayOf(calId.toString())
+                calDbHelper.update(values, "ID=?", selectionArgs)
+
+                selectionArgs = arrayOf(item.id.toString())
+                mainDbHelper.delete("ID=?", selectionArgs)
             }
         }
         hideSelectionToolbar()
