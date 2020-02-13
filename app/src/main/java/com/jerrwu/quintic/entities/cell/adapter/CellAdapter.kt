@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.cell.CellEntity
@@ -48,8 +49,8 @@ open class CellAdapter(
                 if (cell.text in ConstantLists.calHeaders) {
                     // header text
                     cellView.isClickable = false
-                    cellView.gridCellText.setTextColor(ContextCompat.getColor(activity, R.color.colorTertiary))
-                    cellView.gridCellText.textSize = 13F
+                    cellView.gridCellText.setTextColor(ContextCompat.getColor(activity, R.color.colorSupport))
+                    cellView.gridCellText.typeface = ResourcesCompat.getFont(activity, R.font.productsansbold)
                 }
                 cellView.gridCellText.text = cell.text
             }
@@ -60,10 +61,8 @@ open class CellAdapter(
                 } else {
                     cellView.cellIndicator.setImageResource(R.drawable.ic_book_multiple_outline)
                 }
-//                cellView.testindictext.text = cell.number.toString()
             } else {
                 cellView.cellIndicator.visibility = View.GONE
-//                cellView.testindictext.visibility = View.GONE
             }
         }
 

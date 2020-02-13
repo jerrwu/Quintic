@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:paddingTop="4dp"
+    android:paddingTop="6dp"
     android:clickable="true"
     android:focusable="true"
     android:id="@+id/calCell"
