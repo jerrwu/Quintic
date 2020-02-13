@@ -28,14 +28,14 @@ import java.time.LocalDate
 
 
 class FragmentCal : Fragment() {
-    var mAdapter: CellAdapter? = null
-    var mCellList: MutableList<CellEntity> = ArrayList()
-    var mAddSpacing = true
-    var mYears: List<YearEntity>? = null
-    var mCurrentYear: YearEntity? = null
-    var mCurrentMonth: MonthEntity? = null
-    var mCurrentMonthValue: Int = 0
-    var mCurrentYearValue: Int = 0
+    private var mAdapter: CellAdapter? = null
+    private var mCellList: MutableList<CellEntity> = ArrayList()
+    private var mAddSpacing = true
+    private var mYears: List<YearEntity>? = null
+    private var mCurrentYear: YearEntity? = null
+    private var mCurrentMonth: MonthEntity? = null
+    private var mCurrentMonthValue: Int = 0
+    private var mCurrentYearValue: Int = 0
 
     private val mMonthSpinnerList: MutableList<String> = ArrayList()
     private val mYearSpinnerList: MutableList<String> = ArrayList()
@@ -225,19 +225,19 @@ class FragmentCal : Fragment() {
     }
 
     private fun setupHeaderCells() {
-        val cellList: MutableList<CellEntity> = ArrayList()
+        val pCellList: MutableList<CellEntity> = ArrayList()
         for (header in ConstantLists.calHeaders) {
-            cellList.add(CellEntity(header))
+            pCellList.add(CellEntity(header))
         }
 
         mAdapter =
             HeaderCellAdapter(
                 context,
-                cellList
+                pCellList
             )
 
         activity?.runOnUiThread {
-            calHeaderGrid.adapter = mAdapter
+            headerGrid.adapter = mAdapter
         }
     }
 }

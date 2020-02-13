@@ -114,7 +114,7 @@
 
                 <com.jerrwu.quintic.common.view.DynamicGridView
                     android:scrollbars="none"
-                    android:id="@+id/calHeaderGrid"
+                    android:id="@+id/headerGrid"
                     android:numColumns="7"
                     android:columnWidth="52dp"
                     android:horizontalSpacing="3dp"
