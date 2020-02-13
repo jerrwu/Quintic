@@ -10,17 +10,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.BaseAdapter
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.common.view.widget.CalSpinnerAdapter
 import com.jerrwu.quintic.entities.cell.CellEntity
 import com.jerrwu.quintic.entities.time.DayEntity
 import com.jerrwu.quintic.entities.time.MonthEntity
-import com.jerrwu.quintic.entities.time.WeekdayEntity
 import com.jerrwu.quintic.entities.time.YearEntity
 import com.jerrwu.quintic.helpers.*
 import kotlinx.android.synthetic.main.cal_cell.view.*
+import kotlinx.android.synthetic.main.cal_header_cell.*
+import kotlinx.android.synthetic.main.cal_header_cell.view.*
 import kotlinx.android.synthetic.main.fragment_cal.*
 import java.time.LocalDate
 
@@ -36,8 +39,8 @@ class FragmentCal : Fragment() {
     var mCurrentMonthValue: Int = 0
     var mCurrentYearValue: Int = 0
 
-    private val mMonthSpinnerList: ArrayList<String> = ArrayList()
-    private val mYearSpinnerList: ArrayList<String> = ArrayList()
+    private val mMonthSpinnerList: MutableList<String> = ArrayList()
+    private val mYearSpinnerList: MutableList<String> = ArrayList()
 
     /*
     TODO: improve overall fragment performance, fix bug with indicator not updating
@@ -47,19 +50,16 @@ class FragmentCal : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Set weekday headers
-        for (i in 1 until 8) {
-            mWeekdayLabels.add(
-                CellEntity(WeekdayEntity(i).toShortString())
-            )
-        }
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_cal, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        AsyncTask.execute {
+            setupHeaderCells()
+        }
 
         fragmentCalSelectionSpinner.onItemSelectedListener = object:
             AdapterView.OnItemSelectedListener {
@@ -161,7 +161,6 @@ class FragmentCal : Fragment() {
         // Reset cellList
         mAddSpacing = true
         mCellList.clear()
-        mCellList.addAll(mWeekdayLabels)
 
         for (year: YearEntity in mYears.orEmpty()) {
             if (yearValue == year.number) {
@@ -205,7 +204,8 @@ class FragmentCal : Fragment() {
         mAdapter =
             CellAdapter(
                 context,
-                mCellList
+                mCellList,
+                R.layout.cal_cell
             )
 
         activity?.runOnUiThread {
@@ -223,7 +223,28 @@ class FragmentCal : Fragment() {
         return
     }
 
-    class CellAdapter(var context: Context?, var cellList: ArrayList<CellEntity>) : BaseAdapter() {
+    private fun setupHeaderCells() {
+        val cellList: MutableList<CellEntity> = ArrayList()
+        for (header in ConstantLists.calHeaders) {
+            cellList.add(CellEntity(header))
+        }
+
+        mAdapter =
+            CellAdapter(
+                context,
+                cellList,
+                R.layout.cal_header_cell
+            )
+
+        activity?.runOnUiThread {
+            calHeaderGrid.adapter = mAdapter
+        }
+    }
+
+    class CellAdapter(
+        var context: Context?,
+        var cellList: List<CellEntity>,
+        @LayoutRes val layoutRes: Int) : BaseAdapter() {
 
         override fun getCount(): Int {
             return cellList.size
@@ -243,20 +264,30 @@ class FragmentCal : Fragment() {
 
             cellView = if (convertView == null) {
                 val inflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-                inflater.inflate(R.layout.cal_cell, parent, false)
+                inflater.inflate(layoutRes, parent, false)
             } else {
                 convertView
             }
 
-            (context as Activity).runOnUiThread {
-                if (cell.text == "" || cell.text == "0") {
-                    cellView.isClickable = false
-                } else {
-                    cellView.gridCellText.text = cell.text
+            if (layoutRes == R.layout.cal_cell)
+                (context as Activity).runOnUiThread {
+                    if (cell.text == "" || cell.text == "0") {
+                        cellView.isClickable = false
+                    } else {
+                        cellView.gridCellText.text = cell.text
+                    }
+                    if (cell.number != 0) { cellView.testindictext.text = cell.number.toString() }
+                    else { cellView.testindictext.visibility = View.GONE }
                 }
-                if (cell.number != 0) { cellView.testindictext.text = cell.number.toString() }
-                else { cellView.testindictext.visibility = View.GONE }
-            }
+
+            if (layoutRes == R.layout.cal_header_cell)
+                (context as Activity).runOnUiThread {
+                    if (cell.text == "" || cell.text == "0") {
+                        cellView.isClickable = false
+                    } else {
+                        cellView.headerGridCellText.text = cell.text
+                    }
+                }
 
             return cellView
         }

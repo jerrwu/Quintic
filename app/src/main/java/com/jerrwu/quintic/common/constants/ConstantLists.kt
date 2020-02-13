@@ -17,4 +17,6 @@ object ConstantLists {
         MonthEntity.JUL, MonthEntity.AUG, MonthEntity.SEP, MonthEntity.OCT, MonthEntity.NOV, MonthEntity.DEC)
     val searchHoursOptions = listOf(
         Constants.MORNING, Constants.NOON, Constants.AFTERNOON, Constants.EVENING)
+    val calHeaders = listOf(
+        "M", "T", "W", "Th", "F", "Sa", "S")
 }
