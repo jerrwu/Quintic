@@ -14,7 +14,7 @@ import com.jerrwu.quintic.entities.mood.MoodEntity
 
 class SearchMoodAdapter(
     private val mDataList: List<MoodEntity>,
-    val mContext: Context
+    private val mContext: Context
 ) : RecyclerView.Adapter<SearchMoodAdapter.MoodViewHolder>() {
 
     var onItemClick: ((MoodEntity) -> Unit)? = null

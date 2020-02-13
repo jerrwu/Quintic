@@ -21,8 +21,8 @@ import java.time.format.DateTimeFormatter
 
 
 class NavSheetFragment : BottomSheetDialogFragment() {
-    private var fragmentView: View? = null
-    private var greetingString = ""
+    private var mFragmentView: View? = null
+    private var mGreetingString = ""
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -31,8 +31,8 @@ class NavSheetFragment : BottomSheetDialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        fragmentView = inflater.inflate(R.layout.nav_sheet, container, false)
-        return fragmentView
+        mFragmentView = inflater.inflate(R.layout.nav_sheet, container, false)
+        return mFragmentView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,14 +52,14 @@ class NavSheetFragment : BottomSheetDialogFragment() {
             val current = LocalDateTime.now()
             val formatter = DateTimeFormatter.ofPattern("HH")
             val curHour: String =  current.format(formatter)
-            greetingString = StringHelper.getGreeting(curHour, context)
+            mGreetingString = StringHelper.getGreeting(curHour, context)
             bottom_sheet_account_text_2.visibility = View.VISIBLE
         } else {
-            greetingString = ""
+            mGreetingString = ""
             bottom_sheet_account_text_2.visibility = View.GONE
         }
 
-        bottom_sheet_account_text_2.text = greetingString
+        bottom_sheet_account_text_2.text = mGreetingString
 
         settingsButton.setOnClickListener {
             val intent = Intent(activity, SettingsActivity::class.java)

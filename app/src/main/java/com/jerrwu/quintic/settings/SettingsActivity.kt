@@ -13,8 +13,8 @@ import kotlinx.android.synthetic.main.activity_settings.*
 
 
 class SettingsActivity : AppCompatActivity() {
-    val activity = this
-    val key1 = "TOGGLE_DIALOG_KEY"
+    val mActivity = this
+    val mToggleDialogKey = "TOGGLE_DIALOG_KEY"
 
     private val mBroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -23,13 +23,13 @@ class SettingsActivity : AppCompatActivity() {
                 StringHelper.getString(R.string.confirm_restart, context),
                 StringHelper.getString(R.string.restart_yes, context),
                 StringHelper.getString(R.string.restart_no, context),
-                activity, InfoHelper::restartApp, InfoHelper::dismissDialog)
+                mActivity, InfoHelper::restartApp, InfoHelper::dismissDialog)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        registerReceiver(mBroadcastReceiver, IntentFilter(key1))
+        registerReceiver(mBroadcastReceiver, IntentFilter(mToggleDialogKey))
     }
 
     override fun onPause() {

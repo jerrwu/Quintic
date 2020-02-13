@@ -13,7 +13,7 @@ import com.jerrwu.quintic.R
 
 class SearchHoursAdapter(
     private val mDataList: List<String>,
-    val mContext: Context
+    private val mContext: Context
 ) : RecyclerView.Adapter<SearchHoursAdapter.HoursViewHolder>() {
 
     var onItemClick: ((String) -> Unit)? = null

@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         if (currentFragment !is FragmentEntries) {
             bottomNavigation.selectedItemId = R.id.menu_home
         } else if (currentFragment.mAdapter != null &&
-            (currentFragment.mAdapter as EntryAdapter).isMultiSelect) {
+            (currentFragment.mAdapter as EntryAdapter).mIsMultiSelect) {
             currentFragment.hideSelectionToolbar()
         } else {
             super.onBackPressed()
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
             if (mActiveFragment is FragmentEntries) {
                 val fragmentEntries: FragmentEntries = mActiveFragment as FragmentEntries
                 if (fragmentEntries.mAdapter != null &&
-                    (fragmentEntries.mAdapter as EntryAdapter).isMultiSelect) {
+                    (fragmentEntries.mAdapter as EntryAdapter).mIsMultiSelect) {
                     fragmentEntries.hideSelectionToolbar()
                 }
             }

@@ -23,20 +23,21 @@ import java.time.format.DateTimeFormatter
 
 class EntryActivity : AppCompatActivity() {
 
-    private var createdDate: LocalDateTime? = null
-    private val formatterDate = DateTimeFormatter.ofPattern("E MMM dd, yyyy")
-    private val formatterWeekday = DateTimeFormatter.ofPattern("EEEE")
-    private val formatterHour = DateTimeFormatter.ofPattern("HH")
-    private val formatterDb = DateTimeFormatter.ofPattern("EEEE MMMM dd yyyy hh:mm")
+    private var mCreatedDate: LocalDateTime? = null
+    private val mFormatterDate = DateTimeFormatter.ofPattern("E MMM dd, yyyy")
+    private val mFormatterWeekday = DateTimeFormatter.ofPattern("EEEE")
+    private val mFormatterHour = DateTimeFormatter.ofPattern("HH")
+    private val mFormatterDb = DateTimeFormatter.ofPattern("EEEE MMMM dd yyyy hh:mm")
     private var mMainDbHelper: MainDbHelper? = null
     private var mCalDbHelper: CalDbHelper? = null
     private var mMood: MoodEntity = MoodEntity.NONE
-    private var isSelectorOpen = false
+    private var mIsSelectorOpen = false
     private var mAdapter: MoodAdapter? = null
+
     var id = 0
 
     override fun onBackPressed() {
-        if (isSelectorOpen) {
+        if (mIsSelectorOpen) {
             toggleMoodSelector()
         } else {
             super.onBackPressed()
@@ -58,9 +59,9 @@ class EntryActivity : AppCompatActivity() {
             if (id!=0){
                 entryTitleEditText.setText(bundle.getString(MainDbHelper.DB_COL_TITLE))
                 entryContentEditText.setText(bundle.getString(MainDbHelper.DB_COL_CONTENT))
-                createdDate = LocalDateTime.parse(bundle.getString(MainDbHelper.DB_COL_TIME))
+                mCreatedDate = LocalDateTime.parse(bundle.getString(MainDbHelper.DB_COL_TIME))
                 mMood = MoodEntity.parse(bundle.getInt(MainDbHelper.DB_COL_MOOD))
-                val dateString = getString(R.string.created_on) + formatterDate.format(createdDate)
+                val dateString = getString(R.string.created_on) + mFormatterDate.format(mCreatedDate)
                 entryDateTimeView.text = dateString
                 entryDateTimeView.visibility = View.VISIBLE
                 entryActivityTopText.text = resources.getText(R.string.edit_entry)
@@ -152,16 +153,16 @@ class EntryActivity : AppCompatActivity() {
     }
 
     private fun toggleMoodSelector() {
-        if (isSelectorOpen) {
+        if (mIsSelectorOpen) {
             moodSelectionContainer.visibility = View.GONE
             moodAddButton.visibility = View.VISIBLE
             moodAddCancelButton.visibility = View.GONE
-            isSelectorOpen = false
+            mIsSelectorOpen = false
         } else {
             moodSelectionContainer.visibility = View.VISIBLE
             moodAddButton.visibility = View.GONE
             moodAddCancelButton.visibility = View.VISIBLE
-            isSelectorOpen = true
+            mIsSelectorOpen = true
         }
     }
 
@@ -196,9 +197,9 @@ class EntryActivity : AppCompatActivity() {
         }
         if (calDbHelper != null) {
             if (id != 0) {
-                val calDbDate = createdDate?.year.toString() +
-                        createdDate?.monthValue.toString() +
-                        createdDate?.dayOfMonth.toString()
+                val calDbDate = mCreatedDate?.year.toString() +
+                        mCreatedDate?.monthValue.toString() +
+                        mCreatedDate?.dayOfMonth.toString()
 
                 val result = SearchHelper.performCalEntryCountSearch(calDbDate, calDbHelper)
                 val entryCount = result[1]
@@ -215,12 +216,12 @@ class EntryActivity : AppCompatActivity() {
     }
 
     private fun updateEntry() {
-        if (createdDate == null) {
-            createdDate = LocalDateTime.now()
+        if (mCreatedDate == null) {
+            mCreatedDate = LocalDateTime.now()
         }
-        val calDbDate = createdDate?.year.toString() +
-                createdDate?.monthValue.toString() +
-                createdDate?.dayOfMonth.toString()
+        val calDbDate = mCreatedDate?.year.toString() +
+                mCreatedDate?.monthValue.toString() +
+                mCreatedDate?.dayOfMonth.toString()
 
         val calDbHelper = mCalDbHelper
         val mainDbHelper = mMainDbHelper
@@ -231,16 +232,16 @@ class EntryActivity : AppCompatActivity() {
             val conText = entryContentEditText.text.toString()
 
             if (titleText == "") {
-                titleText = formatterWeekday.format(createdDate) + " " +
-                        StringHelper.getDaySection(formatterHour.format(createdDate), this)
+                titleText = mFormatterWeekday.format(mCreatedDate) + " " +
+                        StringHelper.getDaySection(mFormatterHour.format(mCreatedDate), this)
             }
 
             values.put(MainDbHelper.DB_COL_TITLE, titleText)
             values.put(MainDbHelper.DB_COL_CONTENT, conText)
-            values.put(MainDbHelper.DB_COL_TIME, createdDate.toString())
+            values.put(MainDbHelper.DB_COL_TIME, mCreatedDate.toString())
             values.put(MainDbHelper.DB_COL_MOOD, mMood.name)
-            values.put(MainDbHelper.DB_COL_DATE_EXTERNAL, formatterDb.format(createdDate))
-            values.put(MainDbHelper.DB_COL_HOURS, StringHelper.getHours(createdDate?.hour))
+            values.put(MainDbHelper.DB_COL_DATE_EXTERNAL, mFormatterDb.format(mCreatedDate))
+            values.put(MainDbHelper.DB_COL_HOURS, StringHelper.getHours(mCreatedDate?.hour))
 
             // new entry
             if (id == 0) {

@@ -9,14 +9,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.account.AccountActivity
 import com.jerrwu.quintic.common.BaseFragment
-import com.jerrwu.quintic.common.listeners.BaseFragmentInterface
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entities.mood.MoodEntity
@@ -33,7 +31,7 @@ import java.time.format.DateTimeFormatter
 class FragmentEntries : BaseFragment() {
     private var mRecyclerView: RecyclerView? = null
     var mAdapter: EntryAdapter? = null
-    private var entryList: ArrayList<EntryEntity> = ArrayList()
+    private var mEntryList: ArrayList<EntryEntity> = ArrayList()
     private var mMainDbHelper: MainDbHelper? = null
     private var mCalDbHelper: CalDbHelper? = null
 
@@ -99,7 +97,7 @@ class FragmentEntries : BaseFragment() {
             mRecyclerView = mActivity.findViewById(R.id.recycler_view)
             val mLayoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
             if (mRecyclerView != null) mRecyclerView?.layoutManager = mLayoutManager
-            mAdapter = EntryAdapter(entryList)
+            mAdapter = EntryAdapter(mEntryList)
             mAdapter?.mContext = mActivity
         }
 
@@ -130,12 +128,12 @@ class FragmentEntries : BaseFragment() {
 
     private fun toggleEmptyNotices() {
         daily_suggestion_card_container.visibility = View.GONE
-        if (entryList.isEmpty()) {
+        if (mEntryList.isEmpty()) {
             empty_recycler_notice.visibility = View.VISIBLE
         } else {
             empty_recycler_notice.visibility = View.GONE
             val current = LocalDate.now()
-            val filteredEntryList: List<EntryEntity> = entryList.filter {
+            val filteredEntryList: List<EntryEntity> = mEntryList.filter {
                     card -> card.time?.toLocalDate() == current }
             if (filteredEntryList.isEmpty()) daily_suggestion_card_container.visibility = View.VISIBLE
         }
@@ -149,7 +147,7 @@ class FragmentEntries : BaseFragment() {
             mActivity.toolbarBackButton.setOnClickListener { hideSelectionToolbar() }
             mActivity.toolbarDeleteButton.setOnClickListener {
                 if (mAdapter != null) {
-                    val items = mAdapter?.itemsSelected?.toMutableList()
+                    val items = mAdapter?.mItemsSelected?.toMutableList()
                     if (items != null)
                     InfoHelper.showDialog(
                         StringHelper.getString(R.string.confirm_delete_multiple_title, mActivity),
@@ -264,7 +262,7 @@ class FragmentEntries : BaseFragment() {
             val selectionArgs = arrayOf(title)
             val cursor = dbHelper.query(
                 projections, "Title like ?", selectionArgs, MainDbHelper.DB_COL_ID+" DESC")
-            entryList.clear()
+            mEntryList.clear()
             if (cursor.moveToFirst()) {
 
                 do {
@@ -275,7 +273,7 @@ class FragmentEntries : BaseFragment() {
                     val cdTime = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_TIME))
                     val cdMood = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_MOOD))
 
-                    entryList.add(
+                    mEntryList.add(
                         EntryEntity(
                             cdId,
                             cdIc,
@@ -295,8 +293,8 @@ class FragmentEntries : BaseFragment() {
 
     private fun resetAdapterSelected() {
         if (mAdapter != null && mAdapter is EntryAdapter) {
-            mAdapter?.itemsSelected?.clear()
-            mAdapter?.isMultiSelect = false
+            mAdapter?.mItemsSelected?.clear()
+            mAdapter?.mIsMultiSelect = false
         }
     }
 

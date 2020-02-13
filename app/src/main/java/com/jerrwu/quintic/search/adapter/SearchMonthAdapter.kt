@@ -13,7 +13,7 @@ import com.jerrwu.quintic.entities.time.MonthEntity
 
 class SearchMonthAdapter(
     private val mDataList: List<MonthEntity>,
-    val mContext: Context
+    private val mContext: Context
 ) : RecyclerView.Adapter<SearchMonthAdapter.MonthViewHolder>() {
 
     var onItemClick: ((MonthEntity) -> Unit)? = null

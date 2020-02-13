@@ -21,13 +21,15 @@ import java.time.format.DateTimeFormatter
 class EntryAdapter(
     private val mDataList: List<EntryEntity>) : RecyclerView.Adapter<EntryAdapter.CardViewHolder>() {
 
+    // click listeners
     var onItemClick: ((EntryEntity, Boolean) -> Unit)? = null
     var onItemLongClick: ((EntryEntity) -> Boolean)? = null
+
     var mContext: Context? = null
-    var isMultiSelect = false
-    var itemsSelected: ArrayList<EntryEntity> = ArrayList()
-    private var selectedBg = R.color.colorQuad  // colorQuad
-    private var unselectedBg = R.color.colorMain // colorMain
+    var mIsMultiSelect = false
+    var mItemsSelected: ArrayList<EntryEntity> = ArrayList()
+    private var mSelectedBg = R.color.colorQuad  // colorQuad
+    private var mUnselectedBg = R.color.colorMain // colorMain
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.entry_card, parent, false)
@@ -48,18 +50,18 @@ class EntryAdapter(
 
             if (entry.isSelected) {
                 holder.cardRvBackground.setCardBackgroundColor(
-                    ContextCompat.getColor(context, selectedBg)
+                    ContextCompat.getColor(context, mSelectedBg)
                 )
                 setCardSelectedTextColor(holder.cardView)
             } else {
                 holder.cardRvBackground.setCardBackgroundColor(
-                    ContextCompat.getColor(context, unselectedBg)
+                    ContextCompat.getColor(context, mUnselectedBg)
                 )
                 setCardUnselectedTextColor(holder.cardView)
             }
             holder.cardRvBackground.setCardBackgroundColor(
-                if (entry.isSelected) ContextCompat.getColor(context, selectedBg)
-                else ContextCompat.getColor(context, unselectedBg)
+                if (entry.isSelected) ContextCompat.getColor(context, mSelectedBg)
+                else ContextCompat.getColor(context, mUnselectedBg)
             )
         }
 
@@ -97,7 +99,7 @@ class EntryAdapter(
 
         init {
             itemView.setOnClickListener {
-                if (isMultiSelect) {
+                if (mIsMultiSelect) {
                     handleMultiSelectOnClick(adapterPosition, itemView)
                 } else {
                     onItemClick?.invoke(mDataList[adapterPosition], false)
@@ -109,7 +111,7 @@ class EntryAdapter(
                 if (mContext !is MainActivity) {
                     return@setOnLongClickListener false
                 }
-                if (!isMultiSelect){
+                if (!mIsMultiSelect){
                     enterMultiSelect(adapterPosition, itemView)
                 }
                 true
@@ -124,18 +126,18 @@ class EntryAdapter(
 
         if (context != null) {
             if (item.isSelected) {
-                itemsSelected.remove(item)
-                view.setCardBackgroundColor(ContextCompat.getColor(context, unselectedBg))
+                mItemsSelected.remove(item)
+                view.setCardBackgroundColor(ContextCompat.getColor(context, mUnselectedBg))
                 setCardUnselectedTextColor(view)
             } else {
-                itemsSelected.add(item)
-                view.setCardBackgroundColor(ContextCompat.getColor(context, selectedBg))
+                mItemsSelected.add(item)
+                view.setCardBackgroundColor(ContextCompat.getColor(context, mSelectedBg))
                 setCardSelectedTextColor(view)
             }
         }
         item.isSelected = !item.isSelected
-        if (itemsSelected.size == 0) {
-            isMultiSelect = false
+        if (mItemsSelected.size == 0) {
+            mIsMultiSelect = false
             onItemClick?.invoke(mDataList[adapterPosition], true)
         }
     }
@@ -145,10 +147,10 @@ class EntryAdapter(
         val view = (itemView as CardView)
         val context = itemView.context
 
-        isMultiSelect = true
-        itemsSelected.add(item)
+        mIsMultiSelect = true
+        mItemsSelected.add(item)
         if (context != null) {
-            view.setCardBackgroundColor(ContextCompat.getColor(context, selectedBg))
+            view.setCardBackgroundColor(ContextCompat.getColor(context, mSelectedBg))
         }
 
         setCardSelectedTextColor(view)
