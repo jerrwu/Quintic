@@ -16,7 +16,7 @@ class QuinticApplication : Application() {
         ctx = applicationContext
     }
 
-    internal fun initTheme() {
+    private fun initTheme() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         when (sharedPreferences.getString("dark_toggle", "-1")?.toInt()) {

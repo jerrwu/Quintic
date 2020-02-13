@@ -150,6 +150,7 @@
                 android:layout_height="wrap_content" />
 
             <androidx.recyclerview.widget.RecyclerView
+                tools:listitem="@layout/day_entry_item"
                 android:layout_marginTop="12dp"
                 android:layout_below="@id/open_book_icon"
                 android:id="@+id/cal_day_recycler"
