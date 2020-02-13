@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import androidx.core.content.ContextCompat
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.cell.CellEntity
 import kotlinx.android.synthetic.main.cal_cell.view.*
 
@@ -38,12 +40,19 @@ open class CellAdapter(
             convertView
         }
 
-        (context as Activity).runOnUiThread {
+        val activity = context as Activity
+        activity.runOnUiThread {
             if (cell.text == "" || cell.text == "0") {
                 cellView.isClickable = false
             } else {
+                if (cell.text in ConstantLists.calHeaders) {
+                    cellView.isClickable = false
+                    cellView.gridCellText.setTextColor(ContextCompat.getColor(activity, R.color.colorTertiary))
+                    cellView.gridCellText.textSize = 13F
+                }
                 cellView.gridCellText.text = cell.text
             }
+
             if (cell.number != 0) {
                 cellView.testindictext.text = cell.number.toString()
             } else {

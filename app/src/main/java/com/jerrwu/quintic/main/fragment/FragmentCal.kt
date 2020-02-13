@@ -31,6 +31,7 @@ class FragmentCal : Fragment() {
     private var mAdapter: CellAdapter? = null
     private var mCellList: MutableList<CellEntity> = ArrayList()
     private var mAddSpacing = true
+    private var mWeekDayHeaders: MutableList<CellEntity> = ArrayList()
     private var mYears: List<YearEntity>? = null
     private var mCurrentYear: YearEntity? = null
     private var mCurrentMonth: MonthEntity? = null
@@ -48,16 +49,17 @@ class FragmentCal : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Set weekdays
+        for (header in ConstantLists.calHeaders) {
+            mWeekDayHeaders.add(CellEntity(header))
+        }
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_cal, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        AsyncTask.execute {
-            setupHeaderCells()
-        }
 
         fragmentCalSelectionSpinner.onItemSelectedListener = object:
             AdapterView.OnItemSelectedListener {
@@ -187,6 +189,8 @@ class FragmentCal : Fragment() {
             return false
         }
 
+        mCellList.addAll(mWeekDayHeaders)
+
         // Load cellList
         for (day: DayEntity in mCurrentMonth?.days.orEmpty()) {
             if (mAddSpacing) {
@@ -222,22 +226,5 @@ class FragmentCal : Fragment() {
             fragmentCalSelectionSpinner.setSelection(index)
         }
         return true
-    }
-
-    private fun setupHeaderCells() {
-        val pCellList: MutableList<CellEntity> = ArrayList()
-        for (header in ConstantLists.calHeaders) {
-            pCellList.add(CellEntity(header))
-        }
-
-        mAdapter =
-            HeaderCellAdapter(
-                context,
-                pCellList
-            )
-
-        activity?.runOnUiThread {
-            headerGrid.adapter = mAdapter
-        }
     }
 }

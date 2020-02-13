@@ -107,34 +107,16 @@
             app:cardCornerRadius="6dp"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:orientation="vertical"
+            <com.jerrwu.quintic.common.view.DynamicGridView
+                android:scrollbars="none"
+                android:id="@+id/calGrid"
+                android:numColumns="7"
+                android:columnWidth="52dp"
+                android:horizontalSpacing="3dp"
+                android:verticalSpacing="2dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.jerrwu.quintic.common.view.DynamicGridView
-                    android:scrollbars="none"
-                    android:id="@+id/headerGrid"
-                    android:numColumns="7"
-                    android:columnWidth="52dp"
-                    android:horizontalSpacing="3dp"
-                    android:verticalSpacing="2dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </com.jerrwu.quintic.common.view.DynamicGridView>
-
-                <com.jerrwu.quintic.common.view.DynamicGridView
-                    android:scrollbars="none"
-                    android:id="@+id/calGrid"
-                    android:numColumns="7"
-                    android:columnWidth="52dp"
-                    android:horizontalSpacing="3dp"
-                    android:verticalSpacing="2dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </com.jerrwu.quintic.common.view.DynamicGridView>
-
-            </LinearLayout>
+                android:layout_height="match_parent">
+            </com.jerrwu.quintic.common.view.DynamicGridView>
 
         </com.google.android.material.card.MaterialCardView>
 
