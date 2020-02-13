@@ -4,11 +4,11 @@ package com.jerrwu.quintic.main.fragment
 import android.app.Activity
 import android.content.Intent
 import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseFragment
@@ -44,14 +44,13 @@ class FragmentSearch : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        AsyncTask.execute {
-            loadMoodRecycler()
-            loadHoursRecycler()
-            loadMonthRecycler()
-        }
+        updateMoodRecycler()
+        updateHoursRecycler()
+        updateMonthRecycler()
+
     }
 
-    private fun loadMoodRecycler() {
+    private fun updateMoodRecycler() {
         val moodList = ConstantLists.searchMoodOptions
         val pContext = context
 
@@ -74,7 +73,7 @@ class FragmentSearch : BaseFragment() {
         }
     }
 
-    private fun loadHoursRecycler() {
+    private fun updateHoursRecycler() {
         val hoursList = ConstantLists.searchHoursOptions
         val pContext = context
 
@@ -97,7 +96,7 @@ class FragmentSearch : BaseFragment() {
         }
     }
 
-    private fun loadMonthRecycler() {
+    private fun updateMonthRecycler() {
         val curMonth = LocalDate.now().monthValue
         val monthList = listOf(
             MonthEntity(curMonth - 2),
