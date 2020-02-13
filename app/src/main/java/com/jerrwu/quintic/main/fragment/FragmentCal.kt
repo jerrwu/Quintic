@@ -17,13 +17,12 @@ import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.common.view.widget.CalSpinnerAdapter
 import com.jerrwu.quintic.entities.cell.CellEntity
+import com.jerrwu.quintic.entities.cell.adapter.CellAdapter
+import com.jerrwu.quintic.entities.cell.adapter.HeaderCellAdapter
 import com.jerrwu.quintic.entities.time.DayEntity
 import com.jerrwu.quintic.entities.time.MonthEntity
 import com.jerrwu.quintic.entities.time.YearEntity
 import com.jerrwu.quintic.helpers.*
-import kotlinx.android.synthetic.main.cal_cell.view.*
-import kotlinx.android.synthetic.main.cal_header_cell.*
-import kotlinx.android.synthetic.main.cal_header_cell.view.*
 import kotlinx.android.synthetic.main.fragment_cal.*
 import java.time.LocalDate
 
@@ -35,7 +34,6 @@ class FragmentCal : Fragment() {
     var mYears: List<YearEntity>? = null
     var mCurrentYear: YearEntity? = null
     var mCurrentMonth: MonthEntity? = null
-    var mWeekdayLabels = ArrayList<CellEntity>()
     var mCurrentMonthValue: Int = 0
     var mCurrentYearValue: Int = 0
 
@@ -97,7 +95,10 @@ class FragmentCal : Fragment() {
                 newYear = mCurrentYearValue
             }
 
-            AsyncTask.execute { onCalSelected(newYear, newMonth) }
+            AsyncTask.execute {
+                if (!onCalSelected(newYear, newMonth))
+                    StringHelper.makeSnackbar("Beginning of data!", activity)
+            }
         }
 
         fragmentCalBtnForward.setOnClickListener {
@@ -112,7 +113,10 @@ class FragmentCal : Fragment() {
                 newYear = mCurrentYearValue
             }
 
-            AsyncTask.execute { onCalSelected(newYear, newMonth) }
+            AsyncTask.execute {
+                if (!onCalSelected(newYear, newMonth))
+                    StringHelper.makeSnackbar("End of data!", activity)
+            }
         }
     }
 
@@ -148,7 +152,7 @@ class FragmentCal : Fragment() {
         }
     }
 
-    private fun onCalSelected(yearValue: Int, monthValue: Int) {
+    private fun onCalSelected(yearValue: Int, monthValue: Int) : Boolean {
         // Set current year and month
         var selectedYearExists = false
         var selectedMonthExists = false
@@ -180,9 +184,7 @@ class FragmentCal : Fragment() {
         }
 
         if (!selectedYearExists || !selectedMonthExists) {
-            StringHelper.makeSnackbar(StringHelper.getString(R.string.month_year_not_exist, context),
-                activity)
-            return
+            return false
         }
 
         // Load cellList
@@ -204,8 +206,7 @@ class FragmentCal : Fragment() {
         mAdapter =
             CellAdapter(
                 context,
-                mCellList,
-                R.layout.cal_cell
+                mCellList
             )
 
         activity?.runOnUiThread {
@@ -220,7 +221,7 @@ class FragmentCal : Fragment() {
         activity?.runOnUiThread {
             fragmentCalSelectionSpinner.setSelection(index)
         }
-        return
+        return true
     }
 
     private fun setupHeaderCells() {
@@ -230,66 +231,13 @@ class FragmentCal : Fragment() {
         }
 
         mAdapter =
-            CellAdapter(
+            HeaderCellAdapter(
                 context,
-                cellList,
-                R.layout.cal_header_cell
+                cellList
             )
 
         activity?.runOnUiThread {
             calHeaderGrid.adapter = mAdapter
-        }
-    }
-
-    class CellAdapter(
-        var context: Context?,
-        var cellList: List<CellEntity>,
-        @LayoutRes val layoutRes: Int) : BaseAdapter() {
-
-        override fun getCount(): Int {
-            return cellList.size
-        }
-
-        override fun getItem(position: Int): Any {
-            return cellList[position]
-        }
-
-        override fun getItemId(position: Int): Long {
-            return position.toLong()
-        }
-
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val cell = this.cellList[position]
-            val cellView: View
-
-            cellView = if (convertView == null) {
-                val inflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-                inflater.inflate(layoutRes, parent, false)
-            } else {
-                convertView
-            }
-
-            if (layoutRes == R.layout.cal_cell)
-                (context as Activity).runOnUiThread {
-                    if (cell.text == "" || cell.text == "0") {
-                        cellView.isClickable = false
-                    } else {
-                        cellView.gridCellText.text = cell.text
-                    }
-                    if (cell.number != 0) { cellView.testindictext.text = cell.number.toString() }
-                    else { cellView.testindictext.visibility = View.GONE }
-                }
-
-            if (layoutRes == R.layout.cal_header_cell)
-                (context as Activity).runOnUiThread {
-                    if (cell.text == "" || cell.text == "0") {
-                        cellView.isClickable = false
-                    } else {
-                        cellView.headerGridCellText.text = cell.text
-                    }
-                }
-
-            return cellView
         }
     }
 }

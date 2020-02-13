@@ -18,5 +18,5 @@ object ConstantLists {
     val searchHoursOptions = listOf(
         Constants.MORNING, Constants.NOON, Constants.AFTERNOON, Constants.EVENING)
     val calHeaders = listOf(
-        "M", "T", "W", "Th", "F", "Sa", "S")
+        "M", "T", "W", "Th", "F", "S", "Su")
 }
