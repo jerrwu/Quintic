@@ -46,6 +46,7 @@ open class CellAdapter(
                 cellView.isClickable = false
             } else {
                 if (cell.text in ConstantLists.calHeaders) {
+                    // header text
                     cellView.isClickable = false
                     cellView.gridCellText.setTextColor(ContextCompat.getColor(activity, R.color.colorTertiary))
                     cellView.gridCellText.textSize = 13F

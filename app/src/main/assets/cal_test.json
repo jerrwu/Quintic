@@ -107,6 +107,30 @@
           {
             "monthday": 12,
             "weekday": 3
+          },
+          {
+            "monthday": 13,
+            "weekday": 4
+          },
+          {
+            "monthday": 14,
+            "weekday": 5
+          },
+          {
+            "monthday": 15,
+            "weekday": 6
+          },
+          {
+            "monthday": 16,
+            "weekday": 7
+          },
+          {
+            "monthday": 17,
+            "weekday": 1
+          },
+          {
+            "monthday": 18,
+            "weekday": 2
           }
         ]
       }
