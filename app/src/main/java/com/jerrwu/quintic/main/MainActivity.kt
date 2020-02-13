@@ -119,7 +119,6 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         setLayoutNavScrollBehaviour(sharedPreferences)
         setLayoutToolbarScrollBehaviour(sharedPreferences)
-        mainLayout.invalidate()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

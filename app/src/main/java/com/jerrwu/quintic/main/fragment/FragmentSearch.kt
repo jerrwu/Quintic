@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseFragment
 import com.jerrwu.quintic.common.constants.ConstantLists
@@ -57,11 +58,12 @@ class FragmentSearch : BaseFragment() {
 
         if (pContext != null) {
             mMoodAdapter = SearchMoodAdapter(moodList, pContext)
-            (pContext as Activity).runOnUiThread {
-                moodSearchCarousel.layoutManager =
+            val recycler = (pContext as Activity).findViewById<RecyclerView>(R.id.moodSearchCarousel)
+            pContext.runOnUiThread {
+                recycler.layoutManager =
                     LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                moodSearchCarousel.adapter = mMoodAdapter
-                moodSearchCarousel.setHasFixedSize(true)
+                recycler.adapter = mMoodAdapter
+                recycler.setHasFixedSize(true)
             }
 
             mMoodAdapter?.onItemClick = { mood ->
@@ -80,11 +82,12 @@ class FragmentSearch : BaseFragment() {
 
         if (pContext != null) {
             mHoursAdapter = SearchHoursAdapter(hoursList, pContext)
-            (pContext as Activity).runOnUiThread {
-                hoursSearchCarousel.layoutManager =
+            val recycler = (pContext as Activity).findViewById<RecyclerView>(R.id.hoursSearchCarousel)
+            pContext.runOnUiThread {
+                recycler.layoutManager =
                     LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                hoursSearchCarousel.adapter = mHoursAdapter
-                hoursSearchCarousel.setHasFixedSize(true)
+                recycler.adapter = mHoursAdapter
+                recycler.setHasFixedSize(true)
             }
 
             mHoursAdapter?.onItemClick = { name: String ->
@@ -110,11 +113,12 @@ class FragmentSearch : BaseFragment() {
         if (pContext != null) {
             mMonthAdapter = SearchMonthAdapter(monthList, pContext)
             mMonthAdapter?.setHasStableIds(true)
-            (pContext as Activity).runOnUiThread {
-                monthSearchRecycler.layoutManager = LinearLayoutManager(activity)
-                monthSearchRecycler.adapter = mMonthAdapter
-                monthSearchRecycler.isNestedScrollingEnabled = false
-                monthSearchRecycler.setHasFixedSize(true)
+            val recycler = (pContext as Activity).findViewById<RecyclerView>(R.id.monthSearchRecycler)
+            pContext.runOnUiThread {
+                recycler.layoutManager = LinearLayoutManager(activity)
+                recycler.adapter = mMonthAdapter
+                recycler.isNestedScrollingEnabled = false
+                recycler.setHasFixedSize(true)
             }
 
             mMonthAdapter?.onItemClick = { month ->

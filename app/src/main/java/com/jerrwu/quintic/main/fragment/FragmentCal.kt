@@ -1,7 +1,6 @@
 package com.jerrwu.quintic.main.fragment
 
 
-import android.app.Activity
 import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
@@ -9,6 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.GridView
+import android.widget.Spinner
+import android.widget.TextView
 import com.google.gson.Gson
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseFragment
@@ -154,8 +156,9 @@ class FragmentCal : BaseFragment() {
 
             val spinnerAdapter = CalSpinnerAdapter(context, mMonthSpinnerList)
 
+            val monthSpinner = activity?.findViewById<Spinner>(R.id.fragmentCalSelectionSpinner)
             activity?.runOnUiThread {
-                fragmentCalSelectionSpinner.adapter = spinnerAdapter
+                monthSpinner?.adapter = spinnerAdapter
             }
         }
     }
@@ -219,17 +222,25 @@ class FragmentCal : BaseFragment() {
                 mCellList
             )
 
-        activity?.runOnUiThread {
-            calGrid.adapter = mAdapter
-            fragmentCalMonthSelectText.text = mCurrentMonth.toString()
-            fragmentCalYearText.text = mCurrentYear?.number.toString()
-        }
+        val pActivity = activity
+        if (pActivity != null) {
+            val gridView = pActivity.findViewById<GridView>(R.id.calGrid)
+            val monthText = pActivity.findViewById<TextView>(R.id.fragmentCalMonthSelectText)
+            val yearText = pActivity.findViewById<TextView>(R.id.fragmentCalYearText)
+            val monthSpinner = pActivity.findViewById<Spinner>(R.id.fragmentCalSelectionSpinner)
 
-        if (yearChanged)
-        setupMonthSpinner()
-        val index = mMonthSpinnerList.indexOf(mCurrentMonth.toString())
-        activity?.runOnUiThread {
-            fragmentCalSelectionSpinner.setSelection(index)
+            pActivity.runOnUiThread {
+                gridView.adapter = mAdapter
+                monthText.text = mCurrentMonth.toString()
+                yearText.text = mCurrentYear?.number.toString()
+            }
+
+            if (yearChanged)
+                setupMonthSpinner()
+            val index = mMonthSpinnerList.indexOf(mCurrentMonth.toString())
+            pActivity.runOnUiThread {
+                monthSpinner.setSelection(index)
+            }
         }
         return true
     }
