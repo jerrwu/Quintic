@@ -57,9 +57,9 @@ open class CellAdapter(
 
             if (cell.number != 0) {
                 if (cell.number == 1) {
-                    cellView.cellIndicator.setImageResource(R.drawable.ic_book_outline)
+                    cellView.cellIndicator.setImageResource(R.drawable.ic_book)
                 } else {
-                    cellView.cellIndicator.setImageResource(R.drawable.ic_book_multiple_outline)
+                    cellView.cellIndicator.setImageResource(R.drawable.ic_book_multiple)
                 }
             } else {
                 cellView.cellIndicator.visibility = View.GONE

@@ -74,7 +74,7 @@ class EntryAdapter(
             if (ic == 0) {
                 holder.cardIcHolder.visibility = View.GONE
                 val params = holder.cardTextContainer.layoutParams as ConstraintLayout.LayoutParams
-                params.marginEnd = 0
+                params.marginEnd = 12
                 holder.cardTextContainer.layoutParams = params
             } else {
                 holder.cardIc.setImageResource(ic)

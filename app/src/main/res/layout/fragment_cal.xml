@@ -9,6 +9,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingBottom="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
@@ -121,31 +122,38 @@
         </com.google.android.material.card.MaterialCardView>
 
         <RelativeLayout
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/grid_container"
-            android:layout_width="wrap_content"
+            android:background="@color/colorMain"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_marginTop="12dp"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/bulldozer_ic"
-                android:tint="@color/colorTertiary"
-                android:src="@drawable/ic_bulldozer"
-                android:layout_width="86dp"
-                android:layout_height="86dp" />
+                android:id="@+id/open_book_icon"
+                android:tint="@color/colorSupport"
+                android:src="@drawable/ic_book_open_outline"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
 
             <TextView
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/bulldozer_ic"
+                android:id="@+id/selected_date"
+                android:layout_marginBottom="2dp"
                 android:textSize="16sp"
-                android:textColor="@color/colorTertiary"
-                android:fontFamily="@font/productsansblack"
-                android:text="Under Construction"
-                android:layout_marginTop="6dp"
+                android:layout_marginStart="12dp"
+                android:textColor="@color/colorSupport"
+                android:fontFamily="@font/productsansmedium"
+                android:text="the selected day's date"
+                android:layout_alignBottom="@id/open_book_icon"
+                android:layout_toEndOf="@id/open_book_icon"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="12dp"
+                android:layout_below="@id/open_book_icon"
+                android:id="@+id/cal_day_recycler"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </RelativeLayout>
