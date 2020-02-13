@@ -2,7 +2,6 @@ package com.jerrwu.quintic
 
 import android.app.Application
 import android.content.Context
-import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 
@@ -17,16 +16,10 @@ class QuinticApplication : Application() {
         ctx = applicationContext
     }
 
-    private fun initTheme() {
+    internal fun initTheme() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
-        when (sharedPreferences.getString("dark_toggle", "2")?.toInt()) {
-//            -2 -> {
-//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-//                if (!InfoHelper.isUsingNightMode(resources.configuration)) {
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
-//                }
-//            }
+        when (sharedPreferences.getString("dark_toggle", "-1")?.toInt()) {
             -1 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             0 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
             1 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
