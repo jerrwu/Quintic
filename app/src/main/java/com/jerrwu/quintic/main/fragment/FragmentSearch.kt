@@ -1,6 +1,7 @@
 package com.jerrwu.quintic.main.fragment
 
 
+import android.app.Activity
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
@@ -36,42 +37,56 @@ class FragmentSearch : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loadMoodRecycler()
-        loadHoursRecycler()
-        loadMonthRecycler()
+        AsyncTask.execute {
+            loadMoodRecycler()
+            loadHoursRecycler()
+            loadMonthRecycler()
+        }
     }
 
     private fun loadMoodRecycler() {
         val moodList = ConstantLists.searchMoodOptions
+        val pContext = context
 
-        mMoodAdapter = SearchMoodAdapter(moodList)
-        moodSearchCarousel.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        moodSearchCarousel.adapter = mMoodAdapter
-        moodSearchCarousel.setHasFixedSize(true)
+        if (pContext != null) {
+            mMoodAdapter = SearchMoodAdapter(moodList, pContext)
+            (pContext as Activity).runOnUiThread {
+                moodSearchCarousel.layoutManager =
+                    LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                moodSearchCarousel.adapter = mMoodAdapter
+                moodSearchCarousel.setHasFixedSize(true)
+            }
 
-        mMoodAdapter?.onItemClick = { mood ->
-            val intent = Intent(activity, SearchActivity::class.java)
-            intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_MOOD)
-            intent.putExtra(SearchActivity.SEARCH_STRING, mood.name)
-            intent.putExtra(SearchActivity.EXACT_SEARCH, true)
-            startActivity(intent)
+            mMoodAdapter?.onItemClick = { mood ->
+                val intent = Intent(activity, SearchActivity::class.java)
+                intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_MOOD)
+                intent.putExtra(SearchActivity.SEARCH_STRING, mood.name)
+                intent.putExtra(SearchActivity.EXACT_SEARCH, true)
+                startActivity(intent)
+            }
         }
     }
 
     private fun loadHoursRecycler() {
         val hoursList = ConstantLists.searchHoursOptions
+        val pContext = context
 
-        mHoursAdapter = SearchHoursAdapter(hoursList)
-        hoursSearchCarousel.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        hoursSearchCarousel.adapter = mHoursAdapter
-        hoursSearchCarousel.setHasFixedSize(true)
+        if (pContext != null) {
+            mHoursAdapter = SearchHoursAdapter(hoursList, pContext)
+            (pContext as Activity).runOnUiThread {
+                hoursSearchCarousel.layoutManager =
+                    LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                hoursSearchCarousel.adapter = mHoursAdapter
+                hoursSearchCarousel.setHasFixedSize(true)
+            }
 
-        mHoursAdapter?.onItemClick = { name: String ->
-            val intent = Intent(activity, SearchActivity::class.java)
-            intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_HOURS)
-            intent.putExtra(SearchActivity.SEARCH_STRING, name)
-            intent.putExtra(SearchActivity.EXACT_SEARCH, true)
-            startActivity(intent)
+            mHoursAdapter?.onItemClick = { name: String ->
+                val intent = Intent(activity, SearchActivity::class.java)
+                intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_HOURS)
+                intent.putExtra(SearchActivity.SEARCH_STRING, name)
+                intent.putExtra(SearchActivity.EXACT_SEARCH, true)
+                startActivity(intent)
+            }
         }
     }
 
@@ -83,20 +98,25 @@ class FragmentSearch : Fragment() {
             MonthEntity(curMonth),
             MonthEntity(curMonth + 1),
             MonthEntity(curMonth + 2))
+        val pContext = context
 
-        mMonthAdapter = SearchMonthAdapter(monthList)
-        mMonthAdapter?.setHasStableIds(true)
-        monthSearchRecycler.layoutManager = LinearLayoutManager(activity)
-        monthSearchRecycler.adapter = mMonthAdapter
-        monthSearchRecycler.isNestedScrollingEnabled = false
-        monthSearchRecycler.setHasFixedSize(true)
+        if (pContext != null) {
+            mMonthAdapter = SearchMonthAdapter(monthList, pContext)
+            mMonthAdapter?.setHasStableIds(true)
+            (pContext as Activity).runOnUiThread {
+                monthSearchRecycler.layoutManager = LinearLayoutManager(activity)
+                monthSearchRecycler.adapter = mMonthAdapter
+                monthSearchRecycler.isNestedScrollingEnabled = false
+                monthSearchRecycler.setHasFixedSize(true)
+            }
 
-        mMonthAdapter?.onItemClick = { month ->
-            val intent = Intent(activity, SearchActivity::class.java)
-            intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_TIME)
-            intent.putExtra(SearchActivity.SEARCH_STRING, month.toString())
-            intent.putExtra(SearchActivity.EXACT_SEARCH, false)
-            startActivity(intent)
+            mMonthAdapter?.onItemClick = { month ->
+                val intent = Intent(activity, SearchActivity::class.java)
+                intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_TIME)
+                intent.putExtra(SearchActivity.SEARCH_STRING, month.toString())
+                intent.putExtra(SearchActivity.EXACT_SEARCH, false)
+                startActivity(intent)
+            }
         }
     }
 }

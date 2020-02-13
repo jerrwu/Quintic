@@ -30,7 +30,7 @@ import java.time.LocalDate
 
 class FragmentCal : Fragment() {
     var mAdapter: CellAdapter? = null
-    var mCellList = ArrayList<CellEntity>()
+    var mCellList: MutableList<CellEntity> = ArrayList()
     var mAddSpacing = true
     var mYears: List<YearEntity>? = null
     var mCurrentYear: YearEntity? = null
