@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
@@ -19,7 +18,6 @@ import com.jerrwu.quintic.search.SearchActivity
 import com.jerrwu.quintic.search.adapter.SearchHoursAdapter
 import com.jerrwu.quintic.search.adapter.SearchMonthAdapter
 import com.jerrwu.quintic.search.adapter.SearchMoodAdapter
-import kotlinx.android.synthetic.main.fragment_search.*
 import java.time.LocalDate
 
 

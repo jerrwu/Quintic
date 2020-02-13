@@ -5,7 +5,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entities.cell.CellEntity
 import kotlinx.android.synthetic.main.cal_header_cell.view.*
