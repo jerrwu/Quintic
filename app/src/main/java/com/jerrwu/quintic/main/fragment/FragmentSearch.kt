@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.BaseFragment
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.time.MonthEntity
 import com.jerrwu.quintic.search.SearchActivity
@@ -21,10 +22,16 @@ import kotlinx.android.synthetic.main.fragment_search.*
 import java.time.LocalDate
 
 
-class FragmentSearch : Fragment() {
+class FragmentSearch : BaseFragment() {
     private var mMoodAdapter: SearchMoodAdapter? = null
     private var mHoursAdapter: SearchHoursAdapter? = null
     private var mMonthAdapter: SearchMonthAdapter? = null
+
+    override fun onFragmentShown() {
+    }
+
+    override fun onFragmentHidden() {
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

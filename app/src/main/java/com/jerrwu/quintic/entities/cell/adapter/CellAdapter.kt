@@ -55,9 +55,15 @@ open class CellAdapter(
             }
 
             if (cell.number != 0) {
-                cellView.testindictext.text = cell.number.toString()
+                if (cell.number == 1) {
+                    cellView.cellIndicator.setImageResource(R.drawable.ic_book_outline)
+                } else {
+                    cellView.cellIndicator.setImageResource(R.drawable.ic_book_multiple_outline)
+                }
+//                cellView.testindictext.text = cell.number.toString()
             } else {
-                cellView.testindictext.visibility = View.GONE
+                cellView.cellIndicator.visibility = View.GONE
+//                cellView.testindictext.visibility = View.GONE
             }
         }
 

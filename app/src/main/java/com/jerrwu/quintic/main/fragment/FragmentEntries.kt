@@ -15,11 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.account.AccountActivity
+import com.jerrwu.quintic.common.BaseFragment
+import com.jerrwu.quintic.common.listeners.BaseFragmentInterface
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.helpers.*
+import com.jerrwu.quintic.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_entries.*
 import java.time.LocalDate
@@ -27,12 +30,18 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class FragmentEntries : Fragment() {
+class FragmentEntries : BaseFragment() {
     private var mRecyclerView: RecyclerView? = null
     var mAdapter: EntryAdapter? = null
     private var entryList: ArrayList<EntryEntity> = ArrayList()
     private var mMainDbHelper: MainDbHelper? = null
     private var mCalDbHelper: CalDbHelper? = null
+
+    override fun onFragmentShown() {
+    }
+
+    override fun onFragmentHidden() {
+    }
 
     override fun onResume() {
         super.onResume()
@@ -183,6 +192,9 @@ class FragmentEntries : Fragment() {
                 selectionArgs = arrayOf(item.id.toString())
                 mainDbHelper.delete("ID=?", selectionArgs)
             }
+        }
+        if (activity is MainActivity) {
+            (activity as MainActivity).mRefreshCalFragmentGrid = true
         }
         hideSelectionToolbar()
         toggleEmptyNotices()

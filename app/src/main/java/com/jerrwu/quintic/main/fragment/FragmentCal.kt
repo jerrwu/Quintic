@@ -9,16 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.BaseAdapter
-import androidx.annotation.LayoutRes
-import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.BaseFragment
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.common.view.widget.CalSpinnerAdapter
 import com.jerrwu.quintic.entities.cell.CellEntity
 import com.jerrwu.quintic.entities.cell.adapter.CellAdapter
-import com.jerrwu.quintic.entities.cell.adapter.HeaderCellAdapter
 import com.jerrwu.quintic.entities.time.DayEntity
 import com.jerrwu.quintic.entities.time.MonthEntity
 import com.jerrwu.quintic.entities.time.YearEntity
@@ -27,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_cal.*
 import java.time.LocalDate
 
 
-class FragmentCal : Fragment() {
+class FragmentCal : BaseFragment() {
     private var mAdapter: CellAdapter? = null
     private var mCellList: MutableList<CellEntity> = ArrayList()
     private var mAddSpacing = true
@@ -44,6 +41,15 @@ class FragmentCal : Fragment() {
     /*
     TODO: improve overall fragment performance, fix bug with indicator not updating
      */
+
+    override fun onFragmentShown() {
+        AsyncTask.execute {
+            onCalSelected(mCurrentYearValue, mCurrentMonthValue)
+        }
+    }
+
+    override fun onFragmentHidden() {
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

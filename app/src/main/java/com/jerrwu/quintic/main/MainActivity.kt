@@ -7,13 +7,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
-import androidx.viewpager.widget.ViewPager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.BaseFragment
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.main.fragment.FragmentCal
@@ -24,18 +23,19 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
-    private val fragment1: Fragment =
+    private val mEntriesFragment: BaseFragment =
         FragmentEntries()
-    private val fragment2: Fragment =
+    private val mSearchFragment: BaseFragment =
         FragmentSearch()
-    private val fragment3: Fragment =
+    private val mCalFragment: BaseFragment =
         FragmentCal()
-    private val navSheetFragment = NavSheetFragment()
-    private val fm = supportFragmentManager
-    private var active = fragment1
+    private val mNavSheetFragment = NavSheetFragment()
+    private val mFragmentManager = supportFragmentManager
+    private var mActiveFragment: BaseFragment = mEntriesFragment
+    var mRefreshCalFragmentGrid = false
 
     override fun onBackPressed() {
-        val currentFragment = active
+        val currentFragment = mActiveFragment
         if (currentFragment !is FragmentEntries) {
             bottomNavigation.selectedItemId = R.id.menu_home
         } else if (currentFragment.mAdapter != null &&
@@ -49,8 +49,8 @@ class MainActivity : AppCompatActivity() {
     private val mOnNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
 
-            if (active is FragmentEntries) {
-                val fragmentEntries: FragmentEntries = active as FragmentEntries
+            if (mActiveFragment is FragmentEntries) {
+                val fragmentEntries: FragmentEntries = mActiveFragment as FragmentEntries
                 if (fragmentEntries.mAdapter != null &&
                     (fragmentEntries.mAdapter as EntryAdapter).isMultiSelect) {
                     fragmentEntries.hideSelectionToolbar()
@@ -60,47 +60,51 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.menu_home -> {
                     // check if same
-                    if (active is FragmentEntries) return@OnNavigationItemSelectedListener false
+                    if (mActiveFragment is FragmentEntries) return@OnNavigationItemSelectedListener false
 
                     toolbar_title.text = getText(R.string.app_title)
-                    fm.beginTransaction()
+                    mFragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.slide_from_bottom, R.anim.fade_out)
-                        .hide(active)
-                        .show(fragment1)
+                        .hide(mActiveFragment)
+                        .show(mEntriesFragment)
                         .commit()
-                    active = fragment1
+                    mActiveFragment = mEntriesFragment
                     fab.show()
                     searchButton.visibility = View.GONE
                     return@OnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_search -> {
-                    if (active is FragmentSearch) return@OnNavigationItemSelectedListener false
+                    if (mActiveFragment is FragmentSearch) return@OnNavigationItemSelectedListener false
 
                     toolbar_title.text = getText(R.string.menu_search)
-                    fm.beginTransaction()
+                    mFragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.slide_from_bottom, 0)
-                        .hide(active)
-                        .show(fragment2)
+                        .hide(mActiveFragment)
+                        .show(mSearchFragment)
                         .commit()
-                    active = fragment2
+                    mActiveFragment = mSearchFragment
                     searchButton.visibility = View.VISIBLE
                     fab.hide()
                     return@OnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_calendar -> {
-                    if (active is FragmentCal) return@OnNavigationItemSelectedListener false
+                    if (mActiveFragment is FragmentCal) return@OnNavigationItemSelectedListener false
 
                     toolbar_title.text = getText(R.string.menu_calendar)
-                    fm.beginTransaction()
+                    mFragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.slide_from_bottom, R.anim.fade_out)
-                        .hide(active)
-                        .show(fragment3)
+                        .hide(mActiveFragment)
+                        .show(mCalFragment)
                         .commit()
-                    active = fragment3
+                    mActiveFragment = mCalFragment
                     searchButton.visibility = View.GONE
                     fab.hide()
+                    if (mRefreshCalFragmentGrid) {
+                        mCalFragment.onFragmentShown()
+                        mRefreshCalFragmentGrid = false
+                    }
                     return@OnNavigationItemSelectedListener true
                 }
             }
@@ -108,7 +112,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     private fun showBottomSheetDialogFragment() {
-        navSheetFragment.show(supportFragmentManager, navSheetFragment.tag)
+        mNavSheetFragment.show(supportFragmentManager, mNavSheetFragment.tag)
     }
 
     override fun onResume() {
@@ -143,13 +147,13 @@ class MainActivity : AppCompatActivity() {
         setLayoutNavScrollBehaviour(sharedPreferences)
         setLayoutToolbarScrollBehaviour(sharedPreferences)
 
-        for (fragment in fm.fragments) {
-            fm.beginTransaction().remove(fragment).commit()
+        for (fragment in mFragmentManager.fragments) {
+            mFragmentManager.beginTransaction().remove(fragment).commit()
         }
 
-        fm.beginTransaction().add(R.id.frag_container, fragment3, "3").hide(fragment3).commit()
-        fm.beginTransaction().add(R.id.frag_container, fragment2, "2").hide(fragment2).commit()
-        fm.beginTransaction().add(R.id.frag_container, fragment1, "1").commit()
+        mFragmentManager.beginTransaction().add(R.id.frag_container, mCalFragment, "3").hide(mCalFragment).commit()
+        mFragmentManager.beginTransaction().add(R.id.frag_container, mSearchFragment, "2").hide(mSearchFragment).commit()
+        mFragmentManager.beginTransaction().add(R.id.frag_container, mEntriesFragment, "1").commit()
 
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         bottomNavigation.selectedItemId = R.id.menu_home
