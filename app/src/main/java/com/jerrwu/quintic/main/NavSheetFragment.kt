@@ -21,9 +21,12 @@ import java.time.format.DateTimeFormatter
 
 
 class NavSheetFragment : BottomSheetDialogFragment() {
+    companion object {
+        val TAG = NavSheetFragment::class.java.simpleName
+    }
+
     private var mFragmentView: View? = null
     private var mGreetingString = ""
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

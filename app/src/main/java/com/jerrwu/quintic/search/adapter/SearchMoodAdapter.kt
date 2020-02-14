@@ -16,6 +16,9 @@ class SearchMoodAdapter(
     private val mDataList: List<MoodEntity>,
     private val mContext: Context
 ) : RecyclerView.Adapter<SearchMoodAdapter.MoodViewHolder>() {
+    companion object {
+        val TAG = SearchMoodAdapter::class.java.simpleName
+    }
 
     var onItemClick: ((MoodEntity) -> Unit)? = null
 

@@ -15,6 +15,9 @@ class SearchMonthAdapter(
     private val mDataList: List<MonthEntity>,
     private val mContext: Context
 ) : RecyclerView.Adapter<SearchMonthAdapter.MonthViewHolder>() {
+    companion object {
+        val TAG = SearchMonthAdapter::class.java.simpleName
+    }
 
     var onItemClick: ((MonthEntity) -> Unit)? = null
 

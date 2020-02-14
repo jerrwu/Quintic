@@ -22,6 +22,10 @@ import java.time.LocalDate
 
 
 class FragmentSearch : BaseFragment() {
+    companion object {
+        val TAG = FragmentSearch::class.java.simpleName
+    }
+
     private var mMoodAdapter: SearchMoodAdapter? = null
     private var mHoursAdapter: SearchHoursAdapter? = null
     private var mMonthAdapter: SearchMonthAdapter? = null

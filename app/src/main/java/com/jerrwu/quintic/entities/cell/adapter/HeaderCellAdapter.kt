@@ -12,6 +12,9 @@ import kotlinx.android.synthetic.main.cal_header_cell.view.*
 class HeaderCellAdapter(
     override var context: Context?,
     override var cellList: List<CellEntity>) : CellAdapter(context, cellList) {
+    companion object {
+        val TAG = HeaderCellAdapter::class.java.simpleName
+    }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val cell = this.cellList[position]

@@ -29,6 +29,10 @@ import java.time.LocalDate
 
 
 class FragmentCal : BaseFragment() {
+    companion object {
+        val TAG = FragmentCal::class.java.simpleName
+    }
+
     private var mAdapter: CellAdapter? = null
     private var mCellList: MutableList<CellEntity> = ArrayList()
     private var mAddSpacing = true

@@ -16,6 +16,9 @@ import kotlinx.android.synthetic.main.cal_cell.view.*
 open class CellAdapter(
     open var context: Context?,
     open var cellList: List<CellEntity>) : BaseAdapter() {
+    companion object {
+        val TAG = CellAdapter::class.java.simpleName
+    }
 
     override fun getCount(): Int {
         return cellList.size

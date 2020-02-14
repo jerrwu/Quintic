@@ -15,6 +15,9 @@ class SearchHoursAdapter(
     private val mDataList: List<String>,
     private val mContext: Context
 ) : RecyclerView.Adapter<SearchHoursAdapter.HoursViewHolder>() {
+    companion object {
+        val TAG = SearchHoursAdapter::class.java.simpleName
+    }
 
     var onItemClick: ((String) -> Unit)? = null
 
