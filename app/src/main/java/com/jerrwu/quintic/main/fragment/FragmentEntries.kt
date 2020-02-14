@@ -29,6 +29,10 @@ import java.time.format.DateTimeFormatter
 
 
 class FragmentEntries : BaseFragment() {
+    companion object {
+        val TAG = FragmentEntries::class.java.simpleName
+    }
+
     private var mRecyclerView: RecyclerView? = null
     var mAdapter: EntryAdapter? = null
     private var mEntryList: ArrayList<EntryEntity> = ArrayList()

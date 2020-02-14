@@ -13,6 +13,10 @@ import com.jerrwu.quintic.R
 
 
 class SettingsFragment : PreferenceFragmentCompat() {
+    companion object {
+        val TAG = SettingsFragment::class.java.simpleName
+    }
+
     private var mActivity: Activity? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
