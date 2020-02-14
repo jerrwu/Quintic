@@ -36,9 +36,7 @@ class DayEntryAdapter(
         val entry: EntryEntity = mDataList[position]
 
         (mContext as Activity).runOnUiThread {
-//            holder.hoursCardTextView.text = entry.title
             holder.dayEntryTitle.text = entry.title
-            holder.dayEntryDate.text = DateTimeFormatter.ofPattern("MMM dd, yyyy").format(entry.time)
             holder.dayEntryContent.text = entry.content
 
             val color = entry.mood?.color
@@ -57,7 +55,6 @@ class DayEntryAdapter(
     @UiThread
     inner class DayEntryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         internal var dayEntryTitle: TextView = itemView.findViewById(R.id.cal_day_title_text)
-        internal var dayEntryDate: TextView = itemView.findViewById(R.id.cal_day_date_text)
         internal var dayEntryContent: TextView = itemView.findViewById(R.id.cal_day_content_text)
         internal var dayEntryIndicator: ImageView = itemView.findViewById(R.id.cal_day_item_color_indicator)
 
