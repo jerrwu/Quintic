@@ -1,16 +1,17 @@
 package com.jerrwu.quintic.main.fragment
 
 
+import android.app.Activity
 import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.GridView
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseFragment
@@ -18,6 +19,8 @@ import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.common.view.widget.CalSpinnerAdapter
 import com.jerrwu.quintic.entities.cell.CellEntity
 import com.jerrwu.quintic.entities.cell.adapter.CellAdapter
+import com.jerrwu.quintic.entities.entry.EntryEntity
+import com.jerrwu.quintic.entities.entry.adapter.DayEntryAdapter
 import com.jerrwu.quintic.entities.time.DayEntity
 import com.jerrwu.quintic.entities.time.MonthEntity
 import com.jerrwu.quintic.entities.time.YearEntity
@@ -151,7 +154,7 @@ class FragmentCal : BaseFragment() {
             mMonthSpinnerList.clear()
 
             for (month in mCurrentYear?.months.orEmpty()) {
-                mMonthSpinnerList.add(month.toString())
+                mMonthSpinnerList.add(month.stringValue())
             }
 
             val spinnerAdapter = CalSpinnerAdapter(context, mMonthSpinnerList)
@@ -231,17 +234,48 @@ class FragmentCal : BaseFragment() {
 
             pActivity.runOnUiThread {
                 gridView.adapter = mAdapter
-                monthText.text = mCurrentMonth.toString()
+                monthText.text = mCurrentMonth?.stringValue()
                 yearText.text = mCurrentYear?.number.toString()
+
+                gridView.onItemClickListener =
+                    AdapterView.OnItemClickListener {
+                            parent, view, position, id ->
+                        showDayView(mCellList[position], pActivity)
+                    }
             }
 
             if (yearChanged)
                 setupMonthSpinner()
-            val index = mMonthSpinnerList.indexOf(mCurrentMonth.toString())
+            val index = mMonthSpinnerList.indexOf(mCurrentMonth?.stringValue())
             pActivity.runOnUiThread {
                 monthSpinner.setSelection(index)
             }
         }
         return true
+    }
+
+    private fun showDayView(cell: CellEntity, context: Context) : Boolean {
+        val dayInt = cell.text
+        if (dayInt != null && StringHelper.isInteger(dayInt) && Integer.parseInt(dayInt) != 0) {
+            val dayString = if (dayInt.length > 1) dayInt else "0$dayInt"
+            val query = "${MonthEntity(mCurrentMonthValue).stringValue()} $dayString $mCurrentYearValue"
+            val entries = fetchDayEntries(query, context)
+            Log.d("hehelix", entries.toString() + "\"$query\"")
+
+            val entriesAdapter = DayEntryAdapter(entries, context)
+            val entriesRecycler: RecyclerView = (context as Activity).findViewById(R.id.cal_day_recycler)
+            context.runOnUiThread {
+                entriesRecycler.layoutManager = LinearLayoutManager(activity)
+                entriesRecycler.adapter = entriesAdapter
+                entriesRecycler.isNestedScrollingEnabled = false
+            }
+            return true
+        }
+        return false
+    }
+
+    private fun fetchDayEntries(date: String, context: Context): List<EntryEntity> {
+        val mainDbHelper = MainDbHelper(context)
+        return SearchHelper.performSearch(date, mainDbHelper, MainDbHelper.DB_COL_DATE_EXTERNAL)
     }
 }

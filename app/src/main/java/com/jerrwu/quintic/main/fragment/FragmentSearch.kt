@@ -122,7 +122,7 @@ class FragmentSearch : BaseFragment() {
             mMonthAdapter?.onItemClick = { month ->
                 val intent = Intent(activity, SearchActivity::class.java)
                 intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_TIME)
-                intent.putExtra(SearchActivity.SEARCH_STRING, month.toString())
+                intent.putExtra(SearchActivity.SEARCH_STRING, month.stringValue())
                 intent.putExtra(SearchActivity.EXACT_SEARCH, false)
                 startActivity(intent)
             }

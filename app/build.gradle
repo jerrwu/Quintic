@@ -69,6 +69,7 @@ dependencies {
     implementation appDependencies.androidXCardView
 
     implementation appDependencies.gson
+    implementation appDependencies.kotlinReflect
 
     testImplementation appTestDependencies.junit
 

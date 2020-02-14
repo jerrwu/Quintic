@@ -9,6 +9,7 @@ ext {
     materialDesignVersion = "1.0.0"
 
     gsonVersion = "2.8.6"
+    kotlinReflectVersion = "1.3.61"
 
     // Test
     junitVersion = "4.13"
@@ -28,7 +29,8 @@ ext {
 
             materialDesign          : "com.google.android.material:material:$materialDesignVersion",
 
-            gson                    : "com.google.code.gson:gson:$gsonVersion"
+            gson                    : "com.google.code.gson:gson:$gsonVersion",
+            kotlinReflect           : "org.jetbrains.kotlin:kotlin-reflect:$kotlinReflectVersion"
     ]
 
     appTestDependencies = [

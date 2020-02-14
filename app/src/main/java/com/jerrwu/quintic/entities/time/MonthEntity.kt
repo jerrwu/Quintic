@@ -27,7 +27,7 @@ data class MonthEntity(
     constructor(number: Int):
             this(if (number % 12 == 0) 12 else number % 12, null)
 
-    override fun toString(): String {
+    fun stringValue(): String {
         return when (number) {
             1 -> "January"
             2 -> "February"

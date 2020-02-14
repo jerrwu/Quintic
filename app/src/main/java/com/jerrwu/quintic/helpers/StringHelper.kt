@@ -11,6 +11,7 @@ import com.jerrwu.quintic.common.constants.Constants
 import com.jerrwu.quintic.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
+
 object StringHelper {
     fun getString(id: Int, context: Context?): String {
         var string = ""
@@ -165,5 +166,20 @@ object StringHelper {
             textView.textSize = 14F
             snackbar.show()
         }
+    }
+
+    fun isInteger(s: String): Boolean {
+        return isInteger(s, 10)
+    }
+
+    fun isInteger(s: String, radix: Int): Boolean {
+        if (s.isEmpty()) return false
+        for (i in s.indices) {
+            if (i == 0 && s[i] == '-') {
+                return if (s.length == 1) false else continue
+            }
+            if (Character.digit(s[i], radix) < 0) return false
+        }
+        return true
     }
 }

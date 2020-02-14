@@ -6,6 +6,7 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -241,6 +242,7 @@ class EntryActivity : AppCompatActivity() {
             values.put(MainDbHelper.DB_COL_TIME, mCreatedDate.toString())
             values.put(MainDbHelper.DB_COL_MOOD, mMood.name)
             values.put(MainDbHelper.DB_COL_DATE_EXTERNAL, mFormatterDb.format(mCreatedDate))
+            Log.d("EntryActivity", "DATE_EXTERNAL: " + values.get(MainDbHelper.DB_COL_DATE_EXTERNAL) as String)
             values.put(MainDbHelper.DB_COL_HOURS, StringHelper.getHours(mCreatedDate?.hour))
 
             // new entry

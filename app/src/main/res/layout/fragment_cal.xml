@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
+        android:animateLayoutChanges="true"
         tools:context=".main.fragment.FragmentCal">
 
         <LinearLayout
@@ -123,13 +124,13 @@
 
         <RelativeLayout
             app:layout_constraintTop_toBottomOf="@id/grid_container"
-            android:background="@color/colorMain"
             android:orientation="vertical"
-            android:padding="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:id="@+id/open_book_icon"
                 android:tint="@color/colorSupport"
                 android:src="@drawable/ic_book_open_outline"
@@ -139,6 +140,7 @@
             <TextView
                 android:id="@+id/selected_date"
                 android:layout_marginBottom="2dp"
+                android:layout_marginEnd="16dp"
                 android:textSize="16sp"
                 android:layout_marginStart="12dp"
                 android:textColor="@color/colorSupport"
@@ -150,8 +152,10 @@
                 android:layout_height="wrap_content" />
 
             <androidx.recyclerview.widget.RecyclerView
-                tools:listitem="@layout/day_entry_item"
-                android:layout_marginTop="12dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                tools:listitem="@layout/cal_day_entry_item"
                 android:layout_below="@id/open_book_icon"
                 android:id="@+id/cal_day_recycler"
                 android:layout_width="match_parent"

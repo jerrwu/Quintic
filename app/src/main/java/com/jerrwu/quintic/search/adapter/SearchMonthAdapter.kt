@@ -28,7 +28,7 @@ class SearchMonthAdapter(
         val month: MonthEntity = mDataList[position]
 
         (mContext as Activity).runOnUiThread {
-            holder.monthTextView.text = month.toString()
+            holder.monthTextView.text = month.stringValue()
             holder.monthMiniTextView.text = month.number.toString()
         }
     }
