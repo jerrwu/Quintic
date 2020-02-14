@@ -8,6 +8,9 @@ import androidx.core.content.ContextCompat
 import com.jerrwu.quintic.R
 
 class GithubTabActivity : AppCompatActivity() {
+    companion object {
+        val TAG = GithubTabActivity::class.java.simpleName
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

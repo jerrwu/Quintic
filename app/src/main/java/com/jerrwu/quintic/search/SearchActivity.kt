@@ -23,6 +23,8 @@ import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity : AppCompatActivity() {
     companion object {
+        val TAG = SearchActivity::class.java.simpleName
+
         const val SEARCH_TYPE = "SearchType"
         const val SEARCH_STRING = "SearchString"
         const val EXACT_SEARCH = "ExactSearch"

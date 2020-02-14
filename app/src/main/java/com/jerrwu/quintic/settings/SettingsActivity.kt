@@ -13,6 +13,10 @@ import kotlinx.android.synthetic.main.activity_settings.*
 
 
 class SettingsActivity : AppCompatActivity() {
+    companion object {
+        val TAG = SettingsActivity::class.java.simpleName
+    }
+
     val mActivity = this
     val mToggleDialogKey = "TOGGLE_DIALOG_KEY"
 

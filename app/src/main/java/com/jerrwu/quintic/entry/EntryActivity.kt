@@ -23,6 +23,9 @@ import java.time.format.DateTimeFormatter
 
 
 class EntryActivity : AppCompatActivity() {
+    companion object {
+        val TAG = EntryActivity::class.java.simpleName
+    }
 
     private var mCreatedDate: LocalDateTime? = null
     private val mFormatterDate = DateTimeFormatter.ofPattern("E MMM dd, yyyy")
