@@ -27,6 +27,7 @@ import com.jerrwu.quintic.entities.time.YearEntity
 import com.jerrwu.quintic.helpers.*
 import kotlinx.android.synthetic.main.fragment_cal.*
 import java.time.LocalDate
+import kotlin.properties.Delegates
 
 
 class FragmentCal : BaseFragment() {
@@ -39,6 +40,8 @@ class FragmentCal : BaseFragment() {
     private var mCurrentMonth: MonthEntity? = null
     private var mCurrentMonthValue: Int = 0
     private var mCurrentYearValue: Int = 0
+    private var mIsShowDayView: Boolean = false
+    private var mPreviousPosition: Int = 0
 
     private val mMonthSpinnerList: MutableList<String> = ArrayList()
     private val mYearSpinnerList: MutableList<String> = ArrayList()
@@ -240,7 +243,17 @@ class FragmentCal : BaseFragment() {
                 gridView.onItemClickListener =
                     AdapterView.OnItemClickListener {
                             parent, view, position, id ->
-                        showDayView(mCellList[position], pActivity)
+                        if (position == mPreviousPosition) {
+                            if (!mIsShowDayView) {
+                                showDayView(mCellList[position], pActivity)
+                            } else {
+                                hideDayView(pActivity)
+                            }
+                        } else {
+                            hideDayView(pActivity)
+                            showDayView(mCellList[position], pActivity)
+                            mPreviousPosition = position
+                        }
                     }
             }
 
@@ -254,21 +267,50 @@ class FragmentCal : BaseFragment() {
         return true
     }
 
+    private fun hideDayView(context: Context) {
+        context as Activity
+        val container: RelativeLayout = context.findViewById(R.id.cal_day_container)
+        val entriesRecycler: RecyclerView = context.findViewById(R.id.cal_day_recycler)
+        context.runOnUiThread {
+            container.visibility = View.GONE
+            entriesRecycler.adapter = null
+        }
+        mIsShowDayView = false
+    }
+
     private fun showDayView(cell: CellEntity, context: Context) : Boolean {
         val dayInt = cell.text
         if (dayInt != null && StringHelper.isInteger(dayInt) && Integer.parseInt(dayInt) != 0) {
             val dayString = if (dayInt.length > 1) dayInt else "0$dayInt"
             val query = "${MonthEntity(mCurrentMonthValue).stringValue()} $dayString $mCurrentYearValue"
             val entries = fetchDayEntries(query, context)
-            Log.d("hehelix", entries.toString() + "\"$query\"")
 
-            val entriesAdapter = DayEntryAdapter(entries, context)
-            val entriesRecycler: RecyclerView = (context as Activity).findViewById(R.id.cal_day_recycler)
+            context as Activity
+            val container: RelativeLayout = context.findViewById(R.id.cal_day_container)
+            val entriesRecycler: RecyclerView = context.findViewById(R.id.cal_day_recycler)
+            val noResultsText: TextView = context.findViewById(R.id.cal_no_entries_text)
+            val headerText: TextView = context.findViewById(R.id.selected_date_text)
+
             context.runOnUiThread {
-                entriesRecycler.layoutManager = LinearLayoutManager(activity)
-                entriesRecycler.adapter = entriesAdapter
-                entriesRecycler.isNestedScrollingEnabled = false
+                headerText.text = query
             }
+
+            if (entries.isEmpty()) {
+                context.runOnUiThread {
+                    container.visibility = View.VISIBLE
+                    noResultsText.visibility = View.VISIBLE
+                }
+            } else {
+                val entriesAdapter = DayEntryAdapter(entries, context)
+                context.runOnUiThread {
+                    container.visibility = View.VISIBLE
+                    noResultsText.visibility = View.GONE
+                    entriesRecycler.layoutManager = LinearLayoutManager(activity)
+                    entriesRecycler.adapter = entriesAdapter
+                    entriesRecycler.isNestedScrollingEnabled = false
+                }
+            }
+            mIsShowDayView = true
             return true
         }
         return false

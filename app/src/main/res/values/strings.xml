@@ -107,4 +107,5 @@
     <string name="recent_months">Recent &amp; Upcoming Months</string>
     <string name="time_of_day">Time of Day</string>
     <string name="month_year_not_exist">No data in selected time period!</string>
+    <string name="no_entries">No entries!</string>
 </resources>

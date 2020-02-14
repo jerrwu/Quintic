@@ -123,6 +123,8 @@
         </com.google.android.material.card.MaterialCardView>
 
         <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/cal_day_container"
             app:layout_constraintTop_toBottomOf="@id/grid_container"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -138,8 +140,8 @@
                 android:layout_height="24dp" />
 
             <TextView
-                android:id="@+id/selected_date"
-                android:layout_marginBottom="2dp"
+                android:id="@+id/selected_date_text"
+                android:layout_marginBottom="1dp"
                 android:layout_marginEnd="16dp"
                 android:textSize="16sp"
                 android:layout_marginStart="12dp"
@@ -151,7 +153,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+            <TextView
+                android:id="@+id/cal_no_entries_text"
+                android:fontFamily="@font/productsansmedium"
+                android:textColor="@color/colorSecondary"
+                android:textSize="16sp"
+                android:text="@string/no_entries"
+                android:layout_marginTop="48dp"
+                android:layout_marginBottom="16dp"
+                android:layout_below="@id/open_book_icon"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
             <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
