@@ -11,6 +11,9 @@ import kotlinx.android.synthetic.main.activity_account.*
 
 
 class AccountActivity : AppCompatActivity() {
+    companion object {
+        val TAG = AccountActivity::class.java.simpleName
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
