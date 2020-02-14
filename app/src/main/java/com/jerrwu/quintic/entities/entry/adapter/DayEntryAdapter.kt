@@ -20,6 +20,9 @@ class DayEntryAdapter(
     private val mDataList: List<EntryEntity>,
     private val mContext: Context
 ) : RecyclerView.Adapter<DayEntryAdapter.DayEntryViewHolder>() {
+    companion object {
+        val TAG = DayEntryAdapter::class.java.simpleName
+    }
 
     var onItemClick: ((EntryEntity) -> Unit)? = null
 

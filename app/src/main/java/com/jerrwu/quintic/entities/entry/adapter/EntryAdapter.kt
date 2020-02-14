@@ -20,6 +20,9 @@ import java.time.format.DateTimeFormatter
 
 class EntryAdapter(
     private val mDataList: List<EntryEntity>) : RecyclerView.Adapter<EntryAdapter.CardViewHolder>() {
+    companion object {
+        val TAG = EntryAdapter::class.java.simpleName
+    }
 
     // click listeners
     var onItemClick: ((EntryEntity, Boolean) -> Unit)? = null

@@ -11,6 +11,9 @@ import kotlinx.android.synthetic.main.round_spinner_item.view.*
 class CalSpinnerAdapter(
     context: Context,
     strings: List<String>): ArrayAdapter<String>(context, 0, strings) {
+    companion object {
+        val TAG = CalSpinnerAdapter::class.java.simpleName
+    }
 
     // TODO: remove ripple in bg
 

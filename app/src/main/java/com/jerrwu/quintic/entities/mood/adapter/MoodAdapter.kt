@@ -16,6 +16,9 @@ class MoodAdapter(
     private val mDataList: List<MoodEntity>,
     private val mContext: Context,
     var selected: MoodEntity?) : RecyclerView.Adapter<MoodAdapter.MoodViewHolder>() {
+    companion object {
+        val TAG = MoodAdapter::class.java.simpleName
+    }
 
     var onItemClick: ((MoodEntity) -> Unit)? = null
 

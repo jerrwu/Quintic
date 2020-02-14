@@ -4,9 +4,11 @@ import android.app.Application
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
+import com.jerrwu.quintic.account.AccountActivity
 
 class QuinticApplication : Application() {
     companion object {
+        val TAG = QuinticApplication::class.java.simpleName
         var ctx: Context? = null
     }
 
