@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         val TAG = MainActivity::class.java.simpleName
     }
 
+    // TODO: add viewpager to improve fragment switching
+
     private val mEntriesFragment: BaseFragment =
         EntriesFragment()
     private val mSearchFragment: BaseFragment =
