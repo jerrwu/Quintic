@@ -28,9 +28,9 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class FragmentEntries : BaseFragment() {
+class EntriesFragment : BaseFragment() {
     companion object {
-        val TAG = FragmentEntries::class.java.simpleName
+        val TAG = EntriesFragment::class.java.simpleName
     }
 
     private var mRecyclerView: RecyclerView? = null

@@ -14,9 +14,9 @@ import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseFragment
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entry.EntryActivity
-import com.jerrwu.quintic.main.fragment.FragmentCal
-import com.jerrwu.quintic.main.fragment.FragmentEntries
-import com.jerrwu.quintic.main.fragment.FragmentSearch
+import com.jerrwu.quintic.main.fragment.CalFragment
+import com.jerrwu.quintic.main.fragment.EntriesFragment
+import com.jerrwu.quintic.main.fragment.SearchFragment
 import com.jerrwu.quintic.search.SearchActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -27,11 +27,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val mEntriesFragment: BaseFragment =
-        FragmentEntries()
+        EntriesFragment()
     private val mSearchFragment: BaseFragment =
-        FragmentSearch()
+        SearchFragment()
     private val mCalFragment: BaseFragment =
-        FragmentCal()
+        CalFragment()
     private val mNavSheetFragment = NavSheetFragment()
     private val mFragmentManager = supportFragmentManager
     private var mActiveFragment: BaseFragment = mEntriesFragment
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val currentFragment = mActiveFragment
-        if (currentFragment !is FragmentEntries) {
+        if (currentFragment !is EntriesFragment) {
             bottomNavigation.selectedItemId = R.id.menu_home
         } else if (currentFragment.mAdapter != null &&
             (currentFragment.mAdapter as EntryAdapter).mIsMultiSelect) {
@@ -52,18 +52,18 @@ class MainActivity : AppCompatActivity() {
     private val mOnNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
 
-            if (mActiveFragment is FragmentEntries) {
-                val fragmentEntries: FragmentEntries = mActiveFragment as FragmentEntries
-                if (fragmentEntries.mAdapter != null &&
-                    (fragmentEntries.mAdapter as EntryAdapter).mIsMultiSelect) {
-                    fragmentEntries.hideSelectionToolbar()
+            if (mActiveFragment is EntriesFragment) {
+                val entriesFragment: EntriesFragment = mActiveFragment as EntriesFragment
+                if (entriesFragment.mAdapter != null &&
+                    (entriesFragment.mAdapter as EntryAdapter).mIsMultiSelect) {
+                    entriesFragment.hideSelectionToolbar()
                 }
             }
 
             when (item.itemId) {
                 R.id.menu_home -> {
                     // check if same
-                    if (mActiveFragment is FragmentEntries) return@OnNavigationItemSelectedListener false
+                    if (mActiveFragment is EntriesFragment) return@OnNavigationItemSelectedListener false
 
                     toolbar_title.text = getText(R.string.app_title)
                     mFragmentManager.beginTransaction()
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menu_search -> {
-                    if (mActiveFragment is FragmentSearch) return@OnNavigationItemSelectedListener false
+                    if (mActiveFragment is SearchFragment) return@OnNavigationItemSelectedListener false
 
                     toolbar_title.text = getText(R.string.menu_search)
                     mFragmentManager.beginTransaction()
@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menu_calendar -> {
-                    if (mActiveFragment is FragmentCal) return@OnNavigationItemSelectedListener false
+                    if (mActiveFragment is CalFragment) return@OnNavigationItemSelectedListener false
 
                     toolbar_title.text = getText(R.string.menu_calendar)
                     mFragmentManager.beginTransaction()

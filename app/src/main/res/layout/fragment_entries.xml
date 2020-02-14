@@ -8,7 +8,7 @@
     android:focusable="true"
     android:id="@+id/fragmentStart"
     android:overScrollMode="always"
-    tools:context=".main.fragment.FragmentEntries">
+    tools:context=".main.fragment.EntriesFragment">
 
     <RelativeLayout
         android:paddingBottom="12dp"

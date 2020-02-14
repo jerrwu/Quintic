@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:animateLayoutChanges="true"
-        tools:context=".main.fragment.FragmentCal">
+        tools:context=".main.fragment.CalFragment">
 
         <LinearLayout
             android:id="@+id/selectorBox"

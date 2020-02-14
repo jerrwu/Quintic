@@ -21,9 +21,9 @@ import com.jerrwu.quintic.search.adapter.SearchMoodAdapter
 import java.time.LocalDate
 
 
-class FragmentSearch : BaseFragment() {
+class SearchFragment : BaseFragment() {
     companion object {
-        val TAG = FragmentSearch::class.java.simpleName
+        val TAG = SearchFragment::class.java.simpleName
     }
 
     private var mMoodAdapter: SearchMoodAdapter? = null

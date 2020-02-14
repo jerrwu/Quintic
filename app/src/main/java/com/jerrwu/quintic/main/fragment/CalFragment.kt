@@ -3,6 +3,7 @@ package com.jerrwu.quintic.main.fragment
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
@@ -24,14 +25,15 @@ import com.jerrwu.quintic.entities.entry.adapter.DayEntryAdapter
 import com.jerrwu.quintic.entities.time.DayEntity
 import com.jerrwu.quintic.entities.time.MonthEntity
 import com.jerrwu.quintic.entities.time.YearEntity
+import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.helpers.*
 import kotlinx.android.synthetic.main.fragment_cal.*
 import java.time.LocalDate
 
 
-class FragmentCal : BaseFragment() {
+class CalFragment : BaseFragment() {
     companion object {
-        val TAG = FragmentCal::class.java.simpleName
+        val TAG = CalFragment::class.java.simpleName
     }
 
     private var mAdapter: CellAdapter? = null
@@ -320,6 +322,16 @@ class FragmentCal : BaseFragment() {
                 context.runOnUiThread {
                     container.visibility = View.VISIBLE
                     noResultsText.visibility = View.GONE
+
+                    entriesAdapter.onItemClick = { entry ->
+                        val intent = Intent(activity, EntryActivity::class.java)
+                        intent.putExtra(MainDbHelper.DB_COL_ID, entry.id)
+                        intent.putExtra(MainDbHelper.DB_COL_TITLE, entry.title)
+                        intent.putExtra(MainDbHelper.DB_COL_CONTENT, entry.content)
+                        intent.putExtra(MainDbHelper.DB_COL_TIME, entry.time.toString())
+                        intent.putExtra(MainDbHelper.DB_COL_MOOD, entry.mood?.id)
+                        startActivity(intent)
+                    }
                     entriesRecycler.layoutManager = LinearLayoutManager(activity)
                     entriesRecycler.adapter = entriesAdapter
                     entriesRecycler.isNestedScrollingEnabled = false
