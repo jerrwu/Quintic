@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +26,6 @@ import com.jerrwu.quintic.entities.time.YearEntity
 import com.jerrwu.quintic.helpers.*
 import kotlinx.android.synthetic.main.fragment_cal.*
 import java.time.LocalDate
-import kotlin.properties.Delegates
 
 
 class FragmentCal : BaseFragment() {
