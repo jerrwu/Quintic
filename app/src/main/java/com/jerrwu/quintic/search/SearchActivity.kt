@@ -63,8 +63,7 @@ class SearchActivity : AppCompatActivity() {
         searchField.requestFocus()
         mMainDbHelper = MainDbHelper(this)
 
-        val spinnerList = if (BuildConfig.DEBUG) ConstantLists.searchSpinnerOptionsDebug
-        else ConstantLists.searchSpinnerOptions
+        val spinnerList = ConstantLists.searchSpinnerOptions
 
         val spinnerAdapter = ArrayAdapter(
             this, R.layout.spinner_item, spinnerList

@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,6 +56,16 @@ class FragmentCal : BaseFragment() {
     override fun onFragmentShown() {
         AsyncTask.execute {
             onCalSelected(mCurrentYearValue, mCurrentMonthValue)
+            updateDayView()
+        }
+    }
+
+    private fun updateDayView() {
+        val pActivity = activity
+        if (mIsShowDayView && pActivity != null) {
+            Log.d(TAG, "updateDayView() called")
+            hideDayView(pActivity)
+            showDayView(mCellList[mPreviousPosition], pActivity)
         }
     }
 
@@ -150,6 +161,8 @@ class FragmentCal : BaseFragment() {
             } else {
                 onCalSelected(mCurrentYearValue, mCurrentMonthValue)
             }
+
+            updateDayView()
         }
     }
 
