@@ -17,7 +17,10 @@ import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.utils.MainDbHelper
 import com.jerrwu.quintic.utils.SearchUtils
+import io.reactivex.functions.Predicate
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_search.*
+import java.util.concurrent.TimeUnit
 
 
 class SearchActivity : AppCompatActivity() {
