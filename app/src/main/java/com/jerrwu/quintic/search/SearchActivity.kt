@@ -16,14 +16,15 @@ import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entry.EntryActivity
-import com.jerrwu.quintic.helpers.DbHelper
+import com.jerrwu.quintic.helpers.MainDbHelper
 import com.jerrwu.quintic.helpers.SearchHelper
 import kotlinx.android.synthetic.main.activity_search.*
-import java.lang.IndexOutOfBoundsException
 
 
 class SearchActivity : AppCompatActivity() {
     companion object {
+        val TAG = SearchActivity::class.java.simpleName
+
         const val SEARCH_TYPE = "SearchType"
         const val SEARCH_STRING = "SearchString"
         const val EXACT_SEARCH = "ExactSearch"
@@ -37,7 +38,7 @@ class SearchActivity : AppCompatActivity() {
     private var mSearchResults: List<EntryEntity>? = null
     private var mAdapter: EntryAdapter? = null
     private var mColumn: String? = null
-    private var mDbHelper: DbHelper? = null
+    private var mMainDbHelper: MainDbHelper? = null
     private var mSearchType: String? = null
     private var mSearchString: String? = null
     private var mUseExact: Boolean = false
@@ -60,10 +61,9 @@ class SearchActivity : AppCompatActivity() {
         }
 
         searchField.requestFocus()
-        mDbHelper = DbHelper(this)
+        mMainDbHelper = MainDbHelper(this)
 
-        val spinnerList = if (BuildConfig.DEBUG) ConstantLists.searchSpinnerOptionsDebug
-        else ConstantLists.searchSpinnerOptions
+        val spinnerList = ConstantLists.searchSpinnerOptions
 
         val spinnerAdapter = ArrayAdapter(
             this, R.layout.spinner_item, spinnerList
@@ -99,7 +99,6 @@ class SearchActivity : AppCompatActivity() {
             throw e
         }
 
-
         searchBackButton.setOnClickListener {
             finish()
         }
@@ -114,7 +113,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun onSearchStarted() {
-        val dbHelper = mDbHelper
+        val dbHelper = mMainDbHelper
         val column = mColumn
         if (dbHelper != null && column != null){
             mSearchResults = if (mUseExact) {
@@ -146,11 +145,11 @@ class SearchActivity : AppCompatActivity() {
 
         mAdapter?.onItemClick = { entry, _ ->
             val intent = Intent(this, EntryActivity::class.java)
-            intent.putExtra(DbHelper.DB_COL_ID, entry.id)
-            intent.putExtra(DbHelper.DB_COL_TITLE, entry.title)
-            intent.putExtra(DbHelper.DB_COL_CONTENT, entry.content)
-            intent.putExtra(DbHelper.DB_COL_TIME, entry.time.toString())
-            intent.putExtra(DbHelper.DB_COL_MOOD, entry.mood?.id)
+            intent.putExtra(MainDbHelper.DB_COL_ID, entry.id)
+            intent.putExtra(MainDbHelper.DB_COL_TITLE, entry.title)
+            intent.putExtra(MainDbHelper.DB_COL_CONTENT, entry.content)
+            intent.putExtra(MainDbHelper.DB_COL_TIME, entry.time.toString())
+            intent.putExtra(MainDbHelper.DB_COL_MOOD, entry.mood?.id)
             startActivity(intent)
         }
         return true

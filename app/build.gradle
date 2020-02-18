@@ -12,14 +12,15 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.jerrwu.quintic"
-        minSdkVersion 27
+        minSdkVersion 26
         targetSdkVersion 29
-        versionCode 6
-        versionName "0.6.7"
+        versionCode 7
+        versionName "0.7.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "BUILD_NUMBER", "\"B${versionCode}-${formattedDate}\""
-        buildConfigField "Integer", "DATABASE_VERSION", "4"
+        buildConfigField "Integer", "MAIN_DATABASE_VERSION", "4"
+        buildConfigField "Integer", "CAL_DATABASE_VERSION", "1"
     }
 
     signingConfigs {
@@ -66,6 +67,9 @@ dependencies {
     implementation appDependencies.androidXLegacyV4
     implementation appDependencies.androidXBrowser
     implementation appDependencies.androidXCardView
+
+    implementation appDependencies.gson
+    implementation appDependencies.kotlinReflect
 
     testImplementation appTestDependencies.junit
 

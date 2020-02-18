@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="56dp"
+    android:layout_height="36dp"
     android:clickable="true"
     android:focusable="true"
-    android:id="@+id/grid_cell"
-    android:gravity="center"
+    android:id="@+id/calCell"
+    android:paddingBottom="6dp"
+    android:gravity="center_horizontal|bottom"
     android:backgroundTint="@color/colorButton"
     android:background="@drawable/round_less_button_ripple">
 
     <TextView
-        android:layout_margin="4dp"
-        android:textColor="@color/colorFont"
-        android:textSize="14sp"
+        android:layout_margin="3dp"
+        android:textColor="@color/colorTertiary"
+        android:textSize="13sp"
         android:fontFamily="@font/productsansmedium"
-        android:text="test"
-        android:id="@+id/gridCellText"
+        android:id="@+id/headerGridCellText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

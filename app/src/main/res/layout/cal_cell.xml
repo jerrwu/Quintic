@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:paddingTop="6dp"
+    android:id="@+id/calCell"
+    android:gravity="center_horizontal|top"
+    android:backgroundTint="@color/colorButton"
+    android:background="@drawable/round_less_button_ripple">
+
+    <TextView
+        android:layout_margin="3dp"
+        android:textColor="@color/colorFont"
+        android:textSize="14sp"
+        android:clickable="false"
+        android:fontFamily="@font/productsansmedium"
+        android:id="@+id/gridCellText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/cellIndicator"
+        android:tint="@color/colorFont"
+        android:layout_width="12dp"
+        android:clickable="false"
+        android:layout_height="12dp" />
+
+</LinearLayout>

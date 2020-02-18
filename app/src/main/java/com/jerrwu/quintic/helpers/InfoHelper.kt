@@ -2,13 +2,13 @@ package com.jerrwu.quintic.helpers
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
+import android.content.Intent
+import android.content.res.Configuration
 import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
-import android.content.Intent
-import android.content.Context
-import android.content.res.Configuration
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.main.MainActivity

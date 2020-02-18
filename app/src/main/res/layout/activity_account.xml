@@ -59,7 +59,8 @@
                 android:layout_height="96dp" />
 
             <EditText
-                android:singleLine="true"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@color/colorFont"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"

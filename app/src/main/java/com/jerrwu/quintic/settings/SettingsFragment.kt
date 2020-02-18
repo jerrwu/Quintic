@@ -2,17 +2,21 @@ package com.jerrwu.quintic.settings
 
 
 import android.app.Activity
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.*
-import android.content.Intent
-import android.view.View
 import com.jerrwu.quintic.BuildConfig
 import com.jerrwu.quintic.R
 
 
 class SettingsFragment : PreferenceFragmentCompat() {
+    companion object {
+        val TAG = SettingsFragment::class.java.simpleName
+    }
+
     private var mActivity: Activity? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

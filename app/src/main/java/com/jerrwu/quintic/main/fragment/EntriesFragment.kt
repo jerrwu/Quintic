@@ -1,6 +1,7 @@
 package com.jerrwu.quintic.main.fragment
 
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -8,19 +9,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.account.AccountActivity
+import com.jerrwu.quintic.common.BaseFragment
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entry.EntryActivity
-import com.jerrwu.quintic.helpers.DbHelper
-import com.jerrwu.quintic.helpers.InfoHelper
-import com.jerrwu.quintic.helpers.StringHelper
+import com.jerrwu.quintic.helpers.*
+import com.jerrwu.quintic.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_entries.*
 import java.time.LocalDate
@@ -28,11 +28,22 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class FragmentEntries : Fragment() {
+class EntriesFragment : BaseFragment() {
+    companion object {
+        val TAG = EntriesFragment::class.java.simpleName
+    }
+
     private var mRecyclerView: RecyclerView? = null
     var mAdapter: EntryAdapter? = null
-    private var entryList: ArrayList<EntryEntity> = ArrayList()
-    private var mDbHelper: DbHelper? = null
+    private var mEntryList: ArrayList<EntryEntity> = ArrayList()
+    private var mMainDbHelper: MainDbHelper? = null
+    private var mCalDbHelper: CalDbHelper? = null
+
+    override fun onFragmentShown() {
+    }
+
+    override fun onFragmentHidden() {
+    }
 
     override fun onResume() {
         super.onResume()
@@ -84,14 +95,13 @@ class FragmentEntries : Fragment() {
         }
 
         loadQuery("%")
-        toggleEmptyNotices()
 
         val mActivity = activity
         if (mActivity != null) {
             mRecyclerView = mActivity.findViewById(R.id.recycler_view)
             val mLayoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
             if (mRecyclerView != null) mRecyclerView?.layoutManager = mLayoutManager
-            mAdapter = EntryAdapter(entryList)
+            mAdapter = EntryAdapter(mEntryList)
             mAdapter?.mContext = mActivity
         }
 
@@ -104,16 +114,16 @@ class FragmentEntries : Fragment() {
                 true
             }
             mAdapter?.onItemClick = { card, dismissToolbar ->
-                // Toast.makeText(activity, card.id.toString(), Toast.LENGTH_SHORT).show()
+                // Toast.makeText(activity, entry_card.id.toString(), Toast.LENGTH_SHORT).show()
                 if (dismissToolbar) {
                     hideSelectionToolbar()
                 } else {
                     val intent = Intent(activity, EntryActivity::class.java)
-                    intent.putExtra(DbHelper.DB_COL_ID, card.id)
-                    intent.putExtra(DbHelper.DB_COL_TITLE, card.title)
-                    intent.putExtra(DbHelper.DB_COL_CONTENT, card.content)
-                    intent.putExtra(DbHelper.DB_COL_TIME, card.time.toString())
-                    intent.putExtra(DbHelper.DB_COL_MOOD, card.mood?.id)
+                    intent.putExtra(MainDbHelper.DB_COL_ID, card.id)
+                    intent.putExtra(MainDbHelper.DB_COL_TITLE, card.title)
+                    intent.putExtra(MainDbHelper.DB_COL_CONTENT, card.content)
+                    intent.putExtra(MainDbHelper.DB_COL_TIME, card.time.toString())
+                    intent.putExtra(MainDbHelper.DB_COL_MOOD, card.mood?.id)
                     startActivity(intent)
                 }
             }
@@ -121,14 +131,14 @@ class FragmentEntries : Fragment() {
     }
 
     private fun toggleEmptyNotices() {
-        if (entryList.isEmpty()) {
+        daily_suggestion_card_container.visibility = View.GONE
+        if (mEntryList.isEmpty()) {
             empty_recycler_notice.visibility = View.VISIBLE
-            daily_suggestion_card_container.visibility = View.GONE
         } else {
             empty_recycler_notice.visibility = View.GONE
             val current = LocalDate.now()
-            val filteredEntryList: List<EntryEntity> = entryList.filter {
-                    card -> card.time!!.toLocalDate() == current }
+            val filteredEntryList: List<EntryEntity> = mEntryList.filter {
+                    card -> card.time?.toLocalDate() == current }
             if (filteredEntryList.isEmpty()) daily_suggestion_card_container.visibility = View.VISIBLE
         }
     }
@@ -141,7 +151,7 @@ class FragmentEntries : Fragment() {
             mActivity.toolbarBackButton.setOnClickListener { hideSelectionToolbar() }
             mActivity.toolbarDeleteButton.setOnClickListener {
                 if (mAdapter != null) {
-                    val items = mAdapter?.itemsSelected?.toMutableList()
+                    val items = mAdapter?.mItemsSelected?.toMutableList()
                     if (items != null)
                     InfoHelper.showDialog(
                         StringHelper.getString(R.string.confirm_delete_multiple_title, mActivity),
@@ -156,15 +166,37 @@ class FragmentEntries : Fragment() {
     }
 
     private fun deleteEntries(items: List<EntryEntity>) {
-        if (mDbHelper == null && activity != null) {
-            mDbHelper = DbHelper(activity as Context)
+        if (mMainDbHelper == null && activity != null) {
+            mMainDbHelper = MainDbHelper(activity as Context)
         }
-        val dbHelper = mDbHelper
-        if (dbHelper != null) {
+        if (mCalDbHelper == null && activity != null) {
+            mCalDbHelper = CalDbHelper(activity as Context)
+        }
+        val mainDbHelper = mMainDbHelper
+        val calDbHelper = mCalDbHelper
+        if (mainDbHelper != null && calDbHelper != null) {
             for (item in items) {
-                val selectionArgs = arrayOf(item.id.toString())
-                dbHelper.delete("ID=?", selectionArgs)
+                val createdDate = item.time
+                val calDbDate = createdDate?.year.toString() +
+                        createdDate?.monthValue.toString() +
+                        createdDate?.dayOfMonth.toString()
+
+                val result = SearchHelper.performCalEntryCountSearch(calDbDate, calDbHelper)
+                val entryCount = result[1]
+                val values = ContentValues()
+
+                val calId = result[0]
+                values.put(CalDbHelper.DB_COL_DATE, calDbDate.toInt())
+                values.put(CalDbHelper.DB_COL_ENTRIES, entryCount - 1)
+                var selectionArgs = arrayOf(calId.toString())
+                calDbHelper.update(values, "ID=?", selectionArgs)
+
+                selectionArgs = arrayOf(item.id.toString())
+                mainDbHelper.delete("ID=?", selectionArgs)
             }
+        }
+        if (activity is MainActivity) {
+            (activity as MainActivity).mRefreshCalFragmentGrid = true
         }
         hideSelectionToolbar()
         toggleEmptyNotices()
@@ -219,33 +251,33 @@ class FragmentEntries : Fragment() {
     }
 
     private fun loadQuery(title: String) {
-        if (mDbHelper == null && activity != null) {
-            mDbHelper = DbHelper(activity as Context)
+        if (mMainDbHelper == null && activity != null) {
+            mMainDbHelper = MainDbHelper(activity as Context)
         }
-        val dbHelper = mDbHelper
+        val dbHelper = mMainDbHelper
         if (dbHelper != null) {
             val projections = arrayOf(
-                DbHelper.DB_COL_ID,
-                DbHelper.DB_COL_ICON,
-                DbHelper.DB_COL_TITLE,
-                DbHelper.DB_COL_CONTENT,
-                DbHelper.DB_COL_TIME,
-                DbHelper.DB_COL_MOOD)
+                MainDbHelper.DB_COL_ID,
+                MainDbHelper.DB_COL_ICON,
+                MainDbHelper.DB_COL_TITLE,
+                MainDbHelper.DB_COL_CONTENT,
+                MainDbHelper.DB_COL_TIME,
+                MainDbHelper.DB_COL_MOOD)
             val selectionArgs = arrayOf(title)
             val cursor = dbHelper.query(
-                projections, "Title like ?", selectionArgs, DbHelper.DB_COL_ID+" DESC")
-            entryList.clear()
+                projections, "Title like ?", selectionArgs, MainDbHelper.DB_COL_ID+" DESC")
+            mEntryList.clear()
             if (cursor.moveToFirst()) {
 
                 do {
-                    val cdId = cursor.getInt(cursor.getColumnIndex(DbHelper.DB_COL_ID))
-                    val cdIc = cursor.getInt(cursor.getColumnIndex(DbHelper.DB_COL_ICON))
-                    val cdTitle = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_TITLE))
-                    val cdCont = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_CONTENT))
-                    val cdTime = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_TIME))
-                    val cdMood = cursor.getString(cursor.getColumnIndex(DbHelper.DB_COL_MOOD))
+                    val cdId = cursor.getInt(cursor.getColumnIndex(MainDbHelper.DB_COL_ID))
+                    val cdIc = cursor.getInt(cursor.getColumnIndex(MainDbHelper.DB_COL_ICON))
+                    val cdTitle = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_TITLE))
+                    val cdCont = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_CONTENT))
+                    val cdTime = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_TIME))
+                    val cdMood = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_MOOD))
 
-                    entryList.add(
+                    mEntryList.add(
                         EntryEntity(
                             cdId,
                             cdIc,
@@ -265,8 +297,8 @@ class FragmentEntries : Fragment() {
 
     private fun resetAdapterSelected() {
         if (mAdapter != null && mAdapter is EntryAdapter) {
-            mAdapter?.itemsSelected?.clear()
-            mAdapter?.isMultiSelect = false
+            mAdapter?.mItemsSelected?.clear()
+            mAdapter?.mIsMultiSelect = false
         }
     }
 

@@ -7,7 +7,7 @@
     android:scrollbars="none"
     android:descendantFocusability="blocksDescendants"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".main.fragment.FragmentSearch">
+    tools:context=".main.fragment.SearchFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

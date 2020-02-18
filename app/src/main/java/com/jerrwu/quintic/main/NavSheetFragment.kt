@@ -1,29 +1,32 @@
 package com.jerrwu.quintic.main
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.nav_sheet.*
-import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.jerrwu.quintic.R
 import com.jerrwu.quintic.account.AccountActivity
 import com.jerrwu.quintic.helpers.InfoHelper
-import com.jerrwu.quintic.R
 import com.jerrwu.quintic.helpers.StringHelper
 import com.jerrwu.quintic.settings.SettingsActivity
+import kotlinx.android.synthetic.main.nav_sheet.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
 class NavSheetFragment : BottomSheetDialogFragment() {
-    private var fragmentView: View? = null
-    private var greetingString = ""
+    companion object {
+        val TAG = NavSheetFragment::class.java.simpleName
+    }
 
+    private var mFragmentView: View? = null
+    private var mGreetingString = ""
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -31,8 +34,8 @@ class NavSheetFragment : BottomSheetDialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        fragmentView = inflater.inflate(R.layout.nav_sheet, container, false)
-        return fragmentView
+        mFragmentView = inflater.inflate(R.layout.nav_sheet, container, false)
+        return mFragmentView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,14 +55,14 @@ class NavSheetFragment : BottomSheetDialogFragment() {
             val current = LocalDateTime.now()
             val formatter = DateTimeFormatter.ofPattern("HH")
             val curHour: String =  current.format(formatter)
-            greetingString = StringHelper.getGreeting(curHour, context)
+            mGreetingString = StringHelper.getGreeting(curHour, context)
             bottom_sheet_account_text_2.visibility = View.VISIBLE
         } else {
-            greetingString = ""
+            mGreetingString = ""
             bottom_sheet_account_text_2.visibility = View.GONE
         }
 
-        bottom_sheet_account_text_2.text = greetingString
+        bottom_sheet_account_text_2.text = mGreetingString
 
         settingsButton.setOnClickListener {
             val intent = Intent(activity, SettingsActivity::class.java)

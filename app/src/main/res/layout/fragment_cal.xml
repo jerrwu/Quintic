@@ -1,116 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<ScrollView
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:clipToPadding="false"
-    tools:context=".main.fragment.FragmentCal">
+    android:layout_width="match_parent"
+    android:scrollbars="none"
+    android:id="@+id/fragmentCalScrollContainer"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:id="@+id/selector_box"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="18dp"
-        android:elevation="5dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="@drawable/round_button_ripple"
-        android:backgroundTint="@color/colorButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageButton
-            android:id="@+id/fragmentEndSelectionBtn1"
-            android:layout_marginStart="4dp"
-            android:elevation="5dp"
-            android:layout_gravity="center_vertical"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_chevron_left"
-            android:tint="@color/colorFont"
-            android:layout_width="30dp"
-            android:layout_height="40dp"/>
-
-        <TextView
-            android:id="@+id/fragmentEndSelectionText"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:fontFamily="@font/productsansregular"
-            android:textSize="16sp"
-            android:textColor="@color/colorFont"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:text="@string/selection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <ImageButton
-            android:id="@+id/fragmentEndSelectionBtn2"
-            android:layout_marginEnd="4dp"
-            android:elevation="5dp"
-            android:layout_gravity="center_vertical"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_chevron_right"
-            android:tint="@color/colorFont"
-            android:layout_width="30dp"
-            android:layout_height="40dp"/>
-
-    </LinearLayout>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/grid_container"
-        app:layout_constraintTop_toBottomOf="@id/selector_box"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginTop="16dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingBottom="2dp"
         android:layout_width="match_parent"
-        android:backgroundTint="@color/colorButton"
-        app:strokeColor="@color/colorQuad"
-        app:strokeWidth="1dp"
-        app:cardCornerRadius="6dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:animateLayoutChanges="true"
+        tools:context=".main.fragment.CalFragment">
 
-        <GridView
-            android:id="@+id/grid_view_main"
-            android:numColumns="auto_fit"
-            android:columnWidth="52dp"
-            android:horizontalSpacing="4dp"
-            android:verticalSpacing="4dp"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/selectorBox"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="18dp"
+            android:elevation="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/round_button_ripple"
+            android:backgroundTint="@color/colorButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-        </GridView>
 
-    </com.google.android.material.card.MaterialCardView>
+            <ImageButton
+                android:id="@+id/fragmentCalBtnBackward"
+                android:layout_marginStart="4dp"
+                android:elevation="5dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_chevron_left"
+                android:tint="@color/colorFont"
+                android:layout_width="30dp"
+                android:layout_height="40dp"/>
 
-    <RelativeLayout
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/grid_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+            <FrameLayout
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_centerHorizontal="true"
-            android:id="@+id/bulldozer_ic"
-            android:tint="@color/colorTertiary"
-            android:src="@drawable/ic_bulldozer"
-            android:layout_width="86dp"
-            android:layout_height="86dp" />
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:visibility="invisible"
+                    android:popupBackground="@android:color/transparent"
+                    android:background="@android:color/transparent"
+                    android:id="@+id/fragmentCalSelectionSpinner"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp" />
+
+                <TextView
+                    android:id="@+id/fragmentCalMonthSelectText"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:fontFamily="@font/productsansregular"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorFont"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:gravity="center_vertical"
+                    android:text="@string/selection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </FrameLayout>
+
+            <ImageButton
+                android:id="@+id/fragmentCalBtnForward"
+                android:layout_marginEnd="4dp"
+                android:elevation="5dp"
+                android:layout_gravity="center_vertical"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_chevron_right"
+                android:tint="@color/colorFont"
+                android:layout_width="30dp"
+                android:layout_height="40dp"/>
+
+        </LinearLayout>
 
         <TextView
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/bulldozer_ic"
-            android:textSize="16sp"
-            android:textColor="@color/colorTertiary"
-            android:fontFamily="@font/productsansblack"
-            android:text="Under Construction"
-            android:layout_marginTop="6dp"
+            android:id="@+id/fragmentCalYearText"
+            android:textSize="18sp"
+            android:textColor="@color/colorSecondary"
+            android:fontFamily="@font/productsansmedium"
+            android:layout_marginStart="18dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/selectorBox"
+            app:layout_constraintStart_toEndOf="@id/selectorBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-    </RelativeLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/grid_container"
+            app:layout_constraintTop_toBottomOf="@id/selectorBox"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/colorButton"
+            app:strokeColor="@color/colorQuad"
+            app:strokeWidth="1dp"
+            app:cardCornerRadius="6dp"
+            android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.jerrwu.quintic.common.view.DynamicGridView
+                android:scrollbars="none"
+                android:id="@+id/calGrid"
+                android:numColumns="7"
+                android:columnWidth="52dp"
+                android:horizontalSpacing="3dp"
+                android:verticalSpacing="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </com.jerrwu.quintic.common.view.DynamicGridView>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/cal_day_container"
+            app:layout_constraintTop_toBottomOf="@id/grid_container"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:id="@+id/open_book_icon"
+                android:tint="@color/colorSupport"
+                android:src="@drawable/ic_book_open_outline"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+
+            <TextView
+                android:id="@+id/selected_date_text"
+                android:layout_marginBottom="1dp"
+                android:layout_marginEnd="16dp"
+                android:textSize="16sp"
+                android:layout_marginStart="12dp"
+                android:textColor="@color/colorSupport"
+                android:fontFamily="@font/productsansmedium"
+                android:text="the selected day's date"
+                android:layout_alignBottom="@id/open_book_icon"
+                android:layout_toEndOf="@id/open_book_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/cal_no_entries_text"
+                android:fontFamily="@font/productsansmedium"
+                android:textColor="@color/colorSecondary"
+                android:textSize="16sp"
+                android:text="@string/no_entries"
+                android:layout_marginTop="48dp"
+                android:layout_marginBottom="16dp"
+                android:layout_below="@id/open_book_icon"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                tools:listitem="@layout/cal_day_entry_item"
+                android:layout_below="@id/open_book_icon"
+                android:id="@+id/cal_day_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -1,5 +1,6 @@
 package com.jerrwu.quintic.helpers
 
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -9,7 +10,7 @@ import android.database.sqlite.SQLiteQueryBuilder
 import android.widget.Toast
 import com.jerrwu.quintic.BuildConfig
 
-class DbHelper(context: Context) {
+class MainDbHelper(context: Context) : BaseDbHelper(context) {
     companion object {
         const val DB_NAME = "MCards"
         const val DB_TABLE = "Cards"
@@ -23,7 +24,7 @@ class DbHelper(context: Context) {
         const val DB_COL_HOURS = "Hours"
     }
 
-    val dbVersion: Int = BuildConfig.DATABASE_VERSION
+    val dbVersion: Int = BuildConfig.MAIN_DATABASE_VERSION
 
     val sqlCreateTable =
         "CREATE TABLE IF NOT EXISTS $DB_TABLE (" +
@@ -46,31 +47,37 @@ class DbHelper(context: Context) {
         }
 
         override fun onCreate(db: SQLiteDatabase?) {
-            db!!.execSQL(sqlCreateTable)
-            Toast.makeText(this.context, "Database created!", Toast.LENGTH_SHORT).show()
+            db?.execSQL(sqlCreateTable)
+            if (BuildConfig.DEBUG)
+            (context as Activity).runOnUiThread {
+                Toast.makeText(this.context, "Main database created!", Toast.LENGTH_SHORT).show()
+            }
         }
 
         override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
             if (oldVersion < 2) {
-                db!!.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_MOOD INTEGER")
+                db?.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_MOOD INTEGER")
             }
             if (oldVersion < 3) {
-                db!!.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_DATE_EXTERNAL TEXT")
+                db?.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_DATE_EXTERNAL TEXT")
             }
             if (oldVersion < 4)  {
-                db!!.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_HOURS TEXT")
+                db?.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_HOURS TEXT")
             }
-            Toast.makeText(this.context, "Database upgraded!", Toast.LENGTH_SHORT).show()
+            if (BuildConfig.DEBUG)
+            (context as Activity).runOnUiThread {
+                Toast.makeText(this.context, "Main database upgraded!", Toast.LENGTH_SHORT).show()
+            }
         }
 
 
     }
 
-    fun insert(values: ContentValues): Long {
-        return sqlDb!!.insert(DB_TABLE, "", values)
+    override fun insert(values: ContentValues): Long? {
+        return sqlDb?.insert(DB_TABLE, "", values)
     }
 
-    fun query(
+    override fun query(
         projection: Array<String>, selection: String,
         selectionArgs: Array<String>, sorOrder: String): Cursor {
         val qb = SQLiteQueryBuilder()
@@ -79,11 +86,11 @@ class DbHelper(context: Context) {
             sqlDb, projection, selection, selectionArgs, null, null, sorOrder)
     }
 
-    fun delete(selection: String, selectionArgs: Array<String>): Int {
-        return sqlDb!!.delete(DB_TABLE, selection, selectionArgs)
+    override fun delete(selection: String, selectionArgs: Array<String>): Int? {
+        return sqlDb?.delete(DB_TABLE, selection, selectionArgs)
     }
 
-    fun update(values: ContentValues, selection: String, selectionArgs: Array<String>): Int {
-        return sqlDb!!.update(DB_TABLE, values, selection, selectionArgs)
+    override fun update(values: ContentValues, selection: String, selectionArgs: Array<String>): Int? {
+        return sqlDb?.update(DB_TABLE, values, selection, selectionArgs)
     }
 }

@@ -1,16 +1,24 @@
 package com.jerrwu.quintic.search.adapter
 
+import android.app.Activity
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.UiThread
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entities.mood.MoodEntity
 
 class SearchMoodAdapter(
-private val mDataList: List<MoodEntity>) : RecyclerView.Adapter<SearchMoodAdapter.MoodViewHolder>() {
+    private val mDataList: List<MoodEntity>,
+    private val mContext: Context
+) : RecyclerView.Adapter<SearchMoodAdapter.MoodViewHolder>() {
+    companion object {
+        val TAG = SearchMoodAdapter::class.java.simpleName
+    }
 
     var onItemClick: ((MoodEntity) -> Unit)? = null
 
@@ -23,16 +31,19 @@ private val mDataList: List<MoodEntity>) : RecyclerView.Adapter<SearchMoodAdapte
     override fun onBindViewHolder(holder: MoodViewHolder, position: Int) {
         val mood: MoodEntity = mDataList[position]
 
-        holder.moodCardImageView.setBackgroundResource(mood.color)
-        holder.moodCardImageView.setImageResource(mood.icOutline)
+        (mContext as Activity).runOnUiThread {
+            holder.moodCardImageView.setBackgroundResource(mood.color)
+            holder.moodCardImageView.setImageResource(mood.icOutline)
 
-        holder.moodCardTextView.text = mood.name
+            holder.moodCardTextView.text = mood.name
+        }
     }
 
     override fun getItemCount(): Int {
         return mDataList.size
     }
 
+    @UiThread
     inner class MoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         internal var moodCardImageView: ImageView = itemView.findViewById(R.id.moodCategoryCardImageView)
         internal var moodCardTextView: TextView = itemView.findViewById(R.id.moodCategoryCardTextView)
