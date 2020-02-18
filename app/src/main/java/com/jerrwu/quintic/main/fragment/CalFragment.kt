@@ -17,6 +17,7 @@ import com.google.gson.Gson
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseFragment
 import com.jerrwu.quintic.common.constants.ConstantLists
+import com.jerrwu.quintic.common.view.DayViewDataWrapper
 import com.jerrwu.quintic.common.view.widget.CalSpinnerAdapter
 import com.jerrwu.quintic.entities.cell.CellEntity
 import com.jerrwu.quintic.entities.cell.adapter.CellAdapter
@@ -44,10 +45,9 @@ class CalFragment : BaseFragment() {
     private var mCurrentYear: YearEntity? = null
     private var mCurrentMonth: MonthEntity? = null
     private var mCurrentMonthValue: Int = 0
-    private var mDayViewMonthValue: Int = 0
     private var mCurrentYearValue: Int = 0
-    private var mIsShowDayView: Boolean = false
     private var mPreviousPosition: Int = 0
+    private lateinit var mDayViewData: DayViewDataWrapper
 
     private val mMonthSpinnerList: MutableList<String> = ArrayList()
     private val mYearSpinnerList: MutableList<String> = ArrayList()
@@ -61,11 +61,15 @@ class CalFragment : BaseFragment() {
 
     private fun updateDayView() {
         val pActivity = activity
-        if (mIsShowDayView && pActivity != null) {
+        if (!this::mDayViewData.isInitialized) {
+            mDayViewData = DayViewDataWrapper(0, mCurrentMonthValue, mCurrentYearValue, false)
+        }
+        if (mDayViewData.isShow && pActivity != null) {
             Log.d(TAG, "updateDayView() called")
             hideDayView(pActivity)
-            if (mDayViewMonthValue != mCurrentMonthValue) {
+            if (mDayViewData.currentMonth != mCurrentMonthValue) {
                 return
+                // TODO: change so if month has same date, show that date instead of just hiding
             }
             showDayView(mCellList[mPreviousPosition], pActivity)
         }
@@ -261,7 +265,7 @@ class CalFragment : BaseFragment() {
                     AdapterView.OnItemClickListener {
                             parent, view, position, id ->
                         if (position == mPreviousPosition) {
-                            if (!mIsShowDayView) {
+                            if (!mDayViewData.isShow) {
                                 showDayView(mCellList[position], pActivity)
                             } else {
                                 hideDayView(pActivity)
@@ -292,15 +296,19 @@ class CalFragment : BaseFragment() {
             container.visibility = View.GONE
             entriesRecycler.adapter = null
         }
-        mIsShowDayView = false
+        mDayViewData.hide()
     }
 
     private fun showDayView(cell: CellEntity, context: Context) : Boolean {
         val dayInt = cell.text
         if (dayInt != null && StringHelper.isInteger(dayInt) && Integer.parseInt(dayInt) != 0) {
+            mDayViewData.currentDay = Integer.parseInt(dayInt)
+            mDayViewData.currentMonth = mCurrentMonthValue
+            mDayViewData.currentYear = mCurrentYearValue
+
             val dayString = if (dayInt.length > 1) dayInt else "0$dayInt"
             val query = "${MonthEntity(mCurrentMonthValue).stringValue()} $dayString $mCurrentYearValue"
-            mDayViewMonthValue = mCurrentMonthValue
+            mDayViewData.currentMonth = mCurrentMonthValue
             val entries = fetchDayEntries(query, context)
 
             context as Activity
@@ -338,7 +346,7 @@ class CalFragment : BaseFragment() {
                     entriesRecycler.isNestedScrollingEnabled = false
                 }
             }
-            mIsShowDayView = true
+            mDayViewData.show()
             return true
         }
         return false
