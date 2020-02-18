@@ -1,4 +1,4 @@
-package com.jerrwu.quintic.helpers
+package com.jerrwu.quintic.utils
 
 import android.app.Activity
 import android.content.ContentValues
@@ -10,20 +10,27 @@ import android.database.sqlite.SQLiteQueryBuilder
 import android.widget.Toast
 import com.jerrwu.quintic.BuildConfig
 
-class CalDbHelper(context: Context) : BaseDbHelper(context) {
+class MainDbHelper(context: Context) : BaseDbHelper(context) {
     companion object {
-        const val DB_NAME = "MCal"
-        const val DB_TABLE = "Cal"
+        const val DB_NAME = "MCards"
+        const val DB_TABLE = "Cards"
         const val DB_COL_ID = "ID"
-        const val DB_COL_DATE = "Date"
-        const val DB_COL_ENTRIES = "Entries"
+        const val DB_COL_ICON = "Image"
+        const val DB_COL_TITLE = "Title"
+        const val DB_COL_CONTENT = "Content"
+        const val DB_COL_TIME = "DateTime"
+        const val DB_COL_MOOD = "Mood"
+        const val DB_COL_DATE_EXTERNAL = "Time"
+        const val DB_COL_HOURS = "Hours"
     }
 
-    val dbVersion: Int = BuildConfig.CAL_DATABASE_VERSION
+    val dbVersion: Int = BuildConfig.MAIN_DATABASE_VERSION
 
     val sqlCreateTable =
         "CREATE TABLE IF NOT EXISTS $DB_TABLE (" +
-                "$DB_COL_ID INTEGER PRIMARY KEY, $DB_COL_DATE TEXT, $DB_COL_ENTRIES INTEGER);"
+                "$DB_COL_ID INTEGER PRIMARY KEY, $DB_COL_ICON INTEGER, $DB_COL_TITLE TEXT," +
+                " $DB_COL_CONTENT TEXT, $DB_COL_TIME TEXT, $DB_COL_MOOD TEXT," +
+                " $DB_COL_DATE_EXTERNAL TEXT, $DB_COL_HOURS TEXT);"
 
     private var sqlDb: SQLiteDatabase? = null
 
@@ -43,14 +50,23 @@ class CalDbHelper(context: Context) : BaseDbHelper(context) {
             db?.execSQL(sqlCreateTable)
             if (BuildConfig.DEBUG)
             (context as Activity).runOnUiThread {
-                Toast.makeText(this.context, "Calendar database created!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, "Main database created!", Toast.LENGTH_SHORT).show()
             }
         }
 
         override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+            if (oldVersion < 2) {
+                db?.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_MOOD INTEGER")
+            }
+            if (oldVersion < 3) {
+                db?.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_DATE_EXTERNAL TEXT")
+            }
+            if (oldVersion < 4)  {
+                db?.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_HOURS TEXT")
+            }
             if (BuildConfig.DEBUG)
             (context as Activity).runOnUiThread {
-                Toast.makeText(this.context, "Calendar database upgraded!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, "Main database upgraded!", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -67,7 +83,7 @@ class CalDbHelper(context: Context) : BaseDbHelper(context) {
         val qb = SQLiteQueryBuilder()
         qb.tables = DB_TABLE
         return qb.query(
-            sqlDb, projection, selection, selectionArgs, null, null, null)
+            sqlDb, projection, selection, selectionArgs, null, null, sorOrder)
     }
 
     override fun delete(selection: String, selectionArgs: Array<String>): Int? {

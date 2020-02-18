@@ -7,8 +7,8 @@ import android.content.IntentFilter
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.helpers.InfoHelper
-import com.jerrwu.quintic.helpers.StringHelper
+import com.jerrwu.quintic.utils.UiUtils
+import com.jerrwu.quintic.utils.StringUtils
 import kotlinx.android.synthetic.main.activity_settings.*
 
 
@@ -22,12 +22,12 @@ class SettingsActivity : AppCompatActivity() {
 
     private val mBroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            InfoHelper.showDialog(
-                StringHelper.getString(R.string.confirm_restart_title, context),
-                StringHelper.getString(R.string.confirm_restart, context),
-                StringHelper.getString(R.string.restart_yes, context),
-                StringHelper.getString(R.string.restart_no, context),
-                mActivity, InfoHelper::restartApp, InfoHelper::dismissDialog)
+            UiUtils.showDialog(
+                StringUtils.getString(R.string.confirm_restart_title, context),
+                StringUtils.getString(R.string.confirm_restart, context),
+                StringUtils.getString(R.string.restart_yes, context),
+                StringUtils.getString(R.string.restart_no, context),
+                mActivity, UiUtils::restartApp, UiUtils::dismissDialog)
         }
     }
 

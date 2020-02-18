@@ -1,4 +1,4 @@
-package com.jerrwu.quintic.helpers
+package com.jerrwu.quintic.utils
 
 import android.content.ContentValues
 import android.content.Context

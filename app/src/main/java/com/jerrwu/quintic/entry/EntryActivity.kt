@@ -16,7 +16,7 @@ import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entities.mood.adapter.MoodAdapter
-import com.jerrwu.quintic.helpers.*
+import com.jerrwu.quintic.utils.*
 import kotlinx.android.synthetic.main.activity_entry.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -83,12 +83,12 @@ class EntryActivity : AppCompatActivity() {
         }
 
         entryDeleteButton.setOnClickListener {
-            InfoHelper.showDialog(
-                StringHelper.getString(R.string.confirm_delete_title, this),
-                StringHelper.getString(R.string.confirm_delete, this),
-                StringHelper.getString(R.string.delete_yes, this),
-                StringHelper.getString(R.string.delete_no, this),
-                this, this::deleteEntry, InfoHelper::dismissDialog)
+            UiUtils.showDialog(
+                StringUtils.getString(R.string.confirm_delete_title, this),
+                StringUtils.getString(R.string.confirm_delete, this),
+                StringUtils.getString(R.string.delete_yes, this),
+                StringUtils.getString(R.string.delete_no, this),
+                this, this::deleteEntry, UiUtils::dismissDialog)
         }
 
         entrySaveButton.setOnClickListener {
@@ -205,7 +205,7 @@ class EntryActivity : AppCompatActivity() {
                         mCreatedDate?.monthValue.toString() +
                         mCreatedDate?.dayOfMonth.toString()
 
-                val result = SearchHelper.performCalEntryCountSearch(calDbDate, calDbHelper)
+                val result = SearchUtils.performCalEntryCountSearch(calDbDate, calDbHelper)
                 val entryCount = result[1]
                 val values = ContentValues()
 
@@ -237,7 +237,7 @@ class EntryActivity : AppCompatActivity() {
 
             if (titleText == "") {
                 titleText = mFormatterWeekday.format(mCreatedDate) + " " +
-                        StringHelper.getDaySection(mFormatterHour.format(mCreatedDate), this)
+                        StringUtils.getDaySection(mFormatterHour.format(mCreatedDate), this)
             }
 
             values.put(MainDbHelper.DB_COL_TITLE, titleText)
@@ -246,14 +246,14 @@ class EntryActivity : AppCompatActivity() {
             values.put(MainDbHelper.DB_COL_MOOD, mMood.name)
             values.put(MainDbHelper.DB_COL_DATE_EXTERNAL, mFormatterDb.format(mCreatedDate))
             Log.d("EntryActivity", "DATE_EXTERNAL: " + values.get(MainDbHelper.DB_COL_DATE_EXTERNAL) as String)
-            values.put(MainDbHelper.DB_COL_HOURS, StringHelper.getHours(mCreatedDate?.hour))
+            values.put(MainDbHelper.DB_COL_HOURS, StringUtils.getHours(mCreatedDate?.hour))
 
             // new entry
             if (id == 0) {
                 val dbId = mainDbHelper.insert(values)
 
                 if (calDbHelper != null) {
-                    val result = SearchHelper.performCalEntryCountSearch(calDbDate, calDbHelper)
+                    val result = SearchUtils.performCalEntryCountSearch(calDbDate, calDbHelper)
                     val entryCount = result[1]
                     val values = ContentValues()
 

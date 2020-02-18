@@ -1,4 +1,4 @@
-package com.jerrwu.quintic.helpers
+package com.jerrwu.quintic.utils
 
 import android.app.Activity
 import android.app.Dialog
@@ -14,7 +14,7 @@ import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.main.MainActivity
 
 
-object InfoHelper {
+object UiUtils {
     fun isUsingNightMode(configuration: Configuration): Boolean {
         return when (configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK) {

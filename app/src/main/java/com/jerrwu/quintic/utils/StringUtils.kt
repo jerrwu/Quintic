@@ -1,4 +1,4 @@
-package com.jerrwu.quintic.helpers
+package com.jerrwu.quintic.utils
 
 import android.app.Activity
 import android.content.Context
@@ -12,7 +12,7 @@ import com.jerrwu.quintic.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-object StringHelper {
+object StringUtils {
     fun getString(id: Int, context: Context?): String {
         var string = ""
         if (context != null) {

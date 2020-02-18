@@ -1,11 +1,11 @@
-package com.jerrwu.quintic.helpers
+package com.jerrwu.quintic.utils
 
 import android.content.Context
 import java.io.IOException
 import java.io.InputStream
 import java.nio.charset.Charset
 
-object FileHelper {
+object FileUtils {
 
     fun fromAssetsJson(context: Context, filename: String): String? {
         val json: String?

@@ -27,7 +27,7 @@ import com.jerrwu.quintic.entities.time.DayEntity
 import com.jerrwu.quintic.entities.time.MonthEntity
 import com.jerrwu.quintic.entities.time.YearEntity
 import com.jerrwu.quintic.entry.EntryActivity
-import com.jerrwu.quintic.helpers.*
+import com.jerrwu.quintic.utils.*
 import kotlinx.android.synthetic.main.fragment_cal.*
 import java.time.LocalDate
 
@@ -102,7 +102,7 @@ class CalFragment : BaseFragment() {
                 position: Int,
                 id: Long
             ) {
-                val monthValue = StringHelper.intOfMonth(mMonthSpinnerList[position])
+                val monthValue = StringUtils.intOfMonth(mMonthSpinnerList[position])
                 if (monthValue != mCurrentMonthValue){
                     AsyncTask.execute {
                         onCalSelected(mCurrentYearValue, monthValue)
@@ -132,7 +132,7 @@ class CalFragment : BaseFragment() {
 
             AsyncTask.execute {
                 if (!onCalSelected(newYear, newMonth))
-                    StringHelper.makeSnackbar("Beginning of data!", activity)
+                    StringUtils.makeSnackbar("Beginning of data!", activity)
             }
         }
 
@@ -150,7 +150,7 @@ class CalFragment : BaseFragment() {
 
             AsyncTask.execute {
                 if (!onCalSelected(newYear, newMonth))
-                    StringHelper.makeSnackbar("End of data!", activity)
+                    StringUtils.makeSnackbar("End of data!", activity)
             }
         }
     }
@@ -159,8 +159,8 @@ class CalFragment : BaseFragment() {
         super.onResume()
         AsyncTask.execute {
             val now = LocalDate.now()
-            mYears = Gson().fromJson<List<YearEntity>>(FileHelper.fromAssetsJson(activity as Context, "cal_test.json"),
-                GsonHelper.YearListType)
+            mYears = Gson().fromJson<List<YearEntity>>(FileUtils.fromAssetsJson(activity as Context, "cal_test.json"),
+                GsonUtils.YearListType)
 
             if (mCurrentYearValue == 0 || mCurrentMonthValue == 0) {
                 onCalSelected(now.year, now.monthValue)
@@ -238,7 +238,7 @@ class CalFragment : BaseFragment() {
             val searchDate = mCurrentYearValue.toString() + mCurrentMonthValue.toString() + day.dayOfMonth
             val calDbHelper = activity?.let { CalDbHelper(it) }
             val result = calDbHelper?.let {
-                SearchHelper.performCalEntryCountSearch(searchDate, it)
+                SearchUtils.performCalEntryCountSearch(searchDate, it)
             }
             mCellList.add(CellEntity(day.dayOfMonth.toString(), result?.get(1)))
         }
@@ -301,7 +301,7 @@ class CalFragment : BaseFragment() {
 
     private fun showDayView(cell: CellEntity, context: Context) : Boolean {
         val dayInt = cell.text
-        if (dayInt != null && StringHelper.isInteger(dayInt) && Integer.parseInt(dayInt) != 0) {
+        if (dayInt != null && StringUtils.isInteger(dayInt) && Integer.parseInt(dayInt) != 0) {
             mDayViewData.currentDay = Integer.parseInt(dayInt)
             mDayViewData.currentMonth = mCurrentMonthValue
             mDayViewData.currentYear = mCurrentYearValue
@@ -354,6 +354,6 @@ class CalFragment : BaseFragment() {
 
     private fun fetchDayEntries(date: String, context: Context): List<EntryEntity> {
         val mainDbHelper = MainDbHelper(context)
-        return SearchHelper.performSearch(date, mainDbHelper, MainDbHelper.DB_COL_DATE_EXTERNAL)
+        return SearchUtils.performSearch(date, mainDbHelper, MainDbHelper.DB_COL_DATE_EXTERNAL)
     }
 }

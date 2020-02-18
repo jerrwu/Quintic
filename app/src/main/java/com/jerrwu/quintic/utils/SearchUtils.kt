@@ -1,4 +1,4 @@
-package com.jerrwu.quintic.helpers
+package com.jerrwu.quintic.utils
 
 import android.database.Cursor
 import com.jerrwu.quintic.entities.entry.EntryEntity
@@ -6,7 +6,7 @@ import com.jerrwu.quintic.entities.mood.MoodEntity
 import java.time.LocalDateTime
 
 
-object SearchHelper {
+object SearchUtils {
     const val ORDER_ASCENDING = "ASC"
     const val ORDER_DESCENDING = "DESC"
 

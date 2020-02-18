@@ -19,7 +19,7 @@ import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entry.EntryActivity
-import com.jerrwu.quintic.helpers.*
+import com.jerrwu.quintic.utils.*
 import com.jerrwu.quintic.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_entries.*
@@ -153,11 +153,11 @@ class EntriesFragment : BaseFragment() {
                 if (mAdapter != null) {
                     val items = mAdapter?.mItemsSelected?.toMutableList()
                     if (items != null)
-                    InfoHelper.showDialog(
-                        StringHelper.getString(R.string.confirm_delete_multiple_title, mActivity),
-                        StringHelper.getString(R.string.confirm_delete_multiple, mActivity),
-                        StringHelper.getString(R.string.delete_yes, mActivity),
-                        StringHelper.getString(R.string.delete_no, mActivity),
+                    UiUtils.showDialog(
+                        StringUtils.getString(R.string.confirm_delete_multiple_title, mActivity),
+                        StringUtils.getString(R.string.confirm_delete_multiple, mActivity),
+                        StringUtils.getString(R.string.delete_yes, mActivity),
+                        StringUtils.getString(R.string.delete_no, mActivity),
                         mActivity, this::deleteEntries, items
                     )
                 }
@@ -181,7 +181,7 @@ class EntriesFragment : BaseFragment() {
                         createdDate?.monthValue.toString() +
                         createdDate?.dayOfMonth.toString()
 
-                val result = SearchHelper.performCalEntryCountSearch(calDbDate, calDbHelper)
+                val result = SearchUtils.performCalEntryCountSearch(calDbDate, calDbHelper)
                 val entryCount = result[1]
                 val values = ContentValues()
 
@@ -220,7 +220,7 @@ class EntriesFragment : BaseFragment() {
             val current = LocalDateTime.now()
             val formatter = DateTimeFormatter.ofPattern("HH")
             val curHour: String = current.format(formatter)
-            greetingString = StringHelper.getGreeting(curHour, context)
+            greetingString = StringUtils.getGreeting(curHour, context)
             fragmentEntriesInfoCard.visibility = View.VISIBLE
         } else {
             greetingString = ""

@@ -12,8 +12,8 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.account.AccountActivity
-import com.jerrwu.quintic.helpers.InfoHelper
-import com.jerrwu.quintic.helpers.StringHelper
+import com.jerrwu.quintic.utils.UiUtils
+import com.jerrwu.quintic.utils.StringUtils
 import com.jerrwu.quintic.settings.SettingsActivity
 import kotlinx.android.synthetic.main.nav_sheet.*
 import java.time.LocalDateTime
@@ -43,7 +43,7 @@ class NavSheetFragment : BottomSheetDialogFragment() {
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
 
-        if (InfoHelper.hasNavBar(activity)) {
+        if (UiUtils.hasNavBar(activity)) {
             nav_sheet_layout.setPadding(0,0,0,128)
         }
 
@@ -55,7 +55,7 @@ class NavSheetFragment : BottomSheetDialogFragment() {
             val current = LocalDateTime.now()
             val formatter = DateTimeFormatter.ofPattern("HH")
             val curHour: String =  current.format(formatter)
-            mGreetingString = StringHelper.getGreeting(curHour, context)
+            mGreetingString = StringUtils.getGreeting(curHour, context)
             bottom_sheet_account_text_2.visibility = View.VISIBLE
         } else {
             mGreetingString = ""

@@ -10,14 +10,13 @@ import android.widget.ArrayAdapter
 import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jerrwu.quintic.BuildConfig
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entry.EntryActivity
-import com.jerrwu.quintic.helpers.MainDbHelper
-import com.jerrwu.quintic.helpers.SearchHelper
+import com.jerrwu.quintic.utils.MainDbHelper
+import com.jerrwu.quintic.utils.SearchUtils
 import kotlinx.android.synthetic.main.activity_search.*
 
 
@@ -117,10 +116,10 @@ class SearchActivity : AppCompatActivity() {
         val column = mColumn
         if (dbHelper != null && column != null){
             mSearchResults = if (mUseExact) {
-                SearchHelper.performExactSearch(
-                    searchField.text.toString(), dbHelper, SearchHelper.ORDER_DESCENDING, column)
+                SearchUtils.performExactSearch(
+                    searchField.text.toString(), dbHelper, SearchUtils.ORDER_DESCENDING, column)
             } else {
-                SearchHelper.performSearch(searchField.text.toString(), dbHelper, column)
+                SearchUtils.performSearch(searchField.text.toString(), dbHelper, column)
             }
         }
         val results = mSearchResults
