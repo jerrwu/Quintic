@@ -30,7 +30,8 @@ class EntryAdapter(
 
     var mContext: Context? = null
     var mIsMultiSelect = false
-    var mItemsSelected: ArrayList<EntryEntity> = ArrayList()
+    var mItemsSelected: MutableList<EntryEntity> = ArrayList()
+    var mItemsSelectedIds: MutableList<Int> = ArrayList()
     private var mSelectedBg = R.color.colorQuad  // colorQuad
     private var mUnselectedBg = R.color.colorMain // colorMain
 
@@ -130,10 +131,12 @@ class EntryAdapter(
         if (context != null) {
             if (item.isSelected) {
                 mItemsSelected.remove(item)
+                mItemsSelectedIds.remove(adapterPosition)
                 view.setCardBackgroundColor(ContextCompat.getColor(context, mUnselectedBg))
                 setCardUnselectedTextColor(view)
             } else {
                 mItemsSelected.add(item)
+                mItemsSelectedIds.add(adapterPosition)
                 view.setCardBackgroundColor(ContextCompat.getColor(context, mSelectedBg))
                 setCardSelectedTextColor(view)
             }
@@ -152,6 +155,7 @@ class EntryAdapter(
 
         mIsMultiSelect = true
         mItemsSelected.add(item)
+        mItemsSelectedIds.add(adapterPosition)
         if (context != null) {
             view.setCardBackgroundColor(ContextCompat.getColor(context, mSelectedBg))
         }

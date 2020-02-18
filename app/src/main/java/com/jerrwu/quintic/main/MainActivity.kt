@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             bottomNavigation.selectedItemId = R.id.menu_home
         } else if (currentFragment.mAdapter != null &&
             (currentFragment.mAdapter as EntryAdapter).mIsMultiSelect) {
-            currentFragment.hideSelectionToolbar()
+            currentFragment.hideSelectionToolbar(false)
         } else {
             super.onBackPressed()
         }
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                 val entriesFragment: EntriesFragment = mActiveFragment as EntriesFragment
                 if (entriesFragment.mAdapter != null &&
                     (entriesFragment.mAdapter as EntryAdapter).mIsMultiSelect) {
-                    entriesFragment.hideSelectionToolbar()
+                    entriesFragment.hideSelectionToolbar(false)
                 }
             }
 

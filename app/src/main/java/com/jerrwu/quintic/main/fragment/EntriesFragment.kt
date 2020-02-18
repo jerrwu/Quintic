@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.WorkerThread
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -56,7 +57,7 @@ class EntriesFragment : BaseFragment() {
         toggleEmptyNotices()
 
         resetAdapterSelected()
-        hideSelectionToolbar()
+        hideSelectionToolbar(false)
         mAdapter?.notifyDataSetChanged()
     }
 
@@ -114,9 +115,8 @@ class EntriesFragment : BaseFragment() {
                 true
             }
             mAdapter?.onItemClick = { card, dismissToolbar ->
-                // Toast.makeText(activity, entry_card.id.toString(), Toast.LENGTH_SHORT).show()
                 if (dismissToolbar) {
-                    hideSelectionToolbar()
+                    hideSelectionToolbar(false)
                 } else {
                     val intent = Intent(activity, EntryActivity::class.java)
                     intent.putExtra(MainDbHelper.DB_COL_ID, card.id)
@@ -148,7 +148,7 @@ class EntriesFragment : BaseFragment() {
         if (mActivity != null) {
             mActivity.toolbar_top.visibility = View.GONE
             mActivity.toolbar_multiselect.visibility = View.VISIBLE
-            mActivity.toolbarBackButton.setOnClickListener { hideSelectionToolbar() }
+            mActivity.toolbarBackButton.setOnClickListener { hideSelectionToolbar(false) }
             mActivity.toolbarDeleteButton.setOnClickListener {
                 if (mAdapter != null) {
                     val items = mAdapter?.mItemsSelected?.toMutableList()
@@ -193,24 +193,33 @@ class EntriesFragment : BaseFragment() {
 
                 selectionArgs = arrayOf(item.id.toString())
                 mainDbHelper.delete("ID=?", selectionArgs)
+
+                for (id in mAdapter?.mItemsSelectedIds.orEmpty()) {
+                    mAdapter?.notifyItemRemoved(id)
+                }
             }
         }
         if (activity is MainActivity) {
             (activity as MainActivity).mRefreshCalFragmentGrid = true
         }
-        hideSelectionToolbar()
+        hideSelectionToolbar(true)
         toggleEmptyNotices()
     }
 
-    fun hideSelectionToolbar() {
+    fun hideSelectionToolbar(deleted: Boolean) {
         val activity = activity
         if (activity != null) {
             activity.toolbar_top.visibility = View.VISIBLE
             activity.toolbar_multiselect.visibility = View.GONE
         }
-        loadQuery("%")
+        if (!deleted) {
+            for ((index, id) in mAdapter?.mItemsSelectedIds.orEmpty().withIndex()) {
+                val item = mAdapter?.mItemsSelected?.get(index)
+                item?.isSelected = false
+                mAdapter?.notifyItemChanged(id, item)
+            }
+        }
         resetAdapterSelected()
-        mAdapter?.notifyDataSetChanged()
     }
 
     private fun setInfoCardGreeting(prefs: SharedPreferences) {
@@ -250,6 +259,7 @@ class EntriesFragment : BaseFragment() {
         }
     }
 
+    @WorkerThread
     private fun loadQuery(title: String) {
         if (mMainDbHelper == null && activity != null) {
             mMainDbHelper = MainDbHelper(activity as Context)
@@ -298,6 +308,7 @@ class EntriesFragment : BaseFragment() {
     private fun resetAdapterSelected() {
         if (mAdapter != null && mAdapter is EntryAdapter) {
             mAdapter?.mItemsSelected?.clear()
+            mAdapter?.mItemsSelectedIds?.clear()
             mAdapter?.mIsMultiSelect = false
         }
     }
