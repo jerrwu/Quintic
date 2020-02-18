@@ -240,6 +240,7 @@ class EntriesFragment : BaseFragment() {
         }
         hideSelectionToolbar(true)
         toggleEmptyNotices()
+        loadQuery("%")
     }
 
     fun hideSelectionToolbar(deleted: Boolean) {
