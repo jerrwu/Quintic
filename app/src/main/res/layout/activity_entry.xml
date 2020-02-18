@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/EntryActivityRoot"
+    android:id="@+id/activity_entry_root"
     android:animateLayoutChanges="true"
     android:background="@color/colorMain"
     android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         android:minHeight="?attr/actionBarSize">
 
         <ImageButton
-            android:id="@+id/entryBackButton"
+            android:id="@+id/entry_back_button"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -28,7 +28,7 @@
             app:srcCompat="@drawable/ic_back" />
 
         <TextView
-            android:id="@+id/entryActivityTopText"
+            android:id="@+id/entry_activity_top_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/productsansmedium"
@@ -40,7 +40,7 @@
 
         <ImageButton
             android:layout_marginEnd="16dp"
-            android:id="@+id/entrySaveButton"
+            android:id="@+id/entry_save_button"
             android:layout_gravity="end"
             android:layout_width="36dp"
             android:layout_height="36dp"
@@ -51,7 +51,7 @@
 
         <ImageButton
             android:layout_marginEnd="8dp"
-            android:id="@+id/entryDeleteButton"
+            android:id="@+id/entry_delete_button"
             android:layout_gravity="end"
             android:layout_width="36dp"
             android:layout_height="36dp"
@@ -65,7 +65,7 @@
     <RelativeLayout
         android:padding="16dp"
         android:id="@+id/container_entry"
-        android:layout_above="@id/moodSelectionContainer"
+        android:layout_above="@id/mood_selection_container"
         android:layout_below="@id/toolbar_entry"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -74,7 +74,7 @@
             android:maxLines="3"
             android:inputType="textMultiLine"
             android:layout_marginBottom="8dp"
-            android:id="@+id/entryTitleEditText"
+            android:id="@+id/entry_title_edit_text"
             android:padding="8dp"
             android:hint="@string/title"
             android:textColor="@color/colorFont"
@@ -88,10 +88,10 @@
         <ImageView
             android:layout_marginTop="2dp"
             android:layout_marginStart="4dp"
-            android:id="@+id/entryActivityMoodIcon"
-            android:layout_alignBottom="@id/entryTitleEditText"
-            android:layout_alignTop="@id/entryTitleEditText"
-            android:layout_toEndOf="@id/entryTitleEditText"
+            android:id="@+id/entry_activity_mood_icon"
+            android:layout_alignBottom="@id/entry_title_edit_text"
+            android:layout_alignTop="@id/entry_title_edit_text"
+            android:layout_toEndOf="@id/entry_title_edit_text"
             android:layout_width="24dp"
             android:layout_height="24dp" />
 
@@ -101,8 +101,8 @@
             android:textColor="@color/colorSecondary"
             android:fontFamily="@font/productsansregular"
             android:textSize="17sp"
-            android:id="@+id/entryDateTimeView"
-            android:layout_below="@id/entryTitleEditText"
+            android:id="@+id/entry_datetime_text"
+            android:layout_below="@id/entry_title_edit_text"
             android:layout_width="match_parent"
             android:layout_height="26dp"/>
 
@@ -112,7 +112,7 @@
             app:strokeWidth="1.5dp"
             app:strokeColor="@color/colorTertiary"
             app:cardCornerRadius="8dp"
-            android:layout_below="@id/entryDateTimeView"
+            android:layout_below="@id/entry_datetime_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -125,7 +125,7 @@
                 android:inputType="textMultiLine"
                 android:hint="@string/content"
                 android:background="@color/colorMain"
-                android:id="@+id/entryContentEditText"
+                android:id="@+id/entry_context_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -134,7 +134,7 @@
     </RelativeLayout>
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/moodSelectionContainer"
+        android:id="@+id/mood_selection_container"
         android:paddingBottom="8dp"
         android:layout_marginBottom="-8dp"
         android:theme="@style/ToolbarColored"
@@ -149,7 +149,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:scrollbars="none"
-            android:id="@+id/moodRecyclerView"
+            android:id="@+id/mood_recycler_view"
             android:orientation="horizontal"
             android:nestedScrollingEnabled="true"
             android:layout_gravity="center"
@@ -170,7 +170,7 @@
         android:background="@drawable/rounded_bottom_sheet">
 
         <ImageButton
-            android:id="@+id/imageAddButton"
+            android:id="@+id/image_add_button"
             android:layout_gravity="start|center_vertical"
             android:tint="@color/colorSupport"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -188,7 +188,7 @@
             android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/moodAddButton"
+                android:id="@+id/mood_add_button"
                 android:tint="@color/colorSupport"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 app:srcCompat="@drawable/ic_head_plus_outline"
@@ -201,7 +201,7 @@
 
             <ImageButton
                 android:visibility="gone"
-                android:id="@+id/moodAddCancelButton"
+                android:id="@+id/mood_add_cancel_button"
                 android:tint="@color/colorSupport"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 app:srcCompat="@drawable/ic_head_remove_outline"
@@ -215,7 +215,7 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/activityEntryBottomText"
+            android:id="@+id/activity_entry_bottom_text"
             android:layout_gravity="center"
             android:textSize="14sp"
             android:textColor="@color/colorSupport"

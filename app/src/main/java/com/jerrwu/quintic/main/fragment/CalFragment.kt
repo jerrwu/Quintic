@@ -94,7 +94,7 @@ class CalFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fragmentCalSelectionSpinner.onItemSelectedListener = object:
+        fragment_cal_month_spinner.onItemSelectedListener = object:
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parentView: AdapterView<*>?,
@@ -114,11 +114,11 @@ class CalFragment : BaseFragment() {
             }
         }
 
-        selectorBox.setOnClickListener {
-            fragmentCalSelectionSpinner.performClick()
+        selector_box.setOnClickListener {
+            fragment_cal_month_spinner.performClick()
         }
 
-        fragmentCalBtnBackward.setOnClickListener {
+        fragment_cal_button_backward.setOnClickListener {
             val newYear: Int
             val newMonth: Int
 
@@ -136,7 +136,7 @@ class CalFragment : BaseFragment() {
             }
         }
 
-        fragmentCalBtnForward.setOnClickListener {
+        fragment_cal_button_forward.setOnClickListener {
             val newYear: Int
             val newMonth: Int
 
@@ -183,7 +183,7 @@ class CalFragment : BaseFragment() {
 
             val spinnerAdapter = CalSpinnerAdapter(context, mMonthSpinnerList)
 
-            val monthSpinner = activity?.findViewById<Spinner>(R.id.fragmentCalSelectionSpinner)
+            val monthSpinner = activity?.findViewById<Spinner>(R.id.fragment_cal_month_spinner)
             activity?.runOnUiThread {
                 monthSpinner?.adapter = spinnerAdapter
             }
@@ -251,10 +251,10 @@ class CalFragment : BaseFragment() {
 
         val pActivity = activity
         if (pActivity != null) {
-            val gridView = pActivity.findViewById<GridView>(R.id.calGrid)
-            val monthText = pActivity.findViewById<TextView>(R.id.fragmentCalMonthSelectText)
-            val yearText = pActivity.findViewById<TextView>(R.id.fragmentCalYearText)
-            val monthSpinner = pActivity.findViewById<Spinner>(R.id.fragmentCalSelectionSpinner)
+            val gridView = pActivity.findViewById<GridView>(R.id.cal_grid)
+            val monthText = pActivity.findViewById<TextView>(R.id.fragment_cal_month_select_text)
+            val yearText = pActivity.findViewById<TextView>(R.id.fragment_cal_year_text)
+            val monthSpinner = pActivity.findViewById<Spinner>(R.id.fragment_cal_month_spinner)
 
             pActivity.runOnUiThread {
                 gridView.adapter = mAdapter

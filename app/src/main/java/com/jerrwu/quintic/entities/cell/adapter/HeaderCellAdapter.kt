@@ -33,7 +33,7 @@ class HeaderCellAdapter(
             if (cell.text == "" || cell.text == "0") {
                 cellView.isClickable = false
             } else {
-                cellView.headerGridCellText.text = cell.text
+                cellView.header_grid_cell_text.text = cell.text
             }
         }
 

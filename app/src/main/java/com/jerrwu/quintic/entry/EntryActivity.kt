@@ -1,9 +1,7 @@
 package com.jerrwu.quintic.entry
 
-import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
-import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
@@ -58,35 +56,35 @@ class EntryActivity : AppCompatActivity() {
         mMainDbHelper = MainDbHelper(this)
         mCalDbHelper = CalDbHelper(this)
 
-        entryDateTimeView.visibility = View.GONE
+        entry_datetime_text.visibility = View.GONE
 
         val bundle: Bundle? = intent.extras
         if (bundle != null) {
             id = bundle.getInt(MainDbHelper.DB_COL_ID, 0)
             if (id!=0){
-                entryTitleEditText.setText(bundle.getString(MainDbHelper.DB_COL_TITLE))
-                entryContentEditText.setText(bundle.getString(MainDbHelper.DB_COL_CONTENT))
+                entry_title_edit_text.setText(bundle.getString(MainDbHelper.DB_COL_TITLE))
+                entry_context_edittext.setText(bundle.getString(MainDbHelper.DB_COL_CONTENT))
                 mCreatedDate = LocalDateTime.parse(bundle.getString(MainDbHelper.DB_COL_TIME))
                 mMood = MoodEntity.parse(bundle.getInt(MainDbHelper.DB_COL_MOOD))
                 mPos = bundle.getInt("pos")
                 val dateString = getString(R.string.created_on) + mFormatterDate.format(mCreatedDate)
-                entryDateTimeView.text = dateString
-                entryDateTimeView.visibility = View.VISIBLE
-                entryActivityTopText.text = resources.getText(R.string.edit_entry)
+                entry_datetime_text.text = dateString
+                entry_datetime_text.visibility = View.VISIBLE
+                entry_activity_top_text.text = resources.getText(R.string.edit_entry)
             }
         }
 
-        activityEntryBottomText.text = "Bottom Text"
+        activity_entry_bottom_text.text = "Bottom Text"
 
-        entryBackButton.setOnClickListener {
+        entry_back_button.setOnClickListener {
             finish()
         }
 
-        imageAddButton.setOnClickListener {
+        image_add_button.setOnClickListener {
             Toast.makeText(this, "Not implemented!", Toast.LENGTH_SHORT).show()
         }
 
-        entryDeleteButton.setOnClickListener {
+        entry_delete_button.setOnClickListener {
             UiUtils.showDialog(
                 StringUtils.getString(R.string.confirm_delete_title, this),
                 StringUtils.getString(R.string.confirm_delete, this),
@@ -95,19 +93,19 @@ class EntryActivity : AppCompatActivity() {
                 this, this::deleteEntry, UiUtils::dismissDialog)
         }
 
-        entrySaveButton.setOnClickListener {
+        entry_save_button.setOnClickListener {
             updateEntry()
         }
-        entrySaveButton.isEnabled = false
+        entry_save_button.isEnabled = false
 
-        moodAddButton.setOnClickListener { toggleMoodSelector() }
-        moodAddCancelButton.setOnClickListener { toggleMoodSelector() }
+        mood_add_button.setOnClickListener { toggleMoodSelector() }
+        mood_add_cancel_button.setOnClickListener { toggleMoodSelector() }
 
         val moodList = ConstantLists.moodSelectorOptions
 
         mAdapter = MoodAdapter(moodList, this, mMood)
-        moodRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        moodRecyclerView.adapter = mAdapter
+        mood_recycler_view.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        mood_recycler_view.adapter = mAdapter
 
         mAdapter?.onItemClick = { mood ->
             onMoodUpdated(mood)
@@ -115,7 +113,7 @@ class EntryActivity : AppCompatActivity() {
 
         setMoodIcon()
 
-        entryContentEditText.addTextChangedListener(object : TextWatcher {
+        entry_context_edittext.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -125,7 +123,7 @@ class EntryActivity : AppCompatActivity() {
             }
         })
 
-        entryTitleEditText.addTextChangedListener(object : TextWatcher {
+        entry_title_edit_text.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
 
@@ -142,8 +140,8 @@ class EntryActivity : AppCompatActivity() {
 
     private fun setMoodIcon() {
         if (mMood != MoodEntity.NONE) {
-            entryActivityMoodIcon.setImageResource(mMood.icFilled)
-            entryActivityMoodIcon.setColorFilter(ContextCompat.getColor(applicationContext, mMood.color), PorterDuff.Mode.SRC_ATOP)
+            entry_activity_mood_icon.setImageResource(mMood.icFilled)
+            entry_activity_mood_icon.setColorFilter(ContextCompat.getColor(applicationContext, mMood.color), PorterDuff.Mode.SRC_ATOP)
         }
     }
 
@@ -162,14 +160,14 @@ class EntryActivity : AppCompatActivity() {
 
     private fun toggleMoodSelector() {
         if (mIsSelectorOpen) {
-            moodSelectionContainer.visibility = View.GONE
-            moodAddButton.visibility = View.VISIBLE
-            moodAddCancelButton.visibility = View.GONE
+            mood_selection_container.visibility = View.GONE
+            mood_add_button.visibility = View.VISIBLE
+            mood_add_cancel_button.visibility = View.GONE
             mIsSelectorOpen = false
         } else {
-            moodSelectionContainer.visibility = View.VISIBLE
-            moodAddButton.visibility = View.GONE
-            moodAddCancelButton.visibility = View.VISIBLE
+            mood_selection_container.visibility = View.VISIBLE
+            mood_add_button.visibility = View.GONE
+            mood_add_cancel_button.visibility = View.VISIBLE
             mIsSelectorOpen = true
         }
     }
@@ -180,17 +178,17 @@ class EntryActivity : AppCompatActivity() {
 
     private fun toggleSaveButton(s: String?) {
         if (s?.length != 0) {
-                    entrySaveButton.isEnabled = true
+                    entry_save_button.isEnabled = true
 
-                    entrySaveButton.setColorFilter(
+                    entry_save_button.setColorFilter(
                         ContextCompat.getColor(this@EntryActivity, R.color.green),
                         PorterDuff.Mode.SRC_ATOP)
                 }
 
                 else {
-                    entrySaveButton.isEnabled = false
+                    entry_save_button.isEnabled = false
 
-                    entrySaveButton.setColorFilter(
+                    entry_save_button.setColorFilter(
                         ContextCompat.getColor(this@EntryActivity, R.color.colorTertiary),
                         PorterDuff.Mode.SRC_ATOP)
                 }
@@ -244,8 +242,8 @@ class EntryActivity : AppCompatActivity() {
 
         if (mainDbHelper != null) {
             val values = ContentValues()
-            var titleText = entryTitleEditText.text.toString()
-            val conText = entryContentEditText.text.toString()
+            var titleText = entry_title_edit_text.text.toString()
+            val conText = entry_context_edittext.text.toString()
 
             if (titleText == "") {
                 titleText = mFormatterWeekday.format(mCreatedDate) + " " +

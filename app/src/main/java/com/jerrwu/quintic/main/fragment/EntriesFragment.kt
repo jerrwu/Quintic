@@ -1,13 +1,11 @@
 package com.jerrwu.quintic.main.fragment
 
 
-import android.app.Activity.RESULT_OK
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -105,19 +103,19 @@ class EntriesFragment : BaseFragment() {
         setInfoCardName(prefs)
         infoCardNameRem(prefs)
 
-        nameRemButton.setOnClickListener {
+        name_rem_button.setOnClickListener {
             val intent = Intent(activity, AccountActivity::class.java)
             startActivity(intent)
         }
 
-        nameRemDismissButton.setOnClickListener {
+        name_rem_dismiss_button.setOnClickListener {
             val editor = prefs.edit()
             editor.putBoolean("setNameRem", false)
             editor.apply()
             infoCardNameRem(prefs)
         }
 
-        dailySuggestionCard.setOnClickListener {
+        daily_suggestion_card.setOnClickListener {
             val intent = Intent(context, EntryActivity::class.java)
             startActivity(intent)
         }
@@ -184,8 +182,8 @@ class EntriesFragment : BaseFragment() {
         if (mActivity != null) {
             mActivity.toolbar_top.visibility = View.GONE
             mActivity.toolbar_multiselect.visibility = View.VISIBLE
-            mActivity.toolbarBackButton.setOnClickListener { hideSelectionToolbar(false) }
-            mActivity.toolbarDeleteButton.setOnClickListener {
+            mActivity.toolbar_back_button.setOnClickListener { hideSelectionToolbar(false) }
+            mActivity.toolbar_delete_button.setOnClickListener {
                 if (mAdapter != null) {
                     val items = mAdapter?.mItemsSelected?.toMutableList()
                     if (items != null)
@@ -267,32 +265,32 @@ class EntriesFragment : BaseFragment() {
             val formatter = DateTimeFormatter.ofPattern("HH")
             val curHour: String = current.format(formatter)
             greetingString = StringUtils.getGreeting(curHour, context)
-            fragmentEntriesInfoCard.visibility = View.VISIBLE
+            fragmen_entries_info_card.visibility = View.VISIBLE
         } else {
             greetingString = ""
-            fragmentEntriesInfoCard.visibility = View.GONE
+            fragmen_entries_info_card.visibility = View.GONE
         }
-        infoCardGreeting.text = greetingString.replace("!", ",")
+        info_card_greeting.text = greetingString.replace("!", ",")
     }
 
     private fun setInfoCardName(prefs: SharedPreferences) {
         val nameString: String? = prefs.getString("name", "user")
-        infoCardName.text = nameString
+        info_card_name.text = nameString
     }
 
     private fun infoCardNameRem(prefs: SharedPreferences) {
         val remBool: Boolean = prefs.getBoolean("setNameRem", false)
         if (remBool) {
-            infoCardGreetingType.visibility = View.GONE
-            infoCardRemType.visibility = View.VISIBLE
-            infoCardGreetingIcon.visibility = View.GONE
-            infoCardReminderIcon.visibility = View.VISIBLE
+            info_card_greeting_type.visibility = View.GONE
+            info_card_rem_type.visibility = View.VISIBLE
+            info_card_greeting_icon.visibility = View.GONE
+            info_card_reminder_icon.visibility = View.VISIBLE
         }
         else {
-            infoCardGreetingType.visibility = View.VISIBLE
-            infoCardRemType.visibility = View.GONE
-            infoCardGreetingIcon.visibility = View.VISIBLE
-            infoCardReminderIcon.visibility = View.GONE
+            info_card_greeting_type.visibility = View.VISIBLE
+            info_card_rem_type.visibility = View.GONE
+            info_card_greeting_icon.visibility = View.VISIBLE
+            info_card_reminder_icon.visibility = View.GONE
         }
     }
 

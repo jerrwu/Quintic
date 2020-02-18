@@ -33,8 +33,8 @@ class MoodAdapter(
         holder.moodIcon.setImageResource(mood.icOutline)
         if (mood == selected) {
             holder.moodIndicator.setColorFilter(ContextCompat.getColor(mContext, mood.color), PorterDuff.Mode.SRC_ATOP)
-            holder.moodIndicator.moodSelectedIndicator.visibility = View.VISIBLE
-        } else { holder.moodIndicator.moodSelectedIndicator.visibility = View.GONE }
+            holder.moodIndicator.mood_selected_indicator.visibility = View.VISIBLE
+        } else { holder.moodIndicator.mood_selected_indicator.visibility = View.GONE }
     }
 
     override fun getItemCount(): Int {
@@ -42,8 +42,8 @@ class MoodAdapter(
     }
 
     inner class MoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal var moodIcon: ImageView = itemView.findViewById(R.id.moodIcon)
-        internal var moodIndicator: ImageView = itemView.findViewById(R.id.moodSelectedIndicator)
+        internal var moodIcon: ImageView = itemView.findViewById(R.id.mood_icon)
+        internal var moodIndicator: ImageView = itemView.findViewById(R.id.mood_selected_indicator)
 
         init {
             itemView.setOnClickListener {

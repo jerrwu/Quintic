@@ -19,7 +19,7 @@
             android:layout_height="38dp" />
 
         <TextView
-            android:id="@+id/monthCardMiniTextView"
+            android:id="@+id/month_card_mini_textview"
             android:textColor="@color/colorSecondary"
             android:textStyle="italic|bold"
             android:layout_marginTop="1dp"
@@ -43,7 +43,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/monthCardTextView"
+            android:id="@+id/month_card_textview"
             android:layout_gravity="center_vertical"
             android:textSize="16sp"
             android:textColor="@color/colorFont"

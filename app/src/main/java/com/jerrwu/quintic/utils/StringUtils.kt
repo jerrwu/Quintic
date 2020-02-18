@@ -158,7 +158,7 @@ object StringUtils {
             val snackbar = Snackbar.make(activity.findViewById(android.R.id.content), text, Snackbar.LENGTH_SHORT)
             snackbar.apply { view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
                 setMargins(
-                    leftMargin, topMargin, rightMargin, (activity as MainActivity).bottomNavigation.height)} }
+                    leftMargin, topMargin, rightMargin, (activity as MainActivity).bottom_navigation.height)} }
             snackbar.view.elevation = 0F
 
             val textView= snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)

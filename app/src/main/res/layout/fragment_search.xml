@@ -21,44 +21,44 @@
             android:fontFamily="@font/productsansmedium"
             android:textColor="@color/colorSecondary"
             android:text="@string/mood"
-            android:id="@+id/searchSectionMoodText"
+            android:id="@+id/search_section_mood_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <androidx.recyclerview.widget.RecyclerView
             tools:listitem="@layout/mood_category_card"
-            android:layout_below="@id/searchSectionMoodText"
+            android:layout_below="@id/search_section_mood_text"
             android:scrollbars="none"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:paddingTop="14dp"
             android:paddingBottom="14dp"
-            android:id="@+id/moodSearchCarousel"
+            android:id="@+id/mood_search_carousel"
             android:layout_width="match_parent"
             android:layout_height="156dp" />
 
         <TextView
             android:textAllCaps="true"
-            android:layout_below="@id/moodSearchCarousel"
+            android:layout_below="@id/mood_search_carousel"
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:textSize="12sp"
             android:fontFamily="@font/productsansmedium"
             android:textColor="@color/colorSecondary"
             android:text="@string/time_of_day"
-            android:id="@+id/searchSectionHoursText"
+            android:id="@+id/search_section_hours_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <androidx.recyclerview.widget.RecyclerView
             tools:listitem="@layout/hours_category_card"
-            android:layout_below="@id/searchSectionHoursText"
+            android:layout_below="@id/search_section_hours_text"
             android:scrollbars="none"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:paddingTop="14dp"
             android:paddingBottom="14dp"
-            android:id="@+id/hoursSearchCarousel"
+            android:id="@+id/hours_search_carousel"
             android:layout_width="match_parent"
             android:layout_height="156dp" />
 
@@ -68,18 +68,18 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             android:textSize="12sp"
-            android:layout_below="@id/hoursSearchCarousel"
+            android:layout_below="@id/hours_search_carousel"
             android:fontFamily="@font/productsansmedium"
             android:textColor="@color/colorSecondary"
             android:text="@string/recent_months"
-            android:id="@+id/searchSectionMonthText"
+            android:id="@+id/search_section_month_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <androidx.recyclerview.widget.RecyclerView
             tools:listitem="@layout/month_category_card"
-            android:id="@+id/monthSearchRecycler"
-            android:layout_below="@id/searchSectionMonthText"
+            android:id="@+id/month_search_recycler"
+            android:layout_below="@id/search_section_month_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

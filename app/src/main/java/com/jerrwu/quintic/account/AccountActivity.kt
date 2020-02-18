@@ -21,29 +21,29 @@ class AccountActivity : AppCompatActivity() {
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
 
-        accountBackButton.setOnClickListener {
+        account_back_button.setOnClickListener {
             finish()
         }
 
-        accountSaveButton.setOnClickListener {
+        account_save_button.setOnClickListener {
             val editor = prefs.edit()
-            editor.putString("name", accountEditText.text.toString())
+            editor.putString("name", account_edit_text.text.toString())
             editor.putBoolean("setNameRem", false)
             editor.apply()
             finish()
         }
-        accountSaveButton.isClickable = false
+        account_save_button.isClickable = false
 
-        accountEditText.addTextChangedListener(object : TextWatcher{
+        account_edit_text.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(s: Editable?) {}
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s?.length != 0) {
-                    accountSaveButton.isClickable = true
+                    account_save_button.isClickable = true
 
-                    accountSaveButton.backgroundTintList =
+                    account_save_button.backgroundTintList =
                         ContextCompat.getColorStateList(this@AccountActivity,
                             R.color.colorAccent
                         )
@@ -58,9 +58,9 @@ class AccountActivity : AppCompatActivity() {
                 }
 
                 else {
-                    accountSaveButton.isClickable = false
+                    account_save_button.isClickable = false
 
-                    accountSaveButton.backgroundTintList =
+                    account_save_button.backgroundTintList =
                         ContextCompat.getColorStateList(this@AccountActivity,
                             R.color.colorQuad
                         )

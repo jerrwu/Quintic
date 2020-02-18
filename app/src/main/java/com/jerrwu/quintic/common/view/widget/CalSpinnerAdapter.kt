@@ -33,7 +33,7 @@ class CalSpinnerAdapter(
             false
         )
 
-        view.calSpinnerTextView.text = text
+        view.cal_spinner_textview.text = text
         return view
     }
 

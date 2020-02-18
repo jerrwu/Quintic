@@ -4,7 +4,7 @@
     android:layout_height="36dp"
     android:clickable="true"
     android:focusable="true"
-    android:id="@+id/calCell"
+    android:id="@+id/cal_cell"
     android:paddingBottom="6dp"
     android:gravity="center_horizontal|bottom"
     android:backgroundTint="@color/colorButton"
@@ -15,7 +15,7 @@
         android:textColor="@color/colorTertiary"
         android:textSize="13sp"
         android:fontFamily="@font/productsansmedium"
-        android:id="@+id/headerGridCellText"
+        android:id="@+id/header_grid_cell_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

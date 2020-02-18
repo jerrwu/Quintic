@@ -12,7 +12,7 @@
 
     <CheckedTextView
         android:clickable="false"
-        android:id="@+id/calSpinnerTextView"
+        android:id="@+id/cal_spinner_textview"
         android:elevation="3dp"
         android:layout_width="match_parent"
         android:layout_height="42dp"

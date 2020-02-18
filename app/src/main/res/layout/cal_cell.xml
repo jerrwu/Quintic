@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:paddingTop="6dp"
-    android:id="@+id/calCell"
+    android:id="@+id/cal_cell"
     android:gravity="center_horizontal|top"
     android:backgroundTint="@color/colorButton"
     android:background="@drawable/round_less_button_ripple">
@@ -16,12 +16,12 @@
         android:textSize="14sp"
         android:clickable="false"
         android:fontFamily="@font/productsansmedium"
-        android:id="@+id/gridCellText"
+        android:id="@+id/grid_cell_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <ImageView
-        android:id="@+id/cellIndicator"
+        android:id="@+id/cell_indicator"
         android:tint="@color/colorFont"
         android:layout_width="12dp"
         android:clickable="false"

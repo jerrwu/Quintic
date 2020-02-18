@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val currentFragment = mActiveFragment
         if (currentFragment !is EntriesFragment) {
-            bottomNavigation.selectedItemId = R.id.menu_home
+            bottom_navigation.selectedItemId = R.id.menu_home
         } else if (currentFragment.mAdapter != null &&
             (currentFragment.mAdapter as EntryAdapter).mIsMultiSelect) {
             currentFragment.hideSelectionToolbar(false)
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                         .commit()
                     mActiveFragment = mEntriesFragment
                     fab.show()
-                    searchButton.visibility = View.GONE
+                    search_button.visibility = View.GONE
                     return@OnNavigationItemSelectedListener true
                 }
 
@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                         .show(mSearchFragment)
                         .commit()
                     mActiveFragment = mSearchFragment
-                    searchButton.visibility = View.VISIBLE
+                    search_button.visibility = View.VISIBLE
                     fab.hide()
                     return@OnNavigationItemSelectedListener true
                 }
@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
                         .show(mCalFragment)
                         .commit()
                     mActiveFragment = mCalFragment
-                    searchButton.visibility = View.GONE
+                    search_button.visibility = View.GONE
                     fab.hide()
                     if (mRefreshCalFragmentGrid) {
                         mCalFragment.onFragmentShown()
@@ -145,14 +145,14 @@ class MainActivity : AppCompatActivity() {
         mFragmentManager.beginTransaction().add(R.id.frag_container, mSearchFragment, "2").hide(mSearchFragment).commit()
         mFragmentManager.beginTransaction().add(R.id.frag_container, mEntriesFragment, "1").commit()
 
-        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        bottomNavigation.selectedItemId = R.id.menu_home
+        bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        bottom_navigation.selectedItemId = R.id.menu_home
 
-        accountButton.setOnClickListener {
+        account_button.setOnClickListener {
             showBottomSheetDialogFragment()
         }
 
-        searchButton.setOnClickListener {
+        search_button.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
             startActivity(intent)
         }
@@ -176,19 +176,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun enableLayoutNavScrollBehaviour() {
-        val param1: CoordinatorLayout.LayoutParams = bottomNavigation.layoutParams as CoordinatorLayout.LayoutParams
+        val param1: CoordinatorLayout.LayoutParams = bottom_navigation.layoutParams as CoordinatorLayout.LayoutParams
         param1.behavior = HideBottomViewOnScrollBehavior<CoordinatorLayout>()
         val param2: CoordinatorLayout.LayoutParams = fab.layoutParams as CoordinatorLayout.LayoutParams
         param2.behavior = HideBottomViewOnScrollBehavior<CoordinatorLayout>()
-        mainPaddingBottom.visibility = View.GONE
+        main_padding_bottom.visibility = View.GONE
     }
 
     private fun disableLayoutNavScrollBehaviour() {
-        val param1: CoordinatorLayout.LayoutParams = bottomNavigation.layoutParams as CoordinatorLayout.LayoutParams
+        val param1: CoordinatorLayout.LayoutParams = bottom_navigation.layoutParams as CoordinatorLayout.LayoutParams
         param1.behavior = null
         val param2: CoordinatorLayout.LayoutParams = fab.layoutParams as CoordinatorLayout.LayoutParams
         param2.behavior = null
-        mainPaddingBottom.visibility = View.VISIBLE
+        main_padding_bottom.visibility = View.VISIBLE
     }
 
     private fun setLayoutToolbarScrollBehaviour(sharedPreferences: SharedPreferences) {
@@ -204,13 +204,13 @@ class MainActivity : AppCompatActivity() {
         val param1: AppBarLayout.LayoutParams = toolbar_top.layoutParams as AppBarLayout.LayoutParams
         param1.scrollFlags =
             AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
-        mainPaddingTop.visibility = View.GONE
+        main_padding_top.visibility = View.GONE
     }
 
     private fun disableLayoutToolbarScrollBehaviour() {
         val param1: AppBarLayout.LayoutParams = toolbar_top.layoutParams as AppBarLayout.LayoutParams
         param1.scrollFlags = 0
-        mainPaddingTop.visibility = View.VISIBLE
+        main_padding_top.visibility = View.VISIBLE
     }
 }
 

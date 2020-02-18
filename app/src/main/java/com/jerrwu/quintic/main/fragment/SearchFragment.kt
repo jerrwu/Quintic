@@ -60,7 +60,7 @@ class SearchFragment : BaseFragment() {
 
         if (pContext != null) {
             mMoodAdapter = SearchMoodAdapter(moodList, pContext)
-            val recycler = (pContext as Activity).findViewById<RecyclerView>(R.id.moodSearchCarousel)
+            val recycler = (pContext as Activity).findViewById<RecyclerView>(R.id.mood_search_carousel)
             pContext.runOnUiThread {
                 recycler.layoutManager =
                     LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
@@ -84,7 +84,7 @@ class SearchFragment : BaseFragment() {
 
         if (pContext != null) {
             mHoursAdapter = SearchHoursAdapter(hoursList, pContext)
-            val recycler = (pContext as Activity).findViewById<RecyclerView>(R.id.hoursSearchCarousel)
+            val recycler = (pContext as Activity).findViewById<RecyclerView>(R.id.hours_search_carousel)
             pContext.runOnUiThread {
                 recycler.layoutManager =
                     LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
@@ -115,7 +115,7 @@ class SearchFragment : BaseFragment() {
         if (pContext != null) {
             mMonthAdapter = SearchMonthAdapter(monthList, pContext)
             mMonthAdapter?.setHasStableIds(true)
-            val recycler = (pContext as Activity).findViewById<RecyclerView>(R.id.monthSearchRecycler)
+            val recycler = (pContext as Activity).findViewById<RecyclerView>(R.id.month_search_recycler)
             pContext.runOnUiThread {
                 recycler.layoutManager = LinearLayoutManager(activity)
                 recycler.adapter = mMonthAdapter

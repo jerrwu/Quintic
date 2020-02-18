@@ -45,13 +45,13 @@ object UiUtils {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.custom_dialogue)
-        val title = dialog.findViewById(R.id.dialogueTitle) as TextView
+        val title = dialog.findViewById(R.id.dialog_title) as TextView
         title.text = titleString
-        val body = dialog.findViewById(R.id.dialogueBody) as TextView
+        val body = dialog.findViewById(R.id.dialog_body) as TextView
         body.text = bodyString
-        val yesBtn = dialog.findViewById(R.id.yesBtn) as Button
+        val yesBtn = dialog.findViewById(R.id.yes_button) as Button
         yesBtn.text = textYes
-        val noBtn = dialog.findViewById(R.id.noBtn) as Button
+        val noBtn = dialog.findViewById(R.id.no_button) as Button
         noBtn.text = textNo
         if (textYes == "") { yesBtn.visibility = View.GONE }
         yesBtn.setOnClickListener {
@@ -69,13 +69,13 @@ object UiUtils {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.custom_dialogue)
-        val title = dialog.findViewById(R.id.dialogueTitle) as TextView
+        val title = dialog.findViewById(R.id.dialog_title) as TextView
         title.text = titleString
-        val body = dialog.findViewById(R.id.dialogueBody) as TextView
+        val body = dialog.findViewById(R.id.dialog_body) as TextView
         body.text = bodyString
-        val yesBtn = dialog.findViewById(R.id.yesBtn) as Button
+        val yesBtn = dialog.findViewById(R.id.yes_button) as Button
         yesBtn.text = textYes
-        val noBtn = dialog.findViewById(R.id.noBtn) as Button
+        val noBtn = dialog.findViewById(R.id.no_button) as Button
         noBtn.text = textNo
         if (textYes == "") { yesBtn.visibility = View.GONE }
         yesBtn.setOnClickListener { if (funYes != null) funYes(activity) }

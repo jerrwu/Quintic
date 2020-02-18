@@ -52,20 +52,20 @@ open class CellAdapter(
                 if (cell.text in ConstantLists.calHeaders) {
                     // header text
                     cellView.isClickable = false
-                    cellView.gridCellText.setTextColor(ContextCompat.getColor(activity, R.color.colorSupport))
-                    cellView.gridCellText.typeface = ResourcesCompat.getFont(activity, R.font.productsansbold)
+                    cellView.grid_cell_text.setTextColor(ContextCompat.getColor(activity, R.color.colorSupport))
+                    cellView.grid_cell_text.typeface = ResourcesCompat.getFont(activity, R.font.productsansbold)
                 }
-                cellView.gridCellText.text = cell.text
+                cellView.grid_cell_text.text = cell.text
             }
 
             if (cell.number != 0) {
                 if (cell.number == 1) {
-                    cellView.cellIndicator.setImageResource(R.drawable.ic_book)
+                    cellView.cell_indicator.setImageResource(R.drawable.ic_book)
                 } else {
-                    cellView.cellIndicator.setImageResource(R.drawable.ic_book_multiple)
+                    cellView.cell_indicator.setImageResource(R.drawable.ic_book_multiple)
                 }
             } else {
-                cellView.cellIndicator.visibility = View.GONE
+                cellView.cell_indicator.visibility = View.GONE
             }
         }
 

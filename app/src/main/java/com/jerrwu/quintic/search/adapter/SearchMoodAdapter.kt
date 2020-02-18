@@ -45,8 +45,8 @@ class SearchMoodAdapter(
 
     @UiThread
     inner class MoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal var moodCardImageView: ImageView = itemView.findViewById(R.id.moodCategoryCardImageView)
-        internal var moodCardTextView: TextView = itemView.findViewById(R.id.moodCategoryCardTextView)
+        internal var moodCardImageView: ImageView = itemView.findViewById(R.id.mood_category_card_imageview)
+        internal var moodCardTextView: TextView = itemView.findViewById(R.id.mood_category_card_textview)
 
         init {
             itemView.setOnClickListener {

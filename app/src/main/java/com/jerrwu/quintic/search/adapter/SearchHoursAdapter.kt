@@ -41,8 +41,8 @@ class SearchHoursAdapter(
 
     @UiThread
     inner class HoursViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal var hoursCardImageView: ImageView = itemView.findViewById(R.id.hoursCategoryCardImageView)
-        internal var hoursCardTextView: TextView = itemView.findViewById(R.id.hoursCategoryCardTextView)
+        internal var hoursCardImageView: ImageView = itemView.findViewById(R.id.hours_category_card_imageview)
+        internal var hoursCardTextView: TextView = itemView.findViewById(R.id.hours_category_card_textview)
 
         init {
             itemView.setOnClickListener {

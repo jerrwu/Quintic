@@ -47,12 +47,12 @@ class SettingsActivity : AppCompatActivity() {
 
         val settingsFragment = SettingsFragment()
 
-        settingsBackButton.setOnClickListener {
+        settings_back_button.setOnClickListener {
             finish()
         }
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.settingsFrame, settingsFragment)
+            .replace(R.id.settings_container, settingsFragment)
             .commit()
     }
 }

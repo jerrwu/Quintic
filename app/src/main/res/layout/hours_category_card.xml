@@ -22,14 +22,14 @@
             android:padding="12dp"
             android:tint="@color/colorMain"
             android:src="@drawable/ic_magnify"
-            android:id="@+id/hoursCategoryCardImageView"
+            android:id="@+id/hours_category_card_imageview"
             android:layout_gravity="top"
             android:background="@color/colorTertiary"
             android:layout_width="match_parent"
             android:layout_height="74dp"/>
 
         <TextView
-            android:id="@+id/hoursCategoryCardTextView"
+            android:id="@+id/hours_category_card_textview"
             android:layout_marginTop="88dp"
             android:text="@string/time_of_day"
             android:layout_gravity="center_horizontal"

@@ -18,7 +18,7 @@
         android:background="@color/colorMain">
 
         <ImageButton
-            android:id="@+id/searchBackButton"
+            android:id="@+id/search_back_button"
             android:tint="@color/colorSecondary"
             android:foregroundGravity="left"
             app:srcCompat="@drawable/ic_back"
@@ -28,7 +28,7 @@
             android:layout_height="36dp" />
 
         <EditText
-            android:id="@+id/searchField"
+            android:id="@+id/search_field"
             android:focusable="true"
             android:layout_marginEnd="18dp"
             android:textSize="20sp"
@@ -52,8 +52,8 @@
 
     <TextView
         android:layout_marginBottom="6dp"
-        app:layout_constraintBaseline_toBaselineOf="@id/searchOptionSpinner"
-        android:id="@+id/searchEntriesByText"
+        app:layout_constraintBaseline_toBaselineOf="@id/search_options_spinner"
+        android:id="@+id/search_entries_by_text"
         android:layout_marginStart="20dp"
         android:textSize="17sp"
         android:textColor="@color/colorFont"
@@ -66,21 +66,21 @@
     <Spinner
         android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@id/searchEntriesByText"
-        android:id="@+id/searchOptionSpinner"
+        app:layout_constraintStart_toEndOf="@id/search_entries_by_text"
+        android:id="@+id/search_options_spinner"
         android:backgroundTint="@color/colorSupport"
         app:layout_constraintTop_toBottomOf="@id/toolbar_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <FrameLayout
-        app:layout_constraintTop_toBottomOf="@id/searchOptionSpinner"
+        app:layout_constraintTop_toBottomOf="@id/search_options_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginBottom="124dp"
-            android:id="@+id/searchActivityRecyclerView"
+            android:id="@+id/search_activity_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -88,7 +88,7 @@
 
     <TextView
         android:visibility="gone"
-        android:id="@+id/searchNoResultsText"
+        android:id="@+id/search_no_results_text"
         android:textSize="14sp"
         android:text="@string/no_results"
         android:textColor="@color/colorTertiary"

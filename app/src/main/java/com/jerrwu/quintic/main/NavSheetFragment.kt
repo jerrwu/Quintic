@@ -64,13 +64,13 @@ class NavSheetFragment : BottomSheetDialogFragment() {
 
         bottom_sheet_account_text_2.text = mGreetingString
 
-        settingsButton.setOnClickListener {
+        settings_button.setOnClickListener {
             val intent = Intent(activity, SettingsActivity::class.java)
             startActivity(intent)
             closeNavSheet()
         }
 
-        docButton.setOnClickListener {
+        doc_button.setOnClickListener {
             val uri = Uri.parse(getString(R.string.github_link_readme))
             val intentBuilder = CustomTabsIntent.Builder()
             intentBuilder.setToolbarColor(
@@ -83,7 +83,7 @@ class NavSheetFragment : BottomSheetDialogFragment() {
             closeNavSheet()
         }
 
-        helpButton.setOnClickListener {
+        help_button.setOnClickListener {
             val uri = Uri.parse(getString(R.string.github_link_issues))
             val intentBuilder = CustomTabsIntent.Builder()
             intentBuilder.setToolbarColor(
@@ -96,7 +96,7 @@ class NavSheetFragment : BottomSheetDialogFragment() {
             closeNavSheet()
         }
 
-        bottomSheetAccountButton.setOnClickListener {
+        bottom_sheet_account_button.setOnClickListener {
             val intent = Intent(activity, AccountActivity::class.java)
             startActivity(intent)
             closeNavSheet()

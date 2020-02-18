@@ -42,8 +42,8 @@ class SearchMonthAdapter(
 
     @UiThread
     inner class MonthViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal var monthTextView: TextView = itemView.findViewById(R.id.monthCardTextView)
-        internal var monthMiniTextView: TextView = itemView.findViewById(R.id.monthCardMiniTextView)
+        internal var monthTextView: TextView = itemView.findViewById(R.id.month_card_textview)
+        internal var monthMiniTextView: TextView = itemView.findViewById(R.id.month_card_mini_textview)
 
         init {
             itemView.setOnClickListener {

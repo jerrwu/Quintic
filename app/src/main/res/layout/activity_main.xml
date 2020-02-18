@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/mainLayout"
+    android:id="@+id/main_layout"
     android:background="@color/colorBackground"
     android:animateLayoutChanges="true"
     android:clipChildren="false"
@@ -16,14 +16,14 @@
 
         <View
             android:layout_alignParentTop="true"
-            android:id="@+id/mainPaddingTop"
+            android:id="@+id/main_padding_top"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"/>
 
         <FrameLayout
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_below="@id/mainPaddingTop"
-            android:layout_above="@id/mainPaddingBottom"
+            android:layout_below="@id/main_padding_top"
+            android:layout_above="@id/main_padding_bottom"
             android:id="@+id/frag_container"
             android:clipToPadding="true"
             android:layout_alignParentStart="true"
@@ -34,7 +34,7 @@
         <View
             android:visibility="visible"
             android:layout_alignParentBottom="true"
-            android:id="@+id/mainPaddingBottom"
+            android:id="@+id/main_padding_bottom"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"/>
 
@@ -46,6 +46,7 @@
         android:layout_gravity="end|bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAccent"
         app:rippleColor="@color/colorPrimary"
         android:clickable="true"
         android:layout_marginEnd="18dp"
@@ -62,7 +63,7 @@
         android:id="@+id/toolbar_multiselect">
 
         <ImageButton
-            android:id="@+id/toolbarDeleteButton"
+            android:id="@+id/toolbar_delete_button"
             android:layout_gravity="end"
             android:tint="@color/colorSecondary"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -74,7 +75,7 @@
             android:contentDescription="@string/delete" />
 
         <ImageButton
-            android:id="@+id/toolbarBackButton"
+            android:id="@+id/toolbar_back_button"
             android:layout_gravity="start"
             android:tint="@color/colorSecondary"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -105,7 +106,7 @@
             android:background="@color/colorMain">
 
             <ImageButton
-                android:id="@+id/accountButton"
+                android:id="@+id/account_button"
                 android:layout_gravity="end"
                 android:tint="@color/colorSecondary"
                 android:background="?attr/selectableItemBackgroundBorderless"
@@ -118,7 +119,7 @@
 
             <ImageButton
                 android:visibility="gone"
-                android:id="@+id/searchButton"
+                android:id="@+id/search_button"
                 android:layout_gravity="start"
                 android:tint="@color/colorSecondary"
                 android:background="?attr/selectableItemBackgroundBorderless"
@@ -149,7 +150,7 @@
         app:itemIconTint="@drawable/navbar_color_selector"
         app:itemTextColor="@drawable/navbar_color_selector"
         app:elevation="26dp"
-        android:id="@+id/bottomNavigation"
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/bottom_nav_items" />

@@ -59,7 +59,7 @@ class SearchActivity : AppCompatActivity() {
             mUseExact = bundle.getBoolean(EXACT_SEARCH)
         }
 
-        searchField.requestFocus()
+        search_field.requestFocus()
         mMainDbHelper = MainDbHelper(this)
 
         val spinnerList = ConstantLists.searchSpinnerOptions
@@ -68,8 +68,8 @@ class SearchActivity : AppCompatActivity() {
             this, R.layout.spinner_item, spinnerList
         )
 
-        searchOptionSpinner.adapter = spinnerAdapter
-        searchOptionSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+        search_options_spinner.adapter = spinnerAdapter
+        search_options_spinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(
                 parentView: AdapterView<*>?,
                 selectedItemView: View,
@@ -87,22 +87,22 @@ class SearchActivity : AppCompatActivity() {
         }
 
         if (mSearchString != null) {
-            searchField.setText(mSearchString)
+            search_field.setText(mSearchString)
         }
 
         if (mSearchType != null) try {
             val i = spinnerList.indexOf(mSearchType as String)
-            searchOptionSpinner.setSelection(i)
+            search_options_spinner.setSelection(i)
             if (i == 0) onSearchStarted()
         } catch (e: IndexOutOfBoundsException) {
             throw e
         }
 
-        searchBackButton.setOnClickListener {
+        search_back_button.setOnClickListener {
             finish()
         }
 
-        searchField.setOnEditorActionListener(OnEditorActionListener { view, actionId, event ->
+        search_field.setOnEditorActionListener(OnEditorActionListener { view, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 onSearchStarted()
                 return@OnEditorActionListener true
@@ -117,9 +117,9 @@ class SearchActivity : AppCompatActivity() {
         if (dbHelper != null && column != null){
             mSearchResults = if (mUseExact) {
                 SearchUtils.performExactSearch(
-                    searchField.text.toString(), dbHelper, SearchUtils.ORDER_DESCENDING, column)
+                    search_field.text.toString(), dbHelper, SearchUtils.ORDER_DESCENDING, column)
             } else {
-                SearchUtils.performSearch(searchField.text.toString(), dbHelper, column)
+                SearchUtils.performSearch(search_field.text.toString(), dbHelper, column)
             }
         }
         val results = mSearchResults
@@ -129,17 +129,17 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun onSearchPerformed(results: List<EntryEntity>): Boolean {
-        searchActivityRecyclerView.adapter = null
+        search_activity_recycler_view.adapter = null
 
         if (results.isEmpty()) {
-            searchNoResultsText.visibility = View.VISIBLE
+            search_no_results_text.visibility = View.VISIBLE
             return false
         }
 
-        searchNoResultsText.visibility = View.GONE
+        search_no_results_text.visibility = View.GONE
         mAdapter = EntryAdapter(results)
-        searchActivityRecyclerView.layoutManager = LinearLayoutManager(this)
-        searchActivityRecyclerView.adapter = mAdapter
+        search_activity_recycler_view.layoutManager = LinearLayoutManager(this)
+        search_activity_recycler_view.adapter = mAdapter
         mAdapter?.mContext = this
 
         mAdapter?.onItemClick = { id, entry, _ ->
