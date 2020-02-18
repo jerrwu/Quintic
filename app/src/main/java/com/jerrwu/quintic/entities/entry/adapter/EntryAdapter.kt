@@ -25,7 +25,7 @@ class EntryAdapter(
     }
 
     // click listeners
-    var onItemClick: ((EntryEntity, Boolean) -> Unit)? = null
+    var onItemClick: ((Int, EntryEntity, Boolean) -> Unit)? = null
     var onItemLongClick: ((EntryEntity) -> Boolean)? = null
 
     var mContext: Context? = null
@@ -106,7 +106,7 @@ class EntryAdapter(
                 if (mIsMultiSelect) {
                     handleMultiSelectOnClick(adapterPosition, itemView)
                 } else {
-                    onItemClick?.invoke(mDataList[adapterPosition], false)
+                    onItemClick?.invoke(adapterPosition, mDataList[adapterPosition], false)
                     // transfer position to update selected  position in the fragment
                 }
             }
@@ -144,7 +144,7 @@ class EntryAdapter(
         item.isSelected = !item.isSelected
         if (mItemsSelected.size == 0) {
             mIsMultiSelect = false
-            onItemClick?.invoke(mDataList[adapterPosition], true)
+            onItemClick?.invoke(adapterPosition, mDataList[adapterPosition], true)
         }
     }
 

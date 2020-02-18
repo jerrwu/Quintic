@@ -1,11 +1,13 @@
 package com.jerrwu.quintic.main.fragment
 
 
+import android.app.Activity.RESULT_OK
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +41,8 @@ class EntriesFragment : BaseFragment() {
     private var mEntryList: ArrayList<EntryEntity> = ArrayList()
     private var mMainDbHelper: MainDbHelper? = null
     private var mCalDbHelper: CalDbHelper? = null
+    private var mPosToNotify: Int? = null
+    private var mPosNotifyType: String? = null
 
     override fun onFragmentShown() {
     }
@@ -58,7 +62,30 @@ class EntriesFragment : BaseFragment() {
 
         resetAdapterSelected()
         hideSelectionToolbar(false)
+
         mAdapter?.notifyDataSetChanged()
+
+//        val pos = mPosToNotify
+//        val type = mPosNotifyType
+//        Log.d(TAG, type ?: "null")
+//        if (pos != null && type != null) {
+//            when (type) {
+//                "-" -> {
+//                    mAdapter?.notifyItemRemoved(pos)
+//                }
+//                "+" -> {
+//                    mAdapter?.notifyItemInserted(pos)
+//                }
+//                "|" -> {
+//                    mAdapter?.notifyItemChanged(pos)
+//                }
+//                else -> {
+//                    mAdapter?.notifyDataSetChanged()
+//                }
+//            }
+//            mPosNotifyType = null
+//            mPosToNotify = null
+//        }
     }
 
     override fun onCreateView(
@@ -114,21 +141,30 @@ class EntriesFragment : BaseFragment() {
                 showSelectionToolbar()
                 true
             }
-            mAdapter?.onItemClick = { card, dismissToolbar ->
+            mAdapter?.onItemClick = {pos, entry, dismissToolbar ->
                 if (dismissToolbar) {
                     hideSelectionToolbar(false)
                 } else {
                     val intent = Intent(activity, EntryActivity::class.java)
-                    intent.putExtra(MainDbHelper.DB_COL_ID, card.id)
-                    intent.putExtra(MainDbHelper.DB_COL_TITLE, card.title)
-                    intent.putExtra(MainDbHelper.DB_COL_CONTENT, card.content)
-                    intent.putExtra(MainDbHelper.DB_COL_TIME, card.time.toString())
-                    intent.putExtra(MainDbHelper.DB_COL_MOOD, card.mood?.id)
-                    startActivity(intent)
+                    intent.putExtra(MainDbHelper.DB_COL_ID, entry.id)
+                    intent.putExtra(MainDbHelper.DB_COL_TITLE, entry.title)
+                    intent.putExtra(MainDbHelper.DB_COL_CONTENT, entry.content)
+                    intent.putExtra(MainDbHelper.DB_COL_TIME, entry.time.toString())
+                    intent.putExtra(MainDbHelper.DB_COL_MOOD, entry.mood?.id)
+                    intent.putExtra("pos", pos)
+                    startActivityForResult(intent, 0)
                 }
             }
         }
     }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == 0 && resultCode == RESULT_OK && data != null) {
+//            mPosNotifyType = data.getStringExtra("notify_type")
+//            mPosToNotify = data.getIntExtra("entry_id", 0)
+//        }
+//    }
 
     private fun toggleEmptyNotices() {
         daily_suggestion_card_container.visibility = View.GONE

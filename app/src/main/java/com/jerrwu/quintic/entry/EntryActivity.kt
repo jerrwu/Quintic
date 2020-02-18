@@ -1,7 +1,9 @@
 package com.jerrwu.quintic.entry
 
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
@@ -37,6 +39,7 @@ class EntryActivity : AppCompatActivity() {
     private var mMood: MoodEntity = MoodEntity.NONE
     private var mIsSelectorOpen = false
     private var mAdapter: MoodAdapter? = null
+    private var mPos: Int = 0
 
     var id = 0
 
@@ -65,6 +68,7 @@ class EntryActivity : AppCompatActivity() {
                 entryContentEditText.setText(bundle.getString(MainDbHelper.DB_COL_CONTENT))
                 mCreatedDate = LocalDateTime.parse(bundle.getString(MainDbHelper.DB_COL_TIME))
                 mMood = MoodEntity.parse(bundle.getInt(MainDbHelper.DB_COL_MOOD))
+                mPos = bundle.getInt("pos")
                 val dateString = getString(R.string.created_on) + mFormatterDate.format(mCreatedDate)
                 entryDateTimeView.text = dateString
                 entryDateTimeView.visibility = View.VISIBLE
@@ -216,6 +220,14 @@ class EntryActivity : AppCompatActivity() {
                 calDbHelper.update(values, "ID=?", selectionArgs)
             }
         }
+        finishWithResult("-")
+    }
+
+    private fun finishWithResult(type: String) {
+//        val resultIntent = Intent()
+//        resultIntent.putExtra("notify_type", type)
+//        resultIntent.putExtra("entry_id", mPos)
+//        setResult(Activity.RESULT_OK, resultIntent)
         finish()
     }
 
@@ -270,13 +282,13 @@ class EntryActivity : AppCompatActivity() {
                 }
 
                 if (dbId != null && dbId > 0) {
-                    finish()
+                    finishWithResult("!")
                 }
             } else {
                 val selectionArgs = arrayOf(id.toString())
                 val dbId = mainDbHelper.update(values, "ID=?", selectionArgs)
                 if (dbId != null && dbId > 0) {
-                    finish()
+                    finishWithResult("|")
                 }
             }
         }

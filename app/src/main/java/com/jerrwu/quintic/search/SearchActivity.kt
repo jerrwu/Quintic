@@ -142,7 +142,7 @@ class SearchActivity : AppCompatActivity() {
         searchActivityRecyclerView.adapter = mAdapter
         mAdapter?.mContext = this
 
-        mAdapter?.onItemClick = { entry, _ ->
+        mAdapter?.onItemClick = { id, entry, _ ->
             val intent = Intent(this, EntryActivity::class.java)
             intent.putExtra(MainDbHelper.DB_COL_ID, entry.id)
             intent.putExtra(MainDbHelper.DB_COL_TITLE, entry.title)
