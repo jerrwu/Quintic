@@ -44,16 +44,13 @@ class CalFragment : BaseFragment() {
     private var mCurrentYear: YearEntity? = null
     private var mCurrentMonth: MonthEntity? = null
     private var mCurrentMonthValue: Int = 0
+    private var mDayViewMonthValue: Int = 0
     private var mCurrentYearValue: Int = 0
     private var mIsShowDayView: Boolean = false
     private var mPreviousPosition: Int = 0
 
     private val mMonthSpinnerList: MutableList<String> = ArrayList()
     private val mYearSpinnerList: MutableList<String> = ArrayList()
-
-    /*
-    TODO: improve overall fragment performance, fix bug with indicator not updating
-     */
 
     override fun onFragmentShown() {
         AsyncTask.execute {
@@ -67,6 +64,9 @@ class CalFragment : BaseFragment() {
         if (mIsShowDayView && pActivity != null) {
             Log.d(TAG, "updateDayView() called")
             hideDayView(pActivity)
+            if (mDayViewMonthValue != mCurrentMonthValue) {
+                return
+            }
             showDayView(mCellList[mPreviousPosition], pActivity)
         }
     }
@@ -300,6 +300,7 @@ class CalFragment : BaseFragment() {
         if (dayInt != null && StringHelper.isInteger(dayInt) && Integer.parseInt(dayInt) != 0) {
             val dayString = if (dayInt.length > 1) dayInt else "0$dayInt"
             val query = "${MonthEntity(mCurrentMonthValue).stringValue()} $dayString $mCurrentYearValue"
+            mDayViewMonthValue = mCurrentMonthValue
             val entries = fetchDayEntries(query, context)
 
             context as Activity
