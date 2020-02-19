@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.BaseActivity
 import com.jerrwu.quintic.common.EditTextFlow
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.entry.EntryEntity
@@ -34,7 +35,7 @@ import kotlinx.android.synthetic.main.activity_search.*
 import java.util.concurrent.TimeUnit
 
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : BaseActivity() {
     companion object {
         val TAG = SearchActivity::class.java.simpleName
 
@@ -128,24 +129,6 @@ class SearchActivity : AppCompatActivity() {
             .subscribe {
                 onSearchStarted(it)
             }
-    }
-
-    private fun EditText.addTextWatcher(): Flowable<EditTextFlow> {
-        return Flowable.create<EditTextFlow>({ emitter ->
-            addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    emitter.onNext(EditTextFlow(p0.toString(), EditTextFlow.Type.BEFORE))
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    emitter.onNext(EditTextFlow(p0.toString(), EditTextFlow.Type.ON))
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-                    emitter.onNext(EditTextFlow(p0.toString(), EditTextFlow.Type.AFTER))
-                }
-            })
-        }, BackpressureStrategy.BUFFER)
     }
 
     private fun onSearchStarted() {
