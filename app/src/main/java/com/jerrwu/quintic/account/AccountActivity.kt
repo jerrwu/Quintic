@@ -11,6 +11,7 @@ import androidx.preference.PreferenceManager
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseActivity
 import com.jerrwu.quintic.common.EditTextFlow
+import com.jerrwu.quintic.common.constants.PreferenceKeys
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_account.*
@@ -30,7 +31,7 @@ class AccountActivity : BaseActivity() {
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
 
-        mSetName = prefs.getString("name", "")
+        mSetName = prefs.getString(PreferenceKeys.PREFERENCE_NAME, "")
         account_edit_text.setText(mSetName)
 
         account_back_button.setOnClickListener {
@@ -39,8 +40,8 @@ class AccountActivity : BaseActivity() {
 
         account_save_button.setOnClickListener {
             val editor = prefs.edit()
-            editor.putString("name", account_edit_text.text.toString())
-            editor.putBoolean("setNameRem", false)
+            editor.putString(PreferenceKeys.PREFERENCE_NAME, account_edit_text.text.toString())
+            editor.putBoolean(PreferenceKeys.PREFERENCE_SET_NAME_REMINDER, false)
             editor.apply()
             finish()
         }

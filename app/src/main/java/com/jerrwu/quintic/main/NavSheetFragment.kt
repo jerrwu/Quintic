@@ -12,6 +12,7 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.account.AccountActivity
+import com.jerrwu.quintic.common.constants.PreferenceKeys
 import com.jerrwu.quintic.utils.UiUtils
 import com.jerrwu.quintic.utils.StringUtils
 import com.jerrwu.quintic.settings.SettingsActivity
@@ -47,10 +48,10 @@ class NavSheetFragment : BottomSheetDialogFragment() {
             nav_sheet_layout.setPadding(0,0,0,128)
         }
 
-        val nameString = prefs.getString("name", "User")
+        val nameString = prefs.getString(PreferenceKeys.PREFERENCE_NAME, "User")
         bottom_sheet_account_text_1.text = nameString
 
-        val greetingsToggle = prefs.getBoolean("greetings", true)
+        val greetingsToggle = prefs.getBoolean(PreferenceKeys.PREFERENCE_GREETINGS, true)
         if (greetingsToggle) {
             val current = LocalDateTime.now()
             val formatter = DateTimeFormatter.ofPattern("HH")

@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.annotation.ArrayRes
+import androidx.annotation.StringRes
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.snackbar.Snackbar
 import com.jerrwu.quintic.R
@@ -13,12 +15,16 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 object StringUtils {
-    fun getString(id: Int, context: Context?): String {
+    fun getString(@StringRes id: Int, context: Context?): String {
         var string = ""
         if (context != null) {
             string = context.resources.getString(id)
         }
         return string
+    }
+
+    fun getStringArray(@ArrayRes id: Int, context: Context?): Array<out String> {
+        return context?.resources?.getStringArray(id) ?: arrayOf()
     }
 
     fun getHours(hour: Int?): String {

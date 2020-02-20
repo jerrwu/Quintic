@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.account.AccountActivity
 import com.jerrwu.quintic.common.BaseFragment
+import com.jerrwu.quintic.common.constants.PreferenceKeys
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entities.mood.MoodEntity
@@ -110,7 +111,7 @@ class EntriesFragment : BaseFragment() {
 
         name_rem_dismiss_button.setOnClickListener {
             val editor = prefs.edit()
-            editor.putBoolean("setNameRem", false)
+            editor.putBoolean(PreferenceKeys.PREFERENCE_SET_NAME_REMINDER, false)
             editor.apply()
             infoCardNameRem(prefs)
         }
@@ -259,7 +260,7 @@ class EntriesFragment : BaseFragment() {
 
     private fun setInfoCardGreeting(prefs: SharedPreferences) {
         val greetingString: String?
-        val greetingsToggle = prefs.getBoolean("greetings", true)
+        val greetingsToggle = prefs.getBoolean(PreferenceKeys.PREFERENCE_GREETINGS, true)
         if (greetingsToggle) {
             val current = LocalDateTime.now()
             val formatter = DateTimeFormatter.ofPattern("HH")
@@ -274,12 +275,12 @@ class EntriesFragment : BaseFragment() {
     }
 
     private fun setInfoCardName(prefs: SharedPreferences) {
-        val nameString: String? = prefs.getString("name", "user")
+        val nameString: String? = prefs.getString(PreferenceKeys.PREFERENCE_NAME, "user")
         info_card_name.text = nameString
     }
 
     private fun infoCardNameRem(prefs: SharedPreferences) {
-        val remBool: Boolean = prefs.getBoolean("setNameRem", false)
+        val remBool: Boolean = prefs.getBoolean(PreferenceKeys.PREFERENCE_SET_NAME_REMINDER, false)
         if (remBool) {
             info_card_greeting_type.visibility = View.GONE
             info_card_rem_type.visibility = View.VISIBLE

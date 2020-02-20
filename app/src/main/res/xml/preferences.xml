@@ -68,9 +68,9 @@
         </Preference>
 
         <Preference
-        android:key="version"
-        android:title="Quintic version"
-        android:summary="" />
+            android:key="version"
+            android:title="Quintic version"
+            android:summary="" />
 
         <Preference
             android:key="build"

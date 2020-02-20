@@ -12,6 +12,7 @@ import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseFragment
+import com.jerrwu.quintic.common.constants.PreferenceKeys
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.main.fragment.CalFragment
@@ -167,7 +168,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setLayoutNavScrollBehaviour(sharedPreferences: SharedPreferences) {
-        val bottomNavToggle = sharedPreferences.getBoolean("bottomNavHide",false)
+        val bottomNavToggle = sharedPreferences.getBoolean(PreferenceKeys.PREFERENCE_HIDE_BOTTOM_NAV,false)
         if (bottomNavToggle) {
             enableLayoutNavScrollBehaviour()
         } else {
@@ -192,7 +193,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setLayoutToolbarScrollBehaviour(sharedPreferences: SharedPreferences) {
-        val appBarToggle = sharedPreferences.getBoolean("appBarHide",false)
+        val appBarToggle = sharedPreferences.getBoolean(PreferenceKeys.PREFERENCE_HIDE_APP_BAR,false)
         if (appBarToggle) {
             enableLayoutToolbarScrollBehaviour()
         } else {

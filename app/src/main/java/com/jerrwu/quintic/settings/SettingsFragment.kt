@@ -1,7 +1,6 @@
 package com.jerrwu.quintic.settings
 
 
-import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -11,20 +10,18 @@ import androidx.preference.*
 import com.jerrwu.quintic.BuildConfig
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.constants.PreferenceKeys
+import com.jerrwu.quintic.utils.StringUtils
 
 
 class SettingsFragment : PreferenceFragmentCompat() {
     companion object {
         val TAG = SettingsFragment::class.java.simpleName
     }
-
-    private var mActivity: Activity? = null
+    
+    private lateinit var mSummaryList: Array<out String>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (mActivity == null) {
-            mActivity = this.activity!!
-        }
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -32,10 +29,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
 
-        val darkToggle = sharedPreferences.getString("dark_toggle", "2")?.toInt()
-        val darkPreference: ListPreference? = findPreference("dark_toggle")
-        val versionPreference: Preference? = findPreference("version")
-        val buildPreference: Preference? = findPreference("build")
+        val darkToggle = sharedPreferences.getString(PreferenceKeys.PREFERENCE_DARK_MODE, "2")?.toInt()
+        val darkPreference: ListPreference? = findPreference(PreferenceKeys.PREFERENCE_DARK_MODE)
+        val versionPreference: Preference? = findPreference(PreferenceKeys.PREFERENCE_VERSION)
+        val buildPreference: Preference? = findPreference(PreferenceKeys.PREFERENCE_BUILD)
         val debugPrefs: PreferenceCategory? = findPreference(PreferenceKeys.SECTION_DEBUG)
         sharedPreferences.registerOnSharedPreferenceChangeListener(onPreferenceChangeListener)
 
@@ -43,12 +40,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
             preferenceScreen.removePreference(debugPrefs)
         }
 
+        mSummaryList = StringUtils.getStringArray(R.array.dark_mode, activity)
+
         if (darkPreference != null) {
             when (darkToggle) {
-                -1 -> darkPreference.summary = "Follow System"
-                0 -> darkPreference.summary = "Set by Battery Saver"
-                1 -> darkPreference.summary = "On"
-                2 -> darkPreference.summary = "Off"
+                -1 -> darkPreference.summary = mSummaryList[0]
+                0 -> darkPreference.summary = mSummaryList[1]
+                1 -> darkPreference.summary = mSummaryList[2]
+                2 -> darkPreference.summary = mSummaryList[3]
             }
         }
 
@@ -63,35 +62,37 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private var onPreferenceChangeListener: SharedPreferences.OnSharedPreferenceChangeListener =
         SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
-            if (key == "dark_toggle") {
-                val darkPreference = findPreference(key) as ListPreference?
-                val darkToggle = sharedPreferences.getString(key, "2")?.toInt()
-                when (darkToggle) {
-                    -1 -> {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                        darkPreference!!.summary = "Follow System"
-                    }
-                    0 -> {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
-                        darkPreference!!.summary = "Set by Battery Saver"
-                    }
-                    1 -> {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                        darkPreference!!.summary = "On"
-                    }
-                    2 -> {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                        darkPreference!!.summary = "Off"
+            when (key) {
+                PreferenceKeys.PREFERENCE_DARK_MODE -> {
+                    val darkPreference = findPreference(key) as ListPreference?
+                    val darkToggle = sharedPreferences.getString(key, "2")?.toInt()
+                    when (darkToggle) {
+                        -1 -> {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                            darkPreference!!.summary = mSummaryList[0]
+                        }
+                        0 -> {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+                            darkPreference!!.summary = mSummaryList[1]
+                        }
+                        1 -> {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                            darkPreference!!.summary = mSummaryList[2]
+                        }
+                        2 -> {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                            darkPreference!!.summary = mSummaryList[3]
+                        }
                     }
                 }
-            }
-            else if (key == "bottomNavHide") {
-                val intent = Intent("TOGGLE_DIALOG_KEY")
-                mActivity!!.sendBroadcast(intent)
-            }
-            else if (key == "appBarHide") {
-                val intent = Intent("TOGGLE_DIALOG_KEY")
-                mActivity!!.sendBroadcast(intent)
+                PreferenceKeys.PREFERENCE_HIDE_BOTTOM_NAV -> {
+                    val intent = Intent("TOGGLE_DIALOG_KEY")
+                    activity?.sendBroadcast(intent)
+                }
+                PreferenceKeys.PREFERENCE_HIDE_APP_BAR -> {
+                    val intent = Intent("TOGGLE_DIALOG_KEY")
+                    activity?.sendBroadcast(intent)
+                }
             }
         }
 }
