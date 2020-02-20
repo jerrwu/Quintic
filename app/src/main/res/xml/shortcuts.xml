@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:shortcutId="entry"
+        android:enabled="true"
+        android:icon="@drawable/ic_plus"
+        android:shortcutShortLabel="@string/shortcut_entry_short"
+        android:shortcutLongLabel="@string/shortcut_entry_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.jerrwu.quintic"
+            android:targetClass="com.jerrwu.quintic.entry.EntryActivity" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="account"
+        android:enabled="true"
+        android:icon="@drawable/ic_account"
+        android:shortcutShortLabel="@string/shortcut_account_short"
+        android:shortcutLongLabel="@string/shortcut_account_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.jerrwu.quintic"
+            android:targetClass="com.jerrwu.quintic.account.AccountActivity" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="settings"
+        android:enabled="true"
+        android:icon="@drawable/ic_settings"
+        android:shortcutShortLabel="@string/shortcut_settings_short"
+        android:shortcutLongLabel="@string/shortcut_settings_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.jerrwu.quintic"
+            android:targetClass="com.jerrwu.quintic.settings.SettingsActivity" />
+    </shortcut>
+
+</shortcuts>
