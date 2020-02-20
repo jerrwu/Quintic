@@ -4,7 +4,7 @@
     <shortcut
         android:shortcutId="entry"
         android:enabled="true"
-        android:icon="@drawable/ic_plus"
+        android:icon="@drawable/shortcut_ic_entry"
         android:shortcutShortLabel="@string/shortcut_entry_short"
         android:shortcutLongLabel="@string/shortcut_entry_long">
         <intent
