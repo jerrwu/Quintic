@@ -71,6 +71,7 @@ dependencies {
     implementation appDependencies.gson
     implementation appDependencies.kotlinReflect
     implementation appDependencies.rxJava
+    implementation appDependencies.rxAndroid
 
     testImplementation appTestDependencies.junit
 

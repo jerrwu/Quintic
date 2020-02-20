@@ -1,26 +1,41 @@
 package com.jerrwu.quintic.search
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.TextView.OnEditorActionListener
+import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.BaseActivity
+import com.jerrwu.quintic.common.EditTextFlow
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.utils.MainDbHelper
 import com.jerrwu.quintic.utils.SearchUtils
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import io.reactivex.ObservableSource
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Predicate
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_search.*
+import java.util.concurrent.TimeUnit
 
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : BaseActivity() {
     companion object {
         val TAG = SearchActivity::class.java.simpleName
 
@@ -48,6 +63,7 @@ class SearchActivity : AppCompatActivity() {
         onSearchStarted()
     }
 
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -102,24 +118,33 @@ class SearchActivity : AppCompatActivity() {
             finish()
         }
 
-        search_field.setOnEditorActionListener(OnEditorActionListener { view, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                onSearchStarted()
-                return@OnEditorActionListener true
+        search_field.addTextWatcher()
+            .debounce(300, TimeUnit.MILLISECONDS)
+            .filter { it.type == EditTextFlow.Type.AFTER }
+            .filter { it.query.isNotEmpty() }
+            .map { it.query }
+            .distinctUntilChanged()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                onSearchStarted(it)
             }
-            false
-        })
     }
 
     private fun onSearchStarted() {
+        val text = search_field.text.toString()
+        onSearchStarted(text)
+    }
+
+    private fun onSearchStarted(text: String) {
         val dbHelper = mMainDbHelper
         val column = mColumn
         if (dbHelper != null && column != null){
             mSearchResults = if (mUseExact) {
                 SearchUtils.performExactSearch(
-                    search_field.text.toString(), dbHelper, SearchUtils.ORDER_DESCENDING, column)
+                    text, dbHelper, SearchUtils.ORDER_DESCENDING, column)
             } else {
-                SearchUtils.performSearch(search_field.text.toString(), dbHelper, column)
+                SearchUtils.performSearch(text, dbHelper, column)
             }
         }
         val results = mSearchResults
@@ -129,7 +154,9 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun onSearchPerformed(results: List<EntryEntity>): Boolean {
-        search_activity_recycler_view.adapter = null
+        val resultsRecycler: RecyclerView = findViewById(R.id.search_activity_recycler_view)
+
+        resultsRecycler.adapter = null
 
         if (results.isEmpty()) {
             search_no_results_text.visibility = View.VISIBLE
@@ -138,17 +165,18 @@ class SearchActivity : AppCompatActivity() {
 
         search_no_results_text.visibility = View.GONE
         mAdapter = EntryAdapter(results)
-        search_activity_recycler_view.layoutManager = LinearLayoutManager(this)
-        search_activity_recycler_view.adapter = mAdapter
+        resultsRecycler.layoutManager = LinearLayoutManager(this)
+        resultsRecycler.adapter = mAdapter
         mAdapter?.mContext = this
 
-        mAdapter?.onItemClick = { id, entry, _ ->
+        mAdapter?.onItemClick = { pos, entry, _ ->
             val intent = Intent(this, EntryActivity::class.java)
             intent.putExtra(MainDbHelper.DB_COL_ID, entry.id)
             intent.putExtra(MainDbHelper.DB_COL_TITLE, entry.title)
             intent.putExtra(MainDbHelper.DB_COL_CONTENT, entry.content)
             intent.putExtra(MainDbHelper.DB_COL_TIME, entry.time.toString())
             intent.putExtra(MainDbHelper.DB_COL_MOOD, entry.mood?.id)
+            intent.putExtra("pos", pos)
             startActivity(intent)
         }
         return true

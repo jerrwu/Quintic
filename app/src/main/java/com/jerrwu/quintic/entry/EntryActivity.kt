@@ -1,7 +1,9 @@
 package com.jerrwu.quintic.entry
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
@@ -9,20 +11,26 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.BaseActivity
+import com.jerrwu.quintic.common.EditTextFlow
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entities.mood.adapter.MoodAdapter
 import com.jerrwu.quintic.utils.*
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_entry.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.concurrent.TimeUnit
 
 
-class EntryActivity : AppCompatActivity() {
+class EntryActivity : BaseActivity() {
     companion object {
         val TAG = EntryActivity::class.java.simpleName
     }
@@ -49,6 +57,7 @@ class EntryActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entry)
@@ -113,35 +122,46 @@ class EntryActivity : AppCompatActivity() {
 
         setMoodIcon()
 
-        entry_context_edittext.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                toggleSaveButton(s.toString())
-            }
-        })
-
-        entry_title_edit_text.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        entry_context_edittext.addTextWatcher()
+            .filter { it.type == EditTextFlow.Type.AFTER }
+            .filter {
+                (it.query.isNotEmpty() && !getSaveButtonState())
+                        || (it.query.isEmpty() && getSaveButtonState()) }
+            .map { it.query }
+            .distinctUntilChanged()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                toggleSaveButton(it)
             }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                toggleSaveButton(s.toString())
+        entry_title_edit_text.addTextWatcher()
+            .filter { it.type == EditTextFlow.Type.AFTER }
+            .filter {
+                (it.query.isNotEmpty() && !getSaveButtonState())
+                        || (it.query.isEmpty() && getSaveButtonState()) }
+            .map { it.query }
+            .distinctUntilChanged()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                toggleSaveButton(it)
             }
-
-        })
 
     }
 
+    @UiThread
+    private fun getSaveButtonState(): Boolean {
+        return entry_save_button.isEnabled
+    }
+
+    @UiThread
     private fun setMoodIcon() {
         if (mMood != MoodEntity.NONE) {
             entry_activity_mood_icon.setImageResource(mMood.icFilled)
             entry_activity_mood_icon.setColorFilter(ContextCompat.getColor(applicationContext, mMood.color), PorterDuff.Mode.SRC_ATOP)
+        } else {
+            entry_activity_mood_icon.setImageResource(Resources.ID_NULL)
         }
     }
 
@@ -158,6 +178,7 @@ class EntryActivity : AppCompatActivity() {
         onBackPressed()
     }
 
+    @UiThread
     private fun toggleMoodSelector() {
         if (mIsSelectorOpen) {
             mood_selection_container.visibility = View.GONE
@@ -173,9 +194,11 @@ class EntryActivity : AppCompatActivity() {
     }
 
     private fun toggleSaveButton() {
-        toggleSaveButton("%")
+        if (mMood != MoodEntity.NONE) toggleSaveButton("%")
+        else toggleSaveButton("")
     }
 
+    @UiThread
     private fun toggleSaveButton(s: String?) {
         if (s?.length != 0) {
                     entry_save_button.isEnabled = true
