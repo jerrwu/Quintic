@@ -10,8 +10,10 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.jerrwu.quintic.BuildConfig
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseFragment
+import com.jerrwu.quintic.common.constants.Constants
 import com.jerrwu.quintic.common.constants.PreferenceKeys
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entry.EntryActivity
@@ -19,6 +21,8 @@ import com.jerrwu.quintic.main.fragment.CalFragment
 import com.jerrwu.quintic.main.fragment.EntriesFragment
 import com.jerrwu.quintic.main.fragment.SearchFragment
 import com.jerrwu.quintic.search.SearchActivity
+import com.jerrwu.quintic.utils.StringUtils
+import com.jerrwu.quintic.utils.UiUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -135,6 +139,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        showChangelogIfUpdated(sharedPreferences)
+
         setLayoutNavScrollBehaviour(sharedPreferences)
         setLayoutToolbarScrollBehaviour(sharedPreferences)
 
@@ -165,6 +171,21 @@ class MainActivity : AppCompatActivity() {
 
         PreferenceManager
             .setDefaultValues(this, R.xml.preferences, false)
+    }
+
+    private fun showChangelogIfUpdated(sharedPreferences: SharedPreferences) {
+        if (sharedPreferences.contains(PreferenceKeys.PREFERENCE_PREVIOUS_VERSION)) {
+            val previousVer = sharedPreferences.getString(PreferenceKeys.PREFERENCE_PREVIOUS_VERSION, "")
+            if (previousVer != BuildConfig.VERSION_NAME) {
+                UiUtils.showDismissOnlyDialog(
+                    StringUtils.getString(R.string.changelog, this),
+                    "${StringUtils.getString(R.string.updated_to_version, this)} 0.7.2." +
+                            " \n\n\n ${Constants.CHANGELOG}",
+                    StringUtils.getString(R.string.ok, this),
+                    this)
+            }
+        }
+        sharedPreferences.edit().putString(PreferenceKeys.PREFERENCE_PREVIOUS_VERSION, BuildConfig.VERSION_NAME).apply()
     }
 
     private fun setLayoutNavScrollBehaviour(sharedPreferences: SharedPreferences) {

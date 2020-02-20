@@ -107,4 +107,7 @@
     <string name="time_of_day">Time of Day</string>
     <string name="month_year_not_exist">No data in selected time period!</string>
     <string name="no_entries">No entries!</string>
+    <string name="ok">Ok</string>
+    <string name="changelog">Changelog</string>
+    <string name="updated_to_version">Updated to version</string>
 </resources>

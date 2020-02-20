@@ -43,6 +43,26 @@ object UiUtils {
         return true
     }
 
+    fun showDismissOnlyDialog(
+        titleString: String, bodyString: String, buttonText:String, activity: Context
+    ): Dialog {
+        val dialog = Dialog(activity, R.style.DialogTheme)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.custom_dialogue)
+        val title = dialog.findViewById(R.id.dialog_title) as TextView
+        title.text = titleString
+        val body = dialog.findViewById(R.id.dialog_body) as TextView
+        body.text = bodyString
+        val yesBtn = dialog.findViewById(R.id.yes_button) as Button
+        val noBtn = dialog.findViewById(R.id.no_button) as Button
+        noBtn.text = buttonText
+        yesBtn.visibility = View.GONE
+        noBtn.setOnClickListener { dismissDialog(dialog) }
+        dialog.show()
+        return dialog
+    }
+
     fun showDialog(
         titleString: String, bodyString: String, textYes: String, textNo: String, activity: Context,
         func: ((List<EntryEntity>) -> Unit?), list: List<EntryEntity>

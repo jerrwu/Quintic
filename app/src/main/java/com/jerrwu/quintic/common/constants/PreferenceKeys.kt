@@ -22,4 +22,6 @@ object PreferenceKeys {
     const val PREFERENCE_GITHUB = "github"
     const val PREFERENCE_VERSION = "version"
     const val PREFERENCE_BUILD = "build"
+
+    const val PREFERENCE_PREVIOUS_VERSION = "previous_version"
 }
