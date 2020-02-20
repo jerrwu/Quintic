@@ -159,7 +159,7 @@ class CalFragment : BaseFragment() {
         super.onResume()
         AsyncTask.execute {
             val now = LocalDate.now()
-            mYears = Gson().fromJson<List<YearEntity>>(FileUtils.fromAssetsJson(activity as Context, "cal_test.json"),
+            mYears = Gson().fromJson<List<YearEntity>>(FileUtils.fromAssetsJson(activity as Context, "calendar.json"),
                 GsonUtils.YearListType)
 
             if (mCurrentYearValue == 0 || mCurrentMonthValue == 0) {
