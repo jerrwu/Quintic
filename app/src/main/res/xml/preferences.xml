@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:key="debugPrefs"
+        android:key="debug_prefs"
         android:title="Debug">
 
         <androidx.preference.EditTextPreference
@@ -11,27 +11,28 @@
             android:defaultValue="User"/>
 
         <SwitchPreference
-            android:key="setNameRem"
+            android:key="set_name_rem"
             android:title="Set name reminder"
             android:defaultValue="true"/>
 
         <SwitchPreference
-            android:key="bottomNavHide"
+            android:key="bottom_nav_hide"
             android:title="Hide navigation bar on scroll"
             android:defaultValue="false"/>
 
         <SwitchPreference
-            android:key="appBarHide"
+            android:key="app_bar_hide"
             android:title="Hide toolbar on scroll"
             android:defaultValue="false"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="ui_behaviour"
         android:title="UI &amp; Behaviour">
 
         <ListPreference
-            android:key="@string/dark_toggle_key"
+            android:key="dark_mode"
             android:entries="@array/dark_mode"
             android:entryValues="@array/dark_mode_values"
             android:defaultValue="-1"
@@ -46,10 +47,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="other"
         android:title="Other">
 
         <Preference
-            android:key="editname"
+            android:key="edit_name"
             android:title="Edit name">
             <intent android:action="com.jerrwu.quintic.account.AccountActivity"/>
             <intent android:targetPackage="com.jerrwu.quintic"

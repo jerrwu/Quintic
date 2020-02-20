@@ -12,7 +12,6 @@
 
     // settings
     <string name="dark_toggle_title">Dark mode</string>
-    <string name="dark_toggle_key">dark_toggle</string>
     <string name="dark_toggle_summary">Toggle dark mode for Quintic</string>
     <string name="save">Save</string>
     <string name="documentation">Documentation</string>

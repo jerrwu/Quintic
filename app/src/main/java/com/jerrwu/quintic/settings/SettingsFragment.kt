@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.*
 import com.jerrwu.quintic.BuildConfig
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.constants.PreferenceKeys
 
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -35,7 +36,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val darkPreference: ListPreference? = findPreference("dark_toggle")
         val versionPreference: Preference? = findPreference("version")
         val buildPreference: Preference? = findPreference("build")
-        val debugPrefs: PreferenceCategory? = findPreference("debugPrefs")
+        val debugPrefs: PreferenceCategory? = findPreference(PreferenceKeys.SECTION_DEBUG)
         sharedPreferences.registerOnSharedPreferenceChangeListener(onPreferenceChangeListener)
 
         if (!BuildConfig.DEBUG) {
