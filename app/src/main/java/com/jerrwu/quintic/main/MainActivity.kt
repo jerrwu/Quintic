@@ -179,7 +179,7 @@ class MainActivity : AppCompatActivity() {
             if (previousVer != BuildConfig.VERSION_NAME) {
                 UiUtils.showDismissOnlyDialog(
                     StringUtils.getString(R.string.changelog, this),
-                    "${StringUtils.getString(R.string.updated_to_version, this)} 0.7.2." +
+                    "${StringUtils.getString(R.string.updated_to_version, this)} ${BuildConfig.VERSION_NAME}." +
                             " \n\n\n ${Constants.CHANGELOG}",
                     StringUtils.getString(R.string.ok, this),
                     this)
