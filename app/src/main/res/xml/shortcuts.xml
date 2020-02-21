@@ -2,21 +2,21 @@
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
 
     <shortcut
-        android:shortcutId="entry"
+        android:shortcutId="settings"
         android:enabled="true"
-        android:icon="@drawable/shortcut_ic_entry"
-        android:shortcutShortLabel="@string/shortcut_entry_short"
-        android:shortcutLongLabel="@string/shortcut_entry_long">
+        android:icon="@drawable/shortcut_ic_settings"
+        android:shortcutShortLabel="@string/shortcut_settings_short"
+        android:shortcutLongLabel="@string/shortcut_settings_long">
         <intent
             android:action="android.intent.action.VIEW"
             android:targetPackage="com.jerrwu.quintic"
-            android:targetClass="com.jerrwu.quintic.entry.EntryActivity" />
+            android:targetClass="com.jerrwu.quintic.settings.SettingsActivity" />
     </shortcut>
 
     <shortcut
         android:shortcutId="account"
         android:enabled="true"
-        android:icon="@drawable/ic_account"
+        android:icon="@drawable/shortcut_ic_account"
         android:shortcutShortLabel="@string/shortcut_account_short"
         android:shortcutLongLabel="@string/shortcut_account_long">
         <intent
@@ -26,15 +26,15 @@
     </shortcut>
 
     <shortcut
-        android:shortcutId="settings"
+        android:shortcutId="entry"
         android:enabled="true"
-        android:icon="@drawable/ic_settings"
-        android:shortcutShortLabel="@string/shortcut_settings_short"
-        android:shortcutLongLabel="@string/shortcut_settings_long">
+        android:icon="@drawable/shortcut_ic_new"
+        android:shortcutShortLabel="@string/shortcut_entry_short"
+        android:shortcutLongLabel="@string/shortcut_entry_long">
         <intent
             android:action="android.intent.action.VIEW"
             android:targetPackage="com.jerrwu.quintic"
-            android:targetClass="com.jerrwu.quintic.settings.SettingsActivity" />
+            android:targetClass="com.jerrwu.quintic.entry.EntryActivity" />
     </shortcut>
 
 </shortcuts>
