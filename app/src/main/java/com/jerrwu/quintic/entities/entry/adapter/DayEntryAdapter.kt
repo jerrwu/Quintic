@@ -11,7 +11,9 @@ import android.widget.TextView
 import androidx.annotation.UiThread
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.jerrwu.quintic.BaseRecyclerViewHolder
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.BaseRecyclerViewAdapter
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import java.time.format.DateTimeFormatter
@@ -19,12 +21,10 @@ import java.time.format.DateTimeFormatter
 class DayEntryAdapter(
     private val mDataList: List<EntryEntity>,
     private val mContext: Context
-) : RecyclerView.Adapter<DayEntryAdapter.DayEntryViewHolder>() {
+) : BaseRecyclerViewAdapter<EntryEntity, DayEntryAdapter.DayEntryViewHolder>(mDataList, mContext) {
     companion object {
         val TAG = DayEntryAdapter::class.java.simpleName
     }
-
-    var onItemClick: ((EntryEntity) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayEntryViewHolder {
         val view =
@@ -48,19 +48,15 @@ class DayEntryAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        return mDataList.size
-    }
-
     @UiThread
-    inner class DayEntryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class DayEntryViewHolder(itemView: View) : BaseRecyclerViewHolder(itemView) {
         internal var dayEntryTitle: TextView = itemView.findViewById(R.id.cal_day_title_text)
         internal var dayEntryContent: TextView = itemView.findViewById(R.id.cal_day_content_text)
         internal var dayEntryIndicator: ImageView = itemView.findViewById(R.id.cal_day_item_color_indicator)
 
         init {
             itemView.setOnClickListener {
-                onItemClick?.invoke(mDataList[adapterPosition])
+                onItemClick?.invoke(null, mDataList[adapterPosition], null)
             }
         }
     }
