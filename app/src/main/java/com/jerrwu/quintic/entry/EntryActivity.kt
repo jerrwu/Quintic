@@ -6,19 +6,17 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.UiThread
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseActivity
 import com.jerrwu.quintic.common.EditTextFlow
 import com.jerrwu.quintic.common.constants.ConstantLists
+import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entities.mood.adapter.MoodAdapter
 import com.jerrwu.quintic.utils.*
@@ -27,7 +25,6 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_entry.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.concurrent.TimeUnit
 
 
 class EntryActivity : BaseActivity() {
@@ -46,6 +43,8 @@ class EntryActivity : BaseActivity() {
     private var mIsSelectorOpen = false
     private var mAdapter: MoodAdapter? = null
     private var mPos: Int = 0
+    private var mTags: String = ""
+    private var mTagsFragment: EntryTagFragment = EntryTagFragment(ArrayList<String>())
 
     var id = 0
 
@@ -75,6 +74,7 @@ class EntryActivity : BaseActivity() {
                 entry_context_edittext.setText(bundle.getString(MainDbHelper.DB_COL_CONTENT))
                 mCreatedDate = LocalDateTime.parse(bundle.getString(MainDbHelper.DB_COL_TIME))
                 mMood = MoodEntity.parse(bundle.getInt(MainDbHelper.DB_COL_MOOD))
+                mTags = bundle.getString(MainDbHelper.DB_COL_TAGS).toString()
                 mPos = bundle.getInt("pos")
                 val dateString = getString(R.string.created_on) + mFormatterDate.format(mCreatedDate)
                 entry_datetime_text.text = dateString
@@ -100,6 +100,11 @@ class EntryActivity : BaseActivity() {
                 StringUtils.getString(R.string.delete_yes, this),
                 StringUtils.getString(R.string.delete_no, this),
                 this, this::deleteEntry, UiUtils::dismissDialog)
+        }
+
+        mTagsFragment.updateTagsData(EntryEntity.splitTags(mTags))
+        entry_tag_button.setOnClickListener {
+            mTagsFragment.show(supportFragmentManager, mTagsFragment.tag)
         }
 
         entry_save_button.setOnClickListener {

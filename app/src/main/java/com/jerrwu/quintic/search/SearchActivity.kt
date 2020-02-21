@@ -176,6 +176,7 @@ class SearchActivity : BaseActivity() {
             intent.putExtra(MainDbHelper.DB_COL_CONTENT, entry.content)
             intent.putExtra(MainDbHelper.DB_COL_TIME, entry.time.toString())
             intent.putExtra(MainDbHelper.DB_COL_MOOD, entry.mood?.id)
+            intent.putExtra(MainDbHelper.DB_COL_TAGS, entry.tags)
             intent.putExtra("pos", pos)
             startActivity(intent)
         }

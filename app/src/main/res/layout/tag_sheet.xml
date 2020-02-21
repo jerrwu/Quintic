@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tags_sheet_layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            android:id="@+id/bottom_sheet_grabber"
+            android:tint="@color/colorQuad"
+            android:src="@drawable/round_button"
+            android:layout_width="26dp"
+            android:layout_height="4dp"/>
+
+        <TextView
+            android:layout_marginTop="12dp"
+            android:id="@+id/tags_text"
+            android:fontFamily="@font/productsansregular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/bottom_sheet_grabber"
+            android:textSize="22sp"
+            android:textColor="@color/colorFont"
+            android:text="@string/tags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            app:layout_constraintTop_toBottomOf="@id/tags_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/tag_row"
+            android:scrollbars="none"
+            android:id="@+id/tags_recycler"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="28dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

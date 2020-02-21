@@ -111,4 +111,5 @@
     <string name="changelog">Changelog</string>
     <string name="updated_to_version">Updated to version</string>
     <string name="edit_tags">Edit tags</string>
+    <string name="tags">Tags</string>
 </resources>

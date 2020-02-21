@@ -39,10 +39,6 @@ class SearchMoodAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        return mDataList.size
-    }
-
     @UiThread
     inner class SearchMoodViewHolder(itemView: View) : BaseRecyclerViewHolder(itemView) {
         internal var moodCardImageView: ImageView = itemView.findViewById(R.id.mood_category_card_imageview)

@@ -35,10 +35,6 @@ class SearchHoursAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        return mDataList.size
-    }
-
     @UiThread
     inner class HoursViewHolder(itemView: View) : BaseRecyclerViewHolder(itemView) {
         internal var hoursCardImageView: ImageView = itemView.findViewById(R.id.hours_category_card_imageview)

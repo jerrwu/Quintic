@@ -14,7 +14,9 @@ class EntryEntity(
     var tags: String?) {
     var isSelected: Boolean = false
 
-    fun splitTags(): List<String>? {
-        return tags?.split(Constants.TAG_DELIMITER)
+    companion object {
+        fun splitTags(string: String): List<String> {
+            return string.split(Constants.TAG_DELIMITER)
+        }
     }
 }

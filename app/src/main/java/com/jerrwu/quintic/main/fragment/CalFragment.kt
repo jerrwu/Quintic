@@ -339,6 +339,7 @@ class CalFragment : BaseFragment() {
                         intent.putExtra(MainDbHelper.DB_COL_CONTENT, entry.content)
                         intent.putExtra(MainDbHelper.DB_COL_TIME, entry.time.toString())
                         intent.putExtra(MainDbHelper.DB_COL_MOOD, entry.mood?.id)
+                        intent.putExtra(MainDbHelper.DB_COL_TAGS, entry.tags)
                         startActivity(intent)
                     }
                     entriesRecycler.layoutManager = LinearLayoutManager(activity)

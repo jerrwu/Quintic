@@ -36,10 +36,6 @@ class SearchMonthAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        return mDataList.size
-    }
-
     @UiThread
     inner class MonthViewHolder(itemView: View) : BaseRecyclerViewHolder(itemView) {
         internal var monthTextView: TextView = itemView.findViewById(R.id.month_card_textview)
