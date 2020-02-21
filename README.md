@@ -2,6 +2,8 @@
  
 Android journal app - WIP
 
+Written mostly in Kotlin.
+
 ## Changelog
 
 ### 0.7.4
