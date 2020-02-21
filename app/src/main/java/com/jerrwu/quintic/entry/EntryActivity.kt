@@ -103,6 +103,10 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
                 this, this::deleteEntry, UiUtils::dismissDialog)
         }
 
+        if (mTags.isNotEmpty()) {
+            entry_tag_button.setImageResource(R.drawable.ic_tag_text_outline)
+        }
+
         mTagsFragment.tags = EntryEntity.splitTags(mTags).toMutableList()
         entry_tag_button.setOnClickListener {
             mTagsFragment.show(supportFragmentManager, mTagsFragment.tag)
