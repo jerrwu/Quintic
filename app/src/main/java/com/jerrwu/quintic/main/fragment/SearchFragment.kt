@@ -68,7 +68,7 @@ class SearchFragment : BaseFragment() {
                 recycler.setHasFixedSize(true)
             }
 
-            mMoodAdapter?.onItemClick = { mood ->
+            mMoodAdapter?.onItemClick = {_, mood, _ ->
                 val intent = Intent(activity, SearchActivity::class.java)
                 intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_MOOD)
                 intent.putExtra(SearchActivity.SEARCH_STRING, mood.name)
@@ -92,7 +92,7 @@ class SearchFragment : BaseFragment() {
                 recycler.setHasFixedSize(true)
             }
 
-            mHoursAdapter?.onItemClick = { name: String ->
+            mHoursAdapter?.onItemClick = {_, name, _ ->
                 val intent = Intent(activity, SearchActivity::class.java)
                 intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_HOURS)
                 intent.putExtra(SearchActivity.SEARCH_STRING, name)
@@ -123,7 +123,7 @@ class SearchFragment : BaseFragment() {
                 recycler.setHasFixedSize(true)
             }
 
-            mMonthAdapter?.onItemClick = { month ->
+            mMonthAdapter?.onItemClick = {_, month, _ ->
                 val intent = Intent(activity, SearchActivity::class.java)
                 intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_TIME)
                 intent.putExtra(SearchActivity.SEARCH_STRING, month.stringValue())

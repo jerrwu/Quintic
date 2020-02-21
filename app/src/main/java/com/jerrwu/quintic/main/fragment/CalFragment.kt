@@ -332,7 +332,7 @@ class CalFragment : BaseFragment() {
                     container.visibility = View.VISIBLE
                     noResultsText.visibility = View.GONE
 
-                    entriesAdapter.onItemClick = { entry ->
+                    entriesAdapter.onItemClick = {_, entry, _ ->
                         val intent = Intent(activity, EntryActivity::class.java)
                         intent.putExtra(MainDbHelper.DB_COL_ID, entry.id)
                         intent.putExtra(MainDbHelper.DB_COL_TITLE, entry.title)

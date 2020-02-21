@@ -141,7 +141,7 @@ class EntriesFragment : BaseFragment() {
                 true
             }
             mAdapter?.onItemClick = {pos, entry, dismissToolbar ->
-                if (dismissToolbar) {
+                if (dismissToolbar!!) {
                     hideSelectionToolbar(false)
                 } else {
                     val intent = Intent(activity, EntryActivity::class.java)
