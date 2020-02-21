@@ -22,7 +22,7 @@ class AccountActivity : BaseActivity() {
         val TAG = AccountActivity::class.java.simpleName
     }
 
-    var mSetName: String? = ""
+    private var mSetName: String? = ""
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
