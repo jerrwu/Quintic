@@ -49,19 +49,6 @@
     <string name="restart_no">Later</string>
     <string name="restart_yes">Restart</string>
 
-    <string name="fragment_2_placeholder">fragment 2</string>
-    <string name="fragment_3_placeholder">fragment 3</string>
-    <string name="title_placeholder">this is a title</string>
-    <string name="content_placeholder">this is content text</string>
-    <string name="section_1">SECTION 1</string>
-    <string name="section_2">SECTION 2</string>
-    <string name="category_1">Category 1</string>
-    <string name="category_2">Category 2</string>
-    <string name="category_3">Category 3</string>
-    <string name="category_4">Category 4</string>
-    <string name="category_5">Category 5</string>
-    <string name="category_6">Category 6</string>
-    <string name="category_7">Category 7</string>
     <string name="search">" Search"</string>
     <string name="no_results">No results</string>
     <string name="create_new_entry">New entry</string>
@@ -69,7 +56,6 @@
     <string name="content">Content</string>
     <string name="title">Title</string>
     <string name="back">Back</string>
-    <string name="category_8">Category 8</string>
 
     // greetings
     <string name="greeting_early_morning">Happy early morning!</string>
@@ -110,8 +96,19 @@
     <string name="ok">Ok</string>
     <string name="changelog">Changelog</string>
     <string name="updated_to_version">Updated to version</string>
+  
+    // Tags
     <string name="edit_tags">Edit tags</string>
     <string name="tags">Tags</string>
     <string name="new_tag">New tag</string>
     <string name="cancel">Cancel</string>
+
+
+    // Shortcuts
+    <string name="shortcut_entry_short">New Entry</string>
+    <string name="shortcut_entry_long">Create a New Entry</string>
+    <string name="shortcut_account_short">Account</string>
+    <string name="shortcut_account_long">View Account Details</string>
+    <string name="shortcut_settings_short">Settings</string>
+    <string name="shortcut_settings_long">Edit Settings</string>
 </resources>
