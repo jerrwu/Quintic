@@ -18,4 +18,4 @@ Android journal app - WIP
 
 - Added tags.
 
-- Fixes for AccountActivity
+- Fixes for AccountActivity.
