@@ -2,6 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="8dp"
+    android:clickable="true"
+    android:focusable="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -33,6 +35,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:tint="@color/colorSupport"
         android:src="@drawable/ic_close"
+        android:id="@+id/tag_cross_button"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_width="24dp"
         android:layout_height="24dp" />

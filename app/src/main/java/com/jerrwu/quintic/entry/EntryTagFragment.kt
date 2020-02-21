@@ -43,6 +43,13 @@ class EntryTagFragment(
         if (pContext != null) {
             mAdapter =
                 EntryTagAdapter(tags, pContext)
+            mAdapter.onCrossButtonClickListener = { position ->
+                removeTag(position)
+            }
+            mAdapter.onItemClick = { _, _, _ ->
+                // TODO: open search activity for tag
+            }
+
             tags_recycler.layoutManager = LinearLayoutManager(pContext)
             tags_recycler.adapter = mAdapter
             tags_recycler.setHasFixedSize(true)
@@ -55,6 +62,15 @@ class EntryTagFragment(
                     pContext,
                     this::addTag)
             }
+        }
+    }
+
+    private fun removeTag(position: Int) {
+        tags.removeAt(position)
+        mAdapter.updateTags(tags)
+        mAdapter.notifyItemRemoved(position)
+        if (tags.size == 0) {
+            (activity as EntryActivity).onAllTagsRemoved()
         }
     }
 
