@@ -1,5 +1,6 @@
 package com.jerrwu.quintic.entry
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.entry.adapter.EntryTagAdapter
+import com.jerrwu.quintic.search.SearchActivity
 import com.jerrwu.quintic.utils.StringUtils
 import com.jerrwu.quintic.utils.UiUtils
 import kotlinx.android.synthetic.main.tag_sheet.*
@@ -46,8 +48,12 @@ class EntryTagFragment(
             mAdapter.onCrossButtonClickListener = { position ->
                 removeTag(position)
             }
-            mAdapter.onItemClick = { _, _, _ ->
-                // TODO: open search activity for tag
+            mAdapter.onItemClick = { _, tag, _ ->
+                val intent = Intent(activity, SearchActivity::class.java)
+                intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_TAG)
+                intent.putExtra(SearchActivity.SEARCH_STRING, tag)
+                intent.putExtra(SearchActivity.EXACT_SEARCH, true)
+                startActivity(intent)
             }
 
             tags_recycler.layoutManager = LinearLayoutManager(pContext)
