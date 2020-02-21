@@ -47,6 +47,7 @@ class SearchActivity : BaseActivity() {
         const val SEARCH_TYPE_MOOD = "Mood"
         const val SEARCH_TYPE_TIME = "Time"
         const val SEARCH_TYPE_HOURS = "Hours"
+        const val SEARCH_TYPE_TAG = "Tag"
     }
 
     private var mSearchResults: List<EntryEntity>? = null

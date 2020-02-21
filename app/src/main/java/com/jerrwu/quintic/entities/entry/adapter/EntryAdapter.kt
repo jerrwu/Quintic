@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.BaseRecyclerViewHolder
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseRecyclerViewAdapter
@@ -81,6 +80,12 @@ class EntryAdapter(
         } else {
             holder.cardIc.setImageResource(ic)
         }
+
+        if (entry.tags != null && entry.tags!!.isNotEmpty()) {
+            holder.cardTagIndicator.visibility = View.VISIBLE
+        } else {
+            holder.cardTagIndicator.visibility = View.GONE
+        }
     }
 
     override fun getItemCount(): Int {
@@ -97,6 +102,7 @@ class EntryAdapter(
         internal var cardIcHolder: CardView = itemView.findViewById(R.id.card_ic_holder)
         internal var cardView: CardView = itemView as CardView
         internal var cardTextContainer: ConstraintLayout = itemView.findViewById(R.id.card_text_container)
+        internal var cardTagIndicator: ImageView = itemView.findViewById(R.id.card_tag_indicator)
 
         init {
             itemView.setOnClickListener {
