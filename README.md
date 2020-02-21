@@ -12,8 +12,10 @@ Android journal app - WIP
 
 - Added changelog display after updating.
 
-### 0.7.3
+### 0.7.4
 
 - Added launcher shortcuts.
 
 - Added tags.
+
+- Fixes for AccountActivity
