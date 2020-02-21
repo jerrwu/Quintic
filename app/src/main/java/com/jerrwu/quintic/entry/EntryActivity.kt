@@ -341,6 +341,10 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
         toggleSaveButton(true)
     }
 
+    override fun onTagsChanged() {
+        toggleSaveButton(true)
+    }
+
     override fun onTagsNotEmpty() {
         entry_tag_button.setImageResource(R.drawable.ic_tag_text_outline)
         toggleSaveButton(true)

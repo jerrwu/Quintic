@@ -52,7 +52,7 @@ class EntryTagFragment(
                 val intent = Intent(activity, SearchActivity::class.java)
                 intent.putExtra(SearchActivity.SEARCH_TYPE, SearchActivity.SEARCH_TYPE_TAG)
                 intent.putExtra(SearchActivity.SEARCH_STRING, tag)
-                intent.putExtra(SearchActivity.EXACT_SEARCH, true)
+                intent.putExtra(SearchActivity.EXACT_SEARCH, false)
                 startActivity(intent)
             }
 
@@ -77,6 +77,8 @@ class EntryTagFragment(
         mAdapter.notifyItemRemoved(position)
         if (tags.size == 0) {
             (activity as EntryActivity).onAllTagsRemoved()
+        } else {
+            (activity as EntryActivity).onTagsChanged()
         }
     }
 
@@ -87,6 +89,8 @@ class EntryTagFragment(
         mAdapter.notifyItemInserted(i)
         if (i == 0) {
             (activity as EntryActivity).onTagsNotEmpty()
+        }else {
+            (activity as EntryActivity).onTagsChanged()
         }
     }
 }
