@@ -16,6 +16,9 @@ class EntryEntity(
 
     companion object {
         fun splitTags(string: String): List<String> {
+            if (string.isEmpty()) {
+                return ArrayList()
+            }
             return string.split(Constants.TAG_DELIMITER)
         }
     }

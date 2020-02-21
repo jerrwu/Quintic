@@ -1,4 +1,4 @@
-package com.jerrwu.quintic.common.listeners;
+package com.jerrwu.quintic.common.interfaces;
 
 public interface BaseFragmentInterface {
     void onFragmentShown();

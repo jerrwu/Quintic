@@ -39,14 +39,29 @@
 
         <androidx.recyclerview.widget.RecyclerView
             app:layout_constraintTop_toBottomOf="@id/tags_text"
-            app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/tag_row"
             android:scrollbars="none"
             android:id="@+id/tags_recycler"
             android:layout_marginTop="12dp"
-            android:layout_marginBottom="28dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/ic_plus"
+            app:layout_constraintTop_toBottomOf="@id/tags_recycler"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/tag_add_button"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginBottom="28dp"
+            android:backgroundTint="@color/colorFive"
+            android:background="@drawable/round_less_button_ripple"
+            android:padding="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

@@ -63,6 +63,30 @@ object UiUtils {
         return dialog
     }
 
+    fun showEditTextDialog(
+        titleString: String, textYes: String, textNo: String, activity: Context, func: ((String) -> Unit)
+    ): Dialog {
+        val dialog = Dialog(activity, R.style.DialogTheme)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.edittext_custom_dialog)
+        val title = dialog.findViewById(R.id.dialog_title) as TextView
+        title.text = titleString
+        val text = dialog.findViewById(R.id.dialog_body) as EditText
+        text.requestFocus()
+        val yesBtn = dialog.findViewById(R.id.yes_button) as Button
+        val noBtn = dialog.findViewById(R.id.no_button) as Button
+        noBtn.text = textNo
+        yesBtn.text = textYes
+        noBtn.setOnClickListener { dismissDialog(dialog) }
+        yesBtn.setOnClickListener{
+            func(text.text.toString())
+            dismissDialog(dialog)
+        }
+        dialog.show()
+        return dialog
+    }
+
     fun showDialog(
         titleString: String, bodyString: String, textYes: String, textNo: String, activity: Context,
         func: ((List<EntryEntity>) -> Unit?), list: List<EntryEntity>

@@ -1,21 +1,19 @@
 package com.jerrwu.quintic.entry
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.entry.adapter.EntryTagAdapter
+import com.jerrwu.quintic.utils.StringUtils
 import com.jerrwu.quintic.utils.UiUtils
-import kotlinx.android.synthetic.main.nav_sheet.*
 import kotlinx.android.synthetic.main.tag_sheet.*
 
 class EntryTagFragment(
-    var tags: List<String>
+    var tags: MutableList<String>
 ) : BottomSheetDialogFragment() {
     companion object {
         val TAG = EntryTagFragment::class.java.simpleName
@@ -43,14 +41,30 @@ class EntryTagFragment(
 
         val pContext = context
         if (pContext != null) {
-            mAdapter = EntryTagAdapter(listOf("tag1", "tag2", "tag3"), pContext)
+            mAdapter =
+                EntryTagAdapter(tags, pContext)
             tags_recycler.layoutManager = LinearLayoutManager(pContext)
             tags_recycler.adapter = mAdapter
             tags_recycler.setHasFixedSize(true)
+
+            tag_add_button.setOnClickListener {
+                UiUtils.showEditTextDialog(
+                    StringUtils.getString(R.string.new_tag, pContext),
+                    StringUtils.getString(R.string.ok, pContext),
+                    StringUtils.getString(R.string.cancel, pContext),
+                    pContext,
+                    this::addTag)
+            }
         }
     }
 
-    fun updateTagsData(newTags: List<String>) {
-        tags = newTags
+    private fun addTag(tag: String) {
+        val i = tags.size
+        tags.add(tag)
+        mAdapter.updateTags(tags)
+        mAdapter.notifyItemInserted(i)
+        if (i == 0) {
+            (activity as EntryActivity).onTagsNotEmpty()
+        }
     }
 }

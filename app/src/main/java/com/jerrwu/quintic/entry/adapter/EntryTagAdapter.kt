@@ -1,4 +1,4 @@
-package com.jerrwu.quintic.entry
+package com.jerrwu.quintic.entry.adapter
 
 import android.app.Activity
 import android.content.Context
@@ -27,6 +27,10 @@ class EntryTagAdapter(
         (mContext as Activity).runOnUiThread {
             holder.tagTextView.text = tag
         }
+    }
+
+    fun updateTags(tags: List<String>) {
+        mDataList = tags
     }
 
     @UiThread

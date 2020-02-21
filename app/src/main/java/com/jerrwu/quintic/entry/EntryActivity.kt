@@ -27,7 +27,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class EntryActivity : BaseActivity() {
+class EntryActivity : BaseActivity(), EntryActivityTagInterface {
     companion object {
         val TAG = EntryActivity::class.java.simpleName
     }
@@ -102,7 +102,7 @@ class EntryActivity : BaseActivity() {
                 this, this::deleteEntry, UiUtils::dismissDialog)
         }
 
-        mTagsFragment.updateTagsData(EntryEntity.splitTags(mTags))
+        mTagsFragment.tags = EntryEntity.splitTags(mTags).toMutableList()
         entry_tag_button.setOnClickListener {
             mTagsFragment.show(supportFragmentManager, mTagsFragment.tag)
         }
@@ -319,5 +319,13 @@ class EntryActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    override fun onAllTagsRemoved() {
+        entry_tag_button.setImageResource(R.drawable.ic_tag_plus_outline)
+    }
+
+    override fun onTagsNotEmpty() {
+        entry_tag_button.setImageResource(R.drawable.ic_tag_text_outline)
     }
 }
