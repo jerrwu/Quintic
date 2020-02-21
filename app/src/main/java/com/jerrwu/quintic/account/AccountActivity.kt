@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.WindowManager
 import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -32,7 +33,9 @@ class AccountActivity : BaseActivity() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
 
         mSetName = prefs.getString(PreferenceKeys.PREFERENCE_NAME, "")
-        account_edit_text.setText(mSetName)
+        if (mSetName != null && mSetName!!.isNotEmpty() && mSetName != "User") {
+            account_edit_text.setText(mSetName)
+        }
 
         account_back_button.setOnClickListener {
             finish()

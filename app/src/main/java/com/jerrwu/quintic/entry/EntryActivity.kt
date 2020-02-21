@@ -75,7 +75,10 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
                 entry_context_edittext.setText(bundle.getString(MainDbHelper.DB_COL_CONTENT))
                 mCreatedDate = LocalDateTime.parse(bundle.getString(MainDbHelper.DB_COL_TIME))
                 mMood = MoodEntity.parse(bundle.getInt(MainDbHelper.DB_COL_MOOD))
-                mTags = bundle.getString(MainDbHelper.DB_COL_TAGS).toString()
+                val pTags = bundle.getString(MainDbHelper.DB_COL_TAGS)
+                if (pTags != null) {
+                    mTags = pTags
+                }
                 mPos = bundle.getInt("pos")
                 val dateString = getString(R.string.created_on) + mFormatterDate.format(mCreatedDate)
                 entry_datetime_text.text = dateString
