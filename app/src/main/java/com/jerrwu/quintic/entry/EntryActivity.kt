@@ -112,11 +112,12 @@ class EntryActivity : BaseActivity() {
 
         val moodList = ConstantLists.moodSelectorOptions
 
-        mAdapter = MoodAdapter(moodList, this, mMood)
+        mAdapter = MoodAdapter(moodList, this)
+        mAdapter?.selected = mMood
         mood_recycler_view.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         mood_recycler_view.adapter = mAdapter
 
-        mAdapter?.onItemClick = { mood ->
+        mAdapter?.onItemClick = {_, mood, _ ->
             onMoodUpdated(mood)
         }
 

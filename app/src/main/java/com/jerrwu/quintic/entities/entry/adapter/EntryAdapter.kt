@@ -10,7 +10,9 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.jerrwu.quintic.BaseRecyclerViewHolder
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.BaseRecyclerViewAdapter
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.main.MainActivity
@@ -19,14 +21,11 @@ import java.time.format.DateTimeFormatter
 
 
 class EntryAdapter(
-    private val mDataList: List<EntryEntity>) : RecyclerView.Adapter<EntryAdapter.CardViewHolder>() {
+    private val mDataList: List<EntryEntity>
+) : BaseRecyclerViewAdapter<EntryEntity, EntryAdapter.EntryViewHolder>(mDataList, null) {
     companion object {
         val TAG = EntryAdapter::class.java.simpleName
     }
-
-    // click listeners
-    var onItemClick: ((Int, EntryEntity, Boolean) -> Unit)? = null
-    var onItemLongClick: ((EntryEntity) -> Boolean)? = null
 
     var mContext: Context? = null
     var mIsMultiSelect = false
@@ -35,12 +34,12 @@ class EntryAdapter(
     private var mSelectedBg = R.color.colorQuad  // colorQuad
     private var mUnselectedBg = R.color.colorMain // colorMain
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.entry_card, parent, false)
-        return CardViewHolder(view)
+        return EntryViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: EntryViewHolder, position: Int) {
         val entry: EntryEntity = mDataList[position]
         val mood: MoodEntity? = entry.mood
         val context = mContext
@@ -74,15 +73,13 @@ class EntryAdapter(
         holder.cardContent.text = entry.content
 
         val ic = entry.ic
-        if (ic != null) {
-            if (ic == 0) {
-                holder.cardIcHolder.visibility = View.GONE
-                val params = holder.cardTextContainer.layoutParams as ConstraintLayout.LayoutParams
-                params.marginEnd = 12
-                holder.cardTextContainer.layoutParams = params
-            } else {
-                holder.cardIc.setImageResource(ic)
-            }
+        if (ic == 0) {
+            holder.cardIcHolder.visibility = View.GONE
+            val params = holder.cardTextContainer.layoutParams as ConstraintLayout.LayoutParams
+            params.marginEnd = 12
+            holder.cardTextContainer.layoutParams = params
+        } else {
+            holder.cardIc.setImageResource(ic)
         }
     }
 
@@ -90,7 +87,7 @@ class EntryAdapter(
         return mDataList.size
     }
 
-    inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class EntryViewHolder(itemView: View) : BaseRecyclerViewHolder(itemView) {
         internal var cardRvBackground: CardView = itemView.findViewById(R.id.card_rv_background)
         internal var cardTitle: TextView = itemView.findViewById(R.id.card_title)
         internal var cardDate: TextView = itemView.findViewById(R.id.card_date)

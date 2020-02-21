@@ -45,7 +45,8 @@ object SearchUtils {
             MainDbHelper.DB_COL_TITLE,
             MainDbHelper.DB_COL_CONTENT,
             MainDbHelper.DB_COL_TIME,
-            MainDbHelper.DB_COL_MOOD)
+            MainDbHelper.DB_COL_MOOD,
+            MainDbHelper.DB_COL_TAGS)
         val selectionArgs = arrayOf(text)
         val cursor = baseDbHelper.query(
             projections, "$column LIKE ?", selectionArgs, "ID $order"
