@@ -6,6 +6,7 @@ object Constants {
     const val NOON = "Noon"
     const val AFTERNOON = "Afternoon"
     const val EVENING = "Evening"
+    const val TAG_DELIMITER = "+"
 
     const val CHANGELOG =
         "- Added Dec 2019, Jan 2020, Mar 2020, Apr 2020, May 2020 in the calendar. \n\n " +

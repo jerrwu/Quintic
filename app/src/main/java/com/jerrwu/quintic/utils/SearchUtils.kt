@@ -67,7 +67,8 @@ object SearchUtils {
                         cdTitle,
                         cdCont,
                         LocalDateTime.parse(cdTime),
-                        MoodEntity.parse(cdMood)
+                        MoodEntity.parse(cdMood),
+                        ""
                     )
                 )
 
