@@ -22,9 +22,9 @@
 
     <ImageView
         android:id="@+id/cell_indicator"
-        android:tint="@color/colorFont"
-        android:layout_width="12dp"
+        android:tint="@color/colorSupport"
+        android:layout_width="14dp"
         android:clickable="false"
-        android:layout_height="12dp" />
+        android:layout_height="14dp" />
 
 </LinearLayout>

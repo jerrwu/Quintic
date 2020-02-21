@@ -6,19 +6,18 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.UiThread
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseActivity
 import com.jerrwu.quintic.common.EditTextFlow
 import com.jerrwu.quintic.common.constants.ConstantLists
+import com.jerrwu.quintic.common.constants.Constants
+import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entities.mood.adapter.MoodAdapter
 import com.jerrwu.quintic.utils.*
@@ -27,10 +26,9 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_entry.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.concurrent.TimeUnit
 
 
-class EntryActivity : BaseActivity() {
+class EntryActivity : BaseActivity(), EntryActivityTagInterface {
     companion object {
         val TAG = EntryActivity::class.java.simpleName
     }
@@ -46,6 +44,8 @@ class EntryActivity : BaseActivity() {
     private var mIsSelectorOpen = false
     private var mAdapter: MoodAdapter? = null
     private var mPos: Int = 0
+    private var mTags: String = ""
+    private var mTagsFragment: EntryTagFragment = EntryTagFragment(ArrayList<String>())
 
     var id = 0
 
@@ -75,6 +75,7 @@ class EntryActivity : BaseActivity() {
                 entry_context_edittext.setText(bundle.getString(MainDbHelper.DB_COL_CONTENT))
                 mCreatedDate = LocalDateTime.parse(bundle.getString(MainDbHelper.DB_COL_TIME))
                 mMood = MoodEntity.parse(bundle.getInt(MainDbHelper.DB_COL_MOOD))
+                mTags = bundle.getString(MainDbHelper.DB_COL_TAGS).toString()
                 mPos = bundle.getInt("pos")
                 val dateString = getString(R.string.created_on) + mFormatterDate.format(mCreatedDate)
                 entry_datetime_text.text = dateString
@@ -102,6 +103,15 @@ class EntryActivity : BaseActivity() {
                 this, this::deleteEntry, UiUtils::dismissDialog)
         }
 
+        if (mTags.isNotEmpty()) {
+            entry_tag_button.setImageResource(R.drawable.ic_tag_text_outline)
+        }
+
+        mTagsFragment.tags = EntryEntity.splitTags(mTags).toMutableList()
+        entry_tag_button.setOnClickListener {
+            mTagsFragment.show(supportFragmentManager, mTagsFragment.tag)
+        }
+
         entry_save_button.setOnClickListener {
             updateEntry()
         }
@@ -112,11 +122,12 @@ class EntryActivity : BaseActivity() {
 
         val moodList = ConstantLists.moodSelectorOptions
 
-        mAdapter = MoodAdapter(moodList, this, mMood)
+        mAdapter = MoodAdapter(moodList, this)
+        mAdapter?.selected = mMood
         mood_recycler_view.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         mood_recycler_view.adapter = mAdapter
 
-        mAdapter?.onItemClick = { mood ->
+        mAdapter?.onItemClick = {_, mood, _ ->
             onMoodUpdated(mood)
         }
 
@@ -193,6 +204,22 @@ class EntryActivity : BaseActivity() {
         }
     }
 
+    private fun toggleSaveButton(bool: Boolean) {
+        if (bool) {
+            entry_save_button.isEnabled = true
+
+            entry_save_button.setColorFilter(
+                ContextCompat.getColor(this@EntryActivity, R.color.green),
+                PorterDuff.Mode.SRC_ATOP)
+        } else {
+            entry_save_button.isEnabled = false
+
+            entry_save_button.setColorFilter(
+                ContextCompat.getColor(this@EntryActivity, R.color.colorTertiary),
+                PorterDuff.Mode.SRC_ATOP)
+        }
+    }
+
     private fun toggleSaveButton() {
         if (mMood != MoodEntity.NONE) toggleSaveButton("%")
         else toggleSaveButton("")
@@ -201,20 +228,10 @@ class EntryActivity : BaseActivity() {
     @UiThread
     private fun toggleSaveButton(s: String?) {
         if (s?.length != 0) {
-                    entry_save_button.isEnabled = true
-
-                    entry_save_button.setColorFilter(
-                        ContextCompat.getColor(this@EntryActivity, R.color.green),
-                        PorterDuff.Mode.SRC_ATOP)
-                }
-
-                else {
-                    entry_save_button.isEnabled = false
-
-                    entry_save_button.setColorFilter(
-                        ContextCompat.getColor(this@EntryActivity, R.color.colorTertiary),
-                        PorterDuff.Mode.SRC_ATOP)
-                }
+            toggleSaveButton(true)
+        } else {
+            toggleSaveButton(false)
+        }
     }
 
     private fun deleteEntry(context: Context) {
@@ -278,6 +295,7 @@ class EntryActivity : BaseActivity() {
             values.put(MainDbHelper.DB_COL_TIME, mCreatedDate.toString())
             values.put(MainDbHelper.DB_COL_MOOD, mMood.name)
             values.put(MainDbHelper.DB_COL_DATE_EXTERNAL, mFormatterDb.format(mCreatedDate))
+            values.put(MainDbHelper.DB_COL_TAGS, mTagsFragment.tags.joinToString(separator = Constants.TAG_DELIMITER))
             Log.d("EntryActivity", "DATE_EXTERNAL: " + values.get(MainDbHelper.DB_COL_DATE_EXTERNAL) as String)
             values.put(MainDbHelper.DB_COL_HOURS, StringUtils.getHours(mCreatedDate?.hour))
 
@@ -313,5 +331,15 @@ class EntryActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    override fun onAllTagsRemoved() {
+        entry_tag_button.setImageResource(R.drawable.ic_tag_plus_outline)
+        toggleSaveButton(true)
+    }
+
+    override fun onTagsNotEmpty() {
+        entry_tag_button.setImageResource(R.drawable.ic_tag_text_outline)
+        toggleSaveButton(true)
     }
 }

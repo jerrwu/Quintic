@@ -9,26 +9,26 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.UiThread
 import androidx.recyclerview.widget.RecyclerView
+import com.jerrwu.quintic.BaseRecyclerViewHolder
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.BaseRecyclerViewAdapter
 import com.jerrwu.quintic.entities.mood.MoodEntity
 
 class SearchMoodAdapter(
     private val mDataList: List<MoodEntity>,
     private val mContext: Context
-) : RecyclerView.Adapter<SearchMoodAdapter.MoodViewHolder>() {
+) : BaseRecyclerViewAdapter<MoodEntity, SearchMoodAdapter.SearchMoodViewHolder>(mDataList, mContext) {
     companion object {
         val TAG = SearchMoodAdapter::class.java.simpleName
     }
 
-    var onItemClick: ((MoodEntity) -> Unit)? = null
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoodViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchMoodViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.mood_category_card, parent, false)
-        return MoodViewHolder(view)
+        return SearchMoodViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: MoodViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SearchMoodViewHolder, position: Int) {
         val mood: MoodEntity = mDataList[position]
 
         (mContext as Activity).runOnUiThread {
@@ -39,18 +39,14 @@ class SearchMoodAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        return mDataList.size
-    }
-
     @UiThread
-    inner class MoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class SearchMoodViewHolder(itemView: View) : BaseRecyclerViewHolder(itemView) {
         internal var moodCardImageView: ImageView = itemView.findViewById(R.id.mood_category_card_imageview)
         internal var moodCardTextView: TextView = itemView.findViewById(R.id.mood_category_card_textview)
 
         init {
             itemView.setOnClickListener {
-                onItemClick?.invoke(mDataList[adapterPosition])
+                onItemClick?.invoke(null, mDataList[adapterPosition], null)
             }
         }
     }

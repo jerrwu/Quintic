@@ -8,18 +8,18 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.UiThread
 import androidx.recyclerview.widget.RecyclerView
+import com.jerrwu.quintic.BaseRecyclerViewHolder
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.BaseRecyclerViewAdapter
 import com.jerrwu.quintic.entities.time.MonthEntity
 
 class SearchMonthAdapter(
     private val mDataList: List<MonthEntity>,
     private val mContext: Context
-) : RecyclerView.Adapter<SearchMonthAdapter.MonthViewHolder>() {
+) : BaseRecyclerViewAdapter<MonthEntity, SearchMonthAdapter.MonthViewHolder>(mDataList, mContext) {
     companion object {
         val TAG = SearchMonthAdapter::class.java.simpleName
     }
-
-    var onItemClick: ((MonthEntity) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MonthViewHolder {
         val view =
@@ -36,18 +36,14 @@ class SearchMonthAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        return mDataList.size
-    }
-
     @UiThread
-    inner class MonthViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class MonthViewHolder(itemView: View) : BaseRecyclerViewHolder(itemView) {
         internal var monthTextView: TextView = itemView.findViewById(R.id.month_card_textview)
         internal var monthMiniTextView: TextView = itemView.findViewById(R.id.month_card_mini_textview)
 
         init {
             itemView.setOnClickListener {
-                onItemClick?.invoke(mDataList[adapterPosition])
+                onItemClick?.invoke(null, mDataList[adapterPosition], null)
             }
         }
     }

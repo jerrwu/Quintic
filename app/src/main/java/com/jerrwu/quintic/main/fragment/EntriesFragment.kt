@@ -141,7 +141,7 @@ class EntriesFragment : BaseFragment() {
                 true
             }
             mAdapter?.onItemClick = {pos, entry, dismissToolbar ->
-                if (dismissToolbar) {
+                if (dismissToolbar!!) {
                     hideSelectionToolbar(false)
                 } else {
                     val intent = Intent(activity, EntryActivity::class.java)
@@ -150,6 +150,7 @@ class EntriesFragment : BaseFragment() {
                     intent.putExtra(MainDbHelper.DB_COL_CONTENT, entry.content)
                     intent.putExtra(MainDbHelper.DB_COL_TIME, entry.time.toString())
                     intent.putExtra(MainDbHelper.DB_COL_MOOD, entry.mood?.id)
+                    intent.putExtra(MainDbHelper.DB_COL_TAGS, entry.tags)
                     intent.putExtra("pos", pos)
                     startActivityForResult(intent, 0)
                 }
@@ -308,7 +309,8 @@ class EntriesFragment : BaseFragment() {
                 MainDbHelper.DB_COL_TITLE,
                 MainDbHelper.DB_COL_CONTENT,
                 MainDbHelper.DB_COL_TIME,
-                MainDbHelper.DB_COL_MOOD)
+                MainDbHelper.DB_COL_MOOD,
+                MainDbHelper.DB_COL_TAGS)
             val selectionArgs = arrayOf(title)
             val cursor = dbHelper.query(
                 projections, "Title like ?", selectionArgs, MainDbHelper.DB_COL_ID+" DESC")
@@ -316,21 +318,23 @@ class EntriesFragment : BaseFragment() {
             if (cursor.moveToFirst()) {
 
                 do {
-                    val cdId = cursor.getInt(cursor.getColumnIndex(MainDbHelper.DB_COL_ID))
-                    val cdIc = cursor.getInt(cursor.getColumnIndex(MainDbHelper.DB_COL_ICON))
-                    val cdTitle = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_TITLE))
-                    val cdCont = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_CONTENT))
-                    val cdTime = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_TIME))
-                    val cdMood = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_MOOD))
+                    val entryId = cursor.getInt(cursor.getColumnIndex(MainDbHelper.DB_COL_ID))
+                    val entryIc = cursor.getInt(cursor.getColumnIndex(MainDbHelper.DB_COL_ICON))
+                    val entryTitle = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_TITLE))
+                    val entryContent = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_CONTENT))
+                    val entryTime = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_TIME))
+                    val entryMood = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_MOOD))
+                    val entryTags = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_TAGS))
 
                     mEntryList.add(
                         EntryEntity(
-                            cdId,
-                            cdIc,
-                            cdTitle,
-                            cdCont,
-                            LocalDateTime.parse(cdTime),
-                            MoodEntity.parse(cdMood)
+                            entryId,
+                            entryIc,
+                            entryTitle,
+                            entryContent,
+                            LocalDateTime.parse(entryTime),
+                            MoodEntity.parse(entryMood),
+                            entryTags
                         )
                     )
 

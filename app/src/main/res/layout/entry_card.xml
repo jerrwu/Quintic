@@ -62,6 +62,18 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp" />
 
+            <ImageView
+                android:id="@+id/card_tag_indicator"
+                android:visibility="gone"
+                android:layout_marginStart="4dp"
+                android:tint="@color/colorSecondary"
+                android:src="@drawable/ic_tag_text_outline"
+                app:layout_constraintBottom_toBottomOf="@id/card_title"
+                app:layout_constraintTop_toTopOf="@id/card_title"
+                app:layout_constraintStart_toEndOf="@id/card_title"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+
             <TextView
                 android:maxLines="1"
                 app:layout_constraintTop_toBottomOf="@id/card_title"

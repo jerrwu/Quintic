@@ -47,6 +47,7 @@ class SearchActivity : BaseActivity() {
         const val SEARCH_TYPE_MOOD = "Mood"
         const val SEARCH_TYPE_TIME = "Time"
         const val SEARCH_TYPE_HOURS = "Hours"
+        const val SEARCH_TYPE_TAG = "Tags"
     }
 
     private var mSearchResults: List<EntryEntity>? = null
@@ -176,6 +177,7 @@ class SearchActivity : BaseActivity() {
             intent.putExtra(MainDbHelper.DB_COL_CONTENT, entry.content)
             intent.putExtra(MainDbHelper.DB_COL_TIME, entry.time.toString())
             intent.putExtra(MainDbHelper.DB_COL_MOOD, entry.mood?.id)
+            intent.putExtra(MainDbHelper.DB_COL_TAGS, entry.tags)
             intent.putExtra("pos", pos)
             startActivity(intent)
         }

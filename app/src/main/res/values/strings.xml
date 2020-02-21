@@ -96,6 +96,13 @@
     <string name="ok">Ok</string>
     <string name="changelog">Changelog</string>
     <string name="updated_to_version">Updated to version</string>
+  
+    // Tags
+    <string name="edit_tags">Edit tags</string>
+    <string name="tags">Tags</string>
+    <string name="new_tag">New tag</string>
+    <string name="cancel">Cancel</string>
+
 
     // Shortcuts
     <string name="shortcut_entry_short">New Entry</string>

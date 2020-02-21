@@ -22,6 +22,7 @@ class MainDbHelper(context: Context) : BaseDbHelper(context) {
         const val DB_COL_MOOD = "Mood"
         const val DB_COL_DATE_EXTERNAL = "Time"
         const val DB_COL_HOURS = "Hours"
+        const val DB_COL_TAGS = "Tags"
     }
 
     val dbVersion: Int = BuildConfig.MAIN_DATABASE_VERSION
@@ -30,7 +31,7 @@ class MainDbHelper(context: Context) : BaseDbHelper(context) {
         "CREATE TABLE IF NOT EXISTS $DB_TABLE (" +
                 "$DB_COL_ID INTEGER PRIMARY KEY, $DB_COL_ICON INTEGER, $DB_COL_TITLE TEXT," +
                 " $DB_COL_CONTENT TEXT, $DB_COL_TIME TEXT, $DB_COL_MOOD TEXT," +
-                " $DB_COL_DATE_EXTERNAL TEXT, $DB_COL_HOURS TEXT);"
+                " $DB_COL_DATE_EXTERNAL TEXT, $DB_COL_HOURS TEXT, $DB_COL_TAGS TEXT);"
 
     private var sqlDb: SQLiteDatabase? = null
 
@@ -64,13 +65,14 @@ class MainDbHelper(context: Context) : BaseDbHelper(context) {
             if (oldVersion < 4)  {
                 db?.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_HOURS TEXT")
             }
+            if (oldVersion < 5) {
+                db?.execSQL("ALTER TABLE $DB_TABLE ADD $DB_COL_TAGS TEXT")
+            }
             if (BuildConfig.DEBUG)
             (context as Activity).runOnUiThread {
                 Toast.makeText(this.context, "Main database upgraded!", Toast.LENGTH_SHORT).show()
             }
         }
-
-
     }
 
     override fun insert(values: ContentValues): Long? {

@@ -60,9 +60,9 @@ open class CellAdapter(
 
             if (cell.number != 0) {
                 if (cell.number == 1) {
-                    cellView.cell_indicator.setImageResource(R.drawable.ic_book)
+                    cellView.cell_indicator.setImageResource(R.drawable.ic_check)
                 } else {
-                    cellView.cell_indicator.setImageResource(R.drawable.ic_book_multiple)
+                    cellView.cell_indicator.setImageResource(R.drawable.ic_check_all)
                 }
             } else {
                 cellView.cell_indicator.visibility = View.GONE
