@@ -73,8 +73,6 @@ class MainDbHelper(context: Context) : BaseDbHelper(context) {
                 Toast.makeText(this.context, "Main database upgraded!", Toast.LENGTH_SHORT).show()
             }
         }
-
-
     }
 
     override fun insert(values: ContentValues): Long? {
