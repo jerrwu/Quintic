@@ -16,6 +16,7 @@ import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseActivity
 import com.jerrwu.quintic.common.EditTextFlow
 import com.jerrwu.quintic.common.constants.ConstantLists
+import com.jerrwu.quintic.common.constants.Constants
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entities.mood.adapter.MoodAdapter
@@ -199,6 +200,22 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
         }
     }
 
+    private fun toggleSaveButton(bool: Boolean) {
+        if (bool) {
+            entry_save_button.isEnabled = true
+
+            entry_save_button.setColorFilter(
+                ContextCompat.getColor(this@EntryActivity, R.color.green),
+                PorterDuff.Mode.SRC_ATOP)
+        } else {
+            entry_save_button.isEnabled = false
+
+            entry_save_button.setColorFilter(
+                ContextCompat.getColor(this@EntryActivity, R.color.colorTertiary),
+                PorterDuff.Mode.SRC_ATOP)
+        }
+    }
+
     private fun toggleSaveButton() {
         if (mMood != MoodEntity.NONE) toggleSaveButton("%")
         else toggleSaveButton("")
@@ -207,20 +224,10 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
     @UiThread
     private fun toggleSaveButton(s: String?) {
         if (s?.length != 0) {
-                    entry_save_button.isEnabled = true
-
-                    entry_save_button.setColorFilter(
-                        ContextCompat.getColor(this@EntryActivity, R.color.green),
-                        PorterDuff.Mode.SRC_ATOP)
-                }
-
-                else {
-                    entry_save_button.isEnabled = false
-
-                    entry_save_button.setColorFilter(
-                        ContextCompat.getColor(this@EntryActivity, R.color.colorTertiary),
-                        PorterDuff.Mode.SRC_ATOP)
-                }
+            toggleSaveButton(true)
+        } else {
+            toggleSaveButton(false)
+        }
     }
 
     private fun deleteEntry(context: Context) {
@@ -284,6 +291,7 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
             values.put(MainDbHelper.DB_COL_TIME, mCreatedDate.toString())
             values.put(MainDbHelper.DB_COL_MOOD, mMood.name)
             values.put(MainDbHelper.DB_COL_DATE_EXTERNAL, mFormatterDb.format(mCreatedDate))
+            values.put(MainDbHelper.DB_COL_TAGS, mTagsFragment.tags.joinToString(separator = Constants.TAG_DELIMITER))
             Log.d("EntryActivity", "DATE_EXTERNAL: " + values.get(MainDbHelper.DB_COL_DATE_EXTERNAL) as String)
             values.put(MainDbHelper.DB_COL_HOURS, StringUtils.getHours(mCreatedDate?.hour))
 
@@ -323,9 +331,11 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
 
     override fun onAllTagsRemoved() {
         entry_tag_button.setImageResource(R.drawable.ic_tag_plus_outline)
+        toggleSaveButton(true)
     }
 
     override fun onTagsNotEmpty() {
         entry_tag_button.setImageResource(R.drawable.ic_tag_text_outline)
+        toggleSaveButton(true)
     }
 }
