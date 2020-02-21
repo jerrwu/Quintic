@@ -11,10 +11,10 @@ class EntryEntity(
     var content: String,
     var time: LocalDateTime,
     var mood: MoodEntity?,
-    var tags: String) {
+    var tags: String?) {
     var isSelected: Boolean = false
 
-    fun splitTags(): List<String> {
-        return tags.split(Constants.TAG_DELIMITER)
+    fun splitTags(): List<String>? {
+        return tags?.split(Constants.TAG_DELIMITER)
     }
 }
