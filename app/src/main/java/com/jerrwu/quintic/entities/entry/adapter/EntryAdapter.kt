@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import com.jerrwu.quintic.common.BaseRecyclerViewHolder
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseRecyclerViewAdapter
@@ -30,8 +29,6 @@ class EntryAdapter(
     var mIsMultiSelect = false
     var mItemsSelected: MutableList<EntryEntity> = ArrayList()
     var mItemsSelectedIds: MutableList<Int> = ArrayList()
-    private var mSelectedBg = R.color.colorQuad  // colorQuad
-    private var mUnselectedBg = R.color.colorMain // colorMain
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.entry_card, parent, false)
@@ -44,47 +41,39 @@ class EntryAdapter(
         val context = mContext
         if (context != null) {
             if (mood != null && mood != MoodEntity.NONE) {
-                holder.cardMood.visibility = View.VISIBLE
-                holder.cardMood.text = mood.name
+                holder.entryMood.visibility = View.VISIBLE
+                holder.entryMood.text = mood.name
             } else {
-                holder.cardMood.visibility = View.GONE
+                holder.entryMood.visibility = View.GONE
             }
 
             if (entry.isSelected) {
-                holder.cardRvBackground.setCardBackgroundColor(
-                    ContextCompat.getColor(context, mSelectedBg)
-                )
-                setCardSelectedTextColor(holder.cardView)
+                holder.entrySelectedOverlay.visibility = View.VISIBLE
+                showCheckIcon(holder.entryCardView)
             } else {
-                holder.cardRvBackground.setCardBackgroundColor(
-                    ContextCompat.getColor(context, mUnselectedBg)
-                )
-                setCardUnselectedTextColor(holder.cardView)
+                holder.entrySelectedOverlay.visibility = View.GONE
+                hideCheckIcon(holder.entryCardView)
             }
-            holder.cardRvBackground.setCardBackgroundColor(
-                if (entry.isSelected) ContextCompat.getColor(context, mSelectedBg)
-                else ContextCompat.getColor(context, mUnselectedBg)
-            )
         }
 
-        holder.cardTitle.text = entry.title
-        holder.cardDate.text = DateTimeFormatter.ofPattern("MMM dd, yyyy").format(entry.time)
-        holder.cardContent.text = entry.content
+        holder.entryTitle.text = entry.title
+        holder.entryDate.text = DateTimeFormatter.ofPattern("MMM dd, yyyy").format(entry.time)
+        holder.entryContent.text = entry.content
 
         val ic = entry.ic
         if (ic == 0) {
-            holder.cardIcHolder.visibility = View.GONE
-            val params = holder.cardTextContainer.layoutParams as ConstraintLayout.LayoutParams
+            holder.entryIcHolder.visibility = View.GONE
+            val params = holder.entryTextContainer.layoutParams as ConstraintLayout.LayoutParams
             params.marginEnd = 12
-            holder.cardTextContainer.layoutParams = params
+            holder.entryTextContainer.layoutParams = params
         } else {
-            holder.cardIc.setImageResource(ic)
+            holder.entryIc.setImageResource(ic)
         }
 
         if (entry.tags != null && entry.tags!!.isNotEmpty()) {
-            holder.cardTagIndicator.visibility = View.VISIBLE
+            holder.entryTagIndicator.visibility = View.VISIBLE
         } else {
-            holder.cardTagIndicator.visibility = View.GONE
+            holder.entryTagIndicator.visibility = View.GONE
         }
     }
 
@@ -93,16 +82,16 @@ class EntryAdapter(
     }
 
     inner class EntryViewHolder(itemView: View) : BaseRecyclerViewHolder(itemView) {
-        internal var cardRvBackground: CardView = itemView.findViewById(R.id.card_rv_background)
-        internal var cardTitle: TextView = itemView.findViewById(R.id.card_title)
-        internal var cardDate: TextView = itemView.findViewById(R.id.card_date)
-        internal var cardContent: TextView = itemView.findViewById(R.id.card_content)
-        internal var cardMood: TextView = itemView.findViewById(R.id.card_mood)
-        internal var cardIc: ImageView = itemView.findViewById(R.id.card_ic)
-        internal var cardIcHolder: CardView = itemView.findViewById(R.id.card_ic_holder)
-        internal var cardView: CardView = itemView as CardView
-        internal var cardTextContainer: ConstraintLayout = itemView.findViewById(R.id.card_text_container)
-        internal var cardTagIndicator: ImageView = itemView.findViewById(R.id.card_tag_indicator)
+        internal var entryTitle: TextView = itemView.findViewById(R.id.entry_title)
+        internal var entryDate: TextView = itemView.findViewById(R.id.entry_date)
+        internal var entryContent: TextView = itemView.findViewById(R.id.entry_content)
+        internal var entryMood: TextView = itemView.findViewById(R.id.entry_mood)
+        internal var entryIc: ImageView = itemView.findViewById(R.id.entry_ic)
+        internal var entryIcHolder: CardView = itemView.findViewById(R.id.entry_ic_holder)
+        internal var entrySelectedOverlay: ImageView = itemView.findViewById(R.id.entry_selected_overlay)
+        internal var entryCardView: CardView = itemView as CardView
+        internal var entryTextContainer: ConstraintLayout = itemView.findViewById(R.id.entry_text_container)
+        internal var entryTagIndicator: ImageView = itemView.findViewById(R.id.entry_tag_indicator)
 
         init {
             itemView.setOnClickListener {
@@ -135,13 +124,13 @@ class EntryAdapter(
             if (item.isSelected) {
                 mItemsSelected.remove(item)
                 mItemsSelectedIds.remove(adapterPosition)
-                view.setCardBackgroundColor(ContextCompat.getColor(context, mUnselectedBg))
-                setCardUnselectedTextColor(view)
+                view.entry_selected_overlay.visibility = View.INVISIBLE
+                hideCheckIcon(view)
             } else {
                 mItemsSelected.add(item)
                 mItemsSelectedIds.add(adapterPosition)
-                view.setCardBackgroundColor(ContextCompat.getColor(context, mSelectedBg))
-                setCardSelectedTextColor(view)
+                view.entry_selected_overlay.visibility = View.VISIBLE
+                showCheckIcon(view)
             }
         }
         item.isSelected = !item.isSelected
@@ -160,32 +149,20 @@ class EntryAdapter(
         mItemsSelected.add(item)
         mItemsSelectedIds.add(adapterPosition)
         if (context != null) {
-            view.setCardBackgroundColor(ContextCompat.getColor(context, mSelectedBg))
+            view.entry_selected_overlay.visibility = View.VISIBLE
         }
 
-        setCardSelectedTextColor(view)
+        showCheckIcon(view)
         item.isSelected = true
         onItemLongClick?.invoke(item)
         notifyDataSetChanged()
     }
 
-    private fun setCardSelectedTextColor(view: CardView) {
-        view.card_title.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
-        view.card_content.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
-        view.card_date.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
-        view.card_mood.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
-//        view.card_date.background.alpha = 25
-//        // http://online.sfsu.edu/chrism/hexval.html for percent values
-        view.card_select_check.visibility = View.VISIBLE
+    private fun showCheckIcon(view: CardView) {
+        view.entry_select_check.visibility = View.VISIBLE
     }
 
-    private fun setCardUnselectedTextColor(view: CardView) {
-        view.card_title.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
-        view.card_content.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
-        view.card_date.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
-        view.card_mood.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
-//        view.card_date.background.alpha = 50
-//        // http://online.sfsu.edu/chrism/hexval.html for percent values
-        view.card_select_check.visibility = View.GONE
+    private fun hideCheckIcon(view: CardView) {
+        view.entry_select_check.visibility = View.GONE
     }
 }
