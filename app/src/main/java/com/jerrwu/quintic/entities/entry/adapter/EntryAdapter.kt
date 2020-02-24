@@ -49,20 +49,12 @@ class EntryAdapter(
             }
 
             if (entry.isSelected) {
-                holder.entryRvBackground.setCardBackgroundColor(
-                    ContextCompat.getColor(context, mSelectedBg)
-                )
+                holder.entrySelectedOverlay.visibility = View.VISIBLE
                 setCardSelectedTextColor(holder.entryCardView)
             } else {
-                holder.entryRvBackground.setCardBackgroundColor(
-                    ContextCompat.getColor(context, mUnselectedBg)
-                )
+                holder.entrySelectedOverlay.visibility = View.GONE
                 setCardUnselectedTextColor(holder.entryCardView)
             }
-            holder.entryRvBackground.setCardBackgroundColor(
-                if (entry.isSelected) ContextCompat.getColor(context, mSelectedBg)
-                else ContextCompat.getColor(context, mUnselectedBg)
-            )
         }
 
         holder.entryTitle.text = entry.title
@@ -134,12 +126,12 @@ class EntryAdapter(
             if (item.isSelected) {
                 mItemsSelected.remove(item)
                 mItemsSelectedIds.remove(adapterPosition)
-                view.setCardBackgroundColor(ContextCompat.getColor(context, mUnselectedBg))
+                view.entry_selected_overlay.visibility = View.GONE
                 setCardUnselectedTextColor(view)
             } else {
                 mItemsSelected.add(item)
                 mItemsSelectedIds.add(adapterPosition)
-                view.setCardBackgroundColor(ContextCompat.getColor(context, mSelectedBg))
+                view.entry_selected_overlay.visibility = View.VISIBLE
                 setCardSelectedTextColor(view)
             }
         }
@@ -159,7 +151,7 @@ class EntryAdapter(
         mItemsSelected.add(item)
         mItemsSelectedIds.add(adapterPosition)
         if (context != null) {
-            view.setCardBackgroundColor(ContextCompat.getColor(context, mSelectedBg))
+            view.entry_selected_overlay.visibility = View.VISIBLE
         }
 
         setCardSelectedTextColor(view)
@@ -169,22 +161,10 @@ class EntryAdapter(
     }
 
     private fun setCardSelectedTextColor(view: CardView) {
-        view.entry_title.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
-        view.entry_content.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
-        view.entry_date.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
-        view.entry_mood.setTextColor(ContextCompat.getColor(view.context, R.color.colorTertiary))
-//        view.card_date.background.alpha = 25
-//        // http://online.sfsu.edu/chrism/hexval.html for percent values
         view.card_select_check.visibility = View.VISIBLE
     }
 
     private fun setCardUnselectedTextColor(view: CardView) {
-        view.entry_title.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
-        view.entry_content.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
-        view.entry_date.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
-        view.entry_mood.setTextColor(ContextCompat.getColor(view.context, R.color.colorSecondary))
-//        view.card_date.background.alpha = 50
-//        // http://online.sfsu.edu/chrism/hexval.html for percent values
         view.card_select_check.visibility = View.GONE
     }
 }
