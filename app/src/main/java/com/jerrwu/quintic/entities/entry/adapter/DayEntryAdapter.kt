@@ -10,13 +10,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.UiThread
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
-import com.jerrwu.quintic.BaseRecyclerViewHolder
+import com.jerrwu.quintic.common.BaseRecyclerViewHolder
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseRecyclerViewAdapter
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.mood.MoodEntity
-import java.time.format.DateTimeFormatter
 
 class DayEntryAdapter(
     private val mDataList: List<EntryEntity>,

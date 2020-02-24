@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.UiThread
-import androidx.recyclerview.widget.RecyclerView
-import com.jerrwu.quintic.BaseRecyclerViewHolder
+import com.jerrwu.quintic.common.BaseRecyclerViewHolder
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseRecyclerViewAdapter
 import com.jerrwu.quintic.entities.mood.MoodEntity

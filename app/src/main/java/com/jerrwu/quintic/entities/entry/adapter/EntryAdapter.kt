@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import com.jerrwu.quintic.BaseRecyclerViewHolder
+import com.jerrwu.quintic.common.BaseRecyclerViewHolder
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseRecyclerViewAdapter
 import com.jerrwu.quintic.entities.entry.EntryEntity

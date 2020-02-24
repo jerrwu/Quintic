@@ -3,7 +3,6 @@ package com.jerrwu.quintic.common
 import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.jerrwu.quintic.BaseRecyclerViewHolder
 
 abstract class BaseRecyclerViewAdapter<T, VH : BaseRecyclerViewHolder>(
     private val dataList: List<T>,
