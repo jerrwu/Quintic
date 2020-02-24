@@ -33,6 +33,9 @@ import java.time.format.DateTimeFormatter
 class EntryActivity : BaseActivity(), EntryActivityTagInterface {
     companion object {
         val TAG = EntryActivity::class.java.simpleName
+        const val TYPE_KEY = "notify_type"
+        const val ID_KEY = "entry_id"
+        const val POS_KEY = "pos"
     }
 
     private var mCreatedDate: LocalDateTime? = null
@@ -81,7 +84,7 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
                 if (pTags != null) {
                     mTags = pTags
                 }
-                mPos = bundle.getInt("pos")
+                mPos = bundle.getInt(POS_KEY)
                 val dateString = getString(R.string.created_on) + mFormatterDate.format(mCreatedDate)
                 entry_datetime_text.text = dateString
                 entry_datetime_text.visibility = View.VISIBLE
@@ -268,8 +271,8 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
 
     private fun finishWithResult(type: String) {
         val resultIntent = Intent()
-        resultIntent.putExtra("notify_type", type)
-        resultIntent.putExtra("entry_id", mPos)
+        resultIntent.putExtra(TYPE_KEY, type)
+        resultIntent.putExtra(ID_KEY, mPos)
         setResult(Activity.RESULT_OK, resultIntent)
         finish()
     }

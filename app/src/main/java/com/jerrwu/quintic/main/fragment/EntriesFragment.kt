@@ -43,6 +43,7 @@ class EntriesFragment : BaseFragment() {
     private var mCalDbHelper: CalDbHelper? = null
     private var mPosToNotify: Int? = null
     private var mPosNotifyType: String? = null
+    private lateinit var mResultEntry: EntryEntity
 
     override fun onFragmentShown() {
     }
@@ -150,7 +151,7 @@ class EntriesFragment : BaseFragment() {
                     intent.putExtra(MainDbHelper.DB_COL_TIME, entry.time.toString())
                     intent.putExtra(MainDbHelper.DB_COL_MOOD, entry.mood?.id)
                     intent.putExtra(MainDbHelper.DB_COL_TAGS, entry.tags)
-                    intent.putExtra("pos", pos)
+                    intent.putExtra(EntryActivity.POS_KEY, pos)
                     startActivityForResult(intent, 0)
                 }
             }
@@ -160,8 +161,8 @@ class EntriesFragment : BaseFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 0 && resultCode == RESULT_OK && data != null) {
-            mPosNotifyType = data.getStringExtra("notify_type")
-            mPosToNotify = data.getIntExtra("entry_id", 0)
+            mPosNotifyType = data.getStringExtra(EntryActivity.TYPE_KEY)
+            mPosToNotify = data.getIntExtra(EntryActivity.ID_KEY, 0)
         }
     }
 
@@ -173,7 +174,7 @@ class EntriesFragment : BaseFragment() {
             empty_recycler_notice.visibility = View.GONE
             val current = LocalDate.now()
             val filteredEntryList: List<EntryEntity> = mEntryList.filter {
-                    card -> card.time?.toLocalDate() == current }
+                    card -> card.time.toLocalDate() == current }
             if (filteredEntryList.isEmpty()) daily_suggestion_card_container.visibility = View.VISIBLE
         }
     }
