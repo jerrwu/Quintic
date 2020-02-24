@@ -1,8 +1,10 @@
 package com.jerrwu.quintic.entry
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -265,10 +267,10 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
     }
 
     private fun finishWithResult(type: String) {
-//        val resultIntent = Intent()
-//        resultIntent.putExtra("notify_type", type)
-//        resultIntent.putExtra("entry_id", mPos)
-//        setResult(Activity.RESULT_OK, resultIntent)
+        val resultIntent = Intent()
+        resultIntent.putExtra("notify_type", type)
+        resultIntent.putExtra("entry_id", mPos)
+        setResult(Activity.RESULT_OK, resultIntent)
         finish()
     }
 
@@ -324,7 +326,7 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
                 }
 
                 if (dbId != null && dbId > 0) {
-                    finishWithResult("!")
+                    finishWithResult("+")
                 }
             } else {
                 val selectionArgs = arrayOf(id.toString())

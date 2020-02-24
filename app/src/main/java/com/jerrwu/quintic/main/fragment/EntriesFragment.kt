@@ -1,6 +1,7 @@
 package com.jerrwu.quintic.main.fragment
 
 
+import android.app.Activity.RESULT_OK
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -56,35 +57,33 @@ class EntriesFragment : BaseFragment() {
         setInfoCardName(prefs)
         infoCardNameRem(prefs)
 
-        loadQuery("%")
         toggleEmptyNotices()
 
         resetAdapterSelected()
         hideSelectionToolbar(false)
 
-        mAdapter?.notifyDataSetChanged()
-
-//        val pos = mPosToNotify
-//        val type = mPosNotifyType
-//        Log.d(TAG, type ?: "null")
-//        if (pos != null && type != null) {
-//            when (type) {
-//                "-" -> {
-//                    mAdapter?.notifyItemRemoved(pos)
-//                }
-//                "+" -> {
-//                    mAdapter?.notifyItemInserted(pos)
-//                }
-//                "|" -> {
-//                    mAdapter?.notifyItemChanged(pos)
-//                }
-//                else -> {
-//                    mAdapter?.notifyDataSetChanged()
-//                }
-//            }
-//            mPosNotifyType = null
-//            mPosToNotify = null
-//        }
+        val pos = mPosToNotify
+        val type = mPosNotifyType
+        // got result from EntryActivity
+        if (pos != null && type != null) {
+            when (type) {
+                "-" -> {
+                    mEntryList.removeAt(pos)
+                    mAdapter?.notifyItemRemoved(pos)
+                }
+                "+" -> {
+                    mAdapter?.notifyItemInserted(0)
+                }
+                "|" -> {
+                    mAdapter?.notifyItemChanged(pos)
+                }
+                else -> {
+                    mAdapter?.notifyDataSetChanged()
+                }
+            }
+            mPosNotifyType = null
+            mPosToNotify = null
+        }
     }
 
     override fun onCreateView(
@@ -158,13 +157,13 @@ class EntriesFragment : BaseFragment() {
         }
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == 0 && resultCode == RESULT_OK && data != null) {
-//            mPosNotifyType = data.getStringExtra("notify_type")
-//            mPosToNotify = data.getIntExtra("entry_id", 0)
-//        }
-//    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0 && resultCode == RESULT_OK && data != null) {
+            mPosNotifyType = data.getStringExtra("notify_type")
+            mPosToNotify = data.getIntExtra("entry_id", 0)
+        }
+    }
 
     private fun toggleEmptyNotices() {
         daily_suggestion_card_container.visibility = View.GONE
@@ -213,9 +212,9 @@ class EntriesFragment : BaseFragment() {
         if (mainDbHelper != null && calDbHelper != null) {
             for (item in items) {
                 val createdDate = item.time
-                val calDbDate = createdDate?.year.toString() +
-                        createdDate?.monthValue.toString() +
-                        createdDate?.dayOfMonth.toString()
+                val calDbDate = createdDate.year.toString() +
+                        createdDate.monthValue.toString() +
+                        createdDate.dayOfMonth.toString()
 
                 val result = SearchUtils.performCalEntryCountSearch(calDbDate, calDbHelper)
                 val entryCount = result[1]
@@ -232,6 +231,7 @@ class EntriesFragment : BaseFragment() {
 
                 for (id in mAdapter?.mItemsSelectedIds.orEmpty()) {
                     mAdapter?.notifyItemRemoved(id)
+                    mEntryList.removeAt(id)
                 }
             }
         }
@@ -240,7 +240,6 @@ class EntriesFragment : BaseFragment() {
         }
         hideSelectionToolbar(true)
         toggleEmptyNotices()
-        loadQuery("%")
     }
 
     fun hideSelectionToolbar(deleted: Boolean) {
