@@ -49,10 +49,10 @@ class EntryAdapter(
 
             if (entry.isSelected) {
                 holder.entrySelectedOverlay.visibility = View.VISIBLE
-                setCardSelectedTextColor(holder.entryCardView)
+                showCheckIcon(holder.entryCardView)
             } else {
                 holder.entrySelectedOverlay.visibility = View.GONE
-                setCardUnselectedTextColor(holder.entryCardView)
+                hideCheckIcon(holder.entryCardView)
             }
         }
 
@@ -124,13 +124,13 @@ class EntryAdapter(
             if (item.isSelected) {
                 mItemsSelected.remove(item)
                 mItemsSelectedIds.remove(adapterPosition)
-                view.entry_selected_overlay.visibility = View.GONE
-                setCardUnselectedTextColor(view)
+                view.entry_selected_overlay.visibility = View.INVISIBLE
+                hideCheckIcon(view)
             } else {
                 mItemsSelected.add(item)
                 mItemsSelectedIds.add(adapterPosition)
                 view.entry_selected_overlay.visibility = View.VISIBLE
-                setCardSelectedTextColor(view)
+                showCheckIcon(view)
             }
         }
         item.isSelected = !item.isSelected
@@ -152,17 +152,17 @@ class EntryAdapter(
             view.entry_selected_overlay.visibility = View.VISIBLE
         }
 
-        setCardSelectedTextColor(view)
+        showCheckIcon(view)
         item.isSelected = true
         onItemLongClick?.invoke(item)
         notifyDataSetChanged()
     }
 
-    private fun setCardSelectedTextColor(view: CardView) {
+    private fun showCheckIcon(view: CardView) {
         view.entry_select_check.visibility = View.VISIBLE
     }
 
-    private fun setCardUnselectedTextColor(view: CardView) {
+    private fun hideCheckIcon(view: CardView) {
         view.entry_select_check.visibility = View.GONE
     }
 }
