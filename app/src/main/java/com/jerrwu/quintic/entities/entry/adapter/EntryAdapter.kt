@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import com.jerrwu.quintic.common.BaseRecyclerViewHolder
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.BaseRecyclerViewAdapter
@@ -83,7 +82,6 @@ class EntryAdapter(
     }
 
     inner class EntryViewHolder(itemView: View) : BaseRecyclerViewHolder(itemView) {
-        internal var entryRvBackground: CardView = itemView.findViewById(R.id.entry_rv_background)
         internal var entryTitle: TextView = itemView.findViewById(R.id.entry_title)
         internal var entryDate: TextView = itemView.findViewById(R.id.entry_date)
         internal var entryContent: TextView = itemView.findViewById(R.id.entry_content)
@@ -161,10 +159,10 @@ class EntryAdapter(
     }
 
     private fun setCardSelectedTextColor(view: CardView) {
-        view.card_select_check.visibility = View.VISIBLE
+        view.entry_select_check.visibility = View.VISIBLE
     }
 
     private fun setCardUnselectedTextColor(view: CardView) {
-        view.card_select_check.visibility = View.GONE
+        view.entry_select_check.visibility = View.GONE
     }
 }
