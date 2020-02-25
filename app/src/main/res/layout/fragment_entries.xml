@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
-    android:id="@+id/fragment_entries"
+    android:id="@+id/fragment_entries_pull_refresh"
     tools:context=".main.fragment.EntriesFragment">
 
     <androidx.core.widget.NestedScrollView

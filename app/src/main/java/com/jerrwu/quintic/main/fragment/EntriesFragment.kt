@@ -40,8 +40,8 @@ class EntriesFragment : BaseFragment() {
     private var mEntryList: ArrayList<EntryEntity> = ArrayList()
     private var mMainDbHelper: MainDbHelper? = null
     private var mCalDbHelper: CalDbHelper? = null
-    private var mPosToNotify: Int? = null
-    private var mPosNotifyType: String? = null
+//    private var mPosToNotify: Int? = null
+//    private var mPosNotifyType: String? = null
 
     override fun onFragmentShown() {
     }
@@ -123,6 +123,10 @@ class EntriesFragment : BaseFragment() {
 
         loadQuery("%")
 
+        fragment_entries_pull_refresh.setOnRefreshListener {
+            loadQuery("%")
+        }
+
         val mActivity = activity
         if (mActivity != null) {
             mRecyclerView = mActivity.findViewById(R.id.recycler_view)
@@ -131,7 +135,6 @@ class EntriesFragment : BaseFragment() {
             mAdapter = EntryAdapter(mEntryList)
             mAdapter?.mContext = mActivity
         }
-
 
         val recyclerView = mRecyclerView
         if (recyclerView != null) {
@@ -298,6 +301,11 @@ class EntriesFragment : BaseFragment() {
 
     @WorkerThread
     private fun loadQuery(title: String) {
+        activity?.runOnUiThread {
+            if (!fragment_entries_pull_refresh.isRefreshing)
+                fragment_entries_pull_refresh.isRefreshing = true
+        }
+
         if (mMainDbHelper == null && activity != null) {
             mMainDbHelper = MainDbHelper(activity as Context)
         }
@@ -341,6 +349,10 @@ class EntriesFragment : BaseFragment() {
                 } while (cursor.moveToNext())
             }
             cursor.close()
+        }
+
+        activity?.runOnUiThread {
+            fragment_entries_pull_refresh.isRefreshing = false
         }
     }
 
