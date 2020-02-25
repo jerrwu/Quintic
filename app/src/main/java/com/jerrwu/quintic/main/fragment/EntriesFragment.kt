@@ -222,13 +222,13 @@ class EntriesFragment : BaseFragment() {
 
                 val result = SearchUtils.performCalEntryCountSearch(calDbDate, calDbHelper)
                 val entryCount = result[1]
-                val values = ContentValues()
+                val columnValues = ContentValues()
 
                 val calId = result[0]
-                values.put(CalDbHelper.DB_COL_DATE, calDbDate.toInt())
-                values.put(CalDbHelper.DB_COL_ENTRIES, entryCount - 1)
+                columnValues.put(CalDbHelper.DB_COL_DATE, calDbDate.toInt())
+                columnValues.put(CalDbHelper.DB_COL_ENTRIES, entryCount - 1)
                 var selectionArgs = arrayOf(calId.toString())
-                calDbHelper.update(values, "ID=?", selectionArgs)
+                calDbHelper.update(columnValues, "ID=?", selectionArgs)
 
                 selectionArgs = arrayOf(item.id.toString())
                 mainDbHelper.delete("ID=?", selectionArgs)

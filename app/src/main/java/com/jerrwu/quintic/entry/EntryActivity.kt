@@ -252,13 +252,13 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
 
                 val result = SearchUtils.performCalEntryCountSearch(calDbDate, calDbHelper)
                 val entryCount = result[1]
-                val values = ContentValues()
+                val columnValues = ContentValues()
 
                 val calId = result[0]
-                values.put(CalDbHelper.DB_COL_DATE, calDbDate.toInt())
-                values.put(CalDbHelper.DB_COL_ENTRIES, entryCount - 1)
+                columnValues.put(CalDbHelper.DB_COL_DATE, calDbDate.toInt())
+                columnValues.put(CalDbHelper.DB_COL_ENTRIES, entryCount - 1)
                 val selectionArgs = arrayOf(calId.toString())
-                calDbHelper.update(values, "ID=?", selectionArgs)
+                calDbHelper.update(columnValues, "ID=?", selectionArgs)
             }
         }
         finishWithResult("-")
@@ -284,7 +284,7 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
         val mainDbHelper = mMainDbHelper
 
         if (mainDbHelper != null) {
-            val values = ContentValues()
+            val columnValues = ContentValues()
             var titleText = entry_title_edit_text.text.toString()
             val conText = entry_context_edittext.text.toString()
 
@@ -293,33 +293,32 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
                         StringUtils.getDaySection(mFormatterHour.format(mCreatedDate), this)
             }
 
-            values.put(MainDbHelper.DB_COL_TITLE, titleText)
-            values.put(MainDbHelper.DB_COL_CONTENT, conText)
-            values.put(MainDbHelper.DB_COL_TIME, mCreatedDate.toString())
-            values.put(MainDbHelper.DB_COL_MOOD, mMood.name)
-            values.put(MainDbHelper.DB_COL_DATE_EXTERNAL, mFormatterDb.format(mCreatedDate))
-            values.put(MainDbHelper.DB_COL_TAGS, mTagsFragment.tags.joinToString(separator = Constants.TAG_DELIMITER))
-            Log.d("EntryActivity", "DATE_EXTERNAL: " + values.get(MainDbHelper.DB_COL_DATE_EXTERNAL) as String)
-            values.put(MainDbHelper.DB_COL_HOURS, StringUtils.getHours(mCreatedDate?.hour))
+            columnValues.put(MainDbHelper.DB_COL_TITLE, titleText)
+            columnValues.put(MainDbHelper.DB_COL_CONTENT, conText)
+            columnValues.put(MainDbHelper.DB_COL_TIME, mCreatedDate.toString())
+            columnValues.put(MainDbHelper.DB_COL_MOOD, mMood.name)
+            columnValues.put(MainDbHelper.DB_COL_DATE_EXTERNAL, mFormatterDb.format(mCreatedDate))
+            columnValues.put(MainDbHelper.DB_COL_TAGS, mTagsFragment.tags.joinToString(separator = Constants.TAG_DELIMITER))
+            columnValues.put(MainDbHelper.DB_COL_HOURS, StringUtils.getHours(mCreatedDate?.hour))
 
             // new entry
             if (id == 0) {
-                val dbId = mainDbHelper.insert(values)
+                val dbId = mainDbHelper.insert(columnValues)
 
                 if (calDbHelper != null) {
                     val result = SearchUtils.performCalEntryCountSearch(calDbDate, calDbHelper)
                     val entryCount = result[1]
-                    val values = ContentValues()
+                    val columnValues = ContentValues()
 
                     val calId = result[0]
-                    values.put(CalDbHelper.DB_COL_DATE, calDbDate.toInt())
-                    values.put(CalDbHelper.DB_COL_ENTRIES, entryCount + 1)
+                    columnValues.put(CalDbHelper.DB_COL_DATE, calDbDate.toInt())
+                    columnValues.put(CalDbHelper.DB_COL_ENTRIES, entryCount + 1)
 
                     if (calId == 0) {
-                        calDbHelper.insert(values)
+                        calDbHelper.insert(columnValues)
                     } else {
                         val selectionArgs = arrayOf(calId.toString())
-                        calDbHelper.update(values, "ID=?", selectionArgs)
+                        calDbHelper.update(columnValues, "ID=?", selectionArgs)
                     }
                 }
 
@@ -328,7 +327,7 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
                 }
             } else {
                 val selectionArgs = arrayOf(id.toString())
-                val dbId = mainDbHelper.update(values, "ID=?", selectionArgs)
+                val dbId = mainDbHelper.update(columnValues, "ID=?", selectionArgs)
                 if (dbId != null && dbId > 0) {
                     finishWithResult("|")
                 }
