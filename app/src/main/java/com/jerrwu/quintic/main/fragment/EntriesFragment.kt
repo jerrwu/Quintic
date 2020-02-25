@@ -59,10 +59,10 @@ class EntriesFragment : BaseFragment() {
     override fun onFragmentHidden() {
     }
 
-    override fun onStop() {
+    override fun onDestroy() {
         mMainDbHelper?.close()
         mCalDbHelper?.close()
-        super.onStop()
+        super.onDestroy()
     }
 
     private fun doRefresh() {

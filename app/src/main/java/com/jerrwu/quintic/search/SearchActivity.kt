@@ -53,9 +53,9 @@ class SearchActivity : BaseActivity() {
         onSearchStarted()
     }
 
-    override fun onStart() {
+    override fun onDestroy() {
         mMainDbHelper?.close()
-        super.onStart()
+        super.onDestroy()
     }
 
     @SuppressLint("CheckResult")

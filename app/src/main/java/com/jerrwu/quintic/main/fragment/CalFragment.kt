@@ -172,11 +172,6 @@ class CalFragment : BaseFragment() {
         }
     }
 
-    override fun onStop() {
-
-        super.onStop()
-    }
-
     private fun setupMonthSpinner() {
         val context = activity
         if (context != null) {
