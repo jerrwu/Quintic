@@ -172,6 +172,11 @@ class CalFragment : BaseFragment() {
         }
     }
 
+    override fun onStop() {
+
+        super.onStop()
+    }
+
     private fun setupMonthSpinner() {
         val context = activity
         if (context != null) {
@@ -240,6 +245,7 @@ class CalFragment : BaseFragment() {
             val result = calDbHelper?.let {
                 SearchUtils.performCalEntryCountSearch(searchDate, it)
             }
+            calDbHelper?.close()
             mCellList.add(CellEntity(day.dayOfMonth.toString(), result?.get(1)))
         }
 
@@ -355,6 +361,8 @@ class CalFragment : BaseFragment() {
 
     private fun fetchDayEntries(date: String, context: Context): List<EntryEntity> {
         val mainDbHelper = MainDbHelper(context)
-        return SearchUtils.performSearch(date, mainDbHelper, MainDbHelper.DB_COL_DATE_EXTERNAL)
+        val results = SearchUtils.performSearch(date, mainDbHelper, MainDbHelper.DB_COL_DATE_EXTERNAL)
+        mainDbHelper.close()
+        return results
     }
 }

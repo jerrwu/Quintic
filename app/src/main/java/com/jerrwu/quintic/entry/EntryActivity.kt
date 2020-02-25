@@ -57,6 +57,12 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
         }
     }
 
+    override fun onStop() {
+        mCalDbHelper?.close()
+        mMainDbHelper?.close()
+        super.onStop()
+    }
+
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

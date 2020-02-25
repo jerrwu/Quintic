@@ -25,7 +25,7 @@ class CalDbHelper(context: Context) : BaseDbHelper(context) {
         "CREATE TABLE IF NOT EXISTS $DB_TABLE (" +
                 "$DB_COL_ID INTEGER PRIMARY KEY, $DB_COL_DATE TEXT, $DB_COL_ENTRIES INTEGER);"
 
-    private var sqlDb: SQLiteDatabase? = null
+    override var sqlDb: SQLiteDatabase? = null
 
     init {
         val db = DatabaseHelperEntries(context)

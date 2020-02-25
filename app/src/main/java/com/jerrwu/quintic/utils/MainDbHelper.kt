@@ -33,7 +33,7 @@ class MainDbHelper(context: Context) : BaseDbHelper(context) {
                 " $DB_COL_CONTENT TEXT, $DB_COL_TIME TEXT, $DB_COL_MOOD TEXT," +
                 " $DB_COL_DATE_EXTERNAL TEXT, $DB_COL_HOURS TEXT, $DB_COL_TAGS TEXT);"
 
-    private var sqlDb: SQLiteDatabase? = null
+    override var sqlDb: SQLiteDatabase? = null
 
     init {
         val db = DatabaseHelperEntries(context)

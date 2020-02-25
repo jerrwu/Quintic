@@ -3,17 +3,10 @@ package com.jerrwu.quintic.search
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.TextView.OnEditorActionListener
-import androidx.annotation.UiThread
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
@@ -25,11 +18,7 @@ import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.utils.MainDbHelper
 import com.jerrwu.quintic.utils.SearchUtils
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
-import io.reactivex.ObservableSource
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Predicate
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_search.*
 import java.util.concurrent.TimeUnit
@@ -62,6 +51,11 @@ class SearchActivity : BaseActivity() {
         super.onResume()
 
         onSearchStarted()
+    }
+
+    override fun onStart() {
+        mMainDbHelper?.close()
+        super.onStart()
     }
 
     @SuppressLint("CheckResult")

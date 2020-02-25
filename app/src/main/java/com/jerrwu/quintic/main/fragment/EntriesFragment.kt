@@ -31,7 +31,6 @@ import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.utils.*
 import com.jerrwu.quintic.main.MainActivity
 import io.reactivex.Completable
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
@@ -58,6 +57,12 @@ class EntriesFragment : BaseFragment() {
     }
 
     override fun onFragmentHidden() {
+    }
+
+    override fun onStop() {
+        mMainDbHelper?.close()
+        mCalDbHelper?.close()
+        super.onStop()
     }
 
     private fun doRefresh() {

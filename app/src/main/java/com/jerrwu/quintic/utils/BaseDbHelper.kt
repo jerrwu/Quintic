@@ -2,8 +2,15 @@ package com.jerrwu.quintic.utils
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.sqlite.SQLiteDatabase
 
-open class BaseDbHelper(context: Context) {
+abstract class BaseDbHelper(context: Context) {
+
+    protected abstract var sqlDb: SQLiteDatabase?
+
+    open fun close() {
+        sqlDb?.close()
+    }
 
     open fun insert(values: ContentValues): Long? {
         return null
