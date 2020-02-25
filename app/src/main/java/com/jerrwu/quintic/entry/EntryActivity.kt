@@ -127,7 +127,6 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
         entry_save_button.isEnabled = false
 
         mood_add_button.setOnClickListener { toggleMoodSelector() }
-        mood_add_cancel_button.setOnClickListener { toggleMoodSelector() }
 
         val moodList = ConstantLists.moodSelectorOptions
 
@@ -202,13 +201,9 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
     private fun toggleMoodSelector() {
         if (mIsSelectorOpen) {
             mood_selection_container.visibility = View.GONE
-            mood_add_button.visibility = View.VISIBLE
-            mood_add_cancel_button.visibility = View.GONE
             mIsSelectorOpen = false
         } else {
             mood_selection_container.visibility = View.VISIBLE
-            mood_add_button.visibility = View.GONE
-            mood_add_cancel_button.visibility = View.VISIBLE
             mIsSelectorOpen = true
         }
     }

@@ -210,19 +210,6 @@
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/add_mood" />
 
-            <ImageButton
-                android:visibility="gone"
-                android:id="@+id/mood_add_cancel_button"
-                android:tint="@color/colorSupport"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                app:srcCompat="@drawable/ic_close"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:padding="6dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/add_mood" />
-
         </RelativeLayout>
 
         <TextView
