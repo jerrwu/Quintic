@@ -329,7 +329,7 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
                 }
 
                 if (dbId != null && dbId > 0) {
-                    finishWithResult("+")
+                    finishWithResult("!")
                 }
             } else {
                 val selectionArgs = arrayOf(id.toString())

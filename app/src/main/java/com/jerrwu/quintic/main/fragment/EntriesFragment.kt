@@ -58,6 +58,7 @@ class EntriesFragment : BaseFragment() {
         setInfoCardName(prefs)
         infoCardNameRem(prefs)
 
+        loadQuery("%")
         toggleEmptyNotices()
 
         resetAdapterSelected()
@@ -230,9 +231,14 @@ class EntriesFragment : BaseFragment() {
                 selectionArgs = arrayOf(item.id.toString())
                 mainDbHelper.delete("ID=?", selectionArgs)
 
+                val removeList = ArrayList<EntryEntity>()
+                for (id in mAdapter?.mItemsSelectedIds.orEmpty()) {
+                    removeList.add(mEntryList[id])
+                }
+                mEntryList.removeAll(removeList)
+
                 for (id in mAdapter?.mItemsSelectedIds.orEmpty()) {
                     mAdapter?.notifyItemRemoved(id)
-                    mEntryList.removeAt(id)
                 }
             }
         }
