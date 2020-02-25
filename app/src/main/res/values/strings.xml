@@ -111,4 +111,5 @@
     <string name="shortcut_account_long">View Account Details</string>
     <string name="shortcut_settings_short">Settings</string>
     <string name="shortcut_settings_long">Edit Settings</string>
+    <string name="refresh_error">Couldn\'t refresh!</string>
 </resources>

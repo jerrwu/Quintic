@@ -6,23 +6,34 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.annotation.UiThread
 import androidx.annotation.WorkerThread
+import androidx.cardview.widget.CardView
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.account.AccountActivity
 import com.jerrwu.quintic.common.BaseFragment
 import com.jerrwu.quintic.common.constants.PreferenceKeys
+import com.jerrwu.quintic.common.view.NoPredictiveAnimationLinearLayoutManager
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.utils.*
 import com.jerrwu.quintic.main.MainActivity
+import io.reactivex.Completable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_entries.*
 import java.time.LocalDate
@@ -49,6 +60,59 @@ class EntriesFragment : BaseFragment() {
     override fun onFragmentHidden() {
     }
 
+    private fun doRefresh() {
+        Completable.fromAction {
+            Log.d(TAG, "Refresh started.")
+
+            loadQuery("%")
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnComplete {
+                toggleEmptyNotices()
+                val refreshLayout: SwipeRefreshLayout? = activity?.findViewById(R.id.fragment_entries_pull_refresh)
+                refreshLayout?.isRefreshing = false
+
+                Log.d(TAG, "Refresh finished.")
+            }
+            .doOnError {
+                activity?.runOnUiThread {
+                    Toast.makeText(activity, R.string.refresh_error, Toast.LENGTH_SHORT).show()
+                }
+
+                Log.d(TAG, "Refresh failed.")
+            }
+            .subscribe()
+    }
+
+    private fun doFullRefresh() {
+        Completable.fromAction {
+            Log.d(TAG, "Refresh started.")
+
+            loadQuery("%")
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnComplete {
+                toggleEmptyNotices()
+                val refreshLayout: SwipeRefreshLayout? = activity?.findViewById(R.id.fragment_entries_pull_refresh)
+                refreshLayout?.isRefreshing = false
+
+                mRecyclerView?.recycledViewPool?.clear()
+                mAdapter?.notifyDataSetChanged()
+
+                Log.d(TAG, "Refresh finished.")
+            }
+            .doOnError {
+                activity?.runOnUiThread {
+                    Toast.makeText(activity, R.string.refresh_error, Toast.LENGTH_SHORT).show()
+                }
+
+                Log.d(TAG, "Refresh failed.")
+            }
+            .subscribe()
+    }
+
     override fun onResume() {
         super.onResume()
         val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
@@ -56,13 +120,10 @@ class EntriesFragment : BaseFragment() {
         setInfoCardName(prefs)
         infoCardNameRem(prefs)
 
-        loadQuery("%")
-        toggleEmptyNotices()
+        doFullRefresh()
 
         resetAdapterSelected()
         hideSelectionToolbar(false)
-
-        mAdapter?.notifyDataSetChanged()
 
 //        val pos = mPosToNotify
 //        val type = mPosNotifyType
@@ -121,16 +182,17 @@ class EntriesFragment : BaseFragment() {
             startActivity(intent)
         }
 
-        loadQuery("%")
+        doRefresh()
 
         fragment_entries_pull_refresh.setOnRefreshListener {
-            loadQuery("%")
+            doRefresh()
         }
 
         val mActivity = activity
         if (mActivity != null) {
             mRecyclerView = mActivity.findViewById(R.id.recycler_view)
-            val mLayoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
+            val mLayoutManager = NoPredictiveAnimationLinearLayoutManager(
+                mActivity, LinearLayoutManager.VERTICAL, false)
             if (mRecyclerView != null) mRecyclerView?.layoutManager = mLayoutManager
             mAdapter = EntryAdapter(mEntryList)
             mAdapter?.mContext = mActivity
@@ -169,16 +231,20 @@ class EntriesFragment : BaseFragment() {
 //        }
 //    }
 
+    @UiThread
     private fun toggleEmptyNotices() {
-        daily_suggestion_card_container.visibility = View.GONE
+        val dailyNotice: CardView? = activity?.findViewById(R.id.daily_suggestion_card_container)
+        val emptyNotice: LinearLayout? = activity?.findViewById(R.id.empty_recycler_notice)
+
+        dailyNotice?.visibility = View.GONE
         if (mEntryList.isEmpty() && mAdapter?.itemCount == 0) {
-            empty_recycler_notice.visibility = View.VISIBLE
+            emptyNotice?.visibility = View.VISIBLE
         } else {
-            empty_recycler_notice.visibility = View.GONE
+            emptyNotice?.visibility = View.GONE
             val current = LocalDate.now()
             val filteredEntryList: List<EntryEntity> = mEntryList.filter {
                     card -> card.time.toLocalDate() == current }
-            if (filteredEntryList.isEmpty()) daily_suggestion_card_container.visibility = View.VISIBLE
+            if (filteredEntryList.isEmpty()) dailyNotice?.visibility = View.VISIBLE
         }
     }
 
@@ -242,8 +308,7 @@ class EntriesFragment : BaseFragment() {
             (activity as MainActivity).mRefreshCalFragmentGrid = true
         }
         hideSelectionToolbar(true)
-        loadQuery("%")
-        toggleEmptyNotices()
+        doRefresh()
     }
 
     fun hideSelectionToolbar(deleted: Boolean) {
@@ -301,9 +366,12 @@ class EntriesFragment : BaseFragment() {
 
     @WorkerThread
     private fun loadQuery(title: String) {
+        val refreshLayout: SwipeRefreshLayout? = activity?.findViewById(R.id.fragment_entries_pull_refresh)
+
         activity?.runOnUiThread {
-            if (!fragment_entries_pull_refresh.isRefreshing)
-                fragment_entries_pull_refresh.isRefreshing = true
+            if (refreshLayout != null && !refreshLayout.isRefreshing) {
+                refreshLayout.isRefreshing = true
+            }
         }
 
         if (mMainDbHelper == null && activity != null) {
@@ -349,10 +417,6 @@ class EntriesFragment : BaseFragment() {
                 } while (cursor.moveToNext())
             }
             cursor.close()
-        }
-
-        activity?.runOnUiThread {
-            fragment_entries_pull_refresh.isRefreshing = false
         }
     }
 
