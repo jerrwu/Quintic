@@ -104,10 +104,6 @@ class EntriesFragment : BaseFragment() {
                 Log.d(TAG, "Refresh finished.")
             }
             .doOnError {
-                activity?.runOnUiThread {
-                    Toast.makeText(activity, R.string.refresh_error, Toast.LENGTH_SHORT).show()
-                }
-
                 Log.d(TAG, "Refresh failed.")
             }
             .subscribe()
@@ -184,6 +180,14 @@ class EntriesFragment : BaseFragment() {
 
         doRefresh()
 
+        fragment_entries_pull_refresh.setColorSchemeResources(
+            R.color.colorAccent,
+            R.color.purple,
+            R.color.green,
+            R.color.blue,
+            R.color.yellow,
+            R.color.red)
+        fragment_entries_pull_refresh.setProgressBackgroundColorSchemeResource(R.color.colorMain)
         fragment_entries_pull_refresh.setOnRefreshListener {
             doRefresh()
         }
