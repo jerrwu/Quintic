@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,228 +7,234 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:id="@+id/fragment_entries"
-    android:overScrollMode="always"
     tools:context=".main.fragment.EntriesFragment">
 
-    <RelativeLayout
-        android:paddingBottom="12dp"
+    <androidx.core.widget.NestedScrollView
+        android:overScrollMode="always"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.card.MaterialCardView
-            android:animateLayoutChanges="true"
-            app:cardElevation="0dp"
-            app:contentPaddingTop="12dp"
-            android:backgroundTint="@color/colorBackground"
-            android:id="@+id/fragmen_entries_info_card"
+        <RelativeLayout
+            android:paddingBottom="12dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/info_card_rem_type"
-                android:paddingTop="12dp"
-                android:orientation="vertical"
+            <com.google.android.material.card.MaterialCardView
+                android:animateLayoutChanges="true"
+                app:cardElevation="0dp"
+                app:contentPaddingTop="12dp"
+                android:backgroundTint="@color/colorBackground"
+                android:id="@+id/fragmen_entries_info_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_gravity="top|start"
-                    android:textColor="@color/colorSecondary"
-                    android:fontFamily="@font/productsansmedium"
-                    android:textSize="20sp"
-                    android:text="@string/set_your_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
                 <LinearLayout
-                    android:gravity="end"
-                    android:layout_marginTop="32dp"
-                    android:orientation="horizontal"
-                    android:layout_gravity="bottom"
+                    android:id="@+id/info_card_rem_type"
+                    android:paddingTop="12dp"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:background="#00000000"
-                        android:textAllCaps="false"
-                        android:textColor="@color/blue"
-                        android:minWidth="0dp"
+                    <TextView
+                        android:layout_marginStart="24dp"
                         android:layout_marginEnd="16dp"
-                        android:id="@+id/name_rem_dismiss_button"
+                        android:layout_marginBottom="4dp"
+                        android:layout_gravity="top|start"
+                        android:textColor="@color/colorSecondary"
                         android:fontFamily="@font/productsansmedium"
-                        android:text="Dismiss"
+                        android:textSize="20sp"
+                        android:text="@string/set_your_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
-                    <Button
-                        android:layout_marginEnd="20dp"
-                        android:id="@+id/name_rem_button"
-                        android:textColor="@color/colorMain"
+                    <LinearLayout
+                        android:gravity="end"
+                        android:layout_marginTop="32dp"
+                        android:orientation="horizontal"
+                        android:layout_gravity="bottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Button
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:background="#00000000"
+                            android:textAllCaps="false"
+                            android:textColor="@color/blue"
+                            android:minWidth="0dp"
+                            android:layout_marginEnd="16dp"
+                            android:id="@+id/name_rem_dismiss_button"
+                            android:fontFamily="@font/productsansmedium"
+                            android:text="Dismiss"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <Button
+                            android:layout_marginEnd="20dp"
+                            android:id="@+id/name_rem_button"
+                            android:textColor="@color/colorMain"
+                            android:fontFamily="@font/productsansmedium"
+                            android:textAllCaps="false"
+                            android:text="Change now"
+                            android:backgroundTint="@color/blue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/info_card_greeting_type"
+                    android:paddingTop="12dp"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/info_card_greeting"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_gravity="top|start"
+                        android:textColor="@color/colorSecondary"
                         android:fontFamily="@font/productsansmedium"
-                        android:textAllCaps="false"
-                        android:text="Change now"
-                        android:backgroundTint="@color/blue"
+                        android:textSize="16sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/info_card_name"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_gravity="start"
+                        android:textColor="@color/colorFont"
+                        android:fontFamily="@font/productsansmedium"
+                        android:textSize="24sp"
+                        android:layout_marginBottom="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
                 </LinearLayout>
 
-            </LinearLayout>
+                <ImageView
+                    android:layout_marginTop="12dp"
+                    android:id="@+id/info_card_reminder_icon"
+                    android:layout_marginEnd="32dp"
+                    android:layout_gravity="end|top"
+                    android:src="@drawable/ic_acc_card"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"/>
+
+                <ImageView
+                    android:layout_marginTop="12dp"
+                    android:id="@+id/info_card_greeting_icon"
+                    android:layout_marginEnd="16dp"
+                    android:layout_gravity="end|top"
+                    android:src="@drawable/ic_home"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:visibility="gone"
+                android:layout_below="@id/fragmen_entries_info_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:longClickable="true"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/colorMain"
+                app:cardCornerRadius="6dp"
+                app:strokeColor="@color/colorFive"
+                app:strokeWidth="1.5dp"
+                android:id="@+id/daily_suggestion_card_container"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/daily_suggestion_card"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/suggestion_card_iv"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginBottom="18dp"
+                        android:layout_marginTop="16dp"
+                        android:tint="@color/colorTertiary"
+                        android:src="@drawable/ic_plus"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp" />
+
+                    <TextView
+                        android:textColor="@color/colorTertiary"
+                        android:textSize="18sp"
+                        android:text="@string/daily_entry"
+                        android:fontFamily="@font/productsansmedium"
+                        android:layout_marginStart="12dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_alignRight="@id/suggestion_card_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:nestedScrollingEnabled="false"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/daily_suggestion_card_container"
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:scrollbars="none" />
 
             <LinearLayout
-                android:id="@+id/info_card_greeting_type"
-                android:paddingTop="12dp"
+                android:layout_below="@id/fragmen_entries_info_card"
+                android:visibility="gone"
+                android:id="@+id/empty_recycler_notice"
                 android:orientation="vertical"
+                android:layout_marginTop="120dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/info_card_greeting"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_gravity="top|start"
-                    android:textColor="@color/colorSecondary"
-                    android:fontFamily="@font/productsansmedium"
-                    android:textSize="16sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/info_card_name"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_gravity="start"
-                    android:textColor="@color/colorFont"
-                    android:fontFamily="@font/productsansmedium"
-                    android:textSize="24sp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-            <ImageView
-                android:layout_marginTop="12dp"
-                android:id="@+id/info_card_reminder_icon"
-                android:layout_marginEnd="32dp"
-                android:layout_gravity="end|top"
-                android:src="@drawable/ic_acc_card"
-                android:layout_width="42dp"
-                android:layout_height="42dp"/>
-
-            <ImageView
-                android:layout_marginTop="12dp"
-                android:id="@+id/info_card_greeting_icon"
-                android:layout_marginEnd="16dp"
-                android:layout_gravity="end|top"
-                android:src="@drawable/ic_home"
-                android:layout_width="40dp"
-                android:layout_height="40dp"/>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:visibility="gone"
-            android:layout_below="@id/fragmen_entries_info_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:longClickable="true"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/colorMain"
-            app:cardCornerRadius="6dp"
-            app:strokeColor="@color/colorFive"
-            app:strokeWidth="1.5dp"
-            android:id="@+id/daily_suggestion_card_container"
-            android:layout_marginTop="12dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="18dp"
-            android:orientation="vertical">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:clickable="true"
-                android:focusable="true"
-                android:id="@+id/daily_suggestion_card"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
                 <ImageView
-                    android:id="@+id/suggestion_card_iv"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginBottom="18dp"
-                    android:layout_marginTop="16dp"
-                    android:tint="@color/colorTertiary"
-                    android:src="@drawable/ic_plus"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp" />
+                    android:layout_gravity="center_horizontal"
+                    android:tint="@color/colorQuad"
+                    android:src="@drawable/ic_empty_doc"
+                    android:layout_width="112dp"
+                    android:layout_height="112dp" />
 
                 <TextView
-                    android:textColor="@color/colorTertiary"
-                    android:textSize="18sp"
-                    android:text="@string/daily_entry"
-                    android:fontFamily="@font/productsansmedium"
-                    android:layout_marginStart="12dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_alignRight="@id/suggestion_card_iv"
+                    android:textSize="22sp"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/no_entries_remind"
+                    android:textColor="@color/colorQuad"
+                    android:fontFamily="@font/productsansblack"
+                    android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+        </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:nestedScrollingEnabled="false"
-            android:layout_marginTop="8dp"
-            android:layout_below="@id/daily_suggestion_card_container"
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:scrollbars="none" />
+    </androidx.core.widget.NestedScrollView>
 
-        <LinearLayout
-            android:layout_below="@id/fragmen_entries_info_card"
-            android:visibility="gone"
-            android:id="@+id/empty_recycler_notice"
-            android:orientation="vertical"
-            android:layout_marginTop="120dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_gravity="center_horizontal"
-                android:tint="@color/colorQuad"
-                android:src="@drawable/ic_empty_doc"
-                android:layout_width="112dp"
-                android:layout_height="112dp" />
-
-            <TextView
-                android:textSize="22sp"
-                android:layout_marginTop="14dp"
-                android:text="@string/no_entries_remind"
-                android:textColor="@color/colorQuad"
-                android:fontFamily="@font/productsansblack"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-</androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
