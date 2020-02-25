@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -168,13 +169,14 @@ class EntriesFragment : BaseFragment() {
 
     private fun toggleEmptyNotices() {
         daily_suggestion_card_container.visibility = View.GONE
-        if (mEntryList.isEmpty()) {
+        Log.d(TAG, mAdapter?.itemCount.toString())
+        if (mEntryList.isEmpty() && mAdapter?.itemCount == 0) {
             empty_recycler_notice.visibility = View.VISIBLE
         } else {
             empty_recycler_notice.visibility = View.GONE
             val current = LocalDate.now()
             val filteredEntryList: List<EntryEntity> = mEntryList.filter {
-                    card -> card.time?.toLocalDate() == current }
+                    card -> card.time.toLocalDate() == current }
             if (filteredEntryList.isEmpty()) daily_suggestion_card_container.visibility = View.VISIBLE
         }
     }
@@ -213,9 +215,9 @@ class EntriesFragment : BaseFragment() {
         if (mainDbHelper != null && calDbHelper != null) {
             for (item in items) {
                 val createdDate = item.time
-                val calDbDate = createdDate?.year.toString() +
-                        createdDate?.monthValue.toString() +
-                        createdDate?.dayOfMonth.toString()
+                val calDbDate = createdDate.year.toString() +
+                        createdDate.monthValue.toString() +
+                        createdDate.dayOfMonth.toString()
 
                 val result = SearchUtils.performCalEntryCountSearch(calDbDate, calDbHelper)
                 val entryCount = result[1]
@@ -239,8 +241,8 @@ class EntriesFragment : BaseFragment() {
             (activity as MainActivity).mRefreshCalFragmentGrid = true
         }
         hideSelectionToolbar(true)
-        toggleEmptyNotices()
         loadQuery("%")
+        toggleEmptyNotices()
     }
 
     fun hideSelectionToolbar(deleted: Boolean) {
@@ -342,7 +344,6 @@ class EntriesFragment : BaseFragment() {
             }
             cursor.close()
         }
-
     }
 
     private fun resetAdapterSelected() {
