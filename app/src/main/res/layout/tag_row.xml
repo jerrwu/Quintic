@@ -38,7 +38,7 @@
         android:src="@drawable/ic_close"
         android:id="@+id/tag_cross_button"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:layout_width="24dp"
-        android:layout_height="24dp" />
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
