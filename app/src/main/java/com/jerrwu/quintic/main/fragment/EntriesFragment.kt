@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -169,7 +168,6 @@ class EntriesFragment : BaseFragment() {
 
     private fun toggleEmptyNotices() {
         daily_suggestion_card_container.visibility = View.GONE
-        Log.d(TAG, mAdapter?.itemCount.toString())
         if (mEntryList.isEmpty() && mAdapter?.itemCount == 0) {
             empty_recycler_notice.visibility = View.VISIBLE
         } else {
