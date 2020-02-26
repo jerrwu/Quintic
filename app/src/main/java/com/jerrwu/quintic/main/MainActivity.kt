@@ -4,14 +4,16 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jerrwu.quintic.BuildConfig
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.base.BaseActivity
 import com.jerrwu.quintic.common.base.BaseFragment
 import com.jerrwu.quintic.common.constants.Constants
 import com.jerrwu.quintic.common.constants.PreferenceKeys
@@ -26,22 +28,16 @@ import com.jerrwu.quintic.utils.UiUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<MainViewModel>() {
     companion object {
         val TAG = MainActivity::class.java.simpleName
     }
 
     // TODO: add viewpager to improve fragment switching
 
-    private val mEntriesFragment: BaseFragment =
-        EntriesFragment()
-    private val mSearchFragment: BaseFragment =
-        SearchFragment()
-    private val mCalFragment: BaseFragment =
-        CalFragment()
     private val mNavSheetFragment = NavSheetFragment()
     private val mFragmentManager = supportFragmentManager
-    private var mActiveFragment: BaseFragment = mEntriesFragment
+    private var mActiveFragment: BaseFragment = EntriesFragment()
     var mRefreshCalFragmentGrid = false
 
     override fun onBackPressed() {
@@ -58,67 +54,77 @@ class MainActivity : AppCompatActivity() {
 
     private val mOnNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            var state = false
+            var idx = 0
 
-            if (mActiveFragment is EntriesFragment) {
-                val entriesFragment: EntriesFragment = mActiveFragment as EntriesFragment
-                if (entriesFragment.mAdapter != null &&
-                    (entriesFragment.mAdapter as EntryAdapter).mIsMultiSelect) {
-                    entriesFragment.hideSelectionToolbar(false)
-                }
-            }
-
-            when (item.itemId) {
-                R.id.menu_home -> {
-                    // check if same
-                    if (mActiveFragment is EntriesFragment) return@OnNavigationItemSelectedListener false
-
-                    toolbar_title.text = getText(R.string.app_title)
-                    mFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.slide_from_bottom, R.anim.fade_out)
-                        .hide(mActiveFragment)
-                        .show(mEntriesFragment)
-                        .commit()
-                    mActiveFragment = mEntriesFragment
-                    fab.show()
-                    search_button.visibility = View.GONE
-                    return@OnNavigationItemSelectedListener true
-                }
-
-                R.id.menu_search -> {
-                    if (mActiveFragment is SearchFragment) return@OnNavigationItemSelectedListener false
-
-                    toolbar_title.text = getText(R.string.menu_search)
-                    mFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.slide_from_bottom, R.anim.fade_out)
-                        .hide(mActiveFragment)
-                        .show(mSearchFragment)
-                        .commit()
-                    mActiveFragment = mSearchFragment
-                    search_button.visibility = View.VISIBLE
-                    fab.hide()
-                    return@OnNavigationItemSelectedListener true
-                }
-
-                R.id.menu_calendar -> {
-                    if (mActiveFragment is CalFragment) return@OnNavigationItemSelectedListener false
-
-                    toolbar_title.text = getText(R.string.menu_calendar)
-                    mFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.slide_from_bottom, R.anim.fade_out)
-                        .hide(mActiveFragment)
-                        .show(mCalFragment)
-                        .commit()
-                    mActiveFragment = mCalFragment
-                    search_button.visibility = View.GONE
-                    fab.hide()
-                    if (mRefreshCalFragmentGrid) {
-                        mCalFragment.onFragmentShown()
-                        mRefreshCalFragmentGrid = false
+            mViewModel.navigationFragments.observe(this, Observer { navigationFragments ->
+                if (mActiveFragment is EntriesFragment) {
+                    val entriesFragment: EntriesFragment = mActiveFragment as EntriesFragment
+                    if (entriesFragment.mAdapter != null &&
+                        (entriesFragment.mAdapter as EntryAdapter).mIsMultiSelect) {
+                        entriesFragment.hideSelectionToolbar(false)
                     }
-                    return@OnNavigationItemSelectedListener true
                 }
-            }
-            false
+
+                when (item.itemId) {
+                    R.id.menu_home -> {
+                        idx = 0
+                        // check if same
+                        if (mActiveFragment is EntriesFragment) return@Observer
+
+                        toolbar_title.text = getText(R.string.app_title)
+                        mFragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.slide_from_bottom, R.anim.fade_out)
+                            .hide(mActiveFragment)
+                            .show(navigationFragments[idx])
+                            .commit()
+                        mActiveFragment = navigationFragments[idx]
+                        fab.show()
+                        search_button.visibility = View.GONE
+                        state = true
+                    }
+
+                    R.id.menu_search -> {
+                        idx = 1
+                        if (mActiveFragment is SearchFragment) return@Observer
+
+                        toolbar_title.text = getText(R.string.menu_search)
+                        mFragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.slide_from_bottom, R.anim.fade_out)
+                            .hide(mActiveFragment)
+                            .show(navigationFragments[idx])
+                            .commit()
+                        mActiveFragment = navigationFragments[idx]
+                        search_button.visibility = View.VISIBLE
+                        fab.hide()
+                        state = true
+                    }
+
+                    R.id.menu_calendar -> {
+                        idx = 2
+                        if (mActiveFragment is CalFragment) return@Observer
+
+                        toolbar_title.text = getText(R.string.menu_calendar)
+                        mFragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.slide_from_bottom, R.anim.fade_out)
+                            .hide(mActiveFragment)
+                            .show(navigationFragments[idx])
+                            .commit()
+                        mActiveFragment = navigationFragments[idx]
+                        search_button.visibility = View.GONE
+                        fab.show()
+                        if (mRefreshCalFragmentGrid) {
+                            mActiveFragment.onFragmentShown()
+                            mRefreshCalFragmentGrid = false
+                        }
+                        state = true
+                    }
+                }
+
+            })
+            mViewModel.setActiveId(item.itemId)
+            mViewModel.setActiveFragmentIndex(idx)
+            state
         }
 
     private fun showBottomSheetDialogFragment() {
@@ -138,6 +144,7 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        mViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         showChangelogIfUpdated(sharedPreferences)
 
@@ -148,12 +155,22 @@ class MainActivity : AppCompatActivity() {
             mFragmentManager.beginTransaction().remove(fragment).commit()
         }
 
-        mFragmentManager.beginTransaction().add(R.id.frag_container, mCalFragment, "3").hide(mCalFragment).commit()
-        mFragmentManager.beginTransaction().add(R.id.frag_container, mSearchFragment, "2").hide(mSearchFragment).commit()
-        mFragmentManager.beginTransaction().add(R.id.frag_container, mEntriesFragment, "1").commit()
-
         bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        bottom_navigation.selectedItemId = R.id.menu_home
+
+        mViewModel.navigationFragments.observe(this, Observer { navigationFragments ->
+            for (fragment in navigationFragments) {
+                mFragmentManager.beginTransaction().
+                    add(R.id.frag_container, fragment, fragment.tag).hide(fragment).commit()
+            }
+            mViewModel.activeFragmentIndex.observe(this, Observer { activeIndex ->
+                mActiveFragment = navigationFragments[activeIndex]
+                mFragmentManager.beginTransaction().show(mActiveFragment).commit()
+            })
+        })
+
+        mViewModel.activeId.observe(this, Observer { activeId ->
+            bottom_navigation.selectedItemId = activeId
+        })
 
         account_button.setOnClickListener {
             showBottomSheetDialogFragment()

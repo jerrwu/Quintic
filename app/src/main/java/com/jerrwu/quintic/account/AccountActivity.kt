@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.annotation.UiThread
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModel
 import androidx.preference.PreferenceManager
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.EditTextFlow
@@ -14,7 +15,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_account.*
 
 
-class AccountActivity : BaseActivity() {
+class AccountActivity : BaseActivity<ViewModel>() {
     companion object {
         val TAG = AccountActivity::class.java.simpleName
     }

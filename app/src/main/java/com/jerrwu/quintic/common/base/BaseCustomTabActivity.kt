@@ -4,9 +4,10 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModel
 import com.jerrwu.quintic.R
 
-abstract class BaseCustomTabActivity : BaseActivity() {
+abstract class BaseCustomTabActivity : BaseActivity<ViewModel>() {
     companion object {
         val TAG = BaseCustomTabActivity::class.java.simpleName
     }

@@ -68,6 +68,8 @@ dependencies {
     implementation appDependencies.androidXBrowser
     implementation appDependencies.androidXCardView
 
+    implementation appDependencies.lifecycleExtensions
+
     implementation appDependencies.gson
     implementation appDependencies.kotlinReflect
     implementation appDependencies.rxJava

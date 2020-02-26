@@ -6,6 +6,8 @@ ext {
     androidXCardViewVersion = "1.0.0"
     androidXConstraintLayoutVersion = "1.1.3"
 
+    lifecycleVersion = "2.2.0"
+
     materialDesignVersion = "1.0.0"
 
     gsonVersion = "2.8.6"
@@ -28,6 +30,8 @@ ext {
             androidXLegacyV4        : "androidx.legacy:legacy-support-v4:$androidXLegacyVersion",
             androidXBrowser         : "androidx.browser:browser:$androidXBrowserVersion",
             androidXCardView        : "androidx.cardview:cardview:$androidXCardViewVersion",
+
+            lifecycleExtensions     : "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion",
 
             materialDesign          : "com.google.android.material:material:$materialDesignVersion",
 

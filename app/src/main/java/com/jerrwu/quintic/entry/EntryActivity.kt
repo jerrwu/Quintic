@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.EditTextFlow
@@ -27,7 +28,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class EntryActivity : BaseActivity(), EntryActivityTagInterface {
+class EntryActivity : BaseActivity<ViewModel>(), EntryActivityTagInterface {
     companion object {
         val TAG = EntryActivity::class.java.simpleName
     }
