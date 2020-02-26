@@ -26,7 +26,7 @@ class EntryTagFragment(
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        (view!!.parent.parent.parent as View).fitsSystemWindows = false
+        (view?.parent?.parent?.parent as View).fitsSystemWindows = false
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -45,7 +45,7 @@ class EntryTagFragment(
         if (pContext != null) {
             mAdapter =
                 EntryTagAdapter(tags, pContext)
-            mAdapter.onCrossButtonClickListener = { position ->
+            mAdapter.onDeleteButtonClickListener = { position ->
                 removeTag(position)
             }
             mAdapter.onItemClick = { _, tag, _ ->
@@ -83,6 +83,8 @@ class EntryTagFragment(
     }
 
     private fun addTag(tag: String) {
+        if (tag in tags) return
+
         val i = tags.size
         tags.add(tag)
         mAdapter.updateTags(tags)

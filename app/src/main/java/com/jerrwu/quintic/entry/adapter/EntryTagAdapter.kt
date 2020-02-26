@@ -22,7 +22,7 @@ class EntryTagAdapter(
         return TagViewHolder(view)
     }
 
-    var onCrossButtonClickListener: ((Int) -> Unit)? = null
+    var onDeleteButtonClickListener: ((Int) -> Unit)? = null
 
     override fun onBindViewHolder(holder: TagViewHolder, position: Int) {
         val tag: String = mDataList[position]
@@ -30,7 +30,7 @@ class EntryTagAdapter(
         (mContext as Activity).runOnUiThread {
             holder.tagTextView.text = tag
             holder.tagCrossButton.setOnClickListener {
-                onCrossButtonClickListener?.invoke(position)
+                onDeleteButtonClickListener?.invoke(position)
             }
         }
     }
