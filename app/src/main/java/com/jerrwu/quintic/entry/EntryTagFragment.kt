@@ -59,7 +59,7 @@ class EntryTagFragment(
     private fun removeTag(position: Int) {
         tags.removeAt(position)
         mAdapter.updateTags(tags)
-        mAdapter.notifyItemRemoved(position)
+        mAdapter.notifyDataSetChanged()
         if (tags.size == 0) {
             (activity as EntryActivity).onAllTagsRemoved()
         } else {
