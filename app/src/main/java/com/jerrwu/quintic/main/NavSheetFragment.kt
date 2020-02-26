@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.account.AccountActivity
-import com.jerrwu.quintic.common.BaseBottomSheetFragment
+import com.jerrwu.quintic.common.base.BaseBottomSheetFragment
 import com.jerrwu.quintic.common.constants.PreferenceKeys
 import com.jerrwu.quintic.utils.StringUtils
 import com.jerrwu.quintic.settings.SettingsActivity

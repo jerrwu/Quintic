@@ -2,13 +2,10 @@ package com.jerrwu.quintic.entry
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.common.BaseBottomSheetFragment
+import com.jerrwu.quintic.common.base.BaseBottomSheetFragment
 import com.jerrwu.quintic.entry.adapter.EntryTagAdapter
 import com.jerrwu.quintic.search.SearchActivity
 import com.jerrwu.quintic.utils.StringUtils

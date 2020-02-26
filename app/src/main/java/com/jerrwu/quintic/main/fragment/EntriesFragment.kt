@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.account.AccountActivity
-import com.jerrwu.quintic.common.BaseFragment
+import com.jerrwu.quintic.common.base.BaseFragment
 import com.jerrwu.quintic.common.constants.PreferenceKeys
 import com.jerrwu.quintic.common.view.NoPredictiveAnimationLinearLayoutManager
 import com.jerrwu.quintic.entities.entry.EntryEntity

@@ -12,7 +12,7 @@ import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jerrwu.quintic.BuildConfig
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.common.BaseFragment
+import com.jerrwu.quintic.common.base.BaseFragment
 import com.jerrwu.quintic.common.constants.Constants
 import com.jerrwu.quintic.common.constants.PreferenceKeys
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter

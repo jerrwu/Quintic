@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.common.BaseActivity
+import com.jerrwu.quintic.common.base.BaseActivity
 import com.jerrwu.quintic.common.EditTextFlow
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.entry.EntryEntity

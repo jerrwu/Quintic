@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.common.BaseFragment
+import com.jerrwu.quintic.common.base.BaseFragment
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.time.MonthEntity
 import com.jerrwu.quintic.search.SearchActivity

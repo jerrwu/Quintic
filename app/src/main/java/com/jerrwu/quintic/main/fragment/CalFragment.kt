@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.common.BaseFragment
+import com.jerrwu.quintic.common.base.BaseFragment
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.common.view.DayViewDataWrapper
 import com.jerrwu.quintic.common.view.widget.CalSpinnerAdapter

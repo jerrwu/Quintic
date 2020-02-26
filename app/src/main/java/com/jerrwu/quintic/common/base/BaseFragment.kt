@@ -1,4 +1,4 @@
-package com.jerrwu.quintic.common
+package com.jerrwu.quintic.common.base
 
 import androidx.fragment.app.Fragment
 import com.jerrwu.quintic.common.interfaces.BaseFragmentInterface

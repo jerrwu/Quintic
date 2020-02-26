@@ -2,15 +2,11 @@ package com.jerrwu.quintic.account
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.WindowManager
 import androidx.annotation.UiThread
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.common.BaseActivity
+import com.jerrwu.quintic.common.base.BaseActivity
 import com.jerrwu.quintic.common.EditTextFlow
 import com.jerrwu.quintic.common.constants.PreferenceKeys
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -10,9 +10,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.UiThread
 import androidx.core.content.ContextCompat
-import com.jerrwu.quintic.common.BaseRecyclerViewHolder
+import com.jerrwu.quintic.common.base.BaseRecyclerViewHolder
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.common.BaseRecyclerViewAdapter
+import com.jerrwu.quintic.common.base.BaseRecyclerViewAdapter
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.mood.MoodEntity
 

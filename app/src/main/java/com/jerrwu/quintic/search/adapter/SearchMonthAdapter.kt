@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.UiThread
-import com.jerrwu.quintic.common.BaseRecyclerViewHolder
+import com.jerrwu.quintic.common.base.BaseRecyclerViewHolder
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.common.BaseRecyclerViewAdapter
+import com.jerrwu.quintic.common.base.BaseRecyclerViewAdapter
 import com.jerrwu.quintic.entities.time.MonthEntity
 
 class SearchMonthAdapter(

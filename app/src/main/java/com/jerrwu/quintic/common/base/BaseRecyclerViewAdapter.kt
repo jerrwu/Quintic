@@ -1,4 +1,4 @@
-package com.jerrwu.quintic.common
+package com.jerrwu.quintic.common.base
 
 import android.content.Context
 import android.view.ViewGroup

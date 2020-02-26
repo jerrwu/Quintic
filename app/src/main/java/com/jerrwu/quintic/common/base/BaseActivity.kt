@@ -1,9 +1,10 @@
-package com.jerrwu.quintic.common
+package com.jerrwu.quintic.common.base
 
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.jerrwu.quintic.common.EditTextFlow
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 
@@ -16,15 +17,30 @@ abstract class BaseActivity : AppCompatActivity() {
         return Flowable.create<EditTextFlow>({ emitter ->
             addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    emitter.onNext(EditTextFlow(p0.toString(), EditTextFlow.Type.BEFORE))
+                    emitter.onNext(
+                        EditTextFlow(
+                            p0.toString(),
+                            EditTextFlow.Type.BEFORE
+                        )
+                    )
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    emitter.onNext(EditTextFlow(p0.toString(), EditTextFlow.Type.ON))
+                    emitter.onNext(
+                        EditTextFlow(
+                            p0.toString(),
+                            EditTextFlow.Type.ON
+                        )
+                    )
                 }
 
                 override fun afterTextChanged(p0: Editable?) {
-                    emitter.onNext(EditTextFlow(p0.toString(), EditTextFlow.Type.AFTER))
+                    emitter.onNext(
+                        EditTextFlow(
+                            p0.toString(),
+                            EditTextFlow.Type.AFTER
+                        )
+                    )
                 }
             })
         }, BackpressureStrategy.BUFFER)

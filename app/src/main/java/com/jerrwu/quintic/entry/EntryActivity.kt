@@ -6,14 +6,13 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.common.BaseActivity
+import com.jerrwu.quintic.common.base.BaseActivity
 import com.jerrwu.quintic.common.EditTextFlow
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.common.constants.Constants
