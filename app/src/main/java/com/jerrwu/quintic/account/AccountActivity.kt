@@ -6,8 +6,8 @@ import androidx.annotation.UiThread
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.common.base.BaseActivity
 import com.jerrwu.quintic.common.EditTextFlow
+import com.jerrwu.quintic.common.base.BaseActivity
 import com.jerrwu.quintic.common.constants.PreferenceKeys
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

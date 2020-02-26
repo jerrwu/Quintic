@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.annotation.UiThread
-import com.jerrwu.quintic.common.base.BaseRecyclerViewHolder
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.base.BaseRecyclerViewAdapter
+import com.jerrwu.quintic.common.base.BaseRecyclerViewHolder
 
 class EntryTagAdapter(
     private var mDataList: List<String>,

@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
-import com.jerrwu.quintic.account.AccountActivity
 import com.jerrwu.quintic.common.constants.PreferenceKeys
 
 class QuinticApplication : Application() {

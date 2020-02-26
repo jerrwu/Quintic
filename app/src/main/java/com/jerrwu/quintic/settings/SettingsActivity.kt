@@ -7,8 +7,8 @@ import android.content.IntentFilter
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.utils.UiUtils
 import com.jerrwu.quintic.utils.StringUtils
+import com.jerrwu.quintic.utils.UiUtils
 import kotlinx.android.synthetic.main.activity_settings.*
 
 

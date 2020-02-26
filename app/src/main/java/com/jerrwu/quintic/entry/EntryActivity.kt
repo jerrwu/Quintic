@@ -12,8 +12,8 @@ import androidx.annotation.UiThread
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.common.base.BaseActivity
 import com.jerrwu.quintic.common.EditTextFlow
+import com.jerrwu.quintic.common.base.BaseActivity
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.common.constants.Constants
 import com.jerrwu.quintic.entities.entry.EntryEntity

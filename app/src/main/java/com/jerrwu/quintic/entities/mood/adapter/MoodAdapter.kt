@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import com.jerrwu.quintic.common.base.BaseRecyclerViewHolder
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.base.BaseRecyclerViewAdapter
+import com.jerrwu.quintic.common.base.BaseRecyclerViewHolder
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import kotlinx.android.synthetic.main.mood.view.*
 

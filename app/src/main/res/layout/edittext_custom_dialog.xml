@@ -25,6 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/dialog_body"
         android:maxLines="1"
+        android:fontFamily="@font/productsansregular"
         android:background="@drawable/round_less_button_ripple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

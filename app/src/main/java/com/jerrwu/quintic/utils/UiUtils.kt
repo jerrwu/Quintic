@@ -5,19 +5,14 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.jerrwu.quintic.R
-import com.jerrwu.quintic.common.EditTextFlow
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.main.MainActivity
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
 
 
 object UiUtils {

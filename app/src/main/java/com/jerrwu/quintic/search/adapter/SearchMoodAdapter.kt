@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.UiThread
-import com.jerrwu.quintic.common.base.BaseRecyclerViewHolder
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.base.BaseRecyclerViewAdapter
+import com.jerrwu.quintic.common.base.BaseRecyclerViewHolder
 import com.jerrwu.quintic.entities.mood.MoodEntity
 
 class SearchMoodAdapter(
