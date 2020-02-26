@@ -321,17 +321,17 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
                 if (calDbHelper != null) {
                     val result = SearchUtils.performCalEntryCountSearch(calDbDate, calDbHelper)
                     val entryCount = result[1]
-                    val columnValues = ContentValues()
+                    val colValues = ContentValues()
 
                     val calId = result[0]
-                    columnValues.put(CalDbHelper.DB_COL_DATE, calDbDate.toInt())
-                    columnValues.put(CalDbHelper.DB_COL_ENTRIES, entryCount + 1)
+                    colValues.put(CalDbHelper.DB_COL_DATE, calDbDate.toInt())
+                    colValues.put(CalDbHelper.DB_COL_ENTRIES, entryCount + 1)
 
                     if (calId == 0) {
-                        calDbHelper.insert(columnValues)
+                        calDbHelper.insert(colValues)
                     } else {
                         val selectionArgs = arrayOf(calId.toString())
-                        calDbHelper.update(columnValues, "ID=?", selectionArgs)
+                        calDbHelper.update(colValues, "ID=?", selectionArgs)
                     }
                 }
 
