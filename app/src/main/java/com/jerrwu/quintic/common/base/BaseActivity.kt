@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
 import com.jerrwu.quintic.common.EditTextFlow
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
@@ -13,6 +14,8 @@ abstract class BaseActivity : AppCompatActivity() {
     companion object {
         val TAG = BaseActivity::class.java.simpleName
     }
+
+    lateinit var mViewModel: ViewModel
 
     fun EditText.addTextWatcher(): Flowable<EditTextFlow> {
         return Flowable.create<EditTextFlow>({ emitter ->

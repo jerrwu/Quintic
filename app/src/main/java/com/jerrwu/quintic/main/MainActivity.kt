@@ -6,12 +6,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jerrwu.quintic.BuildConfig
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.base.BaseActivity
 import com.jerrwu.quintic.common.base.BaseFragment
 import com.jerrwu.quintic.common.constants.Constants
 import com.jerrwu.quintic.common.constants.PreferenceKeys
@@ -26,7 +29,7 @@ import com.jerrwu.quintic.utils.UiUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     companion object {
         val TAG = MainActivity::class.java.simpleName
     }
@@ -138,6 +141,7 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        mViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         showChangelogIfUpdated(sharedPreferences)
 
