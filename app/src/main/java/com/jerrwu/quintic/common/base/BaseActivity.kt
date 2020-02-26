@@ -10,12 +10,12 @@ import com.jerrwu.quintic.common.EditTextFlow
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity<VM: ViewModel> : AppCompatActivity() {
     companion object {
         val TAG = BaseActivity::class.java.simpleName
     }
 
-    lateinit var mViewModel: ViewModel
+    lateinit var mViewModel: VM
 
     fun EditText.addTextWatcher(): Flowable<EditTextFlow> {
         return Flowable.create<EditTextFlow>({ emitter ->

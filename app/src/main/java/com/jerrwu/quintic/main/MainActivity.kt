@@ -4,10 +4,9 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
@@ -29,7 +28,7 @@ import com.jerrwu.quintic.utils.UiUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity<MainViewModel>() {
     companion object {
         val TAG = MainActivity::class.java.simpleName
     }
@@ -152,12 +151,17 @@ class MainActivity : BaseActivity() {
             mFragmentManager.beginTransaction().remove(fragment).commit()
         }
 
-        mFragmentManager.beginTransaction().add(R.id.frag_container, mCalFragment, "3").hide(mCalFragment).commit()
-        mFragmentManager.beginTransaction().add(R.id.frag_container, mSearchFragment, "2").hide(mSearchFragment).commit()
-        mFragmentManager.beginTransaction().add(R.id.frag_container, mEntriesFragment, "1").commit()
-
         bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        bottom_navigation.selectedItemId = R.id.menu_home
+
+        mViewModel.navigationFragments.observe(this, Observer { navigationFragments ->
+            for (fragment in navigationFragments) {
+                mFragmentManager.beginTransaction().
+                    add(R.id.frag_container, fragment, fragment.tag).hide(fragment).commit()
+            }
+            mViewModel.activeId.observe(this, Observer { activeId ->
+                bottom_navigation.selectedItemId = activeId
+            })
+        })
 
         account_button.setOnClickListener {
             showBottomSheetDialogFragment()

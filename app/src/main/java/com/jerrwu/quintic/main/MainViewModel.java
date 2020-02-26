@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.jerrwu.quintic.R;
 import com.jerrwu.quintic.common.base.BaseFragment;
 import com.jerrwu.quintic.main.fragment.CalFragment;
 import com.jerrwu.quintic.main.fragment.EntriesFragment;
@@ -22,7 +23,7 @@ public class MainViewModel extends ViewModel {
     private static String TAG = MainViewModel.class.getSimpleName();
 
     private MutableLiveData<List<BaseFragment>> mNavigationFragments;
-    private MutableLiveData<Integer> mActiveIndex;
+    private MutableLiveData<Integer> mActiveId;
 
     private void loadNavigationFragments() {
         Completable.fromAction(new Action() {
@@ -41,12 +42,16 @@ public class MainViewModel extends ViewModel {
                 .subscribe();
     }
 
-    public MutableLiveData<Integer> getActiveFragment() {
-        if (mActiveIndex == null) {
-            mActiveIndex = new MutableLiveData<>();
-            mActiveIndex.postValue(0);
+    public MutableLiveData<Integer> getActiveId() {
+        if (mActiveId == null) {
+            mActiveId = new MutableLiveData<>();
+            mActiveId.postValue(R.id.menu_home);
         }
-        return mActiveIndex;
+        return mActiveId;
+    }
+
+    public void setActiveId(final int activeId) {
+        mActiveId.postValue(activeId);
     }
 
     public MutableLiveData<List<BaseFragment>> getNavigationFragments() {
