@@ -51,9 +51,23 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
     override fun onBackPressed() {
         if (mIsSelectorOpen) {
             toggleMoodSelector()
+        } else if (entry_save_button.isEnabled) {
+            confirmFinish()
         } else {
             super.onBackPressed()
         }
+    }
+
+    private fun confirmFinish() {
+        UiUtils.showDialog(
+            getString(R.string.discard_entry),
+            getString(R.string.discard_entry_descrip),
+            getString(R.string.discard),
+            getString(R.string.cancel),
+            this,
+            this::utilsFinish,
+            UiUtils::dismissDialog
+        )
     }
 
     override fun onStop() {
@@ -165,7 +179,6 @@ class EntryActivity : BaseActivity(), EntryActivityTagInterface {
             .subscribe {
                 toggleSaveButton(it)
             }
-
     }
 
     @UiThread

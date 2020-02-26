@@ -112,4 +112,7 @@
     <string name="shortcut_settings_short">Settings</string>
     <string name="shortcut_settings_long">Edit Settings</string>
     <string name="refresh_error">Couldn\'t refresh!</string>
+    <string name="discard_entry">Discard Entry?</string>
+    <string name="discard_entry_descrip">Do you want to discard changes made to this entry? This action is not recoverable.</string>
+    <string name="discard">Discard</string>
 </resources>

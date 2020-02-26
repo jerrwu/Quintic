@@ -1,5 +1,6 @@
 package com.jerrwu.quintic.common.base
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
@@ -44,6 +45,10 @@ abstract class BaseActivity : AppCompatActivity() {
                 }
             })
         }, BackpressureStrategy.BUFFER)
+    }
+
+    protected fun utilsFinish(context: Context) {
+        finish()
     }
 
 }
