@@ -3,17 +3,14 @@ package com.jerrwu.quintic.main
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jerrwu.quintic.R
 import com.jerrwu.quintic.account.AccountActivity
+import com.jerrwu.quintic.common.BaseBottomSheetFragment
 import com.jerrwu.quintic.common.constants.PreferenceKeys
-import com.jerrwu.quintic.utils.UiUtils
 import com.jerrwu.quintic.utils.StringUtils
 import com.jerrwu.quintic.settings.SettingsActivity
 import kotlinx.android.synthetic.main.nav_sheet.*
@@ -21,32 +18,19 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class NavSheetFragment : BottomSheetDialogFragment() {
+class NavSheetFragment : BaseBottomSheetFragment() {
     companion object {
         val TAG = NavSheetFragment::class.java.simpleName
     }
 
-    private var mFragmentView: View? = null
     private var mGreetingString = ""
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        (view!!.parent.parent.parent as View).fitsSystemWindows = false
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mFragmentView = inflater.inflate(R.layout.nav_sheet, container, false)
-        return mFragmentView
-    }
+    override val mLayoutRes: Int = R.layout.nav_sheet
+    override val mLayoutId: Int = R.id.nav_sheet_layout
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
-
-        if (UiUtils.hasNavBar(activity)) {
-            nav_sheet_layout.setPadding(0,0,0,128)
-        }
 
         val nameString = prefs.getString(PreferenceKeys.PREFERENCE_NAME, "User")
         bottom_sheet_account_text_1.text = nameString
@@ -68,7 +52,7 @@ class NavSheetFragment : BottomSheetDialogFragment() {
         settings_button.setOnClickListener {
             val intent = Intent(activity, SettingsActivity::class.java)
             startActivity(intent)
-            closeNavSheet()
+            closeSheet()
         }
 
         doc_button.setOnClickListener {
@@ -81,7 +65,7 @@ class NavSheetFragment : BottomSheetDialogFragment() {
             intentBuilder.setShowTitle(true)
             val customTabsIntent = intentBuilder.build()
             activity?.let { it1 -> customTabsIntent.launchUrl(it1, uri) }
-            closeNavSheet()
+            closeSheet()
         }
 
         help_button.setOnClickListener {
@@ -94,17 +78,13 @@ class NavSheetFragment : BottomSheetDialogFragment() {
             intentBuilder.setShowTitle(true)
             val customTabsIntent = intentBuilder.build()
             activity?.let { it1 -> customTabsIntent.launchUrl(it1, uri) }
-            closeNavSheet()
+            closeSheet()
         }
 
         bottom_sheet_account_button.setOnClickListener {
             val intent = Intent(activity, AccountActivity::class.java)
             startActivity(intent)
-            closeNavSheet()
+            closeSheet()
         }
-    }
-
-    private fun closeNavSheet() {
-        activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
     }
 }

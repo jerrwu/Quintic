@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jerrwu.quintic.R
+import com.jerrwu.quintic.common.BaseBottomSheetFragment
 import com.jerrwu.quintic.entry.adapter.EntryTagAdapter
 import com.jerrwu.quintic.search.SearchActivity
 import com.jerrwu.quintic.utils.StringUtils
@@ -16,30 +17,17 @@ import kotlinx.android.synthetic.main.tag_sheet.*
 
 class EntryTagFragment(
     var tags: MutableList<String>
-) : BottomSheetDialogFragment() {
+) : BaseBottomSheetFragment() {
     companion object {
         val TAG = EntryTagFragment::class.java.simpleName
     }
 
-    private var mFragmentView: View? = null
     private lateinit var mAdapter: EntryTagAdapter
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        (view?.parent?.parent?.parent as View).fitsSystemWindows = false
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mFragmentView = inflater.inflate(R.layout.tag_sheet, container, false)
-        return mFragmentView
-    }
+    override val mLayoutRes: Int = R.layout.tag_sheet
+    override val mLayoutId: Int = R.id.tags_sheet_layout
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if (UiUtils.hasNavBar(activity)) {
-            tags_sheet_layout.setPadding(0, 0, 0, 128)
-        }
 
         val pContext = context
         if (pContext != null) {
