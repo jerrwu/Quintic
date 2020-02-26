@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jerrwu.quintic.R
@@ -24,7 +25,7 @@ import kotlinx.android.synthetic.main.activity_search.*
 import java.util.concurrent.TimeUnit
 
 
-class SearchActivity : BaseActivity() {
+class SearchActivity : BaseActivity<ViewModel>() {
     companion object {
         val TAG = SearchActivity::class.java.simpleName
 

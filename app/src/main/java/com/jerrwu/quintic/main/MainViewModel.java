@@ -22,8 +22,20 @@ import io.reactivex.schedulers.Schedulers;
 public class MainViewModel extends ViewModel {
     private static String TAG = MainViewModel.class.getSimpleName();
 
-    private MutableLiveData<List<BaseFragment>> mNavigationFragments;
-    private MutableLiveData<Integer> mActiveId;
+    private MutableLiveData<List<BaseFragment>> mNavigationFragments = new MutableLiveData<>();
+    private MutableLiveData<Integer> mActiveId = new MutableLiveData<>();
+    private MutableLiveData<Integer> mActiveFragmentIndex = new MutableLiveData<>();
+
+    public MutableLiveData<Integer> getActiveFragmentIndex() {
+        if (mActiveFragmentIndex.getValue() == null) {
+            mActiveFragmentIndex.postValue(0);
+        }
+        return mActiveFragmentIndex;
+    }
+
+    public void setActiveFragmentIndex(final int activeFragmentIndex) {
+        mActiveFragmentIndex.postValue(activeFragmentIndex);
+    }
 
     private void loadNavigationFragments() {
         Completable.fromAction(new Action() {
@@ -43,8 +55,7 @@ public class MainViewModel extends ViewModel {
     }
 
     public MutableLiveData<Integer> getActiveId() {
-        if (mActiveId == null) {
-            mActiveId = new MutableLiveData<>();
+        if (mActiveId.getValue() == null) {
             mActiveId.postValue(R.id.menu_home);
         }
         return mActiveId;
@@ -55,8 +66,7 @@ public class MainViewModel extends ViewModel {
     }
 
     public MutableLiveData<List<BaseFragment>> getNavigationFragments() {
-        if (mNavigationFragments == null) {
-            mNavigationFragments = new MutableLiveData<>();
+        if (mNavigationFragments.getValue() == null) {
             loadNavigationFragments();
         }
         return mNavigationFragments;
