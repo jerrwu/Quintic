@@ -28,10 +28,12 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class EntryActivity : BaseActivity<ViewModel>(), EntryActivityTagInterface {
+class EntryActivity : BaseActivity(), EntryActivityTagInterface {
     companion object {
         val TAG = EntryActivity::class.java.simpleName
     }
+
+    override lateinit var mViewModel: ViewModel
 
     private var mCreatedDate: LocalDateTime? = null
     private val mFormatterDate = DateTimeFormatter.ofPattern("E MMM dd, yyyy")
@@ -43,19 +45,22 @@ class EntryActivity : BaseActivity<ViewModel>(), EntryActivityTagInterface {
     private var mMood: MoodEntity = MoodEntity.NONE
     private var mIsSelectorOpen = false
     private var mAdapter: MoodAdapter? = null
-    private var mPos: Int = 0
     private var mTags: String = ""
     private var mTagsFragment: EntryTagFragment = EntryTagFragment(ArrayList<String>())
 
     var id = 0
 
     override fun onBackPressed() {
-        if (mIsSelectorOpen) {
-            toggleMoodSelector()
-        } else if (entry_save_button.isEnabled) {
-            confirmFinish()
-        } else {
-            super.onBackPressed()
+        when {
+            mIsSelectorOpen -> {
+                toggleMoodSelector()
+            }
+            entry_save_button.isEnabled -> {
+                confirmFinish()
+            }
+            else -> {
+                super.onBackPressed()
+            }
         }
     }
 
@@ -99,7 +104,6 @@ class EntryActivity : BaseActivity<ViewModel>(), EntryActivityTagInterface {
                 if (pTags != null) {
                     mTags = pTags
                 }
-                mPos = bundle.getInt("pos")
                 val dateString = getString(R.string.created_on) + mFormatterDate.format(mCreatedDate)
                 entry_datetime_text.text = dateString
                 entry_datetime_text.visibility = View.VISIBLE
@@ -275,14 +279,6 @@ class EntryActivity : BaseActivity<ViewModel>(), EntryActivityTagInterface {
                 calDbHelper.update(columnValues, "ID=?", selectionArgs)
             }
         }
-        finishWithResult("-")
-    }
-
-    private fun finishWithResult(type: String) {
-//        val resultIntent = Intent()
-//        resultIntent.putExtra("notify_type", type)
-//        resultIntent.putExtra("entry_id", mPos)
-//        setResult(Activity.RESULT_OK, resultIntent)
         finish()
     }
 
@@ -337,13 +333,13 @@ class EntryActivity : BaseActivity<ViewModel>(), EntryActivityTagInterface {
                 }
 
                 if (dbId != null && dbId > 0) {
-                    finishWithResult("!")
+                    finish()
                 }
             } else {
                 val selectionArgs = arrayOf(id.toString())
                 val dbId = mainDbHelper.update(columnValues, "ID=?", selectionArgs)
                 if (dbId != null && dbId > 0) {
-                    finishWithResult("|")
+                    finish()
                 }
             }
         }

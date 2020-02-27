@@ -19,13 +19,13 @@ import java.time.format.DateTimeFormatter
 
 
 class EntryAdapter(
-    private val mDataList: List<EntryEntity>
-) : BaseRecyclerViewAdapter<EntryEntity, EntryAdapter.EntryViewHolder>(mDataList, null) {
+    var mDataList: List<EntryEntity>,
+    private val mContext: Context?
+) : BaseRecyclerViewAdapter<EntryEntity, EntryAdapter.EntryViewHolder>(mDataList, mContext) {
     companion object {
         val TAG = EntryAdapter::class.java.simpleName
     }
 
-    var mContext: Context? = null
     var mIsMultiSelect = false
     var mItemsSelected: MutableList<EntryEntity> = ArrayList()
     var mItemsSelectedIds: MutableList<Int> = ArrayList()

@@ -14,6 +14,7 @@ import com.jerrwu.quintic.R
 import com.jerrwu.quintic.common.base.BaseFragment
 import com.jerrwu.quintic.common.constants.ConstantLists
 import com.jerrwu.quintic.entities.time.MonthEntity
+import com.jerrwu.quintic.main.viewmodel.SearchViewModel
 import com.jerrwu.quintic.search.SearchActivity
 import com.jerrwu.quintic.search.adapter.SearchHoursAdapter
 import com.jerrwu.quintic.search.adapter.SearchMonthAdapter
@@ -25,6 +26,8 @@ class SearchFragment : BaseFragment() {
     companion object {
         val TAG = SearchFragment::class.java.simpleName
     }
+
+    override lateinit var mViewModel: SearchViewModel
 
     private var mMoodAdapter: SearchMoodAdapter? = null
     private var mHoursAdapter: SearchHoursAdapter? = null

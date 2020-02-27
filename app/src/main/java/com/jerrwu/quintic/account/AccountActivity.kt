@@ -15,10 +15,12 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_account.*
 
 
-class AccountActivity : BaseActivity<ViewModel>() {
+class AccountActivity : BaseActivity() {
     companion object {
         val TAG = AccountActivity::class.java.simpleName
     }
+
+    override lateinit var mViewModel: ViewModel
 
     private var mSetName: String? = ""
 

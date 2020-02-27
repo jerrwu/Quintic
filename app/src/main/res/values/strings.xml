@@ -115,4 +115,6 @@
     <string name="discard_entry">Discard Entry?</string>
     <string name="discard_entry_descrip">Do you want to discard changes made to this entry? This action is not recoverable.</string>
     <string name="discard">Discard</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="change_now">Change now</string>
 </resources>

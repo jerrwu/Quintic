@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.activity_search.*
 import java.util.concurrent.TimeUnit
 
 
-class SearchActivity : BaseActivity<ViewModel>() {
+class SearchActivity : BaseActivity() {
     companion object {
         val TAG = SearchActivity::class.java.simpleName
 
@@ -39,6 +39,8 @@ class SearchActivity : BaseActivity<ViewModel>() {
         const val SEARCH_TYPE_HOURS = "Hours"
         const val SEARCH_TYPE_TAG = "Tags"
     }
+
+    override lateinit var mViewModel: ViewModel
 
     private var mSearchResults: List<EntryEntity>? = null
     private var mAdapter: EntryAdapter? = null
@@ -160,10 +162,9 @@ class SearchActivity : BaseActivity<ViewModel>() {
         }
 
         search_no_results_text.visibility = View.GONE
-        mAdapter = EntryAdapter(results)
+        mAdapter = EntryAdapter(results, this)
         resultsRecycler.layoutManager = LinearLayoutManager(this)
         resultsRecycler.adapter = mAdapter
-        mAdapter?.mContext = this
 
         mAdapter?.onItemClick = { pos, entry, _ ->
             val intent = Intent(this, EntryActivity::class.java)

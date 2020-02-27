@@ -28,12 +28,14 @@ import com.jerrwu.quintic.utils.UiUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : BaseActivity<MainViewModel>() {
+class MainActivity : BaseActivity() {
     companion object {
         val TAG = MainActivity::class.java.simpleName
     }
 
     // TODO: add viewpager to improve fragment switching
+
+    override lateinit var mViewModel: MainViewModel
 
     private val mNavSheetFragment = NavSheetFragment()
     private val mFragmentManager = supportFragmentManager
@@ -58,7 +60,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
             var idx = 0
 
             mViewModel.navigationFragments.observe(this, Observer { navigationFragments ->
-                if (mActiveFragment is EntriesFragment) {
+                if (mActiveFragment is EntriesFragment && item.itemId != R.id.menu_home) {
                     val entriesFragment: EntriesFragment = mActiveFragment as EntriesFragment
                     if (entriesFragment.mAdapter != null &&
                         (entriesFragment.mAdapter as EntryAdapter).mIsMultiSelect) {
@@ -120,12 +122,11 @@ class MainActivity : BaseActivity<MainViewModel>() {
                         state = true
                     }
                 }
-
             })
-            mViewModel.setActiveId(item.itemId)
-            mViewModel.setActiveFragmentIndex(idx)
-            state
-        }
+        mViewModel.setActiveId(item.itemId)
+        mViewModel.setActiveFragmentIndex(idx)
+        state
+    }
 
     private fun showBottomSheetDialogFragment() {
         mNavSheetFragment.show(supportFragmentManager, mNavSheetFragment.tag)
@@ -133,23 +134,25 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     override fun onResume() {
         super.onResume()
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        setLayoutNavScrollBehaviour(sharedPreferences)
-        setLayoutToolbarScrollBehaviour(sharedPreferences)
+        mViewModel.getPreferences(this).observe(this, Observer { sharedPreferences ->
+            setLayoutNavScrollBehaviour(sharedPreferences)
+            setLayoutToolbarScrollBehaviour(sharedPreferences)
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         mViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        showChangelogIfUpdated(sharedPreferences)
+        mViewModel.getPreferences(this).observe(this, Observer { sharedPreferences ->
+            showChangelogIfUpdated(sharedPreferences)
 
-        setLayoutNavScrollBehaviour(sharedPreferences)
-        setLayoutToolbarScrollBehaviour(sharedPreferences)
+            setLayoutNavScrollBehaviour(sharedPreferences)
+            setLayoutToolbarScrollBehaviour(sharedPreferences)
+        })
 
         for (fragment in mFragmentManager.fragments) {
             mFragmentManager.beginTransaction().remove(fragment).commit()
@@ -159,12 +162,19 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
         mViewModel.navigationFragments.observe(this, Observer { navigationFragments ->
             for (fragment in navigationFragments) {
-                mFragmentManager.beginTransaction().
-                    add(R.id.frag_container, fragment, fragment.tag).hide(fragment).commit()
+                mFragmentManager
+                    .beginTransaction()
+                    .add(R.id.frag_container, fragment, fragment.tag)
+                    .hide(fragment)
+                    .commit()
             }
             mViewModel.activeFragmentIndex.observe(this, Observer { activeIndex ->
                 mActiveFragment = navigationFragments[activeIndex]
-                mFragmentManager.beginTransaction().show(mActiveFragment).commit()
+                mFragmentManager
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                    .show(mActiveFragment)
+                    .commit()
             })
         })
 
