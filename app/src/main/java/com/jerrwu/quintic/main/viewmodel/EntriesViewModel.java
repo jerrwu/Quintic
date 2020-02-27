@@ -32,6 +32,15 @@ public class EntriesViewModel extends BaseViewModel {
     private CalDbHelper mCalDbHelper;
     private MainDbHelper mMainDbHelper;
 
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        if (mCalDbHelper != null && mMainDbHelper != null) {
+            mCalDbHelper.close();
+            mMainDbHelper.close();
+        }
+    }
+
     public void verifyMainDb(final Context context) {
         if (mMainDbHelper == null) {
             mMainDbHelper = new MainDbHelper(context);

@@ -123,7 +123,10 @@ object UiUtils {
         val noBtn = dialog.findViewById(R.id.no_button) as Button
         noBtn.text = textNo
         if (textYes == "") { yesBtn.visibility = View.GONE }
-        yesBtn.setOnClickListener { if (funYes != null) funYes(activity) }
+        yesBtn.setOnClickListener {
+            if (funYes != null) funYes(activity)
+            dismissDialog(dialog)
+        }
         noBtn.setOnClickListener { funNo(dialog) }
         dialog.show()
     }
