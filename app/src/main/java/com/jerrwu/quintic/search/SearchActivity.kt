@@ -162,10 +162,9 @@ class SearchActivity : BaseActivity() {
         }
 
         search_no_results_text.visibility = View.GONE
-        mAdapter = EntryAdapter(results)
+        mAdapter = EntryAdapter(results, this)
         resultsRecycler.layoutManager = LinearLayoutManager(this)
         resultsRecycler.adapter = mAdapter
-        mAdapter?.mContext = this
 
         mAdapter?.onItemClick = { pos, entry, _ ->
             val intent = Intent(this, EntryActivity::class.java)

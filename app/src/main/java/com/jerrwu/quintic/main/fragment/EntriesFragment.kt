@@ -52,7 +52,6 @@ class EntriesFragment : BaseFragment() {
 
     private var mRecyclerView: RecyclerView? = null
     var mAdapter: EntryAdapter? = null
-    private var mEntryList: ArrayList<EntryEntity> = ArrayList()
     private var mMainDbHelper: MainDbHelper? = null
     private var mCalDbHelper: CalDbHelper? = null
 
@@ -69,52 +68,25 @@ class EntriesFragment : BaseFragment() {
     }
 
     private fun doRefresh() {
-        Completable.fromAction {
-            Log.d(TAG, "Refresh started.")
-
-            loadQuery("%")
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnComplete {
-                toggleEmptyNotices()
-                val refreshLayout: SwipeRefreshLayout? = activity?.findViewById(R.id.fragment_entries_pull_refresh)
-                refreshLayout?.isRefreshing = false
-
-                Log.d(TAG, "Refresh finished.")
-            }
-            .doOnError {
-                activity?.runOnUiThread {
-                    Toast.makeText(activity, R.string.refresh_error, Toast.LENGTH_SHORT).show()
-                }
-
-                Log.d(TAG, "Refresh failed.")
-            }
-            .subscribe()
+        mViewModel.entryList.observe(viewLifecycleOwner, Observer { entryList ->
+            mAdapter?.mDataList = entryList
+            toggleEmptyNotices(entryList)
+            val refreshLayout: SwipeRefreshLayout? = activity?.findViewById(R.id.fragment_entries_pull_refresh)
+            refreshLayout?.isRefreshing = false
+            Log.d(TAG, "doRefresh() called")
+        })
     }
 
     private fun doFullRefresh() {
-        Completable.fromAction {
-            Log.d(TAG, "Refresh started.")
+        mViewModel.entryList.observe(viewLifecycleOwner, Observer { entryList ->
+            mAdapter?.mDataList = entryList
+            toggleEmptyNotices(entryList)
+            val refreshLayout: SwipeRefreshLayout? = activity?.findViewById(R.id.fragment_entries_pull_refresh)
+            refreshLayout?.isRefreshing = false
+            mRecyclerView?.recycledViewPool?.clear()
+            mAdapter?.notifyDataSetChanged()
+        })
 
-            loadQuery("%")
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnComplete {
-                toggleEmptyNotices()
-                val refreshLayout: SwipeRefreshLayout? = activity?.findViewById(R.id.fragment_entries_pull_refresh)
-                refreshLayout?.isRefreshing = false
-
-                mRecyclerView?.recycledViewPool?.clear()
-                mAdapter?.notifyDataSetChanged()
-
-                Log.d(TAG, "Refresh finished.")
-            }
-            .doOnError {
-                Log.d(TAG, "Refresh failed.")
-            }
-            .subscribe()
     }
 
     override fun onResume() {
@@ -160,6 +132,8 @@ class EntriesFragment : BaseFragment() {
             startActivity(intent)
         }
 
+        mViewModel.verifyMainDb(context)
+        mViewModel.verifyCalDb(context)
         doRefresh()
 
         fragment_entries_pull_refresh.setColorSchemeResources(
@@ -180,52 +154,51 @@ class EntriesFragment : BaseFragment() {
             val mLayoutManager = NoPredictiveAnimationLinearLayoutManager(
                 mActivity, LinearLayoutManager.VERTICAL, false)
             if (mRecyclerView != null) mRecyclerView?.layoutManager = mLayoutManager
-            mAdapter = EntryAdapter(mEntryList)
-            mAdapter?.mContext = mActivity
-        }
+            mViewModel.entryList.observe(viewLifecycleOwner, Observer { entryList ->
+                mAdapter = EntryAdapter(entryList, mActivity)
+                mRecyclerView?.adapter = mAdapter
 
-        val recyclerView = mRecyclerView
-        if (recyclerView != null) {
-            recyclerView.adapter = mAdapter
-            mAdapter?.onItemLongClick = { _ ->
-                showSelectionToolbar()
-                true
-            }
-            mAdapter?.onItemClick = {pos, entry, dismissToolbar ->
-                if (dismissToolbar!!) {
-                    hideSelectionToolbar(false)
-                } else {
-                    val intent = Intent(activity, EntryActivity::class.java)
-                    intent.putExtra(MainDbHelper.DB_COL_ID, entry.id)
-                    intent.putExtra(MainDbHelper.DB_COL_TITLE, entry.title)
-                    intent.putExtra(MainDbHelper.DB_COL_CONTENT, entry.content)
-                    intent.putExtra(MainDbHelper.DB_COL_TIME, entry.time.toString())
-                    intent.putExtra(MainDbHelper.DB_COL_MOOD, entry.mood?.id)
-                    intent.putExtra(MainDbHelper.DB_COL_TAGS, entry.tags)
-                    intent.putExtra("pos", pos)
-                    startActivityForResult(intent, 0)
+                mAdapter?.onItemLongClick = { _ ->
+                    showSelectionToolbar()
+                    true
                 }
-            }
+                mAdapter?.onItemClick = {pos, entry, dismissToolbar ->
+                    if (dismissToolbar!!) {
+                        hideSelectionToolbar(false)
+                    } else {
+                        val intent = Intent(activity, EntryActivity::class.java)
+                        intent.putExtra(MainDbHelper.DB_COL_ID, entry.id)
+                        intent.putExtra(MainDbHelper.DB_COL_TITLE, entry.title)
+                        intent.putExtra(MainDbHelper.DB_COL_CONTENT, entry.content)
+                        intent.putExtra(MainDbHelper.DB_COL_TIME, entry.time.toString())
+                        intent.putExtra(MainDbHelper.DB_COL_MOOD, entry.mood?.id)
+                        intent.putExtra(MainDbHelper.DB_COL_TAGS, entry.tags)
+                        intent.putExtra("pos", pos)
+                        startActivityForResult(intent, 0)
+                    }
+                }
+            })
         }
     }
 
     @UiThread
-    private fun toggleEmptyNotices() {
+    private fun toggleEmptyNotices(entryList: List<EntryEntity>) {
         val dailyNotice: CardView? = activity?.findViewById(R.id.daily_suggestion_card_container)
         val emptyNotice: LinearLayout? = activity?.findViewById(R.id.empty_recycler_notice)
 
         dailyNotice?.visibility = View.GONE
-        if (mEntryList.isEmpty() && mAdapter?.itemCount == 0) {
+        if (entryList.isEmpty() && mAdapter?.itemCount == 0) {
             emptyNotice?.visibility = View.VISIBLE
         } else {
             emptyNotice?.visibility = View.GONE
             val current = LocalDate.now()
-            val filteredEntryList: List<EntryEntity> = mEntryList.filter {
+            val filteredEntryList: List<EntryEntity> = entryList.filter {
                     card -> card.time.toLocalDate() == current }
             if (filteredEntryList.isEmpty()) dailyNotice?.visibility = View.VISIBLE
         }
     }
 
+    @UiThread
     private fun showSelectionToolbar() {
         val mActivity = activity
         if (mActivity != null) {
@@ -289,6 +262,7 @@ class EntriesFragment : BaseFragment() {
         doRefresh()
     }
 
+    @UiThread
     fun hideSelectionToolbar(deleted: Boolean) {
         val activity = activity
         if (activity != null) {
@@ -305,6 +279,7 @@ class EntriesFragment : BaseFragment() {
         resetAdapterSelected()
     }
 
+    @UiThread
     private fun setInfoCardGreeting(prefs: SharedPreferences) {
         val greetingString: String?
         val greetingsToggle = prefs.getBoolean(PreferenceKeys.PREFERENCE_GREETINGS, true)
@@ -321,11 +296,13 @@ class EntriesFragment : BaseFragment() {
         info_card_greeting.text = greetingString.replace("!", ",")
     }
 
+    @UiThread
     private fun setInfoCardName(prefs: SharedPreferences) {
         val nameString: String? = prefs.getString(PreferenceKeys.PREFERENCE_NAME, "user")
         info_card_name.text = nameString
     }
 
+    @UiThread
     private fun infoCardNameRem(prefs: SharedPreferences) {
         val remBool: Boolean = prefs.getBoolean(PreferenceKeys.PREFERENCE_SET_NAME_REMINDER, false)
         if (remBool) {
@@ -339,62 +316,6 @@ class EntriesFragment : BaseFragment() {
             info_card_rem_type.visibility = View.GONE
             info_card_greeting_icon.visibility = View.VISIBLE
             info_card_reminder_icon.visibility = View.GONE
-        }
-    }
-
-    @WorkerThread
-    private fun loadQuery(title: String) {
-        val refreshLayout: SwipeRefreshLayout? = activity?.findViewById(R.id.fragment_entries_pull_refresh)
-
-        activity?.runOnUiThread {
-            if (refreshLayout != null && !refreshLayout.isRefreshing) {
-                refreshLayout.isRefreshing = true
-            }
-        }
-
-        if (mMainDbHelper == null && activity != null) {
-            mMainDbHelper = MainDbHelper(activity as Context)
-        }
-        val dbHelper = mMainDbHelper
-        if (dbHelper != null) {
-            val projections = arrayOf(
-                MainDbHelper.DB_COL_ID,
-                MainDbHelper.DB_COL_ICON,
-                MainDbHelper.DB_COL_TITLE,
-                MainDbHelper.DB_COL_CONTENT,
-                MainDbHelper.DB_COL_TIME,
-                MainDbHelper.DB_COL_MOOD,
-                MainDbHelper.DB_COL_TAGS)
-            val selectionArgs = arrayOf(title)
-            val cursor = dbHelper.query(
-                projections, "Title like ?", selectionArgs, MainDbHelper.DB_COL_ID+" DESC")
-            mEntryList.clear()
-            if (cursor.moveToFirst()) {
-
-                do {
-                    val entryId = cursor.getInt(cursor.getColumnIndex(MainDbHelper.DB_COL_ID))
-                    val entryIc = cursor.getInt(cursor.getColumnIndex(MainDbHelper.DB_COL_ICON))
-                    val entryTitle = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_TITLE))
-                    val entryContent = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_CONTENT))
-                    val entryTime = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_TIME))
-                    val entryMood = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_MOOD))
-                    val entryTags = cursor.getString(cursor.getColumnIndex(MainDbHelper.DB_COL_TAGS))
-
-                    mEntryList.add(
-                        EntryEntity(
-                            entryId,
-                            entryIc,
-                            entryTitle,
-                            entryContent,
-                            LocalDateTime.parse(entryTime),
-                            MoodEntity.parse(entryMood),
-                            entryTags
-                        )
-                    )
-
-                } while (cursor.moveToNext())
-            }
-            cursor.close()
         }
     }
 
