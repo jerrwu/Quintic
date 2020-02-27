@@ -68,7 +68,7 @@ class EntriesFragment : BaseFragment() {
     }
 
     private fun doRefresh() {
-        mViewModel.entryList.observe(viewLifecycleOwner, Observer { entryList ->
+        mViewModel.freshEntryList.observe(viewLifecycleOwner, Observer { entryList ->
             mAdapter?.mDataList = entryList
             toggleEmptyNotices(entryList)
             val refreshLayout: SwipeRefreshLayout? = activity?.findViewById(R.id.fragment_entries_pull_refresh)
@@ -78,7 +78,7 @@ class EntriesFragment : BaseFragment() {
     }
 
     private fun doFullRefresh() {
-        mViewModel.entryList.observe(viewLifecycleOwner, Observer { entryList ->
+        mViewModel.freshEntryList.observe(viewLifecycleOwner, Observer { entryList ->
             mAdapter?.mDataList = entryList
             toggleEmptyNotices(entryList)
             val refreshLayout: SwipeRefreshLayout? = activity?.findViewById(R.id.fragment_entries_pull_refresh)
@@ -134,7 +134,6 @@ class EntriesFragment : BaseFragment() {
 
         mViewModel.verifyMainDb(context)
         mViewModel.verifyCalDb(context)
-        doRefresh()
 
         fragment_entries_pull_refresh.setColorSchemeResources(
             R.color.colorAccent,

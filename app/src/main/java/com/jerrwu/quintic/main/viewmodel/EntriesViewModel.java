@@ -29,16 +29,21 @@ public class EntriesViewModel extends BaseViewModel {
     private CalDbHelper mCalDbHelper;
     private MainDbHelper mMainDbHelper;
 
-    public void verifyMainDb(Context context) {
+    public void verifyMainDb(final Context context) {
         if (mMainDbHelper == null) {
             mMainDbHelper = new MainDbHelper(context);
         }
     }
 
-    public void verifyCalDb(Context context) {
+    public void verifyCalDb(final Context context) {
         if (mCalDbHelper == null) {
             mCalDbHelper = new CalDbHelper(context);
         }
+    }
+
+    public MutableLiveData<List<EntryEntity>> getFreshEntryList() {
+        doRefresh();
+        return getEntryList();
     }
 
     public MutableLiveData<List<EntryEntity>> getEntryList() {
@@ -47,6 +52,12 @@ public class EntriesViewModel extends BaseViewModel {
         }
         return mEntryList;
     }
+
+//    public void deleteEntries(final List<EntryEntity> entries) {
+//        if (mMainDbHelper != null && mCalDbHelper != null) {
+//            for ()
+//        }
+//    }
 
     private void doRefresh() {
         if (mMainDbHelper != null) {
