@@ -135,23 +135,25 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        setLayoutNavScrollBehaviour(sharedPreferences)
-        setLayoutToolbarScrollBehaviour(sharedPreferences)
+        mViewModel.getPreferences(this).observe(this, Observer { sharedPreferences ->
+            setLayoutNavScrollBehaviour(sharedPreferences)
+            setLayoutToolbarScrollBehaviour(sharedPreferences)
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         mViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        showChangelogIfUpdated(sharedPreferences)
+        mViewModel.getPreferences(this).observe(this, Observer { sharedPreferences ->
+            showChangelogIfUpdated(sharedPreferences)
 
-        setLayoutNavScrollBehaviour(sharedPreferences)
-        setLayoutToolbarScrollBehaviour(sharedPreferences)
+            setLayoutNavScrollBehaviour(sharedPreferences)
+            setLayoutToolbarScrollBehaviour(sharedPreferences)
+        })
 
         for (fragment in mFragmentManager.fragments) {
             mFragmentManager.beginTransaction().remove(fragment).commit()

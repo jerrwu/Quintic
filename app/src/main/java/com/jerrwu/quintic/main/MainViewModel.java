@@ -30,7 +30,6 @@ public class MainViewModel extends BaseViewModel {
     private MutableLiveData<Integer> mActiveId = new MutableLiveData<>();
     private MutableLiveData<Integer> mActiveFragmentIndex = new MutableLiveData<>();
 
-
     public MutableLiveData<Integer> getActiveFragmentIndex() {
         if (mActiveFragmentIndex.getValue() == null) {
             mActiveFragmentIndex.postValue(0);
