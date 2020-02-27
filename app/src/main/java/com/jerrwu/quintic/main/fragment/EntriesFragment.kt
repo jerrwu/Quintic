@@ -53,8 +53,6 @@ class EntriesFragment : BaseFragment() {
     private var mEntryList: ArrayList<EntryEntity> = ArrayList()
     private var mMainDbHelper: MainDbHelper? = null
     private var mCalDbHelper: CalDbHelper? = null
-//    private var mPosToNotify: Int? = null
-//    private var mPosNotifyType: String? = null
 
     override fun onFragmentShown() {
     }
@@ -128,28 +126,6 @@ class EntriesFragment : BaseFragment() {
 
         resetAdapterSelected()
         hideSelectionToolbar(false)
-
-//        val pos = mPosToNotify
-//        val type = mPosNotifyType
-//        Log.d(TAG, type ?: "null")
-//        if (pos != null && type != null) {
-//            when (type) {
-//                "-" -> {
-//                    mAdapter?.notifyItemRemoved(pos)
-//                }
-//                "+" -> {
-//                    mAdapter?.notifyItemInserted(pos)
-//                }
-//                "|" -> {
-//                    mAdapter?.notifyItemChanged(pos)
-//                }
-//                else -> {
-//                    mAdapter?.notifyDataSetChanged()
-//                }
-//            }
-//            mPosNotifyType = null
-//            mPosToNotify = null
-//        }
     }
 
     override fun onCreateView(
@@ -234,14 +210,6 @@ class EntriesFragment : BaseFragment() {
             }
         }
     }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == 0 && resultCode == RESULT_OK && data != null) {
-//            mPosNotifyType = data.getStringExtra("notify_type")
-//            mPosToNotify = data.getIntExtra("entry_id", 0)
-//        }
-//    }
 
     @UiThread
     private fun toggleEmptyNotices() {
