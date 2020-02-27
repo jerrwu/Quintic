@@ -126,13 +126,7 @@ class EntriesFragment : BaseFragment() {
         mViewModel.verifyMainDb(context)
         mViewModel.verifyCalDb(context)
 
-        fragment_entries_pull_refresh.setColorSchemeResources(
-            R.color.colorAccent,
-            R.color.purple,
-            R.color.green,
-            R.color.blue,
-            R.color.yellow,
-            R.color.red)
+        fragment_entries_pull_refresh.setColorSchemeResources(R.color.colorAccent)
         fragment_entries_pull_refresh.setProgressBackgroundColorSchemeResource(R.color.colorMain)
         fragment_entries_pull_refresh.setOnRefreshListener {
             doRefresh()

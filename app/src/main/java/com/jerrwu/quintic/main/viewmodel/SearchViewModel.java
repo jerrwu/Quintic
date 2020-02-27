@@ -5,4 +5,6 @@ import androidx.lifecycle.ViewModel;
 import com.jerrwu.quintic.common.base.BaseViewModel;
 
 public class SearchViewModel extends BaseViewModel {
+    private static String TAG = SearchViewModel.class.getSimpleName();
+    
 }
