@@ -15,6 +15,8 @@ import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.annotation.WorkerThread
 import androidx.cardview.widget.CardView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -117,10 +119,24 @@ class EntriesFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
-        setInfoCardGreeting(prefs)
-        setInfoCardName(prefs)
-        infoCardNameRem(prefs)
+
+        mViewModel.getPreferences(activity).observe(viewLifecycleOwner, Observer {prefs ->
+            setInfoCardGreeting(prefs)
+            setInfoCardName(prefs)
+            infoCardNameRem(prefs)
+
+            name_rem_button.setOnClickListener {
+                val intent = Intent(activity, AccountActivity::class.java)
+                startActivity(intent)
+            }
+
+            name_rem_dismiss_button.setOnClickListener {
+                val editor = prefs.edit()
+                editor.putBoolean(PreferenceKeys.PREFERENCE_SET_NAME_REMINDER, false)
+                editor.apply()
+                infoCardNameRem(prefs)
+            }
+        })
 
         doFullRefresh()
 
@@ -132,30 +148,12 @@ class EntriesFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        mViewModel = ViewModelProvider(this).get(EntriesViewModel::class.java)
         return inflater.inflate(R.layout.fragment_entries, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
-
-        setInfoCardGreeting(prefs)
-        setInfoCardName(prefs)
-        infoCardNameRem(prefs)
-
-        name_rem_button.setOnClickListener {
-            val intent = Intent(activity, AccountActivity::class.java)
-            startActivity(intent)
-        }
-
-        name_rem_dismiss_button.setOnClickListener {
-            val editor = prefs.edit()
-            editor.putBoolean(PreferenceKeys.PREFERENCE_SET_NAME_REMINDER, false)
-            editor.apply()
-            infoCardNameRem(prefs)
-        }
 
         daily_suggestion_card.setOnClickListener {
             val intent = Intent(context, EntryActivity::class.java)
