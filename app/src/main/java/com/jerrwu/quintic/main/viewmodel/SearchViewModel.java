@@ -2,5 +2,7 @@ package com.jerrwu.quintic.main.viewmodel;
 
 import androidx.lifecycle.ViewModel;
 
-public class SearchViewModel extends ViewModel {
+import com.jerrwu.quintic.common.base.BaseViewModel;
+
+public class SearchViewModel extends BaseViewModel {
 }

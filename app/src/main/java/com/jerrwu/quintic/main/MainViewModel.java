@@ -1,12 +1,16 @@
 package com.jerrwu.quintic.main;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.preference.PreferenceManager;
 
 import com.jerrwu.quintic.R;
 import com.jerrwu.quintic.common.base.BaseFragment;
+import com.jerrwu.quintic.common.base.BaseViewModel;
 import com.jerrwu.quintic.main.fragment.CalFragment;
 import com.jerrwu.quintic.main.fragment.EntriesFragment;
 import com.jerrwu.quintic.main.fragment.SearchFragment;
@@ -19,12 +23,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainViewModel extends ViewModel {
+public class MainViewModel extends BaseViewModel {
     private static String TAG = MainViewModel.class.getSimpleName();
 
     private MutableLiveData<List<BaseFragment>> mNavigationFragments = new MutableLiveData<>();
     private MutableLiveData<Integer> mActiveId = new MutableLiveData<>();
     private MutableLiveData<Integer> mActiveFragmentIndex = new MutableLiveData<>();
+
 
     public MutableLiveData<Integer> getActiveFragmentIndex() {
         if (mActiveFragmentIndex.getValue() == null) {
