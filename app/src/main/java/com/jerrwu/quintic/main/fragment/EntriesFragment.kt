@@ -29,6 +29,7 @@ import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
 import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.main.MainActivity
+import com.jerrwu.quintic.main.viewmodel.EntriesViewModel
 import com.jerrwu.quintic.utils.*
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -44,6 +45,8 @@ class EntriesFragment : BaseFragment() {
     companion object {
         val TAG = EntriesFragment::class.java.simpleName
     }
+
+    override lateinit var mViewModel: EntriesViewModel
 
     private var mRecyclerView: RecyclerView? = null
     var mAdapter: EntryAdapter? = null

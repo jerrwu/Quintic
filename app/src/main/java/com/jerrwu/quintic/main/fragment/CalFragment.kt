@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -27,6 +28,7 @@ import com.jerrwu.quintic.entities.time.DayEntity
 import com.jerrwu.quintic.entities.time.MonthEntity
 import com.jerrwu.quintic.entities.time.YearEntity
 import com.jerrwu.quintic.entry.EntryActivity
+import com.jerrwu.quintic.main.viewmodel.CalViewModel
 import com.jerrwu.quintic.utils.*
 import kotlinx.android.synthetic.main.fragment_cal.*
 import java.time.LocalDate
@@ -36,6 +38,8 @@ class CalFragment : BaseFragment() {
     companion object {
         val TAG = CalFragment::class.java.simpleName
     }
+
+    override lateinit var mViewModel: CalViewModel
 
     private var mAdapter: CellAdapter? = null
     private var mCellList: MutableList<CellEntity> = ArrayList()
