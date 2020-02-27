@@ -1,8 +1,6 @@
 package com.jerrwu.quintic.main.fragment
 
 
-import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -11,13 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.annotation.UiThread
-import androidx.annotation.WorkerThread
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -28,14 +23,10 @@ import com.jerrwu.quintic.common.constants.PreferenceKeys
 import com.jerrwu.quintic.common.view.NoPredictiveAnimationLinearLayoutManager
 import com.jerrwu.quintic.entities.entry.EntryEntity
 import com.jerrwu.quintic.entities.entry.adapter.EntryAdapter
-import com.jerrwu.quintic.entities.mood.MoodEntity
 import com.jerrwu.quintic.entry.EntryActivity
 import com.jerrwu.quintic.main.MainActivity
 import com.jerrwu.quintic.main.viewmodel.EntriesViewModel
 import com.jerrwu.quintic.utils.*
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_entries.*
 import java.time.LocalDate
@@ -221,44 +212,15 @@ class EntriesFragment : BaseFragment() {
     }
 
     private fun deleteEntries(items: List<EntryEntity>) {
-        if (mMainDbHelper == null && activity != null) {
-            mMainDbHelper = MainDbHelper(activity as Context)
-        }
-        if (mCalDbHelper == null && activity != null) {
-            mCalDbHelper = CalDbHelper(activity as Context)
-        }
-        val mainDbHelper = mMainDbHelper
-        val calDbHelper = mCalDbHelper
-        if (mainDbHelper != null && calDbHelper != null) {
-            for (item in items) {
-                val createdDate = item.time
-                val calDbDate = createdDate.year.toString() +
-                        createdDate.monthValue.toString() +
-                        createdDate.dayOfMonth.toString()
-
-                val result = SearchUtils.performCalEntryCountSearch(calDbDate, calDbHelper)
-                val entryCount = result[1]
-                val columnValues = ContentValues()
-
-                val calId = result[0]
-                columnValues.put(CalDbHelper.DB_COL_DATE, calDbDate.toInt())
-                columnValues.put(CalDbHelper.DB_COL_ENTRIES, entryCount - 1)
-                var selectionArgs = arrayOf(calId.toString())
-                calDbHelper.update(columnValues, "ID=?", selectionArgs)
-
-                selectionArgs = arrayOf(item.id.toString())
-                mainDbHelper.delete("ID=?", selectionArgs)
-
-                for (id in mAdapter?.mItemsSelectedIds.orEmpty()) {
-                    mAdapter?.notifyItemRemoved(id)
-                }
-            }
+        mViewModel.deleteEntries(items)
+        doRefresh()
+        for (id in mAdapter?.mItemsSelectedIds.orEmpty()) {
+            mAdapter?.notifyItemRemoved(id)
         }
         if (activity is MainActivity) {
             (activity as MainActivity).mRefreshCalFragmentGrid = true
         }
         hideSelectionToolbar(true)
-        doRefresh()
     }
 
     @UiThread
