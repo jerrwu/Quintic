@@ -28,10 +28,12 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class EntryActivity : BaseActivity<ViewModel>(), EntryActivityTagInterface {
+class EntryActivity : BaseActivity(), EntryActivityTagInterface {
     companion object {
         val TAG = EntryActivity::class.java.simpleName
     }
+
+    override lateinit var mViewModel: ViewModel
 
     private var mCreatedDate: LocalDateTime? = null
     private val mFormatterDate = DateTimeFormatter.ofPattern("E MMM dd, yyyy")

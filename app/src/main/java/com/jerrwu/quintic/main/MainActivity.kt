@@ -28,12 +28,14 @@ import com.jerrwu.quintic.utils.UiUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : BaseActivity<MainViewModel>() {
+class MainActivity : BaseActivity() {
     companion object {
         val TAG = MainActivity::class.java.simpleName
     }
 
     // TODO: add viewpager to improve fragment switching
+
+    override lateinit var mViewModel: MainViewModel
 
     private val mNavSheetFragment = NavSheetFragment()
     private val mFragmentManager = supportFragmentManager

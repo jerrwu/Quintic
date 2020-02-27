@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import com.jerrwu.quintic.R
 
-abstract class BaseCustomTabActivity : BaseActivity<ViewModel>() {
+abstract class BaseCustomTabActivity : BaseActivity() {
     companion object {
         val TAG = BaseCustomTabActivity::class.java.simpleName
     }
