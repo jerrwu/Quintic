@@ -159,12 +159,19 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
         mViewModel.navigationFragments.observe(this, Observer { navigationFragments ->
             for (fragment in navigationFragments) {
-                mFragmentManager.beginTransaction().
-                    add(R.id.frag_container, fragment, fragment.tag).hide(fragment).commit()
+                mFragmentManager
+                    .beginTransaction()
+                    .add(R.id.frag_container, fragment, fragment.tag)
+                    .hide(fragment)
+                    .commit()
             }
             mViewModel.activeFragmentIndex.observe(this, Observer { activeIndex ->
                 mActiveFragment = navigationFragments[activeIndex]
-                mFragmentManager.beginTransaction().show(mActiveFragment).commit()
+                mFragmentManager
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                    .show(mActiveFragment)
+                    .commit()
             })
         })
 
