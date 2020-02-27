@@ -87,6 +87,7 @@ public class EntriesViewModel extends BaseViewModel {
                 } while (cursor.moveToNext());
             }
             cursor.close();
+            mEntryList.postValue(entryList);
         }
     }
 }
