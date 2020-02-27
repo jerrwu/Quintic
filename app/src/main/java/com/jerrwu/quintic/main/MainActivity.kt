@@ -60,7 +60,7 @@ class MainActivity : BaseActivity() {
             var idx = 0
 
             mViewModel.navigationFragments.observe(this, Observer { navigationFragments ->
-                if (mActiveFragment is EntriesFragment) {
+                if (mActiveFragment is EntriesFragment && item.itemId != R.id.menu_home) {
                     val entriesFragment: EntriesFragment = mActiveFragment as EntriesFragment
                     if (entriesFragment.mAdapter != null &&
                         (entriesFragment.mAdapter as EntryAdapter).mIsMultiSelect) {
@@ -122,12 +122,11 @@ class MainActivity : BaseActivity() {
                         state = true
                     }
                 }
-
             })
-            mViewModel.setActiveId(item.itemId)
-            mViewModel.setActiveFragmentIndex(idx)
-            state
-        }
+        mViewModel.setActiveId(item.itemId)
+        mViewModel.setActiveFragmentIndex(idx)
+        state
+    }
 
     private fun showBottomSheetDialogFragment() {
         mNavSheetFragment.show(supportFragmentManager, mNavSheetFragment.tag)
