@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,40 +44,35 @@ class CalFragment : BaseFragment() {
     override lateinit var mViewModel: CalViewModel
 
     private var mAdapter: CellAdapter? = null
-    private var mCellList: MutableList<CellEntity> = ArrayList()
-    private var mAddSpacing = true
-    private var mWeekDayHeaders: MutableList<CellEntity> = ArrayList()
-    private var mYears: List<YearEntity>? = null
-    private var mCurrentYear: YearEntity? = null
-    private var mCurrentMonth: MonthEntity? = null
-    private var mCurrentMonthValue: Int = 0
-    private var mCurrentYearValue: Int = 0
-    private var mPreviousPosition: Int = 0
     private lateinit var mDayViewData: DayViewDataWrapper
 
     private val mMonthSpinnerList: MutableList<String> = ArrayList()
     private val mYearSpinnerList: MutableList<String> = ArrayList()
 
     override fun onFragmentShown() {
-        AsyncTask.execute {
-            onCalSelected(mCurrentYearValue, mCurrentMonthValue)
-            updateDayView()
-        }
+        val currentMonthValue = mViewModel.currentMonthValue
+        val currentYearValue = mViewModel.currentYearValue
+        onCalSelected(currentYearValue, currentMonthValue)
+        updateDayView()
     }
 
     private fun updateDayView() {
         val pActivity = activity
+        val currentMonthValue = mViewModel.currentMonthValue
+        val currentYearValue = mViewModel.currentYearValue
         if (!this::mDayViewData.isInitialized) {
-            mDayViewData = DayViewDataWrapper(0, mCurrentMonthValue, mCurrentYearValue, false)
+            mDayViewData = DayViewDataWrapper(0, currentMonthValue, currentYearValue, false)
         }
         if (mDayViewData.isShow && pActivity != null) {
             Log.d(TAG, "updateDayView() called")
             hideDayView(pActivity)
-            if (mDayViewData.currentMonth != mCurrentMonthValue) {
+            if (mDayViewData.currentMonth != currentMonthValue) {
                 return
                 // TODO: change so if month has same date, show that date instead of just hiding
             }
-            showDayView(mCellList[mPreviousPosition], pActivity)
+            mViewModel.getCellList(context).observe(viewLifecycleOwner, Observer { cellList ->
+                showDayView(cellList[mViewModel.previousPosition], pActivity)
+            })
         }
     }
 
@@ -88,17 +84,14 @@ class CalFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         mViewModel = ViewModelProvider(this).get(CalViewModel::class.java)
-
-        // Set weekdays
-        for (header in ConstantLists.calHeaders) {
-            mWeekDayHeaders.add(CellEntity(header))
-        }
-
         return inflater.inflate(R.layout.fragment_cal, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val currentMonthValue = mViewModel.currentMonthValue
+        val currentYearValue = mViewModel.currentYearValue
 
         fragment_cal_month_spinner.onItemSelectedListener = object:
             AdapterView.OnItemSelectedListener {
@@ -109,10 +102,8 @@ class CalFragment : BaseFragment() {
                 id: Long
             ) {
                 val monthValue = StringUtils.intOfMonth(mMonthSpinnerList[position])
-                if (monthValue != mCurrentMonthValue){
-                    AsyncTask.execute {
-                        onCalSelected(mCurrentYearValue, monthValue)
-                    }
+                if (monthValue != currentMonthValue){
+                    onCalSelected(currentYearValue, monthValue)
                 }
             }
             override fun onNothingSelected(parentView: AdapterView<*>?) {
@@ -128,54 +119,49 @@ class CalFragment : BaseFragment() {
             val newYear: Int
             val newMonth: Int
 
-            if (mCurrentMonthValue == 1) {
+            if (mViewModel.currentMonthValue == 1) {
                 newMonth = 12
-                newYear = mCurrentYearValue - 1
+                newYear = currentYearValue - 1
             } else {
-                newMonth = mCurrentMonthValue - 1
-                newYear = mCurrentYearValue
+                newMonth = currentMonthValue - 1
+                newYear = currentYearValue
             }
 
-            AsyncTask.execute {
-                if (!onCalSelected(newYear, newMonth))
-                    StringUtils.makeSnackbar("Beginning of data!", activity)
-            }
+            if (!onCalSelected(newYear, newMonth))
+                StringUtils.makeSnackbar("Beginning of data!", activity)
         }
 
         fragment_cal_button_forward.setOnClickListener {
             val newYear: Int
             val newMonth: Int
 
-            if (mCurrentMonthValue == 12) {
+            if (currentMonthValue == 12) {
                 newMonth = 1
-                newYear = mCurrentYearValue + 1
+                newYear = currentYearValue + 1
             } else {
-                newMonth = mCurrentMonthValue + 1
-                newYear = mCurrentYearValue
+                newMonth = currentMonthValue + 1
+                newYear = currentYearValue
             }
 
-            AsyncTask.execute {
-                if (!onCalSelected(newYear, newMonth))
-                    StringUtils.makeSnackbar("End of data!", activity)
-            }
+            if (!onCalSelected(newYear, newMonth))
+                StringUtils.makeSnackbar("End of data!", activity)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        AsyncTask.execute {
-            val now = LocalDate.now()
-            mYears = Gson().fromJson<List<YearEntity>>(FileUtils.fromAssetsJson(activity as Context, "calendar.json"),
-                GsonUtils.YearListType)
+        val now = LocalDate.now()
 
-            if (mCurrentYearValue == 0 || mCurrentMonthValue == 0) {
-                onCalSelected(now.year, now.monthValue)
-            } else {
-                onCalSelected(mCurrentYearValue, mCurrentMonthValue)
-            }
+        val currentMonthValue = mViewModel.currentMonthValue
+        val currentYearValue = mViewModel.currentYearValue
 
-            updateDayView()
+        if (currentMonthValue == 0 || currentYearValue == 0) {
+            onCalSelected(now.year, now.monthValue)
+        } else {
+            onCalSelected(currentYearValue, currentMonthValue)
         }
+
+        updateDayView()
     }
 
     private fun setupMonthSpinner() {
@@ -183,16 +169,17 @@ class CalFragment : BaseFragment() {
         if (context != null) {
             mMonthSpinnerList.clear()
 
-            for (month in mCurrentYear?.months.orEmpty()) {
-                mMonthSpinnerList.add(month.stringValue())
-            }
+            mViewModel.currentYear.observe(viewLifecycleOwner, Observer { currentYear ->
+                for (month in currentYear?.months.orEmpty()) {
+                    mMonthSpinnerList.add(month.stringValue())
+                }
 
-            val spinnerAdapter = CalSpinnerAdapter(context, mMonthSpinnerList)
+                val spinnerAdapter = CalSpinnerAdapter(context, mMonthSpinnerList)
 
-            val monthSpinner = activity?.findViewById<Spinner>(R.id.fragment_cal_month_spinner)
-            activity?.runOnUiThread {
+                val monthSpinner = activity?.findViewById<Spinner>(R.id.fragment_cal_month_spinner)
                 monthSpinner?.adapter = spinnerAdapter
-            }
+            })
+
         }
     }
 
@@ -201,97 +188,84 @@ class CalFragment : BaseFragment() {
         var selectedYearExists = false
         var selectedMonthExists = false
 
+        val currentMonthValue = mViewModel.currentMonthValue
+        val currentYearValue = mViewModel.currentYearValue
+
         var yearChanged = false
-        if (mCurrentYearValue != yearValue) {
+        if (currentYearValue != yearValue) {
             yearChanged = true
         }
 
-        // Reset cellList
-        mAddSpacing = true
-        mCellList.clear()
+        mViewModel.getYears(context).observe(viewLifecycleOwner, Observer { years ->
+            for (year: YearEntity in years.orEmpty()) {
+                if (yearValue == year.number) {
+                    mViewModel.setCurrentYear(year)
+                    selectedYearExists = true
+                    break
+                }
+            }
+        })
 
-        for (year: YearEntity in mYears.orEmpty()) {
-            if (yearValue == year.number) {
-                mCurrentYear = year
-                mCurrentYearValue = year.number
-                selectedYearExists = true
-                break
+        mViewModel.currentYear.observe(viewLifecycleOwner, Observer { currentYear ->
+            for (month: MonthEntity in currentYear.months.orEmpty()) {
+                if (monthValue == month.number) {
+                    mViewModel.setCurrentMonth(month)
+                    selectedMonthExists = true
+                    break
+                }
             }
-        }
-        for (month: MonthEntity in mCurrentYear?.months.orEmpty()) {
-            if (monthValue == month.number) {
-                mCurrentMonth = month
-                mCurrentMonthValue = month.number
-                selectedMonthExists = true
-                break
-            }
-        }
+        })
 
         if (!selectedYearExists || !selectedMonthExists) {
             return false
         }
 
-        mCellList.addAll(mWeekDayHeaders)
+        mViewModel.getCellList(context).observe(viewLifecycleOwner, Observer { cellList ->
+            mAdapter =
+                CellAdapter(
+                    context,
+                    cellList
+                )
 
-        // Load cellList
-        for (day: DayEntity in mCurrentMonth?.days.orEmpty()) {
-            if (mAddSpacing) {
-                mAddSpacing = false
-                for (i in 1 until day.dayOfWeek) {
-                    mCellList.add(CellEntity(""))
-                }
-            }
-            val searchDate = mCurrentYearValue.toString() + mCurrentMonthValue.toString() + day.dayOfMonth
-            val calDbHelper = activity?.let { CalDbHelper(it) }
-            val result = calDbHelper?.let {
-                SearchUtils.performCalEntryCountSearch(searchDate, it)
-            }
-            calDbHelper?.close()
-            mCellList.add(CellEntity(day.dayOfMonth.toString(), result?.get(1)))
-        }
+            val pActivity = activity
+            if (pActivity != null) {
+                val gridView = pActivity.findViewById<GridView>(R.id.cal_grid)
+                val monthText = pActivity.findViewById<TextView>(R.id.fragment_cal_month_select_text)
+                val yearText = pActivity.findViewById<TextView>(R.id.fragment_cal_year_text)
+                val monthSpinner = pActivity.findViewById<Spinner>(R.id.fragment_cal_month_spinner)
 
-        mAdapter =
-            CellAdapter(
-                context,
-                mCellList
-            )
-
-        val pActivity = activity
-        if (pActivity != null) {
-            val gridView = pActivity.findViewById<GridView>(R.id.cal_grid)
-            val monthText = pActivity.findViewById<TextView>(R.id.fragment_cal_month_select_text)
-            val yearText = pActivity.findViewById<TextView>(R.id.fragment_cal_year_text)
-            val monthSpinner = pActivity.findViewById<Spinner>(R.id.fragment_cal_month_spinner)
-
-            pActivity.runOnUiThread {
                 gridView.adapter = mAdapter
-                monthText.text = mCurrentMonth?.stringValue()
-                yearText.text = mCurrentYear?.number.toString()
 
                 gridView.onItemClickListener =
                     AdapterView.OnItemClickListener {
                             parent, view, position, id ->
-                        if (position == mPreviousPosition) {
+                        if (position == mViewModel.previousPosition) {
                             if (!mDayViewData.isShow) {
-                                showDayView(mCellList[position], pActivity)
+                                showDayView(cellList[position], pActivity)
                             } else {
                                 hideDayView(pActivity)
                             }
                         } else {
                             hideDayView(pActivity)
-                            showDayView(mCellList[position], pActivity)
-                            mPreviousPosition = position
+                            showDayView(cellList[position], pActivity)
+                            mViewModel.previousPosition = position
                         }
                     }
-            }
 
-            if (yearChanged)
-                setupMonthSpinner()
-            val index = mMonthSpinnerList.indexOf(mCurrentMonth?.stringValue())
-            pActivity.runOnUiThread {
-                monthSpinner.setSelection(index)
+                if (yearChanged)
+                    setupMonthSpinner()
+
+                mViewModel.currentMonth.observe(viewLifecycleOwner, Observer { currentYear ->
+                    monthText.text = currentYear.stringValue()
+                })
+
+                mViewModel.currentMonth.observe(viewLifecycleOwner, Observer { currentMonth ->
+                    yearText.text = currentMonth.number.toString()
+                    val index = mMonthSpinnerList.indexOf(currentMonth?.stringValue())
+                    monthSpinner.setSelection(index)
+                })
             }
-        }
+        })
         return true
     }
 
@@ -308,14 +282,17 @@ class CalFragment : BaseFragment() {
 
     private fun showDayView(cell: CellEntity, context: Context) : Boolean {
         val dayInt = cell.text
+        val currentMonthValue = mViewModel.currentMonthValue
+        val currentYearValue = mViewModel.currentYearValue
+
         if (dayInt != null && StringUtils.isInteger(dayInt) && Integer.parseInt(dayInt) != 0) {
             mDayViewData.currentDay = Integer.parseInt(dayInt)
-            mDayViewData.currentMonth = mCurrentMonthValue
-            mDayViewData.currentYear = mCurrentYearValue
+            mDayViewData.currentMonth = currentMonthValue
+            mDayViewData.currentYear = currentYearValue
 
             val dayString = if (dayInt.length > 1) dayInt else "0$dayInt"
-            val query = "${MonthEntity(mCurrentMonthValue).stringValue()} $dayString $mCurrentYearValue"
-            mDayViewData.currentMonth = mCurrentMonthValue
+            val query = "${MonthEntity(currentMonthValue).stringValue()} $dayString $currentYearValue"
+            mDayViewData.currentMonth = currentMonthValue
             val entries = fetchDayEntries(query, context)
 
             context as Activity

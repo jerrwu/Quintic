@@ -1,6 +1,7 @@
 package com.jerrwu.quintic.main.viewmodel;
 
 import android.content.Context;
+import android.util.Pair;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -26,8 +27,8 @@ import java.util.stream.IntStream;
 public class CalViewModel extends BaseViewModel {
     private static String TAG = CalViewModel.class.getSimpleName();
 
-    private MonthEntity mCurrentMonth;
-    private YearEntity mCurrentYear;
+    private MutableLiveData<MonthEntity> mCurrentMonth = new MutableLiveData<>();
+    private MutableLiveData<YearEntity> mCurrentYear = new MutableLiveData<>();
     private MutableLiveData<List<YearEntity>> mYears = new MutableLiveData<>();
     private MutableLiveData<List<CellEntity>> mCellList = new MutableLiveData<>();
     private MutableLiveData<List<CellEntity>> mWeekDayHeaders = new MutableLiveData<>();
@@ -36,12 +37,44 @@ public class CalViewModel extends BaseViewModel {
     private int mCurrentYearValue = 0;
     private int mPreviousPosition = 0;
 
-    public void setCurrentMonthValue(final int currentMonthValue) {
-        mCurrentMonthValue = currentMonthValue;
+    public MutableLiveData<YearEntity> getCurrentYear() {
+        if (mCurrentYear.getValue() == null) {
+            mCurrentYear.postValue(new YearEntity(0, new ArrayList<>()));
+        }
+        return mCurrentYear;
     }
 
-    public void setCurrentYearValue(final int currentYearValue) {
-        mCurrentYearValue = currentYearValue;
+    public MutableLiveData<MonthEntity> getCurrentMonth() {
+        if (mCurrentMonth.getValue() == null) {
+            mCurrentMonth.postValue(new MonthEntity(0));
+        }
+        return mCurrentMonth;
+    }
+
+    public void setPreviousPosition(final int previousPosition) {
+        mPreviousPosition = previousPosition;
+    }
+
+    public int getCurrentMonthValue() {
+        return mCurrentMonthValue;
+    }
+
+    public int getCurrentYearValue() {
+        return mCurrentYearValue;
+    }
+
+    public int getPreviousPosition() {
+        return mPreviousPosition;
+    }
+
+    public void setCurrentMonth(final MonthEntity currentMonth) {
+        mCurrentMonth.postValue(currentMonth);
+        mCurrentMonthValue = currentMonth.getNumber();
+    }
+
+    public void setCurrentYear(final YearEntity currentYear) {
+        mCurrentYear.postValue(currentYear);
+        mCurrentYearValue = currentYear.getNumber();
     }
 
     private void loadWeekDayHeader() {
@@ -57,7 +90,7 @@ public class CalViewModel extends BaseViewModel {
     private void loadCells(final Context context) {
         final List<CellEntity> cells = new ArrayList<>();
         loadWeekDayHeader();
-        for (DayEntity day : SafetyUtils.orEmpty(mCurrentMonth.getDays())) {
+        for (DayEntity day : SafetyUtils.orEmpty(mCurrentMonth.getValue().getDays())) {
             if (mAddSpacing) {
                 mAddSpacing = false;
                 for (int i : IntStream.range(1, day.getDayOfWeek()).toArray()) {
