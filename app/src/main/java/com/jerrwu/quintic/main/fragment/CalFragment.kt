@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -86,12 +87,13 @@ class CalFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        mViewModel = ViewModelProvider(this).get(CalViewModel::class.java)
+
         // Set weekdays
         for (header in ConstantLists.calHeaders) {
             mWeekDayHeaders.add(CellEntity(header))
         }
 
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_cal, container, false)
     }
 
