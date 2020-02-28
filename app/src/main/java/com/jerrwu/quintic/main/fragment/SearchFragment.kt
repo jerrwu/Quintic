@@ -3,7 +3,6 @@ package com.jerrwu.quintic.main.fragment
 
 import android.app.Activity
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +19,9 @@ import com.jerrwu.quintic.search.SearchActivity
 import com.jerrwu.quintic.search.adapter.SearchHoursAdapter
 import com.jerrwu.quintic.search.adapter.SearchMonthAdapter
 import com.jerrwu.quintic.search.adapter.SearchMoodAdapter
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.time.LocalDate
 
 
@@ -51,11 +53,14 @@ class SearchFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        AsyncTask.execute {
+        Single.fromCallable {
             loadMoodRecycler()
             loadHoursRecycler()
             loadMonthRecycler()
         }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
     }
 
     private fun loadMoodRecycler() {
