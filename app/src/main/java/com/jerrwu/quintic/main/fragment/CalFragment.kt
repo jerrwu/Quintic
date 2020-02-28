@@ -164,22 +164,18 @@ class CalFragment : BaseFragment() {
         updateDayView()
     }
 
-    private fun setupMonthSpinner() {
+    private fun setupMonthSpinner(monthList: List<MonthEntity>) {
         val context = activity
         if (context != null) {
             mMonthSpinnerList.clear()
+            for (month in monthList) {
+                mMonthSpinnerList.add(month.stringValue())
+            }
 
-            mViewModel.currentYear.observe(viewLifecycleOwner, Observer { currentYear ->
-                for (month in currentYear?.months.orEmpty()) {
-                    mMonthSpinnerList.add(month.stringValue())
-                }
+            val spinnerAdapter = CalSpinnerAdapter(context, mMonthSpinnerList)
 
-                val spinnerAdapter = CalSpinnerAdapter(context, mMonthSpinnerList)
-
-                val monthSpinner = activity?.findViewById<Spinner>(R.id.fragment_cal_month_spinner)
-                monthSpinner?.adapter = spinnerAdapter
-            })
-
+            val monthSpinner = activity?.findViewById<Spinner>(R.id.fragment_cal_month_spinner)
+            monthSpinner?.adapter = spinnerAdapter
         }
     }
 
@@ -192,11 +188,11 @@ class CalFragment : BaseFragment() {
         val currentYearValue = mViewModel.currentYearValue
 
         var yearChanged = false
-        if (currentYearValue != yearValue) {
-            yearChanged = true
-        }
 
         mViewModel.getYears(context).observe(viewLifecycleOwner, Observer { years ->
+            if (currentYearValue != yearValue) {
+                yearChanged = true
+            }
             for (year: YearEntity in years.orEmpty()) {
                 if (yearValue == year.number) {
                     mViewModel.setCurrentYear(year)
@@ -217,15 +213,14 @@ class CalFragment : BaseFragment() {
         })
 
         if (!selectedYearExists || !selectedMonthExists) {
+            Log.d(TAG, "returned false")
             return false
         }
 
         mViewModel.getCellList(context).observe(viewLifecycleOwner, Observer { cellList ->
-            mAdapter =
-                CellAdapter(
-                    context,
-                    cellList
-                )
+            Log.d(TAG, "getCellList() called")
+
+            mAdapter = CellAdapter(context, cellList)
 
             val pActivity = activity
             if (pActivity != null) {
@@ -252,16 +247,15 @@ class CalFragment : BaseFragment() {
                         }
                     }
 
-                if (yearChanged)
-                    setupMonthSpinner()
-
-                mViewModel.currentMonth.observe(viewLifecycleOwner, Observer { currentYear ->
-                    monthText.text = currentYear.stringValue()
+                mViewModel.currentYear.observe(viewLifecycleOwner, Observer { currentYear ->
+                    yearText.text = currentYear.number.toString()
+                    if (yearChanged)
+                        setupMonthSpinner(currentYear.months.orEmpty())
                 })
 
                 mViewModel.currentMonth.observe(viewLifecycleOwner, Observer { currentMonth ->
-                    yearText.text = currentMonth.number.toString()
-                    val index = mMonthSpinnerList.indexOf(currentMonth?.stringValue())
+                    monthText.text = currentMonth.stringValue()
+                    val index = mMonthSpinnerList.indexOf(currentMonth.stringValue())
                     monthSpinner.setSelection(index)
                 })
             }

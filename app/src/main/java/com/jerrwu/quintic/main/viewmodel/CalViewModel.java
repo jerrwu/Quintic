@@ -88,8 +88,8 @@ public class CalViewModel extends BaseViewModel {
     }
 
     private void loadCells(final Context context) {
-        final List<CellEntity> cells = new ArrayList<>();
         loadWeekDayHeader();
+        final List<CellEntity> cells = new ArrayList<>(SafetyUtils.orEmpty(mWeekDayHeaders.getValue()));
         for (DayEntity day : SafetyUtils.orEmpty(mCurrentMonth.getValue().getDays())) {
             if (mAddSpacing) {
                 mAddSpacing = false;
@@ -108,9 +108,7 @@ public class CalViewModel extends BaseViewModel {
     }
 
     public MutableLiveData<List<CellEntity>> getCellList(final Context context) {
-        if (mCellList.getValue() == null) {
-            loadCells(context);
-        }
+        loadCells(context);
         return mCellList;
     }
 
