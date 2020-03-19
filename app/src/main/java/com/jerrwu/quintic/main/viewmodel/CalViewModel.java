@@ -1,6 +1,7 @@
 package com.jerrwu.quintic.main.viewmodel;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.Pair;
 
 import androidx.lifecycle.MutableLiveData;
@@ -39,15 +40,17 @@ public class CalViewModel extends BaseViewModel {
 
     public MutableLiveData<YearEntity> getCurrentYear() {
         if (mCurrentYear.getValue() == null) {
-            mCurrentYear.postValue(new YearEntity(0, new ArrayList<>()));
+            mCurrentYear.setValue(new YearEntity(0, new ArrayList<>()));
         }
+        Log.d(TAG, "getCurrentYear() called, returned " + mCurrentYear.getValue());
         return mCurrentYear;
     }
 
     public MutableLiveData<MonthEntity> getCurrentMonth() {
         if (mCurrentMonth.getValue() == null) {
-            mCurrentMonth.postValue(new MonthEntity(0));
+            mCurrentMonth.setValue(new MonthEntity(0));
         }
+        Log.d(TAG, "getCurrentMonth() called, returned " + mCurrentMonth.getValue());
         return mCurrentMonth;
     }
 
@@ -68,32 +71,34 @@ public class CalViewModel extends BaseViewModel {
     }
 
     public void setCurrentMonth(final MonthEntity currentMonth) {
-        mCurrentMonth.postValue(currentMonth);
+        mCurrentMonth.setValue(currentMonth);
         mCurrentMonthValue = currentMonth.getNumber();
     }
 
     public void setCurrentYear(final YearEntity currentYear) {
-        mCurrentYear.postValue(currentYear);
+        mCurrentYear.setValue(currentYear);
         mCurrentYearValue = currentYear.getNumber();
     }
 
     private void loadWeekDayHeader() {
+        Log.d(TAG, "loadWeekDayHeader() called");
         if (mWeekDayHeaders.getValue() == null) {
             final List<CellEntity> headers = new ArrayList<>();
             for (String header : ConstantLists.INSTANCE.getCalHeaders()) {
                 headers.add(new CellEntity(header));
             }
-            mWeekDayHeaders.postValue(headers);
+            mWeekDayHeaders.setValue(headers);
         }
     }
 
     private void loadCells(final Context context) {
         loadWeekDayHeader();
         final List<CellEntity> cells = new ArrayList<>(SafetyUtils.orEmpty(mWeekDayHeaders.getValue()));
-        for (DayEntity day : SafetyUtils.orEmpty(mCurrentMonth.getValue().getDays())) {
+        for (DayEntity day : SafetyUtils.orEmpty(
+                SafetyUtils.nonNullMonth(mCurrentMonth.getValue()).getDays())) {
             if (mAddSpacing) {
                 mAddSpacing = false;
-                for (int i : IntStream.range(1, day.getDayOfWeek()).toArray()) {
+                for (int ignored : IntStream.range(1, day.getDayOfWeek()).toArray()) {
                     cells.add(new CellEntity(""));
                 }
             }
@@ -104,11 +109,13 @@ public class CalViewModel extends BaseViewModel {
             calDbHelper.close();
             cells.add(new CellEntity(String.valueOf(day.getDayOfMonth()), result.get(1)));
         }
-        mCellList.postValue(cells);
+        Log.d(TAG, "loadCells() called, loaded " + cells);
+        mCellList.setValue(cells);
     }
 
     public MutableLiveData<List<CellEntity>> getCellList(final Context context) {
         loadCells(context);
+        Log.d(TAG, "getCellList() called, returned " + mCellList.getValue());
         return mCellList;
     }
 
@@ -116,13 +123,15 @@ public class CalViewModel extends BaseViewModel {
         List<YearEntity> years = new Gson().fromJson(
                 FileUtils.INSTANCE.fromAssetsJson(context, "calendar.json"),
                 GsonUtils.INSTANCE.getYearListType());
-        mYears.postValue(years);
+        Log.d(TAG, "loadYears() called, loaded " + years);
+        mYears.setValue(years);
     }
 
     public MutableLiveData<List<YearEntity>> getYears(final Context context) {
         if (mYears.getValue() == null) {
             loadYears(context);
         }
+        Log.d(TAG, "getYears() called, returned " + mYears.getValue());
         return mYears;
     }
 }

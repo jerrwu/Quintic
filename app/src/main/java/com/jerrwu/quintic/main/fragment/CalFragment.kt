@@ -34,6 +34,7 @@ import com.jerrwu.quintic.main.viewmodel.CalViewModel
 import com.jerrwu.quintic.utils.*
 import kotlinx.android.synthetic.main.fragment_cal.*
 import java.time.LocalDate
+import java.util.concurrent.atomic.AtomicBoolean
 
 
 class CalFragment : BaseFragment() {
@@ -181,8 +182,8 @@ class CalFragment : BaseFragment() {
 
     private fun onCalSelected(yearValue: Int, monthValue: Int) : Boolean {
         // Set current year and month
-        var selectedYearExists = false
-        var selectedMonthExists = false
+        val selectedYearExists = AtomicBoolean(false)
+        val selectedMonthExists = AtomicBoolean(false)
 
         val currentMonthValue = mViewModel.currentMonthValue
         val currentYearValue = mViewModel.currentYearValue
@@ -196,7 +197,7 @@ class CalFragment : BaseFragment() {
             for (year: YearEntity in years.orEmpty()) {
                 if (yearValue == year.number) {
                     mViewModel.setCurrentYear(year)
-                    selectedYearExists = true
+                    selectedYearExists.set(true)
                     break
                 }
             }
@@ -206,20 +207,17 @@ class CalFragment : BaseFragment() {
             for (month: MonthEntity in currentYear.months.orEmpty()) {
                 if (monthValue == month.number) {
                     mViewModel.setCurrentMonth(month)
-                    selectedMonthExists = true
+                    selectedMonthExists.set(true)
                     break
                 }
             }
         })
 
-        if (!selectedYearExists || !selectedMonthExists) {
-            Log.d(TAG, "returned false")
+        if (!selectedYearExists.get() || !selectedMonthExists.get()) {
             return false
         }
 
         mViewModel.getCellList(context).observe(viewLifecycleOwner, Observer { cellList ->
-            Log.d(TAG, "getCellList() called")
-
             mAdapter = CellAdapter(context, cellList)
 
             val pActivity = activity
